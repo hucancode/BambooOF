@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{71834F65-F3A9-211E-73B8-DC85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNetwork">
+      <UniqueIdentifier>{01A15744-29A6-108D-08E9-83A7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxNetwork\src">
+      <UniqueIdentifier>{3D1C10C7-8F35-E796-9C70-F5F3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings">
+      <UniqueIdentifier>{877F005D-13E6-0592-1D97-F2E3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings\src">
+      <UniqueIdentifier>{CCB2AC63-49D2-977C-CFE8-AEAD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings\libs">
+      <UniqueIdentifier>{687714A8-1662-FA1C-261F-50F0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFont">
+      <UniqueIdentifier>{23EA1DFA-AA5F-18E5-C206-F705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFont\src">
+      <UniqueIdentifier>{37D452D4-B0DF-B43F-6D0A-B183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFont\src\bridge">
+      <UniqueIdentifier>{A246B703-BF9F-5BB6-B7CB-E5A7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX">
+      <UniqueIdentifier>{54067F17-D691-C8D5-A60C-8B15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX\src">
+      <UniqueIdentifier>{97D4701D-86BD-D02B-CE02-0C34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX\src\composers">
+      <UniqueIdentifier>{4C3B9E56-1307-1B87-A0CC-CAA5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX\src\filters">
+      <UniqueIdentifier>{EEFEFA5B-9FF5-F358-2F4A-BC5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX\src\generative">
+      <UniqueIdentifier>{47CDF68F-3CB9-C2A3-96DC-EE22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxFX\src\operations">
+      <UniqueIdentifier>{98E7BD88-03E0-D5B4-C028-9281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua">
+      <UniqueIdentifier>{5879347E-3195-1955-4763-0F35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\src">
+      <UniqueIdentifier>{3A3C1148-523D-AA51-610E-AFEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\src\bindings">
+      <UniqueIdentifier>{77364DEB-1F98-1134-CB5D-1447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs">
+      <UniqueIdentifier>{75639D41-2825-CAF8-4283-5851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\lua">
+      <UniqueIdentifier>{30E5D65F-80F3-584C-6915-FEB6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\lua\lua">
+      <UniqueIdentifier>{73941B7D-2D4B-BFB5-3ADE-7DF3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\luabind">
+      <UniqueIdentifier>{675C20B8-EDDE-E0E7-09DC-CDAE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\luabind\luabind">
+      <UniqueIdentifier>{0AE4025F-5517-6D8B-0B03-14DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\luabind\luabind\detail">
+      <UniqueIdentifier>{5F7CD950-6D8B-A257-CBD8-E6D2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxLua\libs\luabind\src">
+      <UniqueIdentifier>{068ADDEC-F79A-B251-D437-FF45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer">
+      <UniqueIdentifier>{E1FD5286-5FB8-27EF-B92F-B8D4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\src">
+      <UniqueIdentifier>{3C024918-01BA-3A6B-6501-21B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\libs">
+      <UniqueIdentifier>{7A40A33E-9801-51E3-C4A3-4793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\libs\opensteer">
+      <UniqueIdentifier>{437264C5-1925-9F04-55CA-63C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\libs\opensteer\include">
+      <UniqueIdentifier>{808141CE-746A-3D12-A05F-01DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\libs\opensteer\include\OpenSteer">
+      <UniqueIdentifier>{14FAF9B9-ADCB-A61A-9E5B-968A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxOpenSteer\libs\opensteer\src">
+      <UniqueIdentifier>{2486BB91-96F2-877A-C336-EBA3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxPostProcessing">
+      <UniqueIdentifier>{AB514210-24FF-87A6-AE4B-9AE5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxPostProcessing\src">
+      <UniqueIdentifier>{8E4D751F-6272-927D-3C6E-AFCE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxUI">
+      <UniqueIdentifier>{B492C5B0-FF91-9C5A-638A-3142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxUI\src">
+      <UniqueIdentifier>{A00C2D23-6C11-BC86-3993-2CF0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
