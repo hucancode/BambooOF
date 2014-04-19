@@ -7,6 +7,27 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\ChunkyTriMesh.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\MeshLoaderObj.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\Agent.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\AgentRender.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -120,10 +141,37 @@
     <Filter Include="addons\ofxUI\src">
       <UniqueIdentifier>{A00C2D23-6C11-BC86-3993-2CF0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxRecast">
+      <UniqueIdentifier>{8fe32de8-b80c-4abc-a1e4-e31daf56e3d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\ChunkyTriMesh.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\InputGeom.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\MeshLoaderObj.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\RecastHelper.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\Agent.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\NavMesh.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\AgentRender.h">
+      <Filter>addons\ofxRecast</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

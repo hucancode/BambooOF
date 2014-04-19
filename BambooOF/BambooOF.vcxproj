@@ -90,10 +90,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\addons\ofxRecast\Agent.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\AgentRender.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\ChunkyTriMesh.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\MeshLoaderObj.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\addons\ofxRecast\Agent.h" />
+    <ClInclude Include="..\addons\ofxRecast\AgentRender.h" />
+    <ClInclude Include="..\addons\ofxRecast\ChunkyTriMesh.h" />
+    <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />
+    <ClInclude Include="..\addons\ofxRecast\MeshLoaderObj.h" />
+    <ClInclude Include="..\addons\ofxRecast\NavMesh.h" />
+    <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h" />
+    <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>
