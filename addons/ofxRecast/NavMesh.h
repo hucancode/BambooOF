@@ -3,6 +3,7 @@
 #include "RecastHelper.h"
 class NavMesh
 {
+	friend class NavMeshRender;
 private:
 	InputGeom* m_geom;
 	dtNavMesh* m_navMesh;

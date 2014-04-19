@@ -408,32 +408,3 @@ static int rasterizeTileLayers(InputGeom* geom,
 
 	return n;
 }
-//--------------------------------
-// Raycast
-// input: model, mvp matrix, screen pos
-// output: screen pos hit model or not, if hit, return 3D position
-//--------------------------------
-bool RayCast(InputGeom* geom, float* screen_pos, float* hit_pos)
-{
-	GLdouble matrix_p[16];
-	GLdouble matrix_m[16];
-	GLint matrix_v[4];
-	glGetDoublev(GL_PROJECTION_MATRIX, matrix_p);
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrix_m);
-	glGetIntegerv(GL_VIEWPORT, matrix_v);
-	float rays[3], raye[3];
-	GLdouble x, y, z;
-	gluUnProject(screen_pos[0], screen_pos[1], 0.0f, matrix_m, matrix_p, matrix_v, &x, &y, &z);
-	rays[0] = (float)x; rays[1] = (float)y; rays[2] = (float)z;
-	gluUnProject(screen_pos[0], screen_pos[1], 1.0f, matrix_m, matrix_p, matrix_v, &x, &y, &z);
-	raye[0] = (float)x; raye[1] = (float)y; raye[2] = (float)z;
-	float hitt;
-	bool hit = geom->raycastMesh(rays, raye, hitt);
-	if (hit)
-	{
-		hit_pos[0] = rays[0] + (raye[0] - rays[0])*hitt;
-		hit_pos[1] = rays[1] + (raye[1] - rays[1])*hitt;
-		hit_pos[2] = rays[2] + (raye[2] - rays[2])*hitt;
-	}
-	return hit;
-}
