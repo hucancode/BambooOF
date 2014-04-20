@@ -86,6 +86,13 @@ ipch/
 *.sdf
 *.cachefile
 
+# Debug output files
+*.exp
+*.ilk
+*.lib
+*.pdb
+*.idb
+
 # Visual Studio profiler
 *.psess
 *.vsp
