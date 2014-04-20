@@ -79,7 +79,7 @@ void NavMeshRender::Render()
 	if (m_NavMesh->m_tileCache)
 		DrawObstacles(&dd, m_NavMesh->m_tileCache);
 	
-	DrawAgents();
+	DrawAgents(&dd);
 
 	glDepthMask(GL_FALSE);
 	
