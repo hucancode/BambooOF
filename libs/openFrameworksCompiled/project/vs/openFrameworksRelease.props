@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>openFrameworksRelease</_PropertySheetDisplayName>
-    <OutDir>$(SolutionDir)bin\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -17,7 +17,7 @@
       <IgnoreSpecificDefaultLibraries>PocoFoundationd.lib;atlthunk.lib;LIBC.lib;LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /e /i /y "$(SolutionDir)..\export\vs\*.dll" "$(ProjectDir)bin"</Command>
+      <Command>xcopy /e /i /y "$(SolutionDir)..\export\vs\*.dll" "$(ProjectDir)$(Configuration).win32\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
