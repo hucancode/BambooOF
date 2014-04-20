@@ -1,8 +1,0 @@
-ofxNetwork
-ofxXmlSettings
-ofxFont
-ofxFX
-ofxOpenSteer
-ofxPostProcessing
-ofxUI
-ofxRecast
