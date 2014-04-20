@@ -93,6 +93,7 @@ ipch/
 *.pdb
 *.idb
 *.bsc
+Debug.*/*.dll
 
 # Visual Studio profiler
 *.psess
