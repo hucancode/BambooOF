@@ -86,6 +86,7 @@ ipch/
 *.cachefile
 
 # Debug output files
+*.exe
 *.exp
 *.ilk
 *.lib
