@@ -150,6 +150,7 @@ bool NavMesh::BuildMesh()
 	for (int y = 0; y < th; ++y)
 		for (int x = 0; x < tw; ++x)
 			m_tileCache->buildNavMeshTilesAt(x,y, m_navMesh);
+	return true;
 }
 int NavMesh::AddObstacle(const float* pos)
 {

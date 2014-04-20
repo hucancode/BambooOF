@@ -28,6 +28,12 @@
     <ClCompile Include="..\addons\ofxRecast\AgentRender.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
+      <Filter>addons\ofxRecast\fastlz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -144,6 +150,9 @@
     <Filter Include="addons\ofxRecast">
       <UniqueIdentifier>{8fe32de8-b80c-4abc-a1e4-e31daf56e3d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxRecast\fastlz">
+      <UniqueIdentifier>{98c5bfac-75d0-4b93-b372-e0b4cdd6e451}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -172,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\AgentRender.h">
       <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h">
+      <Filter>addons\ofxRecast\fastlz</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

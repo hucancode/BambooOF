@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include "RecastHelper.h"
+
 class NavMesh
 {
 	friend class NavMeshRender;
