@@ -1,13 +1,13 @@
 #include "NavMeshRender.h"
 // include some opengl header here
-NavMeshRender()
+NavMeshRender::NavMeshRender()
 {
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, 800, 600);
 	glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-~NavMeshRender()
+NavMeshRender::~NavMeshRender()
 {
 }
 //--------------------------------
@@ -41,13 +41,15 @@ bool NavMeshRender::RayCast(float* screen_pos, float* hit_pos)
 }
 void NavMeshRender::Render()
 {
+	if (!m_NavMesh->m_geom || !m_NavMesh->m_geom->getMesh())
+		return;
 	// ========================================== setup
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	{
 		GLfloat distance_to_eye = 0.0f;
-		distance_to_eye = scrollZoom*2.0f;
+		distance_to_eye = m_Zoom*2.0f;
 		glOrtho(
 			-50-distance_to_eye, 50+distance_to_eye, 
 			-50-distance_to_eye, 50+distance_to_eye, 
@@ -59,53 +61,115 @@ void NavMeshRender::Render()
 	glRotatef(m_RotateY,0,1,0);
 	glTranslatef(-m_CamX, -m_CamY, -m_CamZ);
 	// ========================================== draw
-	duDebugDrawTriMeshSlope(&dd, m_geom->getMesh()->getVerts(), m_geom->getMesh()->getVertCount(),
-								m_geom->getMesh()->getTris(), m_geom->getMesh()->getNormals(), m_geom->getMesh()->getTriCount(),
-								m_agentMaxSlope, texScale);
-	m_geom->drawOffMeshConnections(&dd);
-	if (m_tileCache && m_drawMode == DRAWMODE_CACHE_BOUNDS)
-		drawTiles(&dd, m_tileCache);
 	
-	if (m_tileCache)
-		drawObstacles(&dd, m_tileCache);
+	DebugDrawGL dd;
+	const float texScale = 1.0f / (m_NavMesh->m_cellSize * 10.0f);
+	duDebugDrawTriMeshSlope(&dd, 
+		m_NavMesh->m_geom->getMesh()->getVerts(), 
+		m_NavMesh->m_geom->getMesh()->getVertCount(),
+		m_NavMesh->m_geom->getMesh()->getTris(), 
+		m_NavMesh->m_geom->getMesh()->getNormals(), 
+		m_NavMesh->m_geom->getMesh()->getTriCount(),
+		m_NavMesh->m_agentMaxSlope, 
+		texScale);
+	m_NavMesh->m_geom->drawOffMeshConnections(&dd);
+	if (m_NavMesh->m_tileCache)
+		DrawTiles(&dd, m_NavMesh->m_tileCache);
+	
+	if (m_NavMesh->m_tileCache)
+		DrawObstacles(&dd, m_NavMesh->m_tileCache);
+
 	glDepthMask(GL_FALSE);
 	
 	// Draw bounds
-	const float* bmin = m_geom->getMeshBoundsMin();
-	const float* bmax = m_geom->getMeshBoundsMax();
+	const float* bmin = m_NavMesh->m_geom->getMeshBoundsMin();
+	const float* bmax = m_NavMesh->m_geom->getMeshBoundsMax();
 	duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
 	
 	// Tiling grid.
 	int gw = 0, gh = 0;
-	rcCalcGridSize(bmin, bmax, m_cellSize, &gw, &gh);
-	const int tw = (gw + (int)m_tileSize-1) / (int)m_tileSize;
-	const int th = (gh + (int)m_tileSize-1) / (int)m_tileSize;
-	const float s = m_tileSize*m_cellSize;
+	rcCalcGridSize(bmin, bmax, m_NavMesh->m_cellSize, &gw, &gh);
+	const int tw = (gw + (int)m_NavMesh->m_tileSize-1) / (int)m_NavMesh->m_tileSize;
+	const int th = (gh + (int)m_NavMesh->m_tileSize-1) / (int)m_NavMesh->m_tileSize;
+	const float s = m_NavMesh->m_tileSize*m_NavMesh->m_cellSize;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
-	
-	if (m_navMesh && m_navQuery &&
-		(m_drawMode == DRAWMODE_NAVMESH ||
-		 m_drawMode == DRAWMODE_NAVMESH_TRANS ||
-		 m_drawMode == DRAWMODE_NAVMESH_BVTREE ||
-		 m_drawMode == DRAWMODE_NAVMESH_NODES ||
-		 m_drawMode == DRAWMODE_NAVMESH_PORTALS ||
-		 m_drawMode == DRAWMODE_NAVMESH_INVIS))
+}
+void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
+{
+	unsigned int fcol[6];
+	float bmin[3], bmax[3];
+
+	for (int i = 0; i < tc->getTileCount(); ++i)
 	{
-		if (m_drawMode != DRAWMODE_NAVMESH_INVIS)
-			duDebugDrawNavMeshWithClosedList(&dd, *m_navMesh, *m_navQuery, m_navMeshDrawFlags/*|DU_DRAWNAVMESH_COLOR_TILES*/);
-		if (m_drawMode == DRAWMODE_NAVMESH_BVTREE)
-			duDebugDrawNavMeshBVTree(&dd, *m_navMesh);
-		if (m_drawMode == DRAWMODE_NAVMESH_PORTALS)
-			duDebugDrawNavMeshPortals(&dd, *m_navMesh);
-		if (m_drawMode == DRAWMODE_NAVMESH_NODES)
-			duDebugDrawNavMeshNodes(&dd, *m_navQuery);
-		duDebugDrawNavMeshPolysWithFlags(&dd, *m_navMesh, SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
+		const dtCompressedTile* tile = tc->getTile(i);
+		if (!tile->header) continue;
+		
+		tc->calcTightTileBounds(tile->header, bmin, bmax);
+		
+		const unsigned int col = duIntToCol(i,64);
+		duCalcBoxColors(fcol, col, col);
+		duDebugDrawBox(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], fcol);
+	}
+	
+	for (int i = 0; i < tc->getTileCount(); ++i)
+	{
+		const dtCompressedTile* tile = tc->getTile(i);
+		if (!tile->header) continue;
+		
+		tc->calcTightTileBounds(tile->header, bmin, bmax);
+		
+		const unsigned int col = duIntToCol(i,255);
+		const float pad = tc->getParams()->cs * 0.1f;
+		duDebugDrawBoxWire(dd, bmin[0]-pad,bmin[1]-pad,bmin[2]-pad,
+						   bmax[0]+pad,bmax[1]+pad,bmax[2]+pad, col, 2.0f);
 	}
 
+}
+
+//dtObstacleRef hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq)
+//{
+//	float tmin = FLT_MAX;
+//	const dtTileCacheObstacle* obmin = 0;
+//	for (int i = 0; i < tc->getObstacleCount(); ++i)
+//	{
+//		const dtTileCacheObstacle* ob = tc->getObstacle(i);
+//		if (ob->state == DT_OBSTACLE_EMPTY)
+//			continue;
+//		
+//		float bmin[3], bmax[3], t0,t1;
+//		tc->getObstacleBounds(ob, bmin,bmax);
+//		
+//		if (isectSegAABB(sp,sq, bmin,bmax, t0,t1))
+//		{
+//			if (t0 < tmin)
+//			{
+//				tmin = t0;
+//				obmin = ob;
+//			}
+//		}
+//	}
+//	return tc->getObstacleRef(obmin);
+//}
 	
-	glDepthMask(GL_TRUE);
-		
-	m_geom->drawConvexVolumes(&dd);
-	
-	glDepthMask(GL_TRUE);
+void NavMeshRender::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
+{
+	// Draw obstacles
+	for (int i = 0; i < tc->getObstacleCount(); ++i)
+	{
+		const dtTileCacheObstacle* ob = tc->getObstacle(i);
+		if (ob->state == DT_OBSTACLE_EMPTY) continue;
+		float bmin[3], bmax[3];
+		tc->getObstacleBounds(ob, bmin,bmax);
+
+		unsigned int col = 0;
+		if (ob->state == DT_OBSTACLE_PROCESSING)
+			col = duRGBA(255,255,0,128);
+		else if (ob->state == DT_OBSTACLE_PROCESSED)
+			col = duRGBA(255,192,0,192);
+		else if (ob->state == DT_OBSTACLE_REMOVING)
+			col = duRGBA(220,0,0,128);
+
+		duDebugDrawCylinder(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], col);
+		duDebugDrawCylinderWire(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duDarkenCol(col), 2);
+	}
 }
