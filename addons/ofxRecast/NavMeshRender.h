@@ -17,4 +17,5 @@ public:
 	void Render();
 	void DrawTiles(duDebugDraw* dd, dtTileCache* tc);
 	void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc);
+	void DrawAgents(duDebugDraw* dd);
 };

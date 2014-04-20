@@ -91,7 +91,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\addons\ofxRecast\Agent.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\AgentRender.cpp" />
     <ClCompile Include="..\addons\ofxRecast\ChunkyTriMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
@@ -106,7 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\addons\ofxRecast\Agent.h" />
-    <ClInclude Include="..\addons\ofxRecast\AgentRender.h" />
     <ClInclude Include="..\addons\ofxRecast\ChunkyTriMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h" />
     <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />

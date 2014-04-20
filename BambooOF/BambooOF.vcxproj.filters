@@ -25,9 +25,6 @@
     <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxRecast\AgentRender.cpp">
-      <Filter>addons\ofxRecast</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h">
-      <Filter>addons\ofxRecast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxRecast\AgentRender.h">
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h">
