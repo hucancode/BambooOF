@@ -1,11 +1,18 @@
 #include "NavMeshRender.h"
 // include some opengl header here
-NavMeshRender::NavMeshRender()
+NavMeshRender::NavMeshRender(NavMesh* mesh)
 {
 	glViewport(0, 0, 800, 600);
 	glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_NavMesh = mesh;
+	m_RotateX = 45;
+	m_RotateY = 45;
+	m_Zoom = 1.0f;
+	m_CamX = 0.0f;
+	m_CamY = 0.0f;
+	m_CamZ = 0.0f;
 }
 NavMeshRender::~NavMeshRender()
 {

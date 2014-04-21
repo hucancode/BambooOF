@@ -1,9 +1,17 @@
 #include "ofApp.h"
+#include "NavMeshRender.h"
 
+static NavMesh* mesh;
+static NavMeshRender* render;
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(0,128,255);
     ofSetWindowTitle("Hello OF");
+	//------------------
+	mesh = new NavMesh;
+	mesh->LoadMesh("nav_test.obj");
+	mesh->BuildMesh();
+	render = new NavMeshRender(mesh);
 }
 
 //--------------------------------------------------------------
@@ -13,6 +21,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	render->Render();
+	//-------------------
 	ofSetColor(255);
 	string text = "HELLO OF\nI'M GONNA PORT BAMBOO_COCOS2D TO BAMBOO_OPENFRAMEWORKS\nP/S: CAPS LOCK FOR THE WIN!!!!";
 	// * 1 character occupied 8x8 pixel

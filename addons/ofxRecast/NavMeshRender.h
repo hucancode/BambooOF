@@ -11,7 +11,7 @@ private:
 	float m_RotateX, m_RotateY;
 	float m_Zoom;
 public:
-	NavMeshRender();
+	NavMeshRender(NavMesh* mesh);
 	~NavMeshRender();
 	bool RayCast(float* screen_pos, float* hit_pos);
 	void Render();
