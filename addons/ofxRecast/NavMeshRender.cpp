@@ -52,13 +52,14 @@ void NavMeshRender::Render()
 		return;
 	// ========================================== setup
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
+	/*glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	{
 		GLfloat distance_to_eye = 0.0f;
+		extern float g_WindowAspectRatio;
 		distance_to_eye = m_Zoom*2.0f;
 		glOrtho(
-			-50-distance_to_eye, 50+distance_to_eye, 
+			(-50-distance_to_eye)*g_WindowAspectRatio, (50+distance_to_eye)*g_WindowAspectRatio, 
 			-50-distance_to_eye, 50+distance_to_eye, 
 			-1000, 1000);
 	}
@@ -66,7 +67,7 @@ void NavMeshRender::Render()
 	glLoadIdentity();
 	glRotatef(m_RotateX,1,0,0);
 	glRotatef(m_RotateY,0,1,0);
-	glTranslatef(-m_CamX, -m_CamY, -m_CamZ);
+	glTranslatef(-m_CamX, -m_CamY, -m_CamZ);*/
 	// ========================================== draw
 	
 	DebugDrawGL dd;
@@ -81,7 +82,7 @@ void NavMeshRender::Render()
 		texScale);
 	m_NavMesh->m_geom->drawOffMeshConnections(&dd);
 	if (m_NavMesh->m_tileCache)
-		DrawTiles(&dd, m_NavMesh->m_tileCache);
+		//DrawTiles(&dd, m_NavMesh->m_tileCache);
 	
 	if (m_NavMesh->m_tileCache)
 		DrawObstacles(&dd, m_NavMesh->m_tileCache);
@@ -89,11 +90,10 @@ void NavMeshRender::Render()
 	DrawAgents(&dd);
 
 	glDepthMask(GL_FALSE);
-	
 	// Draw bounds
 	const float* bmin = m_NavMesh->m_geom->getMeshBoundsMin();
 	const float* bmax = m_NavMesh->m_geom->getMeshBoundsMax();
-	duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
+	//duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
 	
 	// Tiling grid.
 	int gw = 0, gh = 0;
