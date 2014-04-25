@@ -2,17 +2,18 @@
 // include some opengl header here
 NavMeshRender::NavMeshRender(NavMesh* mesh)
 {
-	glViewport(0, 0, 800, 600);
-	glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glViewport(0, 0, 800, 600);
+	//glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_NavMesh = mesh;
-	m_RotateX = 45;
+	/*m_RotateX = 45;
 	m_RotateY = 45;
 	m_Zoom = 1.0f;
 	m_CamX = 0.0f;
 	m_CamY = 0.0f;
 	m_CamZ = 0.0f;
+	*/
 }
 NavMeshRender::~NavMeshRender()
 {
@@ -51,8 +52,15 @@ void NavMeshRender::Render()
 	if (!m_NavMesh->m_geom || !m_NavMesh->m_geom->getMesh())
 		return;
 	// ========================================== setup
+	//glEnable(GL_CULL_FACE);
+	
+	glDepthFunc(GL_LESS);
+	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	/*glMatrixMode(GL_PROJECTION);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	/*// set up camera, no need if we have ofEasyCam
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	{
 		GLfloat distance_to_eye = 0.0f;
@@ -88,12 +96,12 @@ void NavMeshRender::Render()
 		DrawObstacles(&dd, m_NavMesh->m_tileCache);
 	
 	DrawAgents(&dd);
-
+	
 	glDepthMask(GL_FALSE);
 	// Draw bounds
 	const float* bmin = m_NavMesh->m_geom->getMeshBoundsMin();
 	const float* bmax = m_NavMesh->m_geom->getMeshBoundsMax();
-	//duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
+	duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
 	
 	// Tiling grid.
 	int gw = 0, gh = 0;
@@ -102,6 +110,13 @@ void NavMeshRender::Render()
 	const int th = (gh + (int)m_NavMesh->m_tileSize-1) / (int)m_NavMesh->m_tileSize;
 	const float s = m_NavMesh->m_tileSize*m_NavMesh->m_cellSize;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
+
+	if(m_NavMesh->m_navMesh && m_NavMesh->m_navQuery)
+	{
+		duDebugDrawNavMesh(&dd, *(m_NavMesh->m_navMesh), 
+			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);
+		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_NavMesh->m_navMesh), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
+	}
 }
 void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 {

@@ -39,6 +39,7 @@ void NavMesh::InitMesh()
 	m_talloc = new LinearAllocator(32000);
 	m_tcomp = new FastLZCompressor;
 	m_tmproc = new MeshProcess;
+	
 }
 void NavMesh::LoadMesh(const char* filepath)
 {
@@ -50,6 +51,32 @@ void NavMesh::LoadMesh(const char* filepath)
 
 	dtFreeNavMesh(m_navMesh);
 	m_navMesh = 0;
+
+	int gridSize = 1;
+	if (m_geom)
+	{
+		const float* bmin = m_geom->getMeshBoundsMin();
+		const float* bmax = m_geom->getMeshBoundsMax();
+		int gw = 0, gh = 0;
+		rcCalcGridSize(bmin, bmax, m_cellSize, &gw, &gh);
+		const int ts = (int)m_tileSize;
+		const int tw = (gw + ts-1) / ts;
+		const int th = (gh + ts-1) / ts;
+
+		// Max tiles and max polys affect how the tile IDs are caculated.
+		// There are 22 bits available for identifying a tile and a polygon.
+		int tileBits = rcMin((int)dtIlog2(dtNextPow2(tw*th*EXPECTED_LAYERS_PER_TILE)), 14);
+		if (tileBits > 14) tileBits = 14;
+		int polyBits = 22 - tileBits;
+		m_maxTiles = 1 << tileBits;
+		m_maxPolysPerTile = 1 << polyBits;
+		gridSize = tw*th;
+	}
+	else
+	{
+		m_maxTiles = 0;
+		m_maxPolysPerTile = 0;
+	}
 }
 bool NavMesh::BuildMesh()
 {

@@ -19,7 +19,6 @@ void ofApp::setup(){
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
 	cam.setScale(0.1f);
-	//TODO: transfer data from MeshLoaderObj to ofMesh, for easier render
 }
 
 //--------------------------------------------------------------
@@ -29,10 +28,11 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofEnableDepthTest();
+	glEnable(GL_DEPTH_TEST);
 	cam.begin();
 	render->Render();
 	cam.end();
+	glDisable(GL_DEPTH_TEST);
 	//-------------------
 	ofSetColor(255);
 	string text = "HELLO OF\nI'M GONNA PORT BAMBOO_COCOS2D TO BAMBOO_OPENFRAMEWORKS\nP/S: CAPS LOCK FOR THE WIN!!!!";
