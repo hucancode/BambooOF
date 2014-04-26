@@ -4,21 +4,22 @@
 static NavMesh* mesh;
 static NavMeshRender* render;
 float g_WindowAspectRatio;
+static float scale;
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(0,128,255);
-    ofSetWindowTitle("Hello OF");
+	//ofBackground(0,128,255);
+    ofSetWindowTitle("Hello");
 	//------------------
 	mesh = new NavMesh;
 	mesh->LoadMesh("nav_test.obj");
 	mesh->BuildMesh();
 	render = new NavMeshRender(mesh);
+	scale = 0.1f;
 	cam.setDistance(100);
 	cam.enableOrtho();
-	
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
-	cam.setScale(0.1f);
+	cam.setScale(scale);
 }
 
 //--------------------------------------------------------------
@@ -28,23 +29,29 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	glEnable(GL_DEPTH_TEST);
+	
+	ofBackgroundGradient(ofColor(64), ofColor(0));
+	ofEnableDepthTest();
 	cam.begin();
 	render->Render();
 	cam.end();
-	glDisable(GL_DEPTH_TEST);
+	ofDisableDepthTest();
 	//-------------------
 	ofSetColor(255);
-	string text = "HELLO OF\nI'M GONNA PORT BAMBOO_COCOS2D TO BAMBOO_OPENFRAMEWORKS\nP/S: CAPS LOCK FOR THE WIN!!!!";
+	string text = "HELLO !!!!!!!!!!!!!!\nRECAST FOR THE WIN!!!!";
 	// * 1 character occupied 8x8 pixel
-	int text_width = 432;
-	int text_height = 24;
 	ofDrawBitmapString(text, 10, 20);
 }
 
+#define ZOOM_SPEED 0.01f;
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+	printf("key=%d\n",key);
+	if(key == OF_KEY_UP) 
+		scale -= ZOOM_SPEED;
+	if(key == OF_KEY_DOWN) 
+		scale += ZOOM_SPEED;
+	cam.setScale(scale);
 }
 
 //--------------------------------------------------------------
@@ -59,7 +66,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	
 }
 
 //--------------------------------------------------------------
@@ -85,5 +92,5 @@ void ofApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+	
 }

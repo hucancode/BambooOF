@@ -18,7 +18,7 @@ void NavMesh::InitMesh()
 	m_cellHeight = 0.2f;
 	m_agentHeight = 2.0f;
 	m_agentRadius = 0.6f;
-	m_agentMaxClimb = 0.9f;
+	m_agentMaxClimb = 2.5f;
 	m_agentMaxSlope = 45.0f;
 	m_regionMinSize = 8;
 	m_regionMergeSize = 20;

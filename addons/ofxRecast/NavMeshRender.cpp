@@ -4,8 +4,6 @@ NavMeshRender::NavMeshRender(NavMesh* mesh)
 {
 	//glViewport(0, 0, 800, 600);
 	//glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_NavMesh = mesh;
 	/*m_RotateX = 45;
 	m_RotateY = 45;
@@ -52,14 +50,12 @@ void NavMeshRender::Render()
 	if (!m_NavMesh->m_geom || !m_NavMesh->m_geom->getMesh())
 		return;
 	// ========================================== setup
-	//glEnable(GL_CULL_FACE);
-	
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	/*// set up camera, no need if we have ofEasyCam
+	/*//----------------------------------------- set up camera, no need if we have ofEasyCam
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	{
@@ -89,11 +85,6 @@ void NavMeshRender::Render()
 		m_NavMesh->m_agentMaxSlope, 
 		texScale);
 	m_NavMesh->m_geom->drawOffMeshConnections(&dd);
-	if (m_NavMesh->m_tileCache)
-		//DrawTiles(&dd, m_NavMesh->m_tileCache);
-	
-	if (m_NavMesh->m_tileCache)
-		DrawObstacles(&dd, m_NavMesh->m_tileCache);
 	
 	DrawAgents(&dd);
 	
@@ -117,6 +108,12 @@ void NavMeshRender::Render()
 			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);
 		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_NavMesh->m_navMesh), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
 	}
+	if (m_NavMesh->m_tileCache)
+		DrawTiles(&dd, m_NavMesh->m_tileCache);
+	
+	if (m_NavMesh->m_tileCache)
+		DrawObstacles(&dd, m_NavMesh->m_tileCache);
+	
 }
 void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 {
@@ -130,12 +127,12 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 		
 		tc->calcTightTileBounds(tile->header, bmin, bmax);
 		
-		const unsigned int col = duIntToCol(i,64);
+		const unsigned int col = duIntToCol(i,50);
 		duCalcBoxColors(fcol, col, col);
 		duDebugDrawBox(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], fcol);
 	}
 	
-	for (int i = 0; i < tc->getTileCount(); ++i)
+	/*for (int i = 0; i < tc->getTileCount(); ++i)
 	{
 		const dtCompressedTile* tile = tc->getTile(i);
 		if (!tile->header) continue;
@@ -146,7 +143,7 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 		const float pad = tc->getParams()->cs * 0.1f;
 		duDebugDrawBoxWire(dd, bmin[0]-pad,bmin[1]-pad,bmin[2]-pad,
 						   bmax[0]+pad,bmax[1]+pad,bmax[2]+pad, col, 2.0f);
-	}
+	}*/
 
 }
 
