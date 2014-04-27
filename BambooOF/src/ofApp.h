@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "NavMeshRender.h"
 
 class ofApp : public ofBaseApp{
 
@@ -19,5 +20,13 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	private:
+		NavMesh* mesh;
+		NavMeshRender* render;
 		ofEasyCam cam;
+		float scale;
+
+		int frameIndex;
+		vector <ofImage> images;
+
+		ofPlanePrimitive plane;
 };

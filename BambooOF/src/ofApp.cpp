@@ -1,10 +1,7 @@
 #include "ofApp.h"
-#include "NavMeshRender.h"
 
-static NavMesh* mesh;
-static NavMeshRender* render;
+
 float g_WindowAspectRatio;
-static float scale;
 //--------------------------------------------------------------
 void ofApp::setup(){
 	//ofBackground(0,128,255);
@@ -20,19 +17,41 @@ void ofApp::setup(){
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
 	cam.setScale(scale);
+
+	ofDirectory dir;
+    int nFiles = dir.listDir("plops");
+    if(nFiles) {
+        for(int i=0; i<dir.numFiles(); i++) {
+            string filePath = dir.getPath(i);
+            images.push_back(ofImage());
+            images.back().loadImage(filePath);
+        }
+    }
+	frameIndex = 0;
+
+	plane.mapTexCoords(0, 88, 88, 0);
+	plane.setPosition(34.0f,5.0f,-32.0f);
+	plane.set( 8.8, 8.8 );
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	
+	frameIndex = ofGetFrameNum() % images.size();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	
 	ofBackgroundGradient(ofColor(64), ofColor(0));
+	
+	//images[frameIndex].draw(256, 36);
+	//-------------------
 	ofEnableDepthTest();
 	cam.begin();
+	//-------------------
+	images[frameIndex].getTextureReference().bind();
+	plane.draw();
+	images[frameIndex].getTextureReference().unbind();
 	render->Render();
 	cam.end();
 	ofDisableDepthTest();
@@ -46,7 +65,7 @@ void ofApp::draw(){
 #define ZOOM_SPEED 0.01f;
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	printf("key=%d\n",key);
+	//printf("key=%d\n",key);
 	if(key == OF_KEY_UP) 
 		scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
