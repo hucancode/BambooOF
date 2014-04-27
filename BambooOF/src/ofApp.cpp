@@ -25,18 +25,19 @@ void ofApp::setup(){
             string filePath = dir.getPath(i);
             images.push_back(ofImage());
             images.back().loadImage(filePath);
+			images.back().getTextureReference().setTextureMinMagFilter(GL_LINEAR, GL_NEAREST);
         }
     }
 	frameIndex = 0;
 
-	plane.mapTexCoords(0, 88, 88, 0);
-	plane.setPosition(34.0f,5.0f,-32.0f);
-	plane.set( 8.8, 8.8 );
+	plane.mapTexCoords(0, 192, 192, 0);
+	plane.setPosition(34.0f,10.0f,-32.0f);
+	plane.set( 19.2, 19.2 );
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	frameIndex = ofGetFrameNum() % images.size();
+	frameIndex = (int)(ofGetFrameNum()*0.1) % images.size();
 }
 
 //--------------------------------------------------------------
@@ -47,12 +48,14 @@ void ofApp::draw(){
 	//images[frameIndex].draw(256, 36);
 	//-------------------
 	ofEnableDepthTest();
+	//ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 	cam.begin();
-	//-------------------
+	
+	render->Render();
 	images[frameIndex].getTextureReference().bind();
+	ofSetColor(255);
 	plane.draw();
 	images[frameIndex].getTextureReference().unbind();
-	render->Render();
 	cam.end();
 	ofDisableDepthTest();
 	//-------------------

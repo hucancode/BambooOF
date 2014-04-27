@@ -53,8 +53,8 @@ void NavMeshRender::Render()
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	//glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/*//----------------------------------------- set up camera, no need if we have ofEasyCam
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -109,7 +109,7 @@ void NavMeshRender::Render()
 		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_NavMesh->m_navMesh), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
 	}
 	if (m_NavMesh->m_tileCache)
-		DrawTiles(&dd, m_NavMesh->m_tileCache);
+		//DrawTiles(&dd, m_NavMesh->m_tileCache);
 	
 	if (m_NavMesh->m_tileCache)
 		DrawObstacles(&dd, m_NavMesh->m_tileCache);
