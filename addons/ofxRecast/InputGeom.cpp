@@ -305,7 +305,8 @@ static bool isectSegAABB(const float* sp, const float* sq,
 			if (t1 > t2) { float tmp = t1; t1 = t2; t2 = tmp; }
 			if (t1 > tmin) tmin = t1;
 			if (t2 < tmax) tmax = t2;
-			if (tmin > tmax) return false;
+			if (tmin > tmax) 
+				return false;
 		}
 	}
 	

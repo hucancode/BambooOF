@@ -15,7 +15,7 @@ void ofApp::setup(){
 	//cam.setDistance(100);
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
-	cam.scale = 10;
+	cam.scale = 20;
 
 	ofDirectory dir;
     int nFiles = dir.listDir("plops");
@@ -93,6 +93,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 	if(button != 0) return;
+	//y = ofGetHeight() - y;
 	ofVec3f ray[2];
 	// Define ray in screen space
 	ray[0] = ofVec3f(x, y, -1);
@@ -104,13 +105,13 @@ void ofApp::mousePressed(int x, int y, int button){
 	
 	// cast it on mesh
 	float* rays = new float[3];
-	rays[0] = ray[0].x;
-	rays[1] = ray[0].y;
-	rays[2] = ray[0].z;
+	rays[0] = ray[0].x/cam.scale;
+	rays[1] = ray[0].y/cam.scale;
+	rays[2] = ray[0].z/cam.scale;
 	float* raye = new float[3];
-	raye[0] = ray[1].x;
-	raye[1] = ray[1].y;
-	raye[2] = ray[1].z;
+	raye[0] = ray[1].x/cam.scale;
+	raye[1] = ray[1].y/cam.scale;
+	raye[2] = ray[1].z/cam.scale;
 	float* hit_pos = new float[3];
 	float hit_ratio;
 	bool hit = mesh->m_geom->raycastMesh(rays, raye, hit_ratio);
@@ -119,7 +120,8 @@ void ofApp::mousePressed(int x, int y, int button){
 		hit_pos[0] = rays[0] + (raye[0] - rays[0])*hit_ratio;
 		hit_pos[1] = rays[1] + (raye[1] - rays[1])*hit_ratio;
 		hit_pos[2] = rays[2] + (raye[2] - rays[2])*hit_ratio;
-		mesh->AddAgent(hit_pos);
+		int ret = mesh->AddObstacle(hit_pos);
+		printf("ret = %d\n",ret);
 	}
 	delete[] rays;
 	delete[] raye;
