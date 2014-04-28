@@ -1,49 +1,10 @@
 #include "NavMeshRender.h"
-// include some opengl header here
 NavMeshRender::NavMeshRender(NavMesh* mesh)
 {
-	//glViewport(0, 0, 800, 600);
-	//glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
 	m_NavMesh = mesh;
-	/*m_RotateX = 45;
-	m_RotateY = 45;
-	m_Zoom = 1.0f;
-	m_CamX = 0.0f;
-	m_CamY = 0.0f;
-	m_CamZ = 0.0f;
-	*/
 }
 NavMeshRender::~NavMeshRender()
 {
-}
-//--------------------------------
-// Raycast
-// input: model, mvp matrix, screen pos
-// output: screen pos hit model or not, if hit, return 3D position
-//--------------------------------
-bool NavMeshRender::RayCast(float* screen_pos, float* hit_pos)
-{
-	GLdouble matrix_p[16];
-	GLdouble matrix_m[16];
-	GLint matrix_v[4];
-	glGetDoublev(GL_PROJECTION_MATRIX, matrix_p);
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrix_m);
-	glGetIntegerv(GL_VIEWPORT, matrix_v);
-	float rays[3], raye[3];
-	GLdouble x, y, z;
-	gluUnProject(screen_pos[0], screen_pos[1], 0.0f, matrix_m, matrix_p, matrix_v, &x, &y, &z);
-	rays[0] = (float)x; rays[1] = (float)y; rays[2] = (float)z;
-	gluUnProject(screen_pos[0], screen_pos[1], 1.0f, matrix_m, matrix_p, matrix_v, &x, &y, &z);
-	raye[0] = (float)x; raye[1] = (float)y; raye[2] = (float)z;
-	float hitt;
-	bool hit = m_NavMesh->m_geom->raycastMesh(rays, raye, hitt);
-	if (hit)
-	{
-		hit_pos[0] = rays[0] + (raye[0] - rays[0])*hitt;
-		hit_pos[1] = rays[1] + (raye[1] - rays[1])*hitt;
-		hit_pos[2] = rays[2] + (raye[2] - rays[2])*hitt;
-	}
-	return hit;
 }
 void NavMeshRender::Render()
 {
@@ -52,28 +13,6 @@ void NavMeshRender::Render()
 	// ========================================== setup
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
-	//glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	/*//----------------------------------------- set up camera, no need if we have ofEasyCam
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	{
-		GLfloat distance_to_eye = 0.0f;
-		extern float g_WindowAspectRatio;
-		distance_to_eye = m_Zoom*2.0f;
-		glOrtho(
-			(-50-distance_to_eye)*g_WindowAspectRatio, (50+distance_to_eye)*g_WindowAspectRatio, 
-			-50-distance_to_eye, 50+distance_to_eye, 
-			-1000, 1000);
-	}
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glRotatef(m_RotateX,1,0,0);
-	glRotatef(m_RotateY,0,1,0);
-	glTranslatef(-m_CamX, -m_CamY, -m_CamZ);*/
-	// ========================================== draw
-	
 	DebugDrawGL dd;
 	const float texScale = 1.0f / (m_NavMesh->m_cellSize * 10.0f);
 	duDebugDrawTriMeshSlope(&dd, 
@@ -174,7 +113,6 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 	
 void NavMeshRender::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
-	// Draw obstacles
 	for (int i = 0; i < tc->getObstacleCount(); ++i)
 	{
 		const dtTileCacheObstacle* ob = tc->getObstacle(i);

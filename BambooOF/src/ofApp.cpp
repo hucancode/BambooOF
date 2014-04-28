@@ -11,12 +11,11 @@ void ofApp::setup(){
 	mesh->LoadMesh("nav_test.obj");
 	mesh->BuildMesh();
 	render = new NavMeshRender(mesh);
-	scale = 0.1f;
-	cam.setDistance(100);
-	cam.enableOrtho();
+	//scale = 1.0f;
+	//cam.setDistance(100);
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
-	cam.setScale(scale);
+	cam.scale = 10;
 
 	ofDirectory dir;
     int nFiles = dir.listDir("plops");
@@ -49,7 +48,7 @@ void ofApp::draw(){
 	//-------------------
 	ofEnableDepthTest();
 	//ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-	cam.begin();
+	cam.begin(ofRectangle(0,0,ofGetWidth(),ofGetHeight()));
 	
 	render->Render();
 	images[frameIndex].getTextureReference().bind();
@@ -70,9 +69,9 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
 	//printf("key=%d\n",key);
 	if(key == OF_KEY_UP) 
-		scale -= ZOOM_SPEED;
+		cam.scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
-		scale += ZOOM_SPEED;
+		cam.scale += ZOOM_SPEED;
 	cam.setScale(scale);
 }
 
@@ -93,7 +92,38 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	if(button != 0) return;
+	ofVec3f ray[2];
+	// Define ray in screen space
+	ray[0] = ofVec3f(x, y, -1);
+	ray[1] = ofVec3f(x, y, 1);
 
+	// Transform ray into world space
+	ray[0] = cam.screenToWorld(ray[0], ofGetWindowRect());
+	ray[1] = cam.screenToWorld(ray[1], ofGetWindowRect());
+	
+	// cast it on mesh
+	float* rays = new float[3];
+	rays[0] = ray[0].x;
+	rays[1] = ray[0].y;
+	rays[2] = ray[0].z;
+	float* raye = new float[3];
+	raye[0] = ray[1].x;
+	raye[1] = ray[1].y;
+	raye[2] = ray[1].z;
+	float* hit_pos = new float[3];
+	float hit_ratio;
+	bool hit = mesh->m_geom->raycastMesh(rays, raye, hit_ratio);
+	if (hit)
+	{
+		hit_pos[0] = rays[0] + (raye[0] - rays[0])*hit_ratio;
+		hit_pos[1] = rays[1] + (raye[1] - rays[1])*hit_ratio;
+		hit_pos[2] = rays[2] + (raye[2] - rays[2])*hit_ratio;
+		mesh->AddAgent(hit_pos);
+	}
+	delete[] rays;
+	delete[] raye;
+	delete[] hit_pos;
 }
 
 //--------------------------------------------------------------

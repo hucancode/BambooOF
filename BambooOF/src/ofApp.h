@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "OrthoCamera.h"
 #include "NavMeshRender.h"
 
 class ofApp : public ofBaseApp{
@@ -22,7 +23,7 @@ class ofApp : public ofBaseApp{
 	private:
 		NavMesh* mesh;
 		NavMeshRender* render;
-		ofEasyCam cam;
+		orthoCamera cam;
 		float scale;
 
 		int frameIndex;

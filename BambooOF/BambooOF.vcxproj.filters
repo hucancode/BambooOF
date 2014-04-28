@@ -31,6 +31,9 @@
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <Filter>addons\ofxRecast\fastlz</Filter>
     </ClCompile>
+    <ClCompile Include="src\OrthoCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h">
       <Filter>addons\ofxRecast\fastlz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrthoCamera.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

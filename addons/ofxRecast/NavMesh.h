@@ -5,7 +5,7 @@
 class NavMesh
 {
 	friend class NavMeshRender;
-private:
+public:
 	InputGeom* m_geom;
 	dtNavMesh* m_navMesh;
 	dtNavMeshQuery* m_navQuery;

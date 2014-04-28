@@ -102,6 +102,7 @@
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\OrthoCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\addons\ofxRecast\Agent.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\OrthoCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\DebugUtils.vcxproj">
