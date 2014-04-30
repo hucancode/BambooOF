@@ -3,7 +3,7 @@
 NavMesh::NavMesh()
 {
 	InitMesh();
-	//InitCrowd();
+	InitCrowd();
 }
 NavMesh::~NavMesh()
 {
