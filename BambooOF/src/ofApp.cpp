@@ -43,18 +43,17 @@ void ofApp::update(){
 void ofApp::draw(){
 	
 	ofBackgroundGradient(ofColor(64), ofColor(0));
-	
 	//images[frameIndex].draw(256, 36);
 	//-------------------
 	ofEnableDepthTest();
-	//ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-	cam.begin(ofRectangle(0,0,ofGetWidth(),ofGetHeight()));
+	cam.begin();
 	
 	render->Render();
 	images[frameIndex].getTextureReference().bind();
 	ofSetColor(255);
 	plane.draw();
 	images[frameIndex].getTextureReference().unbind();
+	
 	cam.end();
 	ofDisableDepthTest();
 	//-------------------
@@ -64,7 +63,7 @@ void ofApp::draw(){
 	ofDrawBitmapString(text, 10, 20);
 }
 
-#define ZOOM_SPEED 0.01f;
+#define ZOOM_SPEED 0.1f;
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	//printf("key=%d\n",key);
@@ -72,7 +71,7 @@ void ofApp::keyPressed(int key){
 		cam.scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
 		cam.scale += ZOOM_SPEED;
-	cam.setScale(scale);
+	//cam.setScale(scale);
 }
 
 //--------------------------------------------------------------
@@ -98,20 +97,21 @@ void ofApp::mousePressed(int x, int y, int button){
 	// Define ray in screen space
 	ray[0] = ofVec3f(x, y, -1);
 	ray[1] = ofVec3f(x, y, 1);
-
-	// Transform ray into world space
-	ray[0] = cam.screenToWorld(ray[0], ofGetWindowRect());
-	ray[1] = cam.screenToWorld(ray[1], ofGetWindowRect());
-	
-	// cast it on mesh
 	float* rays = new float[3];
-	rays[0] = ray[0].x/cam.scale;
-	rays[1] = ray[0].y/cam.scale;
-	rays[2] = ray[0].z/cam.scale;
 	float* raye = new float[3];
-	raye[0] = ray[1].x/cam.scale;
-	raye[1] = ray[1].y/cam.scale;
-	raye[2] = ray[1].z/cam.scale;
+	
+	{
+		// Transform ray into world space
+		ray[0] = cam.orthoScreenToWorld(ray[0]);
+		ray[1] = cam.orthoScreenToWorld(ray[1]);
+		
+		rays[0] = ray[0].x;
+		rays[1] = ray[0].y;
+		rays[2] = ray[0].z;
+		raye[0] = ray[1].x;
+		raye[1] = ray[1].y;
+		raye[2] = ray[1].z;
+	}
 	float* hit_pos = new float[3];
 	float hit_ratio;
 	bool hit = mesh->m_geom->raycastMesh(rays, raye, hit_ratio);
@@ -125,6 +125,20 @@ void ofApp::mousePressed(int x, int y, int button){
 	}
 	delete[] rays;
 	delete[] raye;
+	delete[] hit_pos;
+	return;
+	if(button != 0) return;
+	float* screen_pos = new float[2];
+	screen_pos[0] = (float)x/20.0;
+	screen_pos[1] = ofGetHeight() - (ofGetHeight() - (float)y)/20.0;
+	//float* hit_pos = new float[3];
+	//bool hit = render->RayCast(screen_pos, hit_pos);
+	if (hit)
+	{
+		int ret = mesh->AddObstacle(hit_pos);
+		printf("ret = %d\n",ret);
+	}
+	delete[] screen_pos;
 	delete[] hit_pos;
 }
 

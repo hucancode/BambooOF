@@ -7,13 +7,14 @@
 // We inherit from ofCamera
 
 orthoCamera::orthoCamera(){
+	//return;
 	enableOrtho();
 	scale = 1;
 }
 
 void orthoCamera::begin(ofRectangle rect){
 	ofEasyCam::begin(rect);
-
+	//return;
 	//--
 	// Calculate aspect ratio
 
@@ -41,8 +42,9 @@ void orthoCamera::begin(ofRectangle rect){
 
 	ofSetMatrixMode(OF_MATRIX_PROJECTION);
 	
-    ofMatrix4x4 ortho;
-    ortho.makeOrthoMatrix(-scalex, scalex, -scaley, scaley, -20 * scale, 28 * scale );
+    
+    ortho.makeOrthoMatrix(-scalex, scalex, -scaley, scaley, -2000 * scale, 2800 * scale );
+	//ortho.makeOrthoMatrix(0, rect.width, 0, rect.height, -2000 * scale, 2800 * scale );
     ofLoadMatrix( ortho );
 
     ofSetMatrixMode(OF_MATRIX_MODELVIEW);

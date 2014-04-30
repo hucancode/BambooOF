@@ -822,13 +822,16 @@ void ofMatrix4x4::makeOrthoMatrix(double left, double right,
 									  double zNear, double zFar)
 {
     // note transpose of ofMatrix4x4 wr.t OpenGL documentation, since the OSG use post multiplication rather than pre.
-    double tx = -(right+left)/(right-left);
-    double ty = -(top+bottom)/(top-bottom);
-    double tz = -(zFar+zNear)/(zFar-zNear);
-    SET_ROW(0, 2.0/(right-left),               0.0,               0.0, 0.0 )
-    SET_ROW(1,              0.0,  2.0/(top-bottom),               0.0, 0.0 )
-    SET_ROW(2,              0.0,               0.0,  -2.0/(zFar-zNear), 0.0 )
-    SET_ROW(3,               tx,                ty,                 tz, 1.0 )
+	double width = right-left;
+	double height = top-bottom;
+	double depth = zFar-zNear;
+    double tx = -(right+left)/width;
+    double ty = -(top+bottom)/height;
+    double tz = -(zFar+zNear)/depth;
+    SET_ROW(0,		  2.0/width,               0.0,               0.0, 0.0 )
+    SET_ROW(1,              0.0,		2.0/height,               0.0, 0.0 )
+    SET_ROW(2,              0.0,               0.0,		   -2.0/depth, 0.0 )
+    SET_ROW(3,               tx,                ty,                tz, 1.0 )
 }
 
 bool ofMatrix4x4::getOrtho(double& left, double& right,

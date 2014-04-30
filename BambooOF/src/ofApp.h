@@ -30,4 +30,6 @@ class ofApp : public ofBaseApp{
 		vector <ofImage> images;
 
 		ofPlanePrimitive plane;
+
+		ofVec3f ray[2];
 };

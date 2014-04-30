@@ -21,6 +21,7 @@
     </Filter>
     <Filter Include="libs\openFrameworks\communication">
       <UniqueIdentifier>{608df362-91fb-44e3-9d2e-cf29cde4fe28}</UniqueIdentifier>
+      <ParseFiles>true</ParseFiles>
     </Filter>
     <Filter Include="libs\openFrameworks\events">
       <UniqueIdentifier>{a041d3e4-3b1a-4e1f-ab95-064102e6ddc2}</UniqueIdentifier>
