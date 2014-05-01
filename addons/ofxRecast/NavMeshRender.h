@@ -8,11 +8,6 @@ class NavMeshRender
 {
 private:
 	NavMesh* m_NavMesh;
-	/*
-	float m_CamX, m_CamY, m_CamZ;
-	float m_RotateX, m_RotateY;
-	float m_Zoom;
-	*/
 public:
 	NavMeshRender(NavMesh* mesh);
 	~NavMeshRender();

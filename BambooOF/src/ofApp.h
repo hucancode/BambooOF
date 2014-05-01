@@ -1,8 +1,11 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofVbo.h"
 #include "OrthoCamera.h"
 #include "NavMeshRender.h"
+
+#define NUM_BILLBOARDS 1000
 
 class ofApp : public ofBaseApp{
 
@@ -24,12 +27,17 @@ class ofApp : public ofBaseApp{
 		NavMesh* mesh;
 		NavMeshRender* render;
 		orthoCamera cam;
-		float scale;
 
 		int frameIndex;
 		vector <ofImage> images;
 
 		ofPlanePrimitive plane;
 
-		ofVec3f ray[2];
+		float billboardSizeTarget[NUM_BILLBOARDS];
+		
+		ofShader billboardShader;
+		ofImage texture;
+		
+		ofVboMesh billboards;
+		ofVec3f billboardVels[NUM_BILLBOARDS];
 };

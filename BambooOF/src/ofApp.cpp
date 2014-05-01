@@ -1,23 +1,56 @@
 #include "ofApp.h"
 
-
-float g_WindowAspectRatio;
 //--------------------------------------------------------------
-void ofApp::setup(){
-	//ofBackground(0,128,255);
-    ofSetWindowTitle("Hello");
+float g_WindowAspectRatio;
+void ofApp::setup() {
+	ofBackground(0, 0, 0);
+	ofSetWindowTitle("Hello");
 	//------------------
 	mesh = new NavMesh;
 	mesh->LoadMesh("nav_test.obj");
 	mesh->BuildMesh();
 	mesh->InitCrowd();
 	render = new NavMeshRender(mesh);
-	//scale = 1.0f;
+
 	//cam.setDistance(100);
 	g_WindowAspectRatio = 800.0/600.0;
 	cam.setAspectRatio(g_WindowAspectRatio);
 	cam.scale = 20;
+	plane.mapTexCoords(0, 192, 192, 0);
+	plane.setPosition(34.0f,10.0f,-32.0f);
+	plane.set( 19.2, 19.2 );
 
+	//----------------
+	billboards.getVertices().resize(NUM_BILLBOARDS);
+	billboards.getColors().resize(NUM_BILLBOARDS);
+	billboards.getNormals().resize(NUM_BILLBOARDS,ofVec3f(0));
+	
+	// ------------------------- billboard particles
+	for (int i=0; i<NUM_BILLBOARDS; i++) {
+		billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
+		billboards.getVertices()[i].set(ofRandom(-200, 500), 
+													ofRandom(-200, 500), 
+													ofRandom(-200, 500));
+		
+		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(96, 160), 255, 255));
+	    billboardSizeTarget[i] = ofRandom(64, 128);
+		billboards.setNormal(i,ofVec3f(12 + billboardSizeTarget[i]*ofNoise(i),0,0));
+		
+	}
+	
+	billboards.setUsage( GL_DYNAMIC_DRAW );
+	billboards.setMode(OF_PRIMITIVE_POINTS);
+	
+	if(ofGetGLProgrammableRenderer()){
+		billboardShader.load("shadersGL3/Billboard");
+	}else{
+		billboardShader.load("shadersGL2/Billboard");
+	}
+	
+	// we need to disable ARB textures in order to use normalized texcoords
+	ofDisableArbTex();
+	ofEnableAlphaBlending();
+	
 	ofDirectory dir;
     int nFiles = dir.listDir("plops");
     if(nFiles) {
@@ -29,52 +62,70 @@ void ofApp::setup(){
         }
     }
 	frameIndex = 0;
-
-	plane.mapTexCoords(0, 192, 192, 0);
-	plane.setPosition(34.0f,10.0f,-32.0f);
-	plane.set( 19.2, 19.2 );
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-	frameIndex = (int)(ofGetFrameNum()*0.1) % images.size();
+void ofApp::update() {
+	frameIndex = (int)(ofGetFrameNum()*0.5) % images.size();
 	mesh->UpdateCrowd(0.0030f);
+	return;
+	//----------------
+	float t = (ofGetElapsedTimef()) * 0.9f;
+	float div = 250.0;
+	
+	for (int i=0; i<NUM_BILLBOARDS; i++) {
+		
+		// noise 
+		ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y/div, billboards.getVertex(i).z/div),
+								ofSignedNoise(billboards.getVertex(i).x/div, t, billboards.getVertex(i).z/div),
+								ofSignedNoise(billboards.getVertex(i).x/div, billboards.getVertex(i).y/div, t));
+		
+		vec *= 10 * ofGetLastFrameTime();
+		billboardVels[i] += vec;
+		billboards.getVertices()[i] += billboardVels[i]; 
+		billboardVels[i] *= 0.94f; 
+    	billboards.setNormal(i,ofVec3f(12 + billboardSizeTarget[i] * ofNoise(t+i),0,0));
+	}
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-	
+void ofApp::draw() {
 	ofBackgroundGradient(ofColor(64), ofColor(0));
-	//images[frameIndex].draw(256, 36);
+	ofSetColor(255);
 	//-------------------
-	ofEnableDepthTest();
 	cam.begin();
 	
+	ofEnableDepthTest();
 	render->Render();
 	images[frameIndex].getTextureReference().bind();
 	ofSetColor(255);
 	plane.draw();
 	images[frameIndex].getTextureReference().unbind();
 	
-	cam.end();
+	//-------------------
+	billboardShader.begin();
+	ofEnablePointSprites();
+	images[frameIndex].getTextureReference().bind();
+	billboards.draw();
+	images[frameIndex].getTextureReference().unbind();
+	ofDisablePointSprites();
+	billboardShader.end();
 	ofDisableDepthTest();
+	cam.end();
 	//-------------------
 	ofSetColor(255);
-	string text = "HELLO !!!!!!!!!!!!!!\nRECAST FOR THE WIN!!!!";
-	// * 1 character occupied 8x8 pixel
-	ofDrawBitmapString(text, 10, 20);
+	ofDrawBitmapStringHighlight("FPS: "+ofToString(ofGetFrameRate(), 2), 10, 20);
 }
 
-#define ZOOM_SPEED 0.1f;
 //--------------------------------------------------------------
+#define ZOOM_SPEED 0.1f;
 void ofApp::keyPressed(int key){
-	//printf("key=%d\n",key);
 	if(key == OF_KEY_UP) 
 		cam.scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
 		cam.scale += ZOOM_SPEED;
-	//cam.setScale(scale);
 }
+
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
@@ -82,19 +133,18 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y){
 
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 	if(button != 0 && button != 2) return;
-	//y = ofGetHeight() - y;
 	ofVec3f ray[2];
 	// Define ray in screen space
 	ray[0] = ofVec3f(x, y, -1);
@@ -154,5 +204,5 @@ void ofApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
-	
+
 }
