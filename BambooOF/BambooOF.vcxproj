@@ -90,13 +90,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\addons\ofxRecast\Agent.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\ChunkyTriMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
     </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\MeshLoaderObj.cpp" />
     <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
@@ -105,11 +102,8 @@
     <ClCompile Include="src\OrthoCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\addons\ofxRecast\Agent.h" />
-    <ClInclude Include="..\addons\ofxRecast\ChunkyTriMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h" />
     <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />
-    <ClInclude Include="..\addons\ofxRecast\MeshLoaderObj.h" />
     <ClInclude Include="..\addons\ofxRecast\NavMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
