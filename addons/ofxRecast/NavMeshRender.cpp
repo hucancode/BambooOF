@@ -70,8 +70,8 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 		duCalcBoxColors(fcol, col, col);
 		duDebugDrawBox(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], fcol);
 	}
-	
-	/*for (int i = 0; i < tc->getTileCount(); ++i)
+	return;
+	for (int i = 0; i < tc->getTileCount(); ++i)
 	{
 		const dtCompressedTile* tile = tc->getTile(i);
 		if (!tile->header) continue;
@@ -82,34 +82,37 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 		const float pad = tc->getParams()->cs * 0.1f;
 		duDebugDrawBoxWire(dd, bmin[0]-pad,bmin[1]-pad,bmin[2]-pad,
 						   bmax[0]+pad,bmax[1]+pad,bmax[2]+pad, col, 2.0f);
-	}*/
+	}
 
 }
-
-//dtObstacleRef hitTestObstacle(const dtTileCache* tc, const float* sp, const float* sq)
-//{
-//	float tmin = FLT_MAX;
-//	const dtTileCacheObstacle* obmin = 0;
-//	for (int i = 0; i < tc->getObstacleCount(); ++i)
-//	{
-//		const dtTileCacheObstacle* ob = tc->getObstacle(i);
-//		if (ob->state == DT_OBSTACLE_EMPTY)
-//			continue;
-//		
-//		float bmin[3], bmax[3], t0,t1;
-//		tc->getObstacleBounds(ob, bmin,bmax);
-//		
-//		if (isectSegAABB(sp,sq, bmin,bmax, t0,t1))
-//		{
-//			if (t0 < tmin)
-//			{
-//				tmin = t0;
-//				obmin = ob;
-//			}
-//		}
-//	}
-//	return tc->getObstacleRef(obmin);
-//}
+/*----------------------------------------
+return obstacle that hit by mouse's ray
+sp, sq = 2 points form the ray, calculated by framework
+------------------------------------------*/
+dtObstacleRef NavMeshRender::HitTestObstacle(const float* sp, const float* sq)
+{
+	float tmin = FLT_MAX;
+	const dtTileCacheObstacle* obmin = 0;
+	for (int i = 0; i < m_NavMesh->m_tileCache->getObstacleCount(); ++i)
+	{
+		const dtTileCacheObstacle* ob = tc->getObstacle(i);
+		if (ob->state == DT_OBSTACLE_EMPTY)
+			continue;
+		
+		float bmin[3], bmax[3], t0,t1;
+		m_NavMesh->m_tileCache->getObstacleBounds(ob, bmin,bmax);
+		
+		if (isectSegAABB(sp,sq, bmin,bmax, t0,t1))
+		{
+			if (t0 < tmin)
+			{
+				tmin = t0;
+				obmin = ob;
+			}
+		}
+	}
+	return m_NavMesh->m_tileCache->getObstacleRef(obmin);
+}
 	
 void NavMeshRender::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
