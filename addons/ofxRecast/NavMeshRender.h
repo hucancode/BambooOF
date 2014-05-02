@@ -21,5 +21,5 @@ private:
 	void DrawTiles(duDebugDraw* dd, dtTileCache* tc);
 	void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc);
 	void DrawAgents(duDebugDraw* dd);
-	dtObstacleRef HitTestObstacle(const float* sp, const float* sq)
+	dtObstacleRef HitTestObstacle(const float* sp, const float* sq);
 };

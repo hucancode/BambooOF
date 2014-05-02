@@ -25,6 +25,90 @@
     <ClCompile Include="src\OrthoCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DetourDebugDraw.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\RecastDebugDraw.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\RecastDump.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\Recast.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastAlloc.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastArea.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastContour.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastFilter.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastLayers.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMesh.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMeshDetail.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Source\DetourTileCache.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Source\DetourTileCacheBuilder.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourTileCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourCrowd.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourLocalBoundary.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourObstacleAvoidance.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourPathCorridor.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourPathQueue.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourProximityGrid.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourAlloc.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourCommon.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMesh.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMeshBuilder.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMeshQuery.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNode.cpp">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -114,6 +198,24 @@
     <Filter Include="addons\ofxRecast\fastlz">
       <UniqueIdentifier>{98c5bfac-75d0-4b93-b372-e0b4cdd6e451}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation">
+      <UniqueIdentifier>{9084f76b-7133-45f3-80fb-69a2ac10d6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation\DebugUtils">
+      <UniqueIdentifier>{fbc092f5-b920-4faa-8eb4-9191218da713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation\Detour">
+      <UniqueIdentifier>{17595311-169c-4541-8816-efccc202b2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation\DetourCrowd">
+      <UniqueIdentifier>{eac3afae-b091-4f9b-9374-7731b4b9440a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation\DetourTileCache">
+      <UniqueIdentifier>{37d5eea9-09a5-4a76-8db9-cc52296b8a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxRecast\recastnavigation\Recast">
+      <UniqueIdentifier>{d26a00d3-d8d6-4a8c-abb6-7212d93e4c81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -136,6 +238,78 @@
     </ClInclude>
     <ClInclude Include="src\OrthoCamera.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DetourDebugDraw.h">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\RecastDebugDraw.h">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\RecastDump.h">
+      <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\Recast.h">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAlloc.h">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h">
+      <Filter>addons\ofxRecast\recastnavigation\Recast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Include\DetourTileCache.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Include\DetourTileCacheBuilder.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourTileCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourCrowd.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourLocalBoundary.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourObstacleAvoidance.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourPathCorridor.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourPathQueue.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourProximityGrid.h">
+      <Filter>addons\ofxRecast\recastnavigation\DetourCrowd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourAlloc.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourAssert.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourCommon.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourMath.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMesh.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMeshBuilder.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMeshQuery.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNode.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourStatus.h">
+      <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

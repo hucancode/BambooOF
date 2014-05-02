@@ -6,14 +6,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openframeworksLib", "..\lib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Recast", "..\addons\ofxRecast\recastnavigation\Build\vs2008\Recast.vcxproj", "{D2134F74-8193-CD4D-8753-23EFBCDAEC10}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Detour", "..\addons\ofxRecast\recastnavigation\Build\vs2008\Detour.vcxproj", "{66201D4C-5667-594D-AE57-56E623086053}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetourCrowd", "..\addons\ofxRecast\recastnavigation\Build\vs2008\DetourCrowd.vcxproj", "{5142C7B9-A339-F843-9A8E-0D339111197C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetourTileCache", "..\addons\ofxRecast\recastnavigation\Build\vs2008\DetourTileCache.vcxproj", "{0644815E-BDF7-874F-AB63-638DED063092}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DebugUtils", "..\addons\ofxRecast\recastnavigation\Build\vs2008\DebugUtils.vcxproj", "{3CBEEAEA-479D-494B-9686-0B177DE72DFF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,22 +24,6 @@ Global
 		{D2134F74-8193-CD4D-8753-23EFBCDAEC10}.Debug|Win32.Build.0 = Debug|Win32
 		{D2134F74-8193-CD4D-8753-23EFBCDAEC10}.Release|Win32.ActiveCfg = Release|Win32
 		{D2134F74-8193-CD4D-8753-23EFBCDAEC10}.Release|Win32.Build.0 = Release|Win32
-		{66201D4C-5667-594D-AE57-56E623086053}.Debug|Win32.ActiveCfg = Debug|Win32
-		{66201D4C-5667-594D-AE57-56E623086053}.Debug|Win32.Build.0 = Debug|Win32
-		{66201D4C-5667-594D-AE57-56E623086053}.Release|Win32.ActiveCfg = Release|Win32
-		{66201D4C-5667-594D-AE57-56E623086053}.Release|Win32.Build.0 = Release|Win32
-		{5142C7B9-A339-F843-9A8E-0D339111197C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5142C7B9-A339-F843-9A8E-0D339111197C}.Debug|Win32.Build.0 = Debug|Win32
-		{5142C7B9-A339-F843-9A8E-0D339111197C}.Release|Win32.ActiveCfg = Release|Win32
-		{5142C7B9-A339-F843-9A8E-0D339111197C}.Release|Win32.Build.0 = Release|Win32
-		{0644815E-BDF7-874F-AB63-638DED063092}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0644815E-BDF7-874F-AB63-638DED063092}.Debug|Win32.Build.0 = Debug|Win32
-		{0644815E-BDF7-874F-AB63-638DED063092}.Release|Win32.ActiveCfg = Release|Win32
-		{0644815E-BDF7-874F-AB63-638DED063092}.Release|Win32.Build.0 = Release|Win32
-		{3CBEEAEA-479D-494B-9686-0B177DE72DFF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3CBEEAEA-479D-494B-9686-0B177DE72DFF}.Debug|Win32.Build.0 = Debug|Win32
-		{3CBEEAEA-479D-494B-9686-0B177DE72DFF}.Release|Win32.ActiveCfg = Release|Win32
-		{3CBEEAEA-479D-494B-9686-0B177DE72DFF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

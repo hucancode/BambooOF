@@ -65,7 +65,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>DebugUtils.lib;Detour.lib;DetourCrowd.lib;DetourTileCache.lib;Recast.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration).win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -97,6 +97,34 @@
     <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\RecastDump.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourCrowd.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourLocalBoundary.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourPathCorridor.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourPathQueue.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Source\DetourProximityGrid.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Source\DetourTileCache.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Source\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourAlloc.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourCommon.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMesh.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNode.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\Recast.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastAlloc.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastArea.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastContour.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastFilter.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastLayers.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMesh.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\OrthoCamera.cpp" />
@@ -107,22 +135,34 @@
     <ClInclude Include="..\addons\ofxRecast\NavMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DetourDebugDraw.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\RecastDebugDraw.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\RecastDump.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourCrowd.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourLocalBoundary.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourObstacleAvoidance.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourPathCorridor.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourPathQueue.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourCrowd\Include\DetourProximityGrid.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Include\DetourTileCache.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\DetourTileCache\Include\DetourTileCacheBuilder.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourAlloc.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourAssert.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourCommon.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourMath.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMesh.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourNode.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourStatus.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\Recast.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAlloc.h" />
+    <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\OrthoCamera.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\DebugUtils.vcxproj">
-      <Project>{3cbeeaea-479d-494b-9686-0b177de72dff}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\Detour.vcxproj">
-      <Project>{66201d4c-5667-594d-ae57-56e623086053}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\DetourCrowd.vcxproj">
-      <Project>{5142c7b9-a339-f843-9a8e-0d339111197c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\DetourTileCache.vcxproj">
-      <Project>{0644815e-bdf7-874f-ab63-638ded063092}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\addons\ofxRecast\recastnavigation\Build\vs2008\Recast.vcxproj">
       <Project>{d2134f74-8193-cd4d-8753-23efbcdaec10}</Project>
     </ProjectReference>

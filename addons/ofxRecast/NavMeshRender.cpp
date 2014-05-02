@@ -95,7 +95,7 @@ dtObstacleRef NavMeshRender::HitTestObstacle(const float* sp, const float* sq)
 	const dtTileCacheObstacle* obmin = 0;
 	for (int i = 0; i < m_NavMesh->m_tileCache->getObstacleCount(); ++i)
 	{
-		const dtTileCacheObstacle* ob = tc->getObstacle(i);
+		const dtTileCacheObstacle* ob = m_NavMesh->m_tileCache->getObstacle(i);
 		if (ob->state == DT_OBSTACLE_EMPTY)
 			continue;
 		
