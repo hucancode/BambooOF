@@ -28,13 +28,11 @@ void ofApp::setup() {
 	// ------------------------- billboard particles
 	for (int i=0; i<NUM_BILLBOARDS; i++) {
 		billboardVels[i].set(ofRandomf(), -1.0, ofRandomf());
-		billboards.getVertices()[i].set(ofRandom(-200, 500), 
-													ofRandom(-200, 500), 
-													ofRandom(-200, 500));
+		billboards.getVertices()[i].set(-100000.0f, -100000.0f, -100000.0f);
 		
-		//billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(96, 160), 255, 255));
-	    billboardSizeTarget[i] = ofRandom(64, 128);
-		billboards.setNormal(i,ofVec3f(12 + billboardSizeTarget[i]*ofNoise(i),0,0));
+		billboards.getColors()[i].set(ofColor::fromHsb(ofRandom(96, 160), 255, 255));
+	    billboardSizeTarget[i] = 100.0f;
+		billboards.setNormal(i,ofVec3f(billboardSizeTarget[i],0,0));
 		
 	}
 	
@@ -46,8 +44,6 @@ void ofApp::setup() {
 	}else{
 		billboardShader.load("shadersGL2/Billboard");
 	}
-	
-	// we need to disable ARB textures in order to use normalized texcoords
 	ofDisableArbTex();
 	ofEnableAlphaBlending();
 	
@@ -74,8 +70,6 @@ void ofApp::update() {
 	float div = 250.0;
 	
 	for (int i=0; i<NUM_BILLBOARDS; i++) {
-		
-		// noise 
 		ofVec3f vec(ofSignedNoise(t, billboards.getVertex(i).y/div, billboards.getVertex(i).z/div),
 								ofSignedNoise(billboards.getVertex(i).x/div, t, billboards.getVertex(i).z/div),
 								ofSignedNoise(billboards.getVertex(i).x/div, billboards.getVertex(i).y/div, t));
@@ -106,7 +100,7 @@ void ofApp::draw() {
 	billboardShader.begin();
 	ofEnablePointSprites();
 	images[frameIndex].getTextureReference().bind();
-	billboards.draw();
+	billboards.drawWireframe();
 	images[frameIndex].getTextureReference().unbind();
 	ofDisablePointSprites();
 	billboardShader.end();
@@ -172,13 +166,14 @@ void ofApp::mousePressed(int x, int y, int button){
 		{
 			int ret = mesh->AddObstacle(hit_pos);
 			mesh->UpdateMesh(0.0f);
-			printf("ret = %d\n",ret);
+			billboards.getVertices()[ret-65536].set(hit_pos[0], hit_pos[1] + 4.5f, hit_pos[2]);
+			printf("ret = %d, hit pos= %f %f %f",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
 		}
 		else
 		{
 			int ret = mesh->AddAgent(hit_pos);
 			//mesh->UpdateMesh(0.0f);
-			printf("ret = %d\n",ret);
+			printf("ret = %d, hit pos= %f %f %f",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
 		}
 	}
 	delete[] rays;
