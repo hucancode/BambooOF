@@ -31,13 +31,6 @@ class ofApp : public ofBaseApp{
 		int frameIndex;
 		vector <ofImage> images;
 
-		ofPlanePrimitive plane;
-
-		float billboardSizeTarget[NUM_BILLBOARDS];
-		
-		ofShader billboardShader;
-		ofImage texture;
-		
-		ofVboMesh billboards;
-		ofVec3f billboardVels[NUM_BILLBOARDS];
+		//ofPlanePrimitive plane;
+		vector<ofPlanePrimitive*> planes;
 };
