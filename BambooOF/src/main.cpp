@@ -3,6 +3,8 @@
 
 //========================================================================
 int main( ){
+	ofPtr<ofBaseRenderer> renderer(new ofGLRenderer(false));
+	ofSetCurrentRenderer(renderer, true);
 	ofSetupOpenGL(800,600,OF_WINDOW);
 	ofRunApp(new ofApp());
 	return 0;

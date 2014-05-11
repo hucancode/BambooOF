@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofVbo.h"
-#include "OrthoCamera.h"
+#include "ofxOrthoCamera.h"
 #include "NavMeshRender.h"
 
 #define NUM_BILLBOARDS 5000
@@ -26,11 +26,12 @@ class ofApp : public ofBaseApp{
 	private:
 		NavMesh* mesh;
 		NavMeshRender* render;
-		orthoCamera cam;
+		ofxOrthoCamera cam;
 
 		int frameIndex;
 		vector <ofImage> images;
 
 		//ofPlanePrimitive plane;
-		vector<ofPlanePrimitive*> planes;
+		ofPlanePrimitive** planes;
+		int planeIndex;
 };

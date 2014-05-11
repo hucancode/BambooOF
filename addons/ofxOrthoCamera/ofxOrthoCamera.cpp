@@ -1,4 +1,4 @@
-#include "OrthoCamera.h"
+#include "ofxOrthoCamera.h"
 
 // Ortho camera is a custom
 //	camera we've created in
@@ -6,13 +6,13 @@
 //
 // We inherit from ofCamera
 
-orthoCamera::orthoCamera(){
+ofxOrthoCamera::ofxOrthoCamera(){
 	//return;
 	enableOrtho();
 	scale = 1;
 }
 
-void orthoCamera::begin(ofRectangle rect){
+void ofxOrthoCamera::begin(ofRectangle rect){
 	ofEasyCam::begin(rect);
 	//return;
 	//--
@@ -51,4 +51,19 @@ void orthoCamera::begin(ofRectangle rect){
 
 	//
 	//--
+}
+ofVec3f ofxOrthoCamera::orthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewport)
+{
+	//convert from screen to camera
+	ofVec3f CameraXYZ;
+	CameraXYZ.x = 2.0f * (ScreenXYZ.x - viewport.x) / viewport.width - 1.0f;
+	CameraXYZ.y = 1.0f - 2.0f *(ScreenXYZ.y - viewport.y) / viewport.height;
+	CameraXYZ.z = ScreenXYZ.z;
+
+	//get inverse camera matrix
+	ofMatrix4x4 inverseCamera;
+	inverseCamera.makeInvertOf(getModelViewMatrix() * ortho);
+
+	//convert camera to world
+	return CameraXYZ * inverseCamera;
 }

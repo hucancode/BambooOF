@@ -58,7 +58,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)..\addons\ofxNetwork\libs;$(SolutionDir)..\addons\ofxNetwork\src;$(SolutionDir)..\addons\ofxXmlSettings\libs;$(SolutionDir)..\addons\ofxXmlSettings\src;$(SolutionDir)..\addons\ofxFont\libs;$(SolutionDir)..\addons\ofxFont\src;$(SolutionDir)..\addons\ofxFont\libs\fribidi;$(SolutionDir)..\addons\ofxFont\libs\fribidi\lib;$(SolutionDir)..\addons\ofxFont\libs\fribidi\lib\vs2010;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\lib;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\lib\vs2010;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\src;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\src\harfbuzz;$(SolutionDir)..\addons\ofxFont\libs\icu;$(SolutionDir)..\addons\ofxFont\libs\icu\lib;$(SolutionDir)..\addons\ofxFont\libs\icu\lib\vs2010;$(SolutionDir)..\addons\ofxFont\src\bridge;$(SolutionDir)..\addons\ofxFX\libs;$(SolutionDir)..\addons\ofxFX\src;$(SolutionDir)..\addons\ofxFX\src\composers;$(SolutionDir)..\addons\ofxFX\src\filters;$(SolutionDir)..\addons\ofxFX\src\generative;$(SolutionDir)..\addons\ofxFX\src\operations;$(SolutionDir)..\addons\ofxOpenSteer\libs;$(SolutionDir)..\addons\ofxOpenSteer\src;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\include;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\src;$(SolutionDir)..\addons\ofxPostProcessing\libs;$(SolutionDir)..\addons\ofxPostProcessing\src;$(SolutionDir)..\addons\ofxUI\libs;$(SolutionDir)..\addons\ofxUI\src;$(SolutionDir)..\addons\ofxRecast\;$(SolutionDir)..\addons\ofxRecast\fastlz;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DebugUtils\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\Detour\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DetourCrowd\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DetourTileCache\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\Recast\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)..\addons\ofxNetwork\libs;$(SolutionDir)..\addons\ofxNetwork\src;$(SolutionDir)..\addons\ofxXmlSettings\libs;$(SolutionDir)..\addons\ofxXmlSettings\src;$(SolutionDir)..\addons\ofxFont\libs;$(SolutionDir)..\addons\ofxFont\src;$(SolutionDir)..\addons\ofxFont\libs\fribidi;$(SolutionDir)..\addons\ofxFont\libs\fribidi\lib;$(SolutionDir)..\addons\ofxFont\libs\fribidi\lib\vs2010;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\lib;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\lib\vs2010;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\src;$(SolutionDir)..\addons\ofxFont\libs\harfbuzz\src\harfbuzz;$(SolutionDir)..\addons\ofxFont\libs\icu;$(SolutionDir)..\addons\ofxFont\libs\icu\lib;$(SolutionDir)..\addons\ofxFont\libs\icu\lib\vs2010;$(SolutionDir)..\addons\ofxFont\src\bridge;$(SolutionDir)..\addons\ofxFX\libs;$(SolutionDir)..\addons\ofxFX\src;$(SolutionDir)..\addons\ofxFX\src\composers;$(SolutionDir)..\addons\ofxFX\src\filters;$(SolutionDir)..\addons\ofxFX\src\generative;$(SolutionDir)..\addons\ofxFX\src\operations;$(SolutionDir)..\addons\ofxOpenSteer\libs;$(SolutionDir)..\addons\ofxOpenSteer\src;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\include;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer;$(SolutionDir)..\addons\ofxOpenSteer\libs\opensteer\src;$(SolutionDir)..\addons\ofxPostProcessing\libs;$(SolutionDir)..\addons\ofxPostProcessing\src;$(SolutionDir)..\addons\ofxUI\libs;$(SolutionDir)..\addons\ofxUI\src;$(SolutionDir)..\addons\ofxRecast\;$(SolutionDir)..\addons\ofxRecast\fastlz;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DebugUtils\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\Detour\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DetourCrowd\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\DetourTileCache\Include;$(SolutionDir)..\addons\ofxRecast\recastnavigation\Recast\Include;$(SolutionDir)..\addons\ofxOrthoCamera</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.cpp" />
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
     </ClCompile>
@@ -125,11 +126,15 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMeshDetail.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
-    <ClCompile Include="src\OrthoCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.h" />
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h" />
     <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />
     <ClInclude Include="..\addons\ofxRecast\NavMesh.h" />
@@ -159,8 +164,11 @@
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\Recast.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAlloc.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h" />
     <ClInclude Include="src\ofApp.h" />
-    <ClInclude Include="src\OrthoCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

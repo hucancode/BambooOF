@@ -30,6 +30,12 @@ void ofApp::setup() {
         }
     }
 	frameIndex = 0;
+	planeIndex = 0;
+	planes = new ofPlanePrimitive*[NUM_BILLBOARDS];
+	for (int i = 0; i < NUM_BILLBOARDS; i++)
+	{
+		planes[i] = 0;
+	}
 
 	
 }
@@ -49,19 +55,26 @@ void ofApp::draw() {
 	
 	ofEnableDepthTest();
 	render->Render();
-	images[frameIndex].getTextureReference().bind();
 	ofSetColor(255);
-	vector<ofPlanePrimitive*>::iterator it = planes.begin();
-	for(;it!= planes.end();it++)
+	int i=0;
+	while(i < planeIndex)
 	{
-		(*it)->draw();
+		ofPlanePrimitive* plane = planes[i];
+		ofGetCurrentRenderer()->draw(plane->getMesh(),OF_MESH_FILL,false,true,false);
+		/*images[frameIndex].draw(
+			plane->getPosition().x, 
+			plane->getPosition().y, 
+			plane->getPosition().z, 
+			plane->getWidth(),
+			plane->getHeight());*/
+		i++;
 	}
-	images[frameIndex].getTextureReference().unbind();
 	ofDisableDepthTest();
+
 	cam.end();
 	//-------------------
 	ofSetColor(255);
-	ofDrawBitmapStringHighlight("FPS: "+ofToString(ofGetFrameRate(), 2), 10, 20);
+	ofDrawBitmapStringHighlight("FPS: "+ofToString(ofGetFrameRate(), 2)+"\nSprite: "+ofToString(planeIndex), 10, 20);
 }
 
 //--------------------------------------------------------------
@@ -71,6 +84,8 @@ void ofApp::keyPressed(int key){
 		cam.scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
 		cam.scale += ZOOM_SPEED;
+	if(key == OF_KEY_F4) 
+		render->SwitchDrawMesh();
 }
 
 
@@ -119,12 +134,16 @@ void ofApp::mousePressed(int x, int y, int button){
 		{
 			int ret = mesh->AddObstacle(hit_pos);
 			mesh->UpdateMesh(0.0f);
-			ofPlanePrimitive* plane = new ofPlanePrimitive();
-			plane->mapTexCoords(0, 192, 192, 0);
-			plane->setPosition(hit_pos[0], hit_pos[1]+7.0f, hit_pos[2]);
-			plane->set( 10.0f, 10.0f );
-			planes.push_back(plane);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
+			for(int i=0;i<100;i++)
+			{
+				if(planeIndex >= NUM_BILLBOARDS) continue;
+				ofPlanePrimitive* plane = new ofPlanePrimitive();
+				plane->mapTexCoords(0, 192, 192, 0);
+				plane->setPosition(hit_pos[0], hit_pos[1], hit_pos[2]);
+				plane->set( 2.0f, 2.0f );
+				planes[planeIndex++] = plane;
+			}
 		}
 		else
 		{

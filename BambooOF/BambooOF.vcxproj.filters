@@ -22,9 +22,6 @@
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <Filter>addons\ofxRecast\fastlz</Filter>
     </ClCompile>
-    <ClCompile Include="src\OrthoCamera.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp">
       <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
     </ClCompile>
@@ -108,6 +105,21 @@
     </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNode.cpp">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.cpp">
+      <Filter>addons\ofxOrthoCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +228,12 @@
     <Filter Include="addons\ofxRecast\recastnavigation\Recast">
       <UniqueIdentifier>{d26a00d3-d8d6-4a8c-abb6-7212d93e4c81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxOrthoCamera">
+      <UniqueIdentifier>{8f36609f-d336-48e0-92aa-a53738afb4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxSpriteRenderer">
+      <UniqueIdentifier>{8d1a721d-41b4-467f-875d-fad03f12c0c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -235,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h">
       <Filter>addons\ofxRecast\fastlz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OrthoCamera.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h">
       <Filter>addons\ofxRecast\recastnavigation\DebugUtils</Filter>
@@ -310,6 +325,21 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourStatus.h">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.h">
+      <Filter>addons\ofxOrthoCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

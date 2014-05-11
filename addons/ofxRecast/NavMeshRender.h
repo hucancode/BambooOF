@@ -13,7 +13,10 @@ class NavMeshRender
 {
 private:
 	NavMesh* m_NavMesh;
+	bool draw_mesh;
 public:
+	
+	void SwitchDrawMesh(){draw_mesh = !draw_mesh;}
 	NavMeshRender(NavMesh* mesh);
 	~NavMeshRender();
 	void Render();

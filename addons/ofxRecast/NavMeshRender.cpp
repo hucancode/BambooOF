@@ -14,6 +14,8 @@ void NavMeshRender::Render()
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	DebugDrawGL dd;
+	if(draw_mesh)
+	{
 	const float texScale = 1.0f / (m_NavMesh->m_cellSize * 10.0f);
 	duDebugDrawTriMeshSlope(&dd, 
 		m_NavMesh->m_geom->getMesh()->getVerts(), 
@@ -24,6 +26,7 @@ void NavMeshRender::Render()
 		m_NavMesh->m_agentMaxSlope, 
 		texScale);
 	m_NavMesh->m_geom->drawOffMeshConnections(&dd);
+	}
 	
 	DrawAgents(&dd);
 	
@@ -41,7 +44,7 @@ void NavMeshRender::Render()
 	const float s = m_NavMesh->m_tileSize*m_NavMesh->m_cellSize;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
 
-	if(m_NavMesh->m_navMesh && m_NavMesh->m_navQuery)
+	if(m_NavMesh->m_navMesh && m_NavMesh->m_navQuery && draw_mesh)
 	{
 		duDebugDrawNavMesh(&dd, *(m_NavMesh->m_navMesh), 
 			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);

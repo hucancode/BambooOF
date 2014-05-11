@@ -152,6 +152,10 @@ ofTexture::ofTexture(){
 	resetAnchor();
 	quad.getVertices().resize(4);
 	quad.getTexCoords().resize(4);
+	quad.getTexCoords()[0].set(0.0f,0.0f);
+	quad.getTexCoords()[1].set(1.0f,0.0f);
+	quad.getTexCoords()[2].set(1.0f,1.0f);
+	quad.getTexCoords()[3].set(0.0f,1.0f);
 	quad.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
 }
 
@@ -829,8 +833,7 @@ void ofTexture::drawSubsection(float x, float y, float z, float w, float h, floa
 
 //----------------------------------------------------------
 void ofTexture::drawSubsection(float x, float y, float z, float w, float h, float sx, float sy, float sw, float sh) {
-	
-	
+		
 	GLfloat px0 = x;		// up to you to get the aspect ratio right
 	GLfloat py0 = y;
 	GLfloat px1 = w+x;
@@ -867,7 +870,6 @@ void ofTexture::drawSubsection(float x, float y, float z, float w, float h, floa
 	px1 -= anchorX;
 	py1 -= anchorY;
 	
-	
 	// -------------------------------------------------
 	// complete hack to remove border artifacts.
 	// slightly, slightly alters an image, scaling...
@@ -892,7 +894,7 @@ void ofTexture::drawSubsection(float x, float y, float z, float w, float h, floa
 	GLfloat ty0 = topLeft.y + offseth;
 	GLfloat tx1 = bottomRight.x - offsetw;
 	GLfloat ty1 = bottomRight.y - offseth;
-	
+
 	/*if(z>0 || z<0){
 		ofPushMatrix();
 
