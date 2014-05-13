@@ -31,6 +31,8 @@ private:
 	int m_DrawnVertices;
 #endif
 public:
-	void BuildCommands();
 	void Render();
+private:
+	void BuildCommands();
+	bool CheckVisibility(ofxSpriteQuad quad);
 };
