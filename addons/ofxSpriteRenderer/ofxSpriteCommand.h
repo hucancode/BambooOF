@@ -9,8 +9,9 @@ struct ofxVertex
 struct ofxSpriteCommand
 {
 	ofxSpriteMaterial* Material;
-	ofxVertex* Vertices;
-	int VerticesCount;
-	int* Indices;
-	int IndicesCount;
+	vector<ofxVertex> Vertices;
+	vector<GLushort> Indices;
+	GLuint VBOID;
+	GLuint IBOID;
 };
+#define ofxSpriteCommands vector<ofxSpriteCommand*>

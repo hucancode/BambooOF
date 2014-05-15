@@ -4,9 +4,8 @@
 struct ofxSpriteQuad
 {
 	ofxSpriteMaterial* Material;
-	ofMatrix4x4 TranslationMatrix;
-	ofVec4f WorldPosition;
+	ofVec3f WorldPosition;
 	ofVec2f Quad;
 	ofVec2f TextureCoord;
-	bool TransformUpdated;
 };
+#define ofxSpriteQuads vector<ofxSpriteQuad*>

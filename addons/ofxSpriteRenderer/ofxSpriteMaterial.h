@@ -1,6 +1,6 @@
 #pragma once
 struct ofxSpriteMaterial
 {
-	int TextureID;
-	int ShaderID;
+	GLuint TextureID; //TODO: 32 texture
+	GLuint ShaderID;
 };
