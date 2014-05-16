@@ -24,7 +24,7 @@ public :
 	}
 private:
 	vector<ofxSpriteQuad*> m_Quads;
-	vector<ofxSpriteCommand> m_Commands;
+	vector<ofxSpriteCommand*> m_Commands;
 	bool m_RendererUpdated;
 #ifdef DEBUG
 	int m_DrawnBatches;
@@ -33,7 +33,7 @@ private:
 public:
 	void Render();
 private:
-	bool SpriteCompare(ofxSpriteQuad quadA, ofxSpriteQuad quadB);
+	bool SpriteCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB);
 	void BuildCommands();
 	bool CheckVisibility(ofxSpriteQuad quad);
 };

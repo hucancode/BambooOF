@@ -4,7 +4,7 @@
 struct ofxVertex
 {
 	float x,y,z;
-	float u,v;
+	float uv[64];// 32 uv quad
 };
 struct ofxSpriteCommand
 {

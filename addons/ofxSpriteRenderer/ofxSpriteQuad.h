@@ -6,6 +6,6 @@ struct ofxSpriteQuad
 	ofxSpriteMaterial* Material;
 	ofVec3f WorldPosition;
 	ofVec2f Quad;
-	ofVec2f TextureCoord;
+	ofVec2f* TextureCoord;
 };
 #define ofxSpriteQuads vector<ofxSpriteQuad*>

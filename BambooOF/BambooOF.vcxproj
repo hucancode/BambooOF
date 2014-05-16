@@ -126,9 +126,6 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMeshDetail.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp" />
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp" />
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />

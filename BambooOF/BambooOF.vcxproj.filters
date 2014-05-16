@@ -109,15 +109,6 @@
     <ClCompile Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.cpp">
       <Filter>addons\ofxOrthoCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>

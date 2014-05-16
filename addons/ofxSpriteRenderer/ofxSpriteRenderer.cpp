@@ -21,7 +21,7 @@ bool ofxSpriteRenderer::SpriteCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB
 }
 void ofxSpriteRenderer::BuildCommands()
 {
-	sort(m_Quads.begin(), m_Quads.end(), SpriteCompare);
+	sort(m_Quads.begin(), m_Quads.end(), &ofxSpriteRenderer::SpriteCompare);
 	{
 		// clear commands here
 	}
@@ -31,7 +31,7 @@ void ofxSpriteRenderer::BuildCommands()
 		ofxSpriteQuads::iterator it = m_Quads.begin();
 		for(;it != m_Quads.end();it++)
 		{
-			ofxSpriteQuad sprite = *it;
+			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
 			if(last_material != sprite->Material)
 			{
@@ -47,21 +47,25 @@ void ofxSpriteRenderer::BuildCommands()
 			}
 			else
 			{
-				ofxSpriteCommand* command = *m_Commands.back();
+				ofxSpriteCommand* command = m_Commands.back();
 				quads_to_draw += 1;
 			}
 			ofxVertex vertexA;
-			vertexA.x = sprite.WorldPosition.x - sprite.Quad.x*0.5;
-			vertexA.y = sprite.WorldPosition.y;
+			vertexA.x = sprite->WorldPosition.x - sprite->Quad.x*0.5;
+			vertexA.y = sprite->WorldPosition.y;
 			ofxVertex vertexB;
-			vertexB.x = vertexA.x + sprite.Quad.x;
+			vertexB.x = vertexA.x + sprite->Quad.x;
 			vertexB.y = vertexA.y;
 			ofxVertex vertexC;
 			vertexC.x = vertexB.x;
-			vertexC.y = vertexB.y + sprite.Quad.y;
+			vertexC.y = vertexB.y + sprite->Quad.y;
 			ofxVertex vertexD;
 			vertexD.x = vertexA.x;
 			vertexD.y = vertexC.y;
+			for(int =0;i<sprite->Material->TextureCount)
+			{
+				// set uv for 4 vertices
+			}
 			command->Vertices.push_back(vertexA);
 			command->Vertices.push_back(vertexB);
 			command->Vertices.push_back(vertexC);
@@ -73,6 +77,7 @@ void ofxSpriteRenderer::BuildCommands()
 			command->Indices.push_back(start_index+2);
 			command->Indices.push_back(start_index+3);
 			command->Indices.push_back(start_index+0);
+			
 		}
 	}
 	{
@@ -85,13 +90,15 @@ void ofxSpriteRenderer::BuildCommands()
 			glBufferData(GL_ARRAY_BUFFER, sizeof(cmd->Vertices), &cmd->Vertices[0], GL_DYNAMIC_DRAW);
 
 			// vertices
-			glEnableVertexAttribArray(VERTEX_ATTRIB_POSITION);
-			glVertexAttribPointer(VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, x));
+			glEnableVertexAttribArray(cmd->Material->ShaderXYZID);
+			glVertexAttribPointer(cmd->Material->ShaderXYZID, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, x));
 
 			// tex coords
-			glEnableVertexAttribArray(VERTEX_ATTRIB_TEX_COORDS);
-			glVertexAttribPointer(VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, u));
-
+			for(int i=0;i<cmd->Material->TextureCount)
+			{
+				glEnableVertexAttribArray(cmd->Material->ShaderUVID[i]);
+				glVertexAttribPointer(cmd->Material->ShaderUVID[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, uv[i*2]));
+			}
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 			glGenBuffers(1, &cmd->IBOID);
