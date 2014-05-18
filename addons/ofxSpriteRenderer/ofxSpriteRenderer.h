@@ -33,7 +33,6 @@ private:
 public:
 	void Render();
 private:
-	bool SpriteCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB);
 	void BuildCommands();
 	bool CheckVisibility(ofxSpriteQuad quad);
 };
