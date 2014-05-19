@@ -23,7 +23,8 @@ public :
 		s_Instance = 0;
 	}
 private:
-	vector<ofxSpriteQuad*> m_Quads;
+	vector<ofxSpriteQuad*> m_SolidQuads;
+	vector<ofxSpriteQuad*> m_TransparentQuads;
 	vector<ofxSpriteCommand*> m_Commands;
 	bool m_RendererUpdated;
 #ifdef DEBUG
