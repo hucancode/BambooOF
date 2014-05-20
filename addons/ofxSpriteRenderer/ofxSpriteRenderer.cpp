@@ -7,9 +7,6 @@ void ofxSpriteRenderer::Render()
 		ofxSpriteCommand* cmd = *it;
 		cmd->Render();
 	}
-	// unbind like a boss
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {

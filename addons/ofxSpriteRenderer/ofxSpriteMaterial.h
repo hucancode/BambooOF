@@ -9,6 +9,7 @@ class ofxSpriteMaterial
 private:
 	unsigned int m_TextureCount;
 	GLuint* m_TextureId;
+	GLuint* m_TextureOrder;
 	GLuint* m_TextureSize;
 	GLuint m_ShaderProgramId;
 	GLint m_ShaderXYZId;
@@ -19,6 +20,7 @@ public:
 	{
 		m_TextureCount = 0;
 		m_TextureId = 0;
+		m_TextureOrder = 0;
 		m_TextureSize = 0;
 		m_ShaderProgramId = 0;
 		m_ShaderXYZId = 0;
@@ -33,12 +35,14 @@ public:
 		m_TextureId = new GLuint[size];
 		if(m_TextureSize) delete[] m_TextureSize;
 		m_TextureSize = new GLuint[size*2];
+		if(m_TextureOrder) delete[] m_TextureOrder;
+		m_TextureOrder = new GLuint[size];
 	}
 	unsigned int TextureCount(){ return m_TextureCount; }
 	GLuint* TextureSize(){ return m_TextureSize; }
 	void LoadTexture(const char* texture_file, const int index)
 	{
-		char* image_data;// do something to load it from file
+		char* image_data;// TODO: do something to load it from file
 		{
 			GLint param = GL_CLAMP_TO_EDGE;
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,param);
@@ -56,8 +60,13 @@ public:
 		}
 		delete image_data;
 	}
+	void SetOrder(int texture_id, int order)
+	{
+		m_TextureOrder[order] = texture_id;
+	}
 	void LoadShader(const char* vs_file, const char* fs_file)
 	{
+		// TODO: do something to load shader
 		/*GLuint vs_id = esLoadShader(GL_VERTEX_SHADER, vs_file);
 		if ( vs_id == 0 )
 		{
@@ -80,13 +89,14 @@ public:
 		m_ShaderXYZId = glGetAttribLocation(m_ShaderProgramId, "position");
 		for(int i=0;i<m_TextureCount;i++)
 		{
-			string i_string = ofToString(i);
+			string i_string(ofToString(i));
 			m_ShaderUVId[i] = glGetAttribLocation(m_ShaderProgramId, string("uv_"+i_string).c_str());
 			m_ShaderTextureId[i] = glGetUniformLocation(m_ShaderProgramId, string("texture_"+i_string).c_str());
 		}
 	}
 	void FreeMaterial()
 	{
+		// TODO: do some glDeleteWhatever here
 	}
 	void Bind()
 	{
@@ -105,13 +115,20 @@ public:
 		// textures
 		for(int i=0;i<m_TextureCount;i++)
 		{
+			int id = m_TextureOrder[i];
 			glActiveTexture(GL_TEXTURE0+i);
-			glBindTexture(GL_TEXTURE_2D, m_TextureId[i]);
-			glUniform1i(m_TextureId[i], i);
+			glBindTexture(GL_TEXTURE_2D, m_TextureId[id]);
+			glUniform1i(m_TextureId[id], i);
 		}
 	}
 	void Unbind()
 	{
+		glUseProgram(0);
+		for(int i=0;i<m_TextureCount;i++)
+		{
+			glActiveTexture(GL_TEXTURE0+i);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 	
 };

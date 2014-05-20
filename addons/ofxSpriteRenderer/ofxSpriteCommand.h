@@ -29,17 +29,19 @@ public:
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBOId);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), &m_Indices[0], GL_STATIC_DRAW);
+		m_Material->Bind();
 	}
 	static void Unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		m_Material->Unbind();
 	}
 	void Render()
 	{
-		// bind whatever
+		Bind();
 		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_SHORT, 0);
-		// unbind like a boss
+		Unbind();
 	}
 	void AddSprite(ofxSpriteQuad* sprite)
 	{
