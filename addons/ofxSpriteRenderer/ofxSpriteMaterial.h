@@ -1,8 +1,9 @@
 #pragma once
 struct ofxVertex
 {
-	float X,Y,Z;
-	float UV[64];
+	float X,Y,Z;// position
+	float UV[64];// texture uv
+	float CUV[64];// crop uv, the value determine if we should use this pixel or not, cuv in (0,1) = true, else = false
 };
 class ofxSpriteMaterial
 {
@@ -56,9 +57,6 @@ public:
 	GLuint GetTextureSizeY(const int index)
 	{
 		return m_TextureSize[index*2+1]; 
-	}
-	void SetTextureLimit(const int index, float x_min, float y_min, float x_max, float y_max)
-	{
 	}
 	void LoadTexture(const char* texture_file, const int index)
 	{

@@ -114,13 +114,21 @@ public:
 					vertexC.UV[iy] = max_y;
 					vertexD.UV[ix] = min_x;
 					vertexD.UV[iy] = max_y;
-				}
-				{
-					float limit_w = sprite->GetTextureRectRaw(w)/(float)texture_w;
-					float limit_h = sprite->GetTextureRectRaw(h)/(float)texture_h;
-					float limit_x = sprite->GetTextureRectRaw(x)/(float)texture_w;
-					float limit_y = sprite->GetTextureRectRaw(y)/(float)texture_h;
-					m_Material->SetTextureLimit(i, limit_x, limit_y, limit_x + limit_w, limit_y + limit_h);
+					//-------
+					float crop_w = sprite->GetWidth()/sprite->GetSpriteRectRaw(w);
+					float crop_h = sprite->GetHeight()/sprite->GetSpriteRectRaw(h);
+					float crop_min_x = -sprite->GetSpriteRectRaw(x)/sprite->GetSpriteRectRaw(w);
+					float crop_min_y = -sprite->GetSpriteRectRaw(y)/sprite->GetSpriteRectRaw(h);
+					float crop_max_x = crop_min_x + crop_w;
+					float crop_max_y = crop_min_y + crop_h;
+					vertexA.CUV[ix] = crop_min_x;
+					vertexA.CUV[iy] = crop_min_y;
+					vertexB.CUV[ix] = crop_max_x;
+					vertexB.CUV[iy] = crop_min_y;
+					vertexC.CUV[ix] = crop_max_x;
+					vertexC.CUV[iy] = crop_max_y;
+					vertexD.CUV[ix] = crop_min_x;
+					vertexD.CUV[iy] = crop_max_y;
 				}
 			}
 		}
