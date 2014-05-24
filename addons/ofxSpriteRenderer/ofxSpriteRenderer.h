@@ -26,6 +26,7 @@ private:
 	vector<ofxSpriteQuad*> m_SolidQuads;
 	vector<ofxSpriteQuad*> m_TransparentQuads;
 	vector<ofxSpriteCommand*> m_Commands;
+	vector<unsigned int> m_UpdateRequest;
 	bool m_RendererUpdated;
 #ifdef DEBUG
 	int m_DrawnBatches;
@@ -33,7 +34,9 @@ private:
 #endif
 public:
 	void Render();
-private:
+	void RequestUpdate(ofxSpriteQuad* sprite);
+	void SolveRequest();
 	void BuildCommands();
+private:
 	bool CheckVisibility(ofxSpriteQuad quad);
 };
