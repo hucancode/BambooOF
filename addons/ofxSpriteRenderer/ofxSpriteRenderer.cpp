@@ -30,11 +30,11 @@ void ofxSpriteRenderer::BuildCommands()
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->Material)
+			if(last_material != sprite->GetMaterial())
 			{
 				command = new ofxSpriteCommand();
 				m_Commands.push_back(command);
-				last_material = sprite->Material;
+				last_material = sprite->GetMaterial();
 				command->Material(last_material);
 #ifdef DEBUG
 				m_DrawnBatches++;
@@ -55,11 +55,11 @@ void ofxSpriteRenderer::BuildCommands()
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->Material)
+			if(last_material != sprite->GetMaterial())
 			{
 				command = new ofxSpriteCommand();
 				m_Commands.push_back(command);
-				last_material = sprite->Material;
+				last_material = sprite->GetMaterial();
 				command->Material(last_material);
 #ifdef DEBUG
 				m_DrawnBatches++;

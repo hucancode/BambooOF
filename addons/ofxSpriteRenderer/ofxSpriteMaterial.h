@@ -14,6 +14,7 @@ private:
 	GLuint m_ShaderProgramId;
 	GLint m_ShaderXYZId;
 	GLint* m_ShaderUVId;
+	GLint* m_ShaderRectId;
 	GLint* m_ShaderTextureId;
 public:
 	ofxSpriteMaterial()
@@ -27,7 +28,9 @@ public:
 		m_ShaderUVId = 0;
 		m_ShaderTextureId = 0;
 	}
-	~ofxSpriteMaterial();
+	~ofxSpriteMaterial()
+	{
+	}
 	void SetMaxTexture(const int size)
 	{
 		if(m_TextureId) delete[] m_TextureId;
@@ -38,8 +41,25 @@ public:
 		if(m_TextureOrder) delete[] m_TextureOrder;
 		m_TextureOrder = new GLuint[size];
 	}
-	unsigned int TextureCount(){ return m_TextureCount; }
-	GLuint* TextureSize(){ return m_TextureSize; }
+	unsigned int GetTextureCount()
+	{
+		return m_TextureCount;
+	}
+	GLuint GetTextureSizeRaw(const int index)
+	{
+		return m_TextureSize[index]; 
+	}
+	GLuint GetTextureSizeX(const int index)
+	{
+		return m_TextureSize[index*2]; 
+	}
+	GLuint GetTextureSizeY(const int index)
+	{
+		return m_TextureSize[index*2+1]; 
+	}
+	void SetTextureLimit(const int index, float x_min, float y_min, float x_max, float y_max)
+	{
+	}
 	void LoadTexture(const char* texture_file, const int index)
 	{
 		char* image_data;// TODO: do something to load it from file
@@ -60,7 +80,7 @@ public:
 		}
 		delete image_data;
 	}
-	void SetOrder(int texture_id, int order)
+	void SetOrder(const int texture_id, const int order)
 	{
 		m_TextureOrder[order] = texture_id;
 	}
@@ -108,8 +128,9 @@ public:
 		// tex coords
 		for(int i=0;i<m_TextureCount;i++)
 		{
-			glEnableVertexAttribArray(m_ShaderUVId[i]);
-			glVertexAttribPointer(m_ShaderUVId[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[i*2]));
+			int id = m_TextureOrder[i];
+			glEnableVertexAttribArray(m_ShaderUVId[id]);
+			glVertexAttribPointer(m_ShaderUVId[id], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[i*2]));
 		}
 
 		// textures
@@ -119,6 +140,7 @@ public:
 			glActiveTexture(GL_TEXTURE0+i);
 			glBindTexture(GL_TEXTURE_2D, m_TextureId[id]);
 			glUniform1i(m_TextureId[id], i);
+			glUniform4fv(m_TextureRectId[id], 1, ptr);
 		}
 	}
 	void Unbind()
