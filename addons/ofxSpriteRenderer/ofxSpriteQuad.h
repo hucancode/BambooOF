@@ -15,15 +15,8 @@ private:
 	unsigned int m_IndexInCommand;
 	ofxSpriteCommand* m_ParentCommand;
 public:
-	ofxSpriteQuad()
-	{
-		m_TextureRect = 0;
-		m_Material = 0;
-	}
-	~ofxSpriteQuad()
-	{
-		if(m_TextureRect) delete[] m_TextureRect;
-	}
+	ofxSpriteQuad();
+	~ofxSpriteQuad();
 	ofxSpriteMaterial* GetMaterial()
 	{
 		return m_Material;
@@ -59,13 +52,6 @@ public:
 	void SetHeight(const unsigned int height)
 	{
 		m_Quad[1] = height;
-	}
-	void SetMaxTexture(const int size)
-	{
-		if(m_TextureRect) delete[] m_TextureRect;
-		m_TextureRect = new float[size*4];
-		if(m_SpriteRect) delete[] m_SpriteRect;
-		m_SpriteRect = new float[size*4];
 	}
 	unsigned int GetTextureRectRaw(const int index)
 	{
@@ -107,21 +93,10 @@ public:
 	{
 		return m_SpriteRect[index*4+3];
 	}
-	void SetTextureRect(const unsigned int x, const unsigned int y, const unsigned int u, const unsigned int v, const int order)
-	{
-		int order4 = order*4;
-		m_TextureRect[order4] = x;
-		m_TextureRect[++order4] = y;
-		m_TextureRect[++order4] = u;
-		m_TextureRect[++order4] = v;
-	}
-	void SetSpriteRect(const unsigned int x, const unsigned int y, const unsigned int u, const unsigned int v, const int order)
-	{
-		int order4 = order*4;
-		m_SpriteRect[order4] = x;
-		m_SpriteRect[++order4] = y;
-		m_SpriteRect[++order4] = u;
-		m_SpriteRect[++order4] = v;
-	}
+	void SetMaxTexture(const int size);
+	void SetTextureRect(const unsigned int x, const unsigned int y, 
+		const unsigned int w, const unsigned int h, const int order);
+	void SetSpriteRect(const unsigned int x, const unsigned int y, 
+		const unsigned int w, const unsigned int h, const unsigned int order);
 };
 #define ofxSpriteQuads vector<ofxSpriteQuad*>

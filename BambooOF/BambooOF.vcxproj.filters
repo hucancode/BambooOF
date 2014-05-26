@@ -112,6 +112,18 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -330,6 +342,9 @@
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
