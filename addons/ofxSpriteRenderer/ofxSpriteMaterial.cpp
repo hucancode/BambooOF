@@ -13,6 +13,7 @@ ofxSpriteMaterial::ofxSpriteMaterial()
 }
 ofxSpriteMaterial::~ofxSpriteMaterial()
 {
+	// TODO: do some glDeleteWhatever here
 }
 void ofxSpriteMaterial::SetMaxTexture(const int size)
 {
@@ -75,10 +76,6 @@ void ofxSpriteMaterial::BuildMaterial()
 		m_ShaderLocationCUV[i] = glGetAttribLocation(m_ShaderProgramId, string("cuv_"+i_string).c_str());
 		m_ShaderLocationTexture[i] = glGetUniformLocation(m_ShaderProgramId, string("texture_"+i_string).c_str());
 	}
-}
-void ofxSpriteMaterial::FreeMaterial()
-{
-	// TODO: do some glDeleteWhatever here
 }
 void ofxSpriteMaterial::Bind()
 {

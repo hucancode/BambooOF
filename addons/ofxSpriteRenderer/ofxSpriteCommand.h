@@ -18,7 +18,7 @@ public:
 	void Bind();
 	void Unbind();
 	void Render();
-	void AddSprite(ofxSpriteQuad* sprite);
+	void PushSprite(ofxSpriteQuad* sprite);
 	void UpdateSprite(ofxSpriteQuad* sprite);
 };
 #define ofxSpriteCommands vector<ofxSpriteCommand*>

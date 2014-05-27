@@ -5,10 +5,12 @@ class ofxSpriteCommand;
 class ofxSpriteQuad
 {
 	friend ofxSpriteCommand;
+	friend ofxSpriteRenderer;
 private:
 	ofxSpriteMaterial* m_Material;
-	unsigned short m_IndexInCommand;
+	unsigned int m_IndexInCommand;
 	ofxSpriteCommand* m_ParentCommand;
+	unsigned int m_IndexInRenderer;
 private:
 	ofVec3f m_WorldPosition;
 	GLfloat m_WorldQuad[2];

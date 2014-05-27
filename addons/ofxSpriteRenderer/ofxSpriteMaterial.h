@@ -25,7 +25,6 @@ public:
 	void LoadTexture(const char* texture_file, const int index);
 	void LoadShader(const char* vs_file, const char* fs_file);
 	void BuildMaterial();
-	void FreeMaterial();
 	void Bind();
 	void Unbind();
 	unsigned int GetTextureCount()

@@ -8,6 +8,12 @@ void ofxSpriteRenderer::Render()
 		cmd->Render();
 	}
 }
+void ofxSpriteRenderer::RequestUpdate(ofxSpriteQuad* sprite)
+{
+}
+void ofxSpriteRenderer::SolveRequest()
+{
+}
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
 	return true;
@@ -70,11 +76,11 @@ void ofxSpriteRenderer::BuildCommands()
 			{
 				command = m_Commands.back();
 			}
-			command->AddSprite(sprite);
+			command->PushSprite(sprite);
 		}
 	}
 }
-bool ofxSpriteRenderer::CheckVisibility(ofxSpriteQuad quad)
+bool ofxSpriteRenderer::CheckVisibility(ofxSpriteQuad* quad)
 {
 	return true;
 }

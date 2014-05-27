@@ -39,5 +39,5 @@ public:
 	void SolveRequest();
 	void BuildCommands();
 private:
-	bool CheckVisibility(ofxSpriteQuad quad);
+	bool CheckVisibility(ofxSpriteQuad* quad);
 };

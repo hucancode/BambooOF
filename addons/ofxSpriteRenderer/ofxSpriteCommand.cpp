@@ -30,11 +30,11 @@ void ofxSpriteCommand::Render()
 	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_SHORT, 0);
 	Unbind();
 }
-void ofxSpriteCommand::AddSprite(ofxSpriteQuad* sprite)
+void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
-	GLushort start_index = m_Vertices.size();
-	sprite->m_IndexInCommand = start_index*0.25;
+	unsigned int start_index = m_Vertices.size();
+	sprite->m_IndexInCommand = start_index;
 	sprite->m_ParentCommand = this;
 	m_Vertices.push_back(vertexA);
 	m_Vertices.push_back(vertexB);
@@ -53,11 +53,10 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {
 	unsigned int index = sprite->m_IndexInCommand;
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
-	unsigned int index4 = index*4;
-	vertexA = &m_Vertices[index4];
-	vertexB = &m_Vertices[index4+1];
-	vertexC = &m_Vertices[index4+2];
-	vertexD = &m_Vertices[index4+3];
+	vertexA = &m_Vertices[index];
+	vertexB = &m_Vertices[index+1];
+	vertexC = &m_Vertices[index+2];
+	vertexD = &m_Vertices[index+3];
 
 	vertexA->X = sprite->GetPosition().x - sprite->GetWidth()*0.5;
 	vertexA->Y = sprite->GetPosition().y;
