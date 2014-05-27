@@ -3,6 +3,12 @@
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
+enum SPRITE_UPDATE_REASON
+{
+	SPRITE_UPDATE_REASON_MATERIAL_CHANGE,
+	SPRITE_UPDATE_REASON_POSITION_CHANGE,
+	SPRITE_UPDATE_REASON_MATERIAL_POSITION_CHANGE
+};
 class ofxSpriteRenderer
 {
 public :
@@ -35,7 +41,7 @@ private:
 #endif
 public:
 	void Render();
-	void RequestUpdate(ofxSpriteQuad* sprite);
+	void RequestUpdate(ofxSpriteQuad* sprite, SPRITE_UPDATE_REASON reason);
 	void SolveRequest();
 	void BuildCommands();
 private:
