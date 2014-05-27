@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
 class ofxSpriteCommand;
+class ofxSpriteRenderer;
 class ofxSpriteQuad
 {
 	friend ofxSpriteCommand;

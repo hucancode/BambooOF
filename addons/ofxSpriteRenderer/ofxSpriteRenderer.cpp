@@ -51,7 +51,7 @@ void ofxSpriteRenderer::BuildCommands()
 			{
 				command = m_Commands.back();
 			}
-			command->AddSprite(sprite);
+			command->PushSprite(sprite);
 		}
 	}
 	{

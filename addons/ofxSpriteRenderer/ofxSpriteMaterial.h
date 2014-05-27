@@ -15,6 +15,7 @@ private:
 	GLuint* m_TextureSize;
 	GLuint m_ShaderProgramId;
 	GLint m_ShaderLocationXYZ;
+	GLint m_ShaderLocationTextureCount;
 	GLint* m_ShaderLocationUV;
 	GLint* m_ShaderLocationCUV;
 	GLint* m_ShaderLocationTexture;

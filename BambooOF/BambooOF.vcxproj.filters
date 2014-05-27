@@ -348,4 +348,12 @@
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.frag">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </Resource>
+    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.vertex">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </Resource>
+  </ItemGroup>
 </Project>
