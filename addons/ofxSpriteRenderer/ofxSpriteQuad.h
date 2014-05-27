@@ -7,13 +7,15 @@ class ofxSpriteQuad
 	friend ofxSpriteCommand;
 private:
 	ofxSpriteMaterial* m_Material;
+	unsigned short m_IndexInCommand;
+	ofxSpriteCommand* m_ParentCommand;
+private:
 	ofVec3f m_WorldPosition;
 	GLfloat m_WorldQuad[2];
-	unsigned int m_Quad[2];
-	unsigned int* m_TextureRect;
-	unsigned int* m_SpriteRect;
-	unsigned int m_IndexInCommand;
-	ofxSpriteCommand* m_ParentCommand;
+	unsigned short m_Quad[2];
+private:
+	unsigned short* m_TextureRect;
+	unsigned short* m_SpriteRect;
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
@@ -94,9 +96,11 @@ public:
 		return m_SpriteRect[index*4+3];
 	}
 	void SetMaxTexture(const int size);
-	void SetTextureRect(const unsigned int x, const unsigned int y, 
-		const unsigned int w, const unsigned int h, const int order);
-	void SetSpriteRect(const unsigned int x, const unsigned int y, 
-		const unsigned int w, const unsigned int h, const unsigned int order);
+	void SetTextureRect(const unsigned short order,
+		const unsigned short x, const unsigned short y, 
+		const unsigned short w, const unsigned short h);
+	void SetSpriteRect(const unsigned short order,
+		const unsigned short x, const unsigned short y, 
+		const unsigned short w, const unsigned short h);
 };
 #define ofxSpriteQuads vector<ofxSpriteQuad*>

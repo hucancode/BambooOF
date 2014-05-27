@@ -60,7 +60,7 @@ void ofxSpriteRenderer::BuildCommands()
 				command = new ofxSpriteCommand();
 				m_Commands.push_back(command);
 				last_material = sprite->GetMaterial();
-				command->Material(last_material);
+				command->SetMaterial(last_material);
 #ifdef DEBUG
 				m_DrawnBatches++;
 				m_DrawnVertices += 6;

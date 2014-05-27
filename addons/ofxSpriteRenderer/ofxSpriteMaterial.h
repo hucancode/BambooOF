@@ -1,4 +1,5 @@
 #pragma once
+#include "ofMain.h"
 struct ofxVertex
 {
 	float X,Y,Z;// position
@@ -13,10 +14,10 @@ private:
 	GLuint* m_TextureOrder;
 	GLuint* m_TextureSize;
 	GLuint m_ShaderProgramId;
-	GLint m_ShaderXYZId;
-	GLint* m_ShaderUVId;
-	GLint* m_ShaderRectId;
-	GLint* m_ShaderTextureId;
+	GLint m_ShaderLocationXYZ;
+	GLint* m_ShaderLocationUV;
+	GLint* m_ShaderLocationCUV;
+	GLint* m_ShaderLocationTexture;
 public:
 	ofxSpriteMaterial();
 	~ofxSpriteMaterial();

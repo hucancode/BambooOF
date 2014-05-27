@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteCommand.h"
+#include "ofxSpriteAnimation.h"
 class ofxSpriteRenderer
 {
 public :

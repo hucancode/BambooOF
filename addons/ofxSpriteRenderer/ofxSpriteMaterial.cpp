@@ -6,9 +6,10 @@ ofxSpriteMaterial::ofxSpriteMaterial()
 	m_TextureOrder = 0;
 	m_TextureSize = 0;
 	m_ShaderProgramId = 0;
-	m_ShaderXYZId = 0;
-	m_ShaderUVId = 0;
-	m_ShaderTextureId = 0;
+	m_ShaderLocationXYZ = -1;
+	m_ShaderLocationUV = 0;
+	m_ShaderLocationCUV = 0;
+	m_ShaderLocationTexture = 0;
 }
 ofxSpriteMaterial::~ofxSpriteMaterial()
 {
@@ -61,16 +62,18 @@ void ofxSpriteMaterial::LoadShader(const char* vs_file, const char* fs_file)
 }
 void ofxSpriteMaterial::BuildMaterial()
 {
-	m_ShaderUVId = new GLint[m_TextureCount];
-	m_ShaderTextureId = new GLint[m_TextureCount];
+	m_ShaderLocationUV = new GLint[m_TextureCount];
+	m_ShaderLocationCUV = new GLint[m_TextureCount];
+	m_ShaderLocationTexture = new GLint[m_TextureCount];
 
 	// get shader attribute id, everything here
-	m_ShaderXYZId = glGetAttribLocation(m_ShaderProgramId, "position");
+	m_ShaderLocationXYZ = glGetAttribLocation(m_ShaderProgramId, "position");
 	for(int i=0;i<m_TextureCount;i++)
 	{
 		string i_string(ofToString(i));
-		m_ShaderUVId[i] = glGetAttribLocation(m_ShaderProgramId, string("uv_"+i_string).c_str());
-		m_ShaderTextureId[i] = glGetUniformLocation(m_ShaderProgramId, string("texture_"+i_string).c_str());
+		m_ShaderLocationUV[i] = glGetAttribLocation(m_ShaderProgramId, string("uv_"+i_string).c_str());
+		m_ShaderLocationCUV[i] = glGetAttribLocation(m_ShaderProgramId, string("cuv_"+i_string).c_str());
+		m_ShaderLocationTexture[i] = glGetUniformLocation(m_ShaderProgramId, string("texture_"+i_string).c_str());
 	}
 }
 void ofxSpriteMaterial::FreeMaterial()
@@ -81,15 +84,17 @@ void ofxSpriteMaterial::Bind()
 {
 	glUseProgram(m_ShaderProgramId);
 	// vertices
-	glEnableVertexAttribArray(m_ShaderXYZId);
-	glVertexAttribPointer(m_ShaderXYZId, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
+	glEnableVertexAttribArray(m_ShaderLocationXYZ);
+	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
 
 	// tex coords
 	for(int i=0;i<m_TextureCount;i++)
 	{
 		int id = m_TextureOrder[i];
-		glEnableVertexAttribArray(m_ShaderUVId[id]);
-		glVertexAttribPointer(m_ShaderUVId[id], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[i*2]));
+		glEnableVertexAttribArray(m_ShaderLocationUV[id]);
+		glVertexAttribPointer(m_ShaderLocationUV[id], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[i*2]));
+		glEnableVertexAttribArray(m_ShaderLocationCUV[id]);
+		glVertexAttribPointer(m_ShaderLocationCUV[id], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, CUV[i*2]));
 	}
 
 	// textures
@@ -98,8 +103,7 @@ void ofxSpriteMaterial::Bind()
 		int id = m_TextureOrder[i];
 		glActiveTexture(GL_TEXTURE0+i);
 		glBindTexture(GL_TEXTURE_2D, m_TextureId[id]);
-		glUniform1i(m_TextureId[id], i);
-		glUniform4fv(m_TextureRectId[id], 1, ptr);
+		glUniform1i(m_ShaderLocationTexture[id], i);
 	}
 }
 void ofxSpriteMaterial::Unbind()

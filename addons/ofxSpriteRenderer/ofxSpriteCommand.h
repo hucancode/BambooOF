@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
+#include "ofxSpriteQuad.h"
 class ofxSpriteCommand
 {
 private:

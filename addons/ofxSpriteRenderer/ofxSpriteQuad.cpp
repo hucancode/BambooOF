@@ -7,16 +7,17 @@ ofxSpriteQuad::ofxSpriteQuad()
 ofxSpriteQuad::~ofxSpriteQuad()
 {
 	if(m_TextureRect) delete[] m_TextureRect;
+	if(m_SpriteRect) delete[] m_SpriteRect;
 }
 void ofxSpriteQuad::SetMaxTexture(const int size)
 {
-	if(m_TextureRect) delete[] m_TextureRect;
-	m_TextureRect = new float[size*4];
-	if(m_SpriteRect) delete[] m_SpriteRect;
-	m_SpriteRect = new float[size*4];
+	if(m_TextureRect || m_SpriteRect) return;
+	m_TextureRect = new unsigned short[size*4];
+	m_SpriteRect = new unsigned short[size*4];
 }
-void ofxSpriteQuad::SetTextureRect(const unsigned int x, const unsigned int y, 
-								   const unsigned int w, const unsigned int h, const unsigned int order)
+void ofxSpriteQuad::SetTextureRect(const unsigned short order,
+								   const unsigned short x, const unsigned short y, 
+								   const unsigned short w, const unsigned short h)
 {
 	int order4 = order*4;
 	m_TextureRect[order4] = x;
@@ -24,8 +25,9 @@ void ofxSpriteQuad::SetTextureRect(const unsigned int x, const unsigned int y,
 	m_TextureRect[++order4] = w;
 	m_TextureRect[++order4] = h;
 }
-void ofxSpriteQuad::SetSpriteRect(const unsigned int x, const unsigned int y, 
-								  const unsigned int w, const unsigned int h, const unsigned int order)
+void ofxSpriteQuad::SetSpriteRect(const unsigned short order,
+								  const unsigned short x, const unsigned short y, 
+								  const unsigned short w, const unsigned short h)
 {
 	int order4 = order*4;
 	m_SpriteRect[order4] = x;
