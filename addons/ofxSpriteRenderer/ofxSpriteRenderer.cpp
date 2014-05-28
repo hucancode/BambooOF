@@ -1,4 +1,5 @@
 #include "ofxSpriteRenderer.h"
+ofxSpriteRenderer* ofxSpriteRenderer::s_Instance = 0;
 void ofxSpriteRenderer::Render()
 {
 	ofxSpriteCommands::iterator it = m_Commands.begin();

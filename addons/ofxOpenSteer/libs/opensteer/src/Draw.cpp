@@ -68,9 +68,9 @@
         #include <windows.h>
     #endif
     #include <GL/gl.h>     // for Linux and Windows
-    #include <GL/glu.h>     // for Linux and Windows
+    #include <glu.h>     // for Linux and Windows
     #ifndef HAVE_NO_GLUT
-        #include <GL/glut.h>   // for Mac OS X
+        #include <glut.h>   // for Mac OS X
     #endif
 #endif
 

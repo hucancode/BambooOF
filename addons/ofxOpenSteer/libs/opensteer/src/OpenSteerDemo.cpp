@@ -59,7 +59,7 @@
 #if __APPLE__ && __MACH__
 #include <GLUT/glut.h>   // for Mac OS X
 #else
-#include <GL/glut.h>     // for Linux and Windows
+#include <glut.h>     // for Linux and Windows
 #endif
 
 // ----------------------------------------------------------------------------
@@ -179,17 +179,15 @@ OpenSteer::OpenSteerDemo::updateSimulationAndRedraw (void)
 // ----------------------------------------------------------------------------
 // exit OpenSteerDemo with a given text message or error code
 
-
 void 
 OpenSteer::OpenSteerDemo::errorExit (const char* message)
 {
     printMessage (message);
 #ifdef _MSC_VER
-	MessageBox(0, message, "OpenSteerDemo Unfortunate Event", MB_ICONERROR);
+	MessageBoxA(0, message, "OpenSteerDemo Unfortunate Event", MB_ICONERROR);// no support unicode
 #endif
     exit (-1);
 }
-
 
 void 
 OpenSteer::OpenSteerDemo::exit (int exitCode)
