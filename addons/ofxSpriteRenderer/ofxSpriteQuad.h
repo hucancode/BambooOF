@@ -1,6 +1,13 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
+const float g_FarScreenThreshold = 1000;
+const int g_FarScreenUpdateSequence = 20;
+// 
+//!!!!! NEW IDEA
+// if a sprite gone too far(distance >= g_FarScreenThreshold), it will turn on m_FarFromScreen attribute
+// once a sprite being far from screen, it will be ignored(pause updating) for some(g_FarScreenUpdateSequence) frame
+// 
 class ofxSpriteCommand;
 class ofxSpriteRenderer;
 class ofxSpriteQuad
@@ -13,6 +20,11 @@ private:
 	ofxSpriteCommand* m_ParentCommand;
 	unsigned int m_IndexInRenderer;
 private:
+	bool m_ScreenPositionUpdated;
+	bool m_FarFromScreen;
+	bool m_DistanceUpdated;
+	float m_DistanceToCamera;
+	ofVec3f m_ScreenPosition;
 	ofVec3f m_WorldPosition;
 	GLfloat m_WorldQuad[2];
 	unsigned short m_Quad[2];
@@ -37,10 +49,35 @@ public:
 	void SetPosition(const ofVec3f position)
 	{
 		m_WorldPosition = position;
+		m_ScreenPositionUpdated = false;
+		m_DistanceUpdated = false;
 	}
-	void SetPosition(const float x, const float y, const float z)
+	ofVec3f GetScreenPosition()
 	{
-		SetPosition(ofVec3f(x,y,z));
+		return m_ScreenPosition;
+	}
+	void CalculateScreenPosition(const ofVec3f camera_position)
+	{
+		m_ScreenPosition = m_WorldPosition - camera_position;
+		m_ScreenPositionUpdated = true;
+		m_DistanceUpdated = false;
+	}
+	float CalculateDistanceToCamera(const ofVec3f camera_position)
+	{
+		if(!m_DistanceUpdated)
+		{
+			m_DistanceToCamera = camera_position.distance(m_WorldPosition);
+			m_DistanceUpdated = true;
+		}
+		return m_DistanceToCamera;
+	}
+	bool IsFarFromScreen()
+	{
+		return m_FarFromScreen;
+	}
+	bool IsScreenPositionUpdated()
+	{
+		return m_ScreenPositionUpdated;
 	}
 	unsigned int GetWidth()
 	{

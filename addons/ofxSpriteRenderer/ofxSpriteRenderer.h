@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "ofxOrthoCamera.h"
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
@@ -13,17 +14,17 @@ class ofxSpriteRenderer
 {
 public :
 	static ofxSpriteRenderer* s_Instance;
-	void CreateInstance()
+	static void CreateInstance()
 	{
 		if(s_Instance) return;
 		s_Instance = new ofxSpriteRenderer;
 	}
-	ofxSpriteRenderer* GetInstance()
+	static ofxSpriteRenderer* GetInstance()
 	{
 		if(!s_Instance) CreateInstance();
 		return s_Instance;
 	}
-	void DestroyInstance()
+	static void DestroyInstance()
 	{
 		if(!s_Instance) return;
 		delete s_Instance;
@@ -39,11 +40,16 @@ private:
 	int m_DrawnBatches;
 	int m_DrawnVertices;
 #endif
+	ofxOrthoCamera* m_Camera;
 public:
 	void Render();
 	void RequestUpdate(ofxSpriteQuad* sprite, SPRITE_UPDATE_REASON reason);
 	void SolveRequest();
 	void BuildCommands();
-private:
 	bool CheckVisibility(ofxSpriteQuad* quad);
+public:
+	ofxOrthoCamera* GetCamera()
+	{
+		return m_Camera;
+	}
 };

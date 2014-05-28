@@ -58,9 +58,9 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 	vertexC = &m_Vertices[index+2];
 	vertexD = &m_Vertices[index+3];
 
-	vertexA->X = sprite->GetPosition().x - sprite->GetWidth()*0.5;
-	vertexA->Y = sprite->GetPosition().y;
-	vertexA->Z = sprite->GetPosition().z;
+	vertexA->X = sprite->GetScreenPosition().x - sprite->GetWidth()*0.5;
+	vertexA->Y = sprite->GetScreenPosition().y;
+	vertexA->Z = sprite->GetScreenPosition().z;
 	vertexB->X = vertexA->X + sprite->GetWidth();
 	vertexB->Y = vertexA->Y;
 	vertexB->Z = vertexA->Z;

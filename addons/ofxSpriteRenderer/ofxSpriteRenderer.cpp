@@ -16,11 +16,17 @@ void ofxSpriteRenderer::SolveRequest()
 }
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	return true;
+	if(quadA->IsFarFromScreen()) return true;
+	if(quadB->IsFarFromScreen()) return true;
+	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	return quadA->CalculateDistanceToCamera(camera_position) < quadB->CalculateDistanceToCamera(camera_position);
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	return true;
+	if(quadA->IsFarFromScreen()) return true;
+	if(quadB->IsFarFromScreen()) return true;
+	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }
 void ofxSpriteRenderer::BuildCommands()
 {

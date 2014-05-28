@@ -3,6 +3,9 @@ ofxSpriteQuad::ofxSpriteQuad()
 {
 	m_TextureRect = 0;
 	m_Material = 0;
+	m_ScreenPositionUpdated = false;
+	m_FarFromScreen = false;
+	m_DistanceUpdated = false;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {

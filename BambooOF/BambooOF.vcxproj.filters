@@ -106,9 +106,6 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNode.cpp">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.cpp">
-      <Filter>addons\ofxOrthoCamera</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
@@ -123,6 +120,306 @@
     </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\BleachBypassPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\BloomPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\ContrastPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\ConvolutionPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\DofAltPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\DofPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\EdgePass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\FakeSSSPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\FxaaPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\GodRaysPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\HorizontalTiltShifPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\KaleidoscopePass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\LimbDarkeningPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\LUTPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\NoiseWarpPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\PixelatePass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\PostProcessing.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\RenderPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\RGBShiftPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\RimHighlightingPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\SSAOPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\ToonPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\VerticalTiltShifPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.cpp">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\src\ofxOpenSteerPlugin.cpp">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\src\ofxOpenSteerVehicle.cpp">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Camera.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Clock.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Color.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Draw.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\lq.c">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Obstacle.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\OldPathway.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\OpenSteerDemo.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Path.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Pathway.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PlugIn.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPath.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPathwaySegmentRadii.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPathwaySingleRadius.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SegmentedPath.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SegmentedPathway.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SimpleVehicle.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\TerrainRayTest.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Vec3.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Vec3Utilities.cpp">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxNetwork\src\ofxTCPClient.cpp">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxNetwork\src\ofxTCPManager.cpp">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxNetwork\src\ofxTCPServer.cpp">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxNetwork\src\ofxUDPManager.cpp">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxFX\src\ofxFXObject.cpp">
+      <Filter>addons\ofxFX\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUI2DGraph.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUI2DPad.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIBaseDraws.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIBiLabelSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIButton.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUICanvas.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUICircleSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIDragableLabelButton.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIDropDownList.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIEventArgs.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIFPS.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIFPSSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIImage.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIImageButton.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIImageSampler.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIImageSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIImageToggle.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUILabel.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUILabelButton.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUILabelToggle.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIMinimalSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIMovingGraph.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIMultiImageButton.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIMultiImageToggle.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUINumberDialer.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIRadio.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIRangeSlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIRectangle.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIRotarySlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIScrollableCanvas.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUISlider.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUISortableList.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUISpacer.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUISpectrum.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUISuperCanvas.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUITabBar.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUITextArea.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUITextInput.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIToggle.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIToggleMatrix.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIValuePlotter.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIWaveform.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIWidget.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxUI\src\ofxUIWidgetWithLabel.cpp">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp">
+      <Filter>addons\ofxXmlSettings\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxml.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,15 +443,6 @@
     </Filter>
     <Filter Include="addons\ofxXmlSettings\libs">
       <UniqueIdentifier>{687714A8-1662-FA1C-261F-50F0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxFont">
-      <UniqueIdentifier>{23EA1DFA-AA5F-18E5-C206-F705}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxFont\src">
-      <UniqueIdentifier>{37D452D4-B0DF-B43F-6D0A-B183}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxFont\src\bridge">
-      <UniqueIdentifier>{A246B703-BF9F-5BB6-B7CB-E5A7}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxFX">
       <UniqueIdentifier>{54067F17-D691-C8D5-A60C-8B15}</UniqueIdentifier>
@@ -230,9 +518,6 @@
     </Filter>
     <Filter Include="addons\ofxRecast\recastnavigation\Recast">
       <UniqueIdentifier>{d26a00d3-d8d6-4a8c-abb6-7212d93e4c81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOrthoCamera">
-      <UniqueIdentifier>{8f36609f-d336-48e0-92aa-a53738afb4e0}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxSpriteRenderer">
       <UniqueIdentifier>{8d1a721d-41b4-467f-875d-fad03f12c0c1}</UniqueIdentifier>
@@ -329,9 +614,6 @@
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourStatus.h">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxOrthoCamera\ofxOrthoCamera.h">
-      <Filter>addons\ofxOrthoCamera</Filter>
-    </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
@@ -346,6 +628,480 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\BleachBypassPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\BloomPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\ContrastPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\ConvolutionPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\DofAltPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\DofPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\EdgePass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\FakeSSSPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\FxaaPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\GodRaysPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\HorizontalTiltShifPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\KaleidoscopePass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\LimbDarkeningPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\LUTPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\NoiseWarpPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\ofxPostProcessing.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\PixelatePass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\PostProcessing.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\RenderPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\RGBShiftPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\RimHighlightingPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\SSAOPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\ToonPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\VerticalTiltShifPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.h">
+      <Filter>addons\ofxPostProcessing\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteer.h">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerPlugin.h">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerTypes.h">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerUtils.h">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerVehicle.h">
+      <Filter>addons\ofxOpenSteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\src\TerrainRayTest.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\AbstractVehicle.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Annotation.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Camera.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Clock.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Color.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Draw.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\LocalSpace.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\lq.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Obstacle.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\OldPathway.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\OpenSteerDemo.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Path.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Pathway.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PlugIn.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPath.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPathwaySegmentRadii.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPathwaySingleRadius.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Proximity.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlike.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeBaseDataExtractionPolicies.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeMappings.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeUtilities.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPath.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPathAlikeUtilities.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPathway.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SharedPointer.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SimpleVehicle.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\StandardTypes.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SteerLibrary.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\UnusedParameter.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Utilities.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Vec3.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Vec3Utilities.h">
+      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxNetwork.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxNetworkUtils.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxTCPClient.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxTCPManager.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxTCPServer.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxNetwork\src\ofxUDPManager.h">
+      <Filter>addons\ofxNetwork\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\composers\ofxBlend.h">
+      <Filter>addons\ofxFX\src\composers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\composers\ofxClone.h">
+      <Filter>addons\ofxFX\src\composers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\composers\ofxMask.h">
+      <Filter>addons\ofxFX\src\composers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\composers\ofxMultiTexture.h">
+      <Filter>addons\ofxFX\src\composers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxBarrelChromaAb.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxBloom.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxBlur.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxBokeh.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxChromaAb.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxChromaGlitch.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxContrast.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxGaussianBlur.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxGlow.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxGrayscale.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxInverse.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxLUT.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxMedian.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\filters\ofxOldTv.h">
+      <Filter>addons\ofxFX\src\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\generative\ofxFBM.h">
+      <Filter>addons\ofxFX\src\generative</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\generative\ofxFire.h">
+      <Filter>addons\ofxFX\src\generative</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\generative\ofxGrayScott.h">
+      <Filter>addons\ofxFX\src\generative</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\generative\ofxNoise.h">
+      <Filter>addons\ofxFX\src\generative</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\generative\ofxTint.h">
+      <Filter>addons\ofxFX\src\generative</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxAbsDiff.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxBounce.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxDisplacePixels.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxEdgeDetect.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxFlow.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxNormals.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxRipples.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxSubstract.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\operations\ofxThreshold.h">
+      <Filter>addons\ofxFX\src\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\ofxFX.h">
+      <Filter>addons\ofxFX\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\ofxFXObject.h">
+      <Filter>addons\ofxFX\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxFX\src\ofxSwapBuffer.h">
+      <Filter>addons\ofxFX\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUI.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUI2DGraph.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUI2DPad.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIBaseDraws.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIBiLabelSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIButton.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUICanvas.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUICircleSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIDefines.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIDragableLabelButton.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIDropDownList.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIEventArgs.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIFPS.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIFPSSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIImage.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIImageButton.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIImageSampler.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIImageSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIImageToggle.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUILabel.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUILabelButton.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUILabelToggle.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIMinimalSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIMovingGraph.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIMultiImageButton.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIMultiImageToggle.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUINumberDialer.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIOFWrapper.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIRadio.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIRangeSlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIRectangle.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIRotarySlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIScrollableCanvas.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUISlider.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUISortableList.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUISpacer.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUISpectrum.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUISuperCanvas.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUITabBar.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUITextArea.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUITextInput.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIToggle.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIToggleMatrix.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIUtils.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIValuePlotter.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIWaveform.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIWidget.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIWidgets.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIWidgetWithLabel.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxUI\src\ofxUIWrapper.h">
+      <Filter>addons\ofxUI\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h">
+      <Filter>addons\ofxXmlSettings\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
