@@ -15,6 +15,8 @@ ofxSpriteMaterial::ofxSpriteMaterial()
 ofxSpriteMaterial::~ofxSpriteMaterial()
 {
 	// TODO: do some glDeleteWhatever here
+	//glDetachShader(program, id);
+	//glDeleteShader(id);
 }
 void ofxSpriteMaterial::SetMaxTexture(const int size)
 {
@@ -44,21 +46,74 @@ void ofxSpriteMaterial::LoadTexture(const char* texture_file, const int index)
 	}
 	delete image_data;
 }
-void ofxSpriteMaterial::LoadShader(const char* vs_file, const char* fs_file)
+bool ofxSpriteMaterial::LoadShader(const char* vs_file, const char* fs_file)
 {
-	// TODO: do something to load shader
-	/*GLuint vs_id = esLoadShader(GL_VERTEX_SHADER, vs_file);
-	if ( vs_id == 0 )
+	// generate id
+	GLuint vs_id = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fs_id = glCreateShader(GL_FRAGMENT_SHADER);
+	m_ShaderProgramId = glCreateProgram();
+	// load data
+	ofBuffer vs_buffer = ofBufferFromFile(vs_file);
+	const char* vs_source = vs_buffer.getText().c_str();
+	glShaderSource(vs_id, 1, &vs_source, NULL);
+	ofBuffer fs_buffer = ofBufferFromFile(fs_file);
+	const char* fs_source = fs_buffer.getText().c_str();
+	glShaderSource(fs_id, 1, &fs_source, NULL);
+	// compile shader
+	glCompileShader(vs_id);
+	glCompileShader(fs_id);
+	GLint vs_compile_status;
+	glGetShaderiv(vs_id, GL_COMPILE_STATUS, &vs_compile_status);
+	GLint fs_compile_status;
+	glGetShaderiv(fs_id, GL_COMPILE_STATUS, &fs_compile_status);
+	if(!(vs_compile_status && fs_compile_status))
 	{
-	return;
+#ifdef DEBUG
+		GLint len = 0;
+		glGetShaderiv(vs_id, GL_INFO_LOG_LENGTH, &len);
+		if(len > 1)
+		{
+			char* info = malloc(sizeof(char) * len);
+			glGetShaderInfoLog(vs_id, len, NULL, len);
+			printf("Error compiling vs shader:\n%s\n", info);
+			delete[] info;
+		}
+		glGetShaderiv(fs_id, GL_INFO_LOG_LENGTH, &len);
+		if(len > 1)
+		{
+			char* info = malloc(sizeof(char) * len);
+			glGetShaderInfoLog(fs_id, len, NULL, len);
+			printf("Error compiling fs shader:\n%s\n", info);
+			delete[] info;
+		}
+#endif
+		glDeleteShader(vs_id);
+		glDeleteShader(fs_id);
+		return false;
 	}
-	GLuint fs_id = esLoadShader(GL_FRAGMENT_SHADER, fs_file);
-	if ( fs_id == 0 )
+	// link program
+	glAttachShader(m_ShaderProgramId, vs_id);
+	glAttachShader(m_ShaderProgramId, fs_id);
+	glLinkProgram(m_ShaderProgramId);
+	GLint link_status;
+	glGetProgramiv(m_ShaderProgramId, GL_LINK_STATUS, &link_status);
+	if(!link_status)
 	{
-	glDeleteShader( m_VSId );
-	return;
+#ifdef DEBUG
+		GLint len = 0;
+		glGetProgramiv(m_ShaderProgramId, GL_INFO_LOG_LENGTH, &len);
+		if(len > 1)
+		{
+			char* info = malloc(sizeof(char) * len);
+			glGetProgramInfoLog(m_ShaderProgramId, len, NULL, info);
+			printf("Error linking program:\n%s\n", infoLog);
+			delete[] info;
+		}
+#endif
+		glDeleteProgram(m_ShaderProgramId);
+		return false;
 	}
-	m_ShaderProgramId = esLoadProgram(vs_id, fs_id);*/
+	return true;
 }
 void ofxSpriteMaterial::BuildMaterial()
 {
@@ -82,7 +137,6 @@ void ofxSpriteMaterial::Bind()
 	// vertices
 	glEnableVertexAttribArray(m_ShaderLocationXYZ);
 	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
-
 	// tex coords
 	for(int i=0;i<m_TextureCount;i++)
 	{

@@ -4,11 +4,11 @@
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
-enum SPRITE_UPDATE_REASON
+enum QUAD_UPDATE_REASON
 {
-	SPRITE_UPDATE_REASON_MATERIAL_CHANGE,
-	SPRITE_UPDATE_REASON_POSITION_CHANGE,
-	SPRITE_UPDATE_REASON_MATERIAL_POSITION_CHANGE
+	QUAD_UPDATE_REASON_MATERIAL_CHANGE,
+	QUAD_UPDATE_REASON_POSITION_CHANGE,
+	QUAD_UPDATE_REASON_MATERIAL_POSITION_CHANGE
 };
 class ofxSpriteRenderer
 {
@@ -43,7 +43,7 @@ private:
 	ofxOrthoCamera* m_Camera;
 public:
 	void Render();
-	void RequestUpdate(ofxSpriteQuad* sprite, SPRITE_UPDATE_REASON reason);
+	void RequestUpdate(ofxSpriteQuad* sprite, QUAD_UPDATE_REASON reason);
 	void SolveRequest();
 	void BuildCommands();
 	bool CheckVisibility(ofxSpriteQuad* quad);

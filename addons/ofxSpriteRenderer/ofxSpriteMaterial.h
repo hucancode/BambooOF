@@ -24,7 +24,7 @@ public:
 	~ofxSpriteMaterial();
 	void SetMaxTexture(const int size);
 	void LoadTexture(const char* texture_file, const int index);
-	void LoadShader(const char* vs_file, const char* fs_file);
+	bool LoadShader(const char* vs_file, const char* fs_file);
 	void BuildMaterial();
 	void Bind();
 	void Unbind();

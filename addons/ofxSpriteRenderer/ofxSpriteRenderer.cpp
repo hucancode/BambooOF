@@ -9,7 +9,7 @@ void ofxSpriteRenderer::Render()
 		cmd->Render();
 	}
 }
-void ofxSpriteRenderer::RequestUpdate(ofxSpriteQuad* sprite, SPRITE_UPDATE_REASON reason)
+void ofxSpriteRenderer::RequestUpdate(ofxSpriteQuad* sprite, QUAD_UPDATE_REASON reason)
 {
 }
 void ofxSpriteRenderer::SolveRequest()
