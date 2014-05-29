@@ -19,6 +19,7 @@ private:
 	unsigned int m_IndexInCommand;
 	ofxSpriteCommand* m_ParentCommand;
 	unsigned int m_IndexInRenderer;
+	bool m_Transparent;
 private:
 	bool m_ScreenPositionUpdated;
 	bool m_FarFromScreen;
@@ -45,6 +46,14 @@ public:
 	ofVec3f GetPosition()
 	{
 		return m_WorldPosition;
+	}
+	bool IsTransparent()
+	{
+		return m_Transparent;
+	}
+	void SetTransparent(bool value)
+	{
+		m_Transparent = value;
 	}
 	void SetPosition(const ofVec3f position)
 	{
@@ -143,4 +152,4 @@ public:
 		const unsigned short x, const unsigned short y, 
 		const unsigned short w, const unsigned short h);
 };
-#define ofxSpriteQuads vector<ofxSpriteQuad*>
+typedef vector<ofxSpriteQuad*> ofxSpriteQuads;

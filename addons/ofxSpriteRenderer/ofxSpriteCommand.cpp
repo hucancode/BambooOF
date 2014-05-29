@@ -47,7 +47,6 @@ void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 	m_Indices.push_back(start_index+3);
 	m_Indices.push_back(start_index+0);
 	UpdateSprite(sprite);
-
 }
 void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {

@@ -10,6 +10,13 @@ enum QUAD_UPDATE_REASON
 	QUAD_UPDATE_REASON_POSITION_CHANGE,
 	QUAD_UPDATE_REASON_MATERIAL_POSITION_CHANGE
 };
+struct ofxRequest
+{
+	unsigned int index;
+	bool is_transparent;
+	QUAD_UPDATE_REASON reason;
+};
+typedef vector<ofxRequest> ofxRequests;
 class ofxSpriteRenderer
 {
 public :
@@ -31,19 +38,21 @@ public :
 		s_Instance = 0;
 	}
 private:
-	vector<ofxSpriteQuad*> m_SolidQuads;
-	vector<ofxSpriteQuad*> m_TransparentQuads;
-	vector<ofxSpriteCommand*> m_Commands;
-	vector<unsigned int> m_UpdateRequest;
-	bool m_RendererUpdated;
+	ofxSpriteQuads		m_SolidQuads;
+	ofxSpriteQuads		m_TransparentQuads;
+	ofxSpriteCommands	m_Commands;
+	ofxRequests			m_UpdateRequest;
+	bool				m_RendererUpdated;
 #ifdef DEBUG
-	int m_DrawnBatches;
-	int m_DrawnVertices;
+	int					m_DrawnBatches;
+	int					m_DrawnVertices;
 #endif
-	ofxOrthoCamera* m_Camera;
+	ofxOrthoCamera*		m_Camera;
 public:
 	void Render();
-	void RequestUpdate(ofxSpriteQuad* sprite, QUAD_UPDATE_REASON reason);
+	void PushSprite(ofxSpriteQuad* sprite);
+	void RemoveSprite(ofxSpriteQuad* sprite);
+	void RequestUpdate(ofxRequest request);
 	void SolveRequest();
 	void BuildCommands();
 	bool CheckVisibility(ofxSpriteQuad* quad);

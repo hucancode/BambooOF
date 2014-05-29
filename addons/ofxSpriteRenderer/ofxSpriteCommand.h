@@ -4,12 +4,19 @@
 #include "ofxSpriteQuad.h"
 class ofxSpriteCommand
 {
+	friend class ofxSpriteQuad;
+	friend class ofxSpriteRenderer;
 private:
 	ofxSpriteMaterial* m_Material;
 	vector<ofxVertex> m_Vertices;
 	vector<GLushort> m_Indices;
 	GLuint m_VBOId;
 	GLuint m_IBOId;
+private:
+	bool m_Spliting;
+	bool m_Splited;
+	bool m_Unsorting;
+	bool m_Unsorted;
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
@@ -20,5 +27,14 @@ public:
 	void Render();
 	void PushSprite(ofxSpriteQuad* sprite);
 	void UpdateSprite(ofxSpriteQuad* sprite);
+public:
+	bool IsSplited()
+	{
+		return m_Splited;
+	}
+	bool IsUnsorted()
+	{
+		return m_Unsorted;
+	}
 };
-#define ofxSpriteCommands vector<ofxSpriteCommand*>
+typedef vector<ofxSpriteCommand*> ofxSpriteCommands;
