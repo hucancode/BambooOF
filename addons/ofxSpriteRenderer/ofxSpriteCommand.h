@@ -2,24 +2,35 @@
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
 #include "ofxSpriteQuad.h"
+
+enum COMMAND_STATUS
+{
+	COMMAND_STATUS_SHUFFLED,
+	COMMAND_STATUS_EXPANDED,
+	COMMAND_STATUS_DISMISSED,
+	COMMAND_STATUS_UNITED
+};
 class ofxSpriteCommand
 {
 	friend class ofxSpriteQuad;
 	friend class ofxSpriteRenderer;
 private:
+	unsigned short m_IndexInRenderer;
+	unsigned int m_FirstSpriteIndex;
+	unsigned int m_LastSpriteIndex;
+	float m_DistanceMin;
+	float m_DistanceMax;
 	ofxSpriteMaterial* m_Material;
 	vector<ofxVertex> m_Vertices;
-	vector<GLushort> m_Indices;
 	GLuint m_VBOId;
-	GLuint m_IBOId;
-private:
-	bool m_Spliting;
-	bool m_Splited;
-	bool m_Unsorting;
-	bool m_Unsorted;
+	GLsizei m_IndicesSize;
+	static vector<GLuint> m_Indices;
+	static GLuint m_IBOId;
+	COMMAND_STATUS m_Status;
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
+	static void GenerateSharedIndices(unsigned int number_of_quad=5000);
 	ofxSpriteMaterial* GetMaterial() { return m_Material; }
 	void SetMaterial(ofxSpriteMaterial* material) { m_Material = material; }
 	void Bind();

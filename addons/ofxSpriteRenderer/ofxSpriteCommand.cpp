@@ -2,19 +2,32 @@
 ofxSpriteCommand::ofxSpriteCommand()
 {
 	glGenBuffers(1, &m_VBOId);
-	glGenBuffers(1, &m_IBOId);
+	//glGenBuffers(1, &m_IBOId);
 }
 ofxSpriteCommand::~ofxSpriteCommand()
 {
 	glDeleteBuffers(1, &m_VBOId);
-	glDeleteBuffers(1, &m_IBOId);
+	//glDeleteBuffers(1, &m_IBOId);
+}
+void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad=5000)
+{
+	glGenBuffers(1, &m_IBOId);
+	for(unsigned int i=0;i<number_of_quad;i+=4)
+	{
+		m_Indices.push_back(i+0);
+		m_Indices.push_back(i+1);
+		m_Indices.push_back(i+2);
+		m_Indices.push_back(i+2);
+		m_Indices.push_back(i+3);
+		m_Indices.push_back(i+0);
+	}
 }
 void ofxSpriteCommand::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices), &m_Vertices[0], GL_DYNAMIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBOId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), &m_Indices[0], GL_STATIC_DRAW);
 	m_Material->Bind();
 }
@@ -27,25 +40,19 @@ void ofxSpriteCommand::Unbind()
 void ofxSpriteCommand::Render()
 {
 	Bind();
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, m_IndicesSize, GL_UNSIGNED_SHORT, 0);
 	Unbind();
 }
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
-	unsigned int start_index = m_Vertices.size();
 	sprite->m_IndexInCommand = start_index;
 	sprite->m_ParentCommand = this;
 	m_Vertices.push_back(vertexA);
 	m_Vertices.push_back(vertexB);
 	m_Vertices.push_back(vertexC);
 	m_Vertices.push_back(vertexD);
-	m_Indices.push_back(start_index+0);
-	m_Indices.push_back(start_index+1);
-	m_Indices.push_back(start_index+2);
-	m_Indices.push_back(start_index+2);
-	m_Indices.push_back(start_index+3);
-	m_Indices.push_back(start_index+0);
+	m_IndicesSize += 6;
 	UpdateSprite(sprite);
 }
 void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)

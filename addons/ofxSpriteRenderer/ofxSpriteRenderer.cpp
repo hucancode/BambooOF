@@ -33,33 +33,51 @@ void ofxSpriteRenderer::RemoveSprite(ofxSpriteQuad* sprite)
 		m_SolidQuads.erase(it);
 	}
 }
-void ofxSpriteRenderer::RequestUpdate(ofxRequest request)
+void ofxSpriteRenderer::Update()
 {
-
-}
-void ofxSpriteRenderer::SolveRequest()
-{
-	ofxRequests::iterator it = m_UpdateRequest.begin();
-	for(;it != m_UpdateRequest.end();it++)
 	{
-		ofxRequest item = *it;
-		ofxSpriteQuad* quad = item.is_transparent?m_TransparentQuads[item.index]:m_SolidQuads[item.index];
-		QUAD_UPDATE_REASON reason = item.reason;
-		ofVec3f camera_position = m_Camera->getGlobalPosition();
-		/* cases:
-		 1. leave command, merge left
-		 2. leave command, merge right
-		 3. leave command, split left
-		 4. leave command, split right
-		 5. split command
-		 6. in command, move left
-		 7. in command, move right
-		 8. in command, stand still
-		*/
-		/* rules:
-		 1. never merge a sprite into a splited command
-		 2. never move a sprite along a unsorted command
-		*/
+		ofxSpriteQuads::iterator it = m_SolidQuads.begin();
+		for(;it != m_SolidQuads.end();it++)
+		{
+			ofxSpriteQuad* quad = *it;
+			ofVec3f camera_position = m_Camera->getGlobalPosition();
+			/* cases:
+			1. leave command, merge left
+			2. leave command, merge right
+			3. leave command, split left
+			4. leave command, split right
+			5. split command
+			6. in command, move left
+			7. in command, move right
+			8. in command, stand still
+			*/
+			/* rules:
+			1. never merge a sprite into a splited command
+			2. never move a sprite along a shuffed command
+			*/
+		}
+	}
+	{
+		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
+		for(;it != m_TransparentQuads.end();it++)
+		{
+			ofxSpriteQuad* quad = *it;
+			ofVec3f camera_position = m_Camera->getGlobalPosition();
+			/* cases:
+			1. leave command, merge left
+			2. leave command, merge right
+			3. leave command, split left
+			4. leave command, split right
+			5. split command
+			6. in command, move left
+			7. in command, move right
+			8. in command, stand still
+			*/
+			/* rules:
+			1. never merge a sprite into a splited command
+			2. never move a sprite along a shuffed command
+			*/
+		}
 	}
 }
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)

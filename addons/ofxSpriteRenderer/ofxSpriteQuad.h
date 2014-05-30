@@ -1,6 +1,16 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
+
+enum QUAD_STATUS
+{
+	QUAD_STATUS_MATERIAL_CHANGE,
+	QUAD_STATUS_POSITION_CHANGE,
+	QUAD_STATUS_MATERIAL_POSITION_CHANGE,
+	QUAD_STATUS_SAFE_CHANGE,
+	QUAD_STATUS_NO_CHANGE
+};
+
 const float g_FarScreenThreshold = 1000;
 const int g_FarScreenUpdateSequence = 20;
 // 
@@ -20,6 +30,7 @@ private:
 	ofxSpriteCommand* m_ParentCommand;
 	unsigned int m_IndexInRenderer;
 	bool m_Transparent;
+	QUAD_STATUS m_Status;
 private:
 	bool m_ScreenPositionUpdated;
 	bool m_FarFromScreen;
@@ -39,14 +50,12 @@ public:
 	{
 		return m_Material;
 	}
-	void SetMaterial(ofxSpriteMaterial* material)
-	{
-		m_Material = material;
-	}
+	void SetMaterial(const ofxSpriteMaterial* material);
 	ofVec3f GetPosition()
 	{
 		return m_WorldPosition;
 	}
+	void SetPosition(const ofVec3f position);
 	bool IsTransparent()
 	{
 		return m_Transparent;
@@ -55,12 +64,7 @@ public:
 	{
 		m_Transparent = value;
 	}
-	void SetPosition(const ofVec3f position)
-	{
-		m_WorldPosition = position;
-		m_ScreenPositionUpdated = false;
-		m_DistanceUpdated = false;
-	}
+	
 	ofVec3f GetScreenPosition()
 	{
 		return m_ScreenPosition;
@@ -73,6 +77,8 @@ public:
 	}
 	float CalculateDistanceToCamera(const ofVec3f camera_position)
 	{
+		return m_WorldPosition.z;
+		// legacy way
 		if(!m_DistanceUpdated)
 		{
 			m_DistanceToCamera = camera_position.distance(m_WorldPosition);
@@ -151,5 +157,6 @@ public:
 	void SetSpriteRect(const unsigned short order,
 		const unsigned short x, const unsigned short y, 
 		const unsigned short w, const unsigned short h);
+	void SubmitChanges(QUAD_UPDATE_REASON reason);
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;

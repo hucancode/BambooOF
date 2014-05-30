@@ -1,4 +1,6 @@
 #include "ofxSpriteQuad.h"
+#include "ofxSpriteCommand.h"
+#include "ofxSpriteRenderer.h"
 ofxSpriteQuad::ofxSpriteQuad()
 {
 	m_TextureRect = 0;
@@ -6,6 +8,40 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_ScreenPositionUpdated = false;
 	m_FarFromScreen = false;
 	m_DistanceUpdated = false;
+}
+void ofxSpriteQuad::SetMaterial(const ofxSpriteMaterial* material)
+{
+	m_Material = material;
+	if(m_Status == QUAD_STATUS_POSITION_CHANGE || m_Status == QUAD_STATUS_MATERIAL_POSITION_CHANGE)
+	{
+		m_Status = QUAD_STATUS_MATERIAL_POSITION_CHANGE;
+	}
+	else
+	{
+		m_Status = QUAD_STATUS_MATERIAL_CHANGE;
+	}
+}
+void ofxSpriteQuad::SetPosition(const ofVec3f position)
+{
+	m_WorldPosition = position;
+	m_ScreenPositionUpdated = false;
+	m_DistanceUpdated = false;
+	if(m_Status == QUAD_STATUS_MATERIAL_CHANGE || m_Status == QUAD_STATUS_MATERIAL_POSITION_CHANGE)
+	{
+		m_Status = QUAD_STATUS_MATERIAL_POSITION_CHANGE;
+	}
+	else
+	{
+		m_Status = QUAD_STATUS_POSITION_CHANGE;
+	}
+	if(m_ParentCommand->m_Shuffling)
+	{
+		m_ParentCommand->m_Shuffled = true;
+	}
+	else
+	{
+		m_ParentCommand->m_Shuffling = true;
+	}
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
@@ -27,6 +63,10 @@ void ofxSpriteQuad::SetTextureRect(const unsigned short order,
 	m_TextureRect[++order4] = y;
 	m_TextureRect[++order4] = w;
 	m_TextureRect[++order4] = h;
+	if(m_Status == QUAD_STATUS_NO_CHANGE)
+	{
+		m_Status = QUAD_STATUS_SAFE_CHANGE;
+	}
 }
 void ofxSpriteQuad::SetSpriteRect(const unsigned short order,
 								  const unsigned short x, const unsigned short y, 
@@ -37,4 +77,8 @@ void ofxSpriteQuad::SetSpriteRect(const unsigned short order,
 	m_SpriteRect[++order4] = y;
 	m_SpriteRect[++order4] = w;
 	m_SpriteRect[++order4] = h;
+	if(m_Status == QUAD_STATUS_NO_CHANGE)
+	{
+		m_Status = QUAD_STATUS_SAFE_CHANGE;
+	}
 }
