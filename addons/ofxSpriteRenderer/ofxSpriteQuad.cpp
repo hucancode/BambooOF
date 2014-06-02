@@ -9,14 +9,10 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_FarFromScreen = false;
 	m_DistanceUpdated = false;
 }
-void ofxSpriteQuad::SetMaterial(const ofxSpriteMaterial* material)
+void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 {
 	m_Material = material;
-	if(m_Status == QUAD_STATUS_POSITION_CHANGE || m_Status == QUAD_STATUS_MATERIAL_POSITION_CHANGE)
-	{
-		m_Status = QUAD_STATUS_MATERIAL_POSITION_CHANGE;
-	}
-	else
+	if(m_Status != QUAD_STATUS_POSITION_CHANGE)
 	{
 		m_Status = QUAD_STATUS_MATERIAL_CHANGE;
 	}
@@ -26,22 +22,7 @@ void ofxSpriteQuad::SetPosition(const ofVec3f position)
 	m_WorldPosition = position;
 	m_ScreenPositionUpdated = false;
 	m_DistanceUpdated = false;
-	if(m_Status == QUAD_STATUS_MATERIAL_CHANGE || m_Status == QUAD_STATUS_MATERIAL_POSITION_CHANGE)
-	{
-		m_Status = QUAD_STATUS_MATERIAL_POSITION_CHANGE;
-	}
-	else
-	{
-		m_Status = QUAD_STATUS_POSITION_CHANGE;
-	}
-	if(m_ParentCommand->m_Shuffling)
-	{
-		m_ParentCommand->m_Shuffled = true;
-	}
-	else
-	{
-		m_ParentCommand->m_Shuffling = true;
-	}
+	m_Status = QUAD_STATUS_POSITION_CHANGE;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
@@ -81,4 +62,8 @@ void ofxSpriteQuad::SetSpriteRect(const unsigned short order,
 	{
 		m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
+}
+void ofxSpriteQuad::SubmitChanges()
+{
+	m_ParentCommand->UpdateSprite(this);
 }

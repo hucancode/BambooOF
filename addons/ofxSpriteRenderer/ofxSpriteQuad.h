@@ -6,7 +6,6 @@ enum QUAD_STATUS
 {
 	QUAD_STATUS_MATERIAL_CHANGE,
 	QUAD_STATUS_POSITION_CHANGE,
-	QUAD_STATUS_MATERIAL_POSITION_CHANGE,
 	QUAD_STATUS_SAFE_CHANGE,
 	QUAD_STATUS_NO_CHANGE
 };
@@ -50,7 +49,7 @@ public:
 	{
 		return m_Material;
 	}
-	void SetMaterial(const ofxSpriteMaterial* material);
+	void SetMaterial(ofxSpriteMaterial* material);
 	ofVec3f GetPosition()
 	{
 		return m_WorldPosition;
@@ -157,6 +156,6 @@ public:
 	void SetSpriteRect(const unsigned short order,
 		const unsigned short x, const unsigned short y, 
 		const unsigned short w, const unsigned short h);
-	void SubmitChanges(QUAD_UPDATE_REASON reason);
+	void SubmitChanges();
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;

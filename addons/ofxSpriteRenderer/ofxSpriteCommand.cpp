@@ -1,4 +1,7 @@
 #include "ofxSpriteCommand.h"
+
+vector<GLuint> ofxSpriteCommand::m_Indices;
+GLuint ofxSpriteCommand::m_IBOId;
 ofxSpriteCommand::ofxSpriteCommand()
 {
 	glGenBuffers(1, &m_VBOId);
@@ -9,7 +12,7 @@ ofxSpriteCommand::~ofxSpriteCommand()
 	glDeleteBuffers(1, &m_VBOId);
 	//glDeleteBuffers(1, &m_IBOId);
 }
-void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad=5000)
+void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad)
 {
 	glGenBuffers(1, &m_IBOId);
 	for(unsigned int i=0;i<number_of_quad;i+=4)
@@ -46,7 +49,7 @@ void ofxSpriteCommand::Render()
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
-	sprite->m_IndexInCommand = start_index;
+	sprite->m_IndexInCommand = m_Vertices.size();
 	sprite->m_ParentCommand = this;
 	m_Vertices.push_back(vertexA);
 	m_Vertices.push_back(vertexB);
@@ -55,8 +58,26 @@ void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 	m_IndicesSize += 6;
 	UpdateSprite(sprite);
 }
-void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
+void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 {
+	if(sprite->m_Status != QUAD_STATUS_NO_CHANGE && m_Status != COMMAND_STATUS_EXPANDED)
+	{
+		if(sprite->m_Status == QUAD_STATUS_POSITION_CHANGE)
+		{
+			if(sprite->GetPosition().y > m_DistanceMax || sprite->GetPosition().y < m_DistanceMin )
+			{
+				m_Status = COMMAND_STATUS_EXPANDED;
+			}
+			else
+			{
+				m_Status = COMMAND_STATUS_DISMISSED;
+			}
+		}
+		else if(sprite->m_Status == QUAD_STATUS_MATERIAL_CHANGE)
+		{
+			m_Status = COMMAND_STATUS_DISMISSED;
+		}
+	}
 	unsigned int index = sprite->m_IndexInCommand;
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
 	vertexA = &m_Vertices[index];

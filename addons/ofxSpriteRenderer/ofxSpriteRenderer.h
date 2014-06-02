@@ -28,7 +28,8 @@ public :
 private:
 	ofxSpriteQuads		m_SolidQuads;
 	ofxSpriteQuads		m_TransparentQuads;
-	ofxSpriteCommands	m_Commands;
+	ofxSpriteCommands	m_SolidCommands;
+	ofxSpriteCommands	m_TransparentCommands;
 	bool				m_RendererUpdated;
 #ifdef DEBUG
 	int					m_DrawnBatches;
@@ -36,11 +37,14 @@ private:
 #endif
 	ofxOrthoCamera*		m_Camera;
 public:
+	ofxSpriteRenderer();
+	~ofxSpriteRenderer();
 	void Render();
 	void PushSprite(ofxSpriteQuad* sprite);
 	void RemoveSprite(ofxSpriteQuad* sprite);
 	void Update();
-	void BuildCommands();
+	void BuildSolidCommands(unsigned int i, unsigned int j);
+	void BuildTransparentCommands(unsigned int i, unsigned int j);
 	bool CheckVisibility(ofxSpriteQuad* quad);
 public:
 	ofxOrthoCamera* GetCamera()

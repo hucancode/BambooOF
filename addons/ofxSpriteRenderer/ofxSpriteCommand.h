@@ -5,10 +5,10 @@
 
 enum COMMAND_STATUS
 {
-	COMMAND_STATUS_SHUFFLED,
-	COMMAND_STATUS_EXPANDED,
+	COMMAND_STATUS_UNITED,
 	COMMAND_STATUS_DISMISSED,
-	COMMAND_STATUS_UNITED
+	COMMAND_STATUS_EXPANDED
+	
 };
 class ofxSpriteCommand
 {
@@ -37,15 +37,16 @@ public:
 	void Unbind();
 	void Render();
 	void PushSprite(ofxSpriteQuad* sprite);
-	void UpdateSprite(ofxSpriteQuad* sprite);
+	void UpdateSprite(ofxSpriteQuad* sprite, bool update_status = true);
+	void Rebuild();
 public:
-	bool IsSplited()
+	unsigned int GetFirstSpriteIndex()
 	{
-		return m_Splited;
+		return m_FirstSpriteIndex;
 	}
-	bool IsUnsorted()
+	unsigned int GetLastSpriteIndex()
 	{
-		return m_Unsorted;
+		return m_LastSpriteIndex;
 	}
 };
 typedef vector<ofxSpriteCommand*> ofxSpriteCommands;
