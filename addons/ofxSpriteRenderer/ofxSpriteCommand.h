@@ -14,6 +14,9 @@ class ofxSpriteCommand
 {
 	friend class ofxSpriteQuad;
 	friend class ofxSpriteRenderer;
+public:
+	static void GenerateSharedIndices(unsigned int number_of_quad=5000);
+	static void DeleteSharedIndices();
 private:
 	unsigned short m_IndexInRenderer;
 	unsigned int m_FirstSpriteIndex;
@@ -30,7 +33,7 @@ private:
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
-	static void GenerateSharedIndices(unsigned int number_of_quad=5000);
+	
 	ofxSpriteMaterial* GetMaterial() { return m_Material; }
 	void SetMaterial(ofxSpriteMaterial* material) { m_Material = material; }
 	void Bind();

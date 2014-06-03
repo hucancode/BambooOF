@@ -6,6 +6,43 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 }
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
+	ofxSpriteCommand::DeleteSharedIndices();
+	{
+		ofxSpriteCommands::iterator it = m_SolidCommands.begin();
+		for(;it != m_SolidCommands.end();it++)
+		{
+			ofxSpriteCommand* cmd = *it;
+			delete cmd;
+		}
+		m_SolidCommands.clear();
+	}
+	{
+		ofxSpriteCommands::iterator it = m_TransparentCommands.begin();
+		for(;it != m_TransparentCommands.end();it++)
+		{
+			ofxSpriteCommand* cmd = *it;
+			delete cmd;
+		}
+		m_TransparentCommands.clear();
+	}
+	{
+		ofxSpriteQuads::iterator it = m_SolidQuads.begin();
+		for(;it != m_SolidQuads.end();it++)
+		{
+			ofxSpriteQuad* quad = *it;
+			delete quad;
+		}
+		m_SolidQuads.clear();
+	}
+	{
+		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
+		for(;it != m_TransparentQuads.end();it++)
+		{
+			ofxSpriteQuad* quad = *it;
+			delete quad;
+		}
+		m_TransparentQuads.clear();
+	}
 }
 void ofxSpriteRenderer::Render()
 {

@@ -2,16 +2,6 @@
 
 vector<GLuint> ofxSpriteCommand::m_Indices;
 GLuint ofxSpriteCommand::m_IBOId;
-ofxSpriteCommand::ofxSpriteCommand()
-{
-	glGenBuffers(1, &m_VBOId);
-	//glGenBuffers(1, &m_IBOId);
-}
-ofxSpriteCommand::~ofxSpriteCommand()
-{
-	glDeleteBuffers(1, &m_VBOId);
-	//glDeleteBuffers(1, &m_IBOId);
-}
 void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad)
 {
 	glGenBuffers(1, &m_IBOId);
@@ -25,6 +15,23 @@ void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad)
 		m_Indices.push_back(i+0);
 	}
 }
+void ofxSpriteCommand::DeleteSharedIndices()
+{
+	glDeleteBuffers(1, &m_IBOId);
+	m_Indices.clear();
+}
+
+ofxSpriteCommand::ofxSpriteCommand()
+{
+	glGenBuffers(1, &m_VBOId);
+	//glGenBuffers(1, &m_IBOId);
+}
+ofxSpriteCommand::~ofxSpriteCommand()
+{
+	glDeleteBuffers(1, &m_VBOId);
+	//glDeleteBuffers(1, &m_IBOId);
+}
+
 void ofxSpriteCommand::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);

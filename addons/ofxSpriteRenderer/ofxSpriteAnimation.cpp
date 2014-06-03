@@ -15,7 +15,20 @@ ofxSpriteAnimation::ofxSpriteAnimation()
 }
 ofxSpriteAnimation::~ofxSpriteAnimation()
 {
-	// remember to delete pointer
+	for(int i=0; i < m_FrameCount;i++)
+	{
+		delete[] m_TextureRectTable[i];
+	}
+	if(m_TextureRectTable)		delete[] m_TextureRectTable;
+	for(int i=0; i < m_FrameCount;i++)
+	{
+		delete[] m_SpriteRectTable[i];
+	}
+	if(m_SpriteRectTable)		delete[] m_SpriteRectTable;
+	if(m_SequenceBegin)			delete[] m_SequenceBegin;
+	if(m_SequenceEnd)			delete[] m_SequenceEnd;
+	if(m_SequenceTime)			delete[] m_SequenceTime;
+	if(m_FrameTime)				delete[] m_FrameTime;
 }
 void ofxSpriteAnimation::SetSequenceTime(unsigned short sequence_index, float time)
 {

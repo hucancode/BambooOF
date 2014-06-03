@@ -11,6 +11,7 @@ ofxSpriteMaterial::ofxSpriteMaterial()
 	m_ShaderLocationUV = 0;
 	m_ShaderLocationCUV = 0;
 	m_ShaderLocationTexture = 0;
+	m_ReferenceCount = 0;
 }
 ofxSpriteMaterial::~ofxSpriteMaterial()
 {

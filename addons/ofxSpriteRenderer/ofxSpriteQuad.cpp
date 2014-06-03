@@ -9,9 +9,18 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_FarFromScreen = false;
 	m_DistanceUpdated = false;
 }
+ofxSpriteQuad::~ofxSpriteQuad()
+{
+	if(m_Material) m_Material->DecreaseReference();
+	if(m_TextureRect) delete[] m_TextureRect;
+	if(m_SpriteRect) delete[] m_SpriteRect;
+}
 void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 {
+	if(material == m_Material) return;
+	m_Material->DecreaseReference();
 	m_Material = material;
+	m_Material->IncreaseReference();
 	if(m_Status != QUAD_STATUS_POSITION_CHANGE)
 	{
 		m_Status = QUAD_STATUS_MATERIAL_CHANGE;
@@ -24,11 +33,7 @@ void ofxSpriteQuad::SetPosition(const ofVec3f position)
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
 }
-ofxSpriteQuad::~ofxSpriteQuad()
-{
-	if(m_TextureRect) delete[] m_TextureRect;
-	if(m_SpriteRect) delete[] m_SpriteRect;
-}
+
 void ofxSpriteQuad::SetMaxTexture(const int size)
 {
 	if(m_TextureRect || m_SpriteRect) return;

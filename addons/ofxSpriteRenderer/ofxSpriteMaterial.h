@@ -19,6 +19,7 @@ private:
 	GLint* m_ShaderLocationUV;
 	GLint* m_ShaderLocationCUV;
 	GLint* m_ShaderLocationTexture;
+	unsigned int m_ReferenceCount;
 public:
 	ofxSpriteMaterial();
 	~ofxSpriteMaterial();
@@ -28,6 +29,18 @@ public:
 	void BuildMaterial();
 	void Bind();
 	void Unbind();
+	void IncreaseReference()
+	{
+		m_ReferenceCount++;
+	}
+	void DecreaseReference()
+	{
+		m_ReferenceCount--;
+	}
+	bool IsUnused()
+	{
+		return m_ReferenceCount == 0;
+	}
 	unsigned int GetTextureCount()
 	{
 		return m_TextureCount;

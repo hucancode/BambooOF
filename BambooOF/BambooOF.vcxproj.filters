@@ -421,6 +421,9 @@
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -1102,6 +1105,9 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
       <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
