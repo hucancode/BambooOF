@@ -68,10 +68,12 @@ void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 	if(sprite->IsTransparent())
 	{
 		m_TransparentQuads.push_back(sprite);
+		// TODO: find command for sprite to get into
 	}
 	else
 	{
 		m_SolidQuads.push_back(sprite);
+		// find command for sprite to get into
 	}
 }
 void ofxSpriteRenderer::RemoveSprite(ofxSpriteQuad* sprite)
@@ -90,15 +92,15 @@ void ofxSpriteRenderer::RemoveSprite(ofxSpriteQuad* sprite)
 
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	if(quadA->IsFarFromScreen()) return true;
-	if(quadB->IsFarFromScreen()) return true;
+	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
+	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) < quadB->CalculateDistanceToCamera(camera_position);
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	if(quadA->IsFarFromScreen()) return true;
-	if(quadB->IsFarFromScreen()) return true;
+	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
+	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }
@@ -366,8 +368,56 @@ void ofxSpriteRenderer::Update()
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
 	}
 }
-
-bool ofxSpriteRenderer::CheckVisibility(ofxSpriteQuad* quad)
+float g_ScreenWidth = 800;
+float g_ScreenHeight = 600;
+#define FAR_SCREEN_THRESHOLD 1000
+#define FAR_SCREEN_UPDATE_SEQUENCE 20
+void ofxSpriteRenderer::UpdateVisibility(ofxSpriteQuad* quad)
 {
-	return true;
+	unsigned int frame_number = 1;
+	if(quad->m_Visibility == QUAD_VISIBILITY_FAR_SCREEN 
+		&& frame_number % FAR_SCREEN_UPDATE_SEQUENCE != 0)
+	{
+		return;
+	}
+	if(!quad->IsScreenPositionUpdated())
+	{
+		quad->CalculateScreenPosition(m_Camera->getGlobalPosition());
+	}
+	if(quad->GetScreenPosition().y > -FAR_SCREEN_THRESHOLD)
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(quad->GetScreenPosition().x > -FAR_SCREEN_THRESHOLD)
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(quad->GetScreenPosition().y < g_ScreenHeight + FAR_SCREEN_THRESHOLD + quad->GetHeight())
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(quad->GetScreenPosition().x < g_ScreenWidth + FAR_SCREEN_THRESHOLD + quad->GetWidth())
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(quad->GetScreenPosition().y < 0)
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(quad->GetScreenPosition().x < 0)
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(quad->GetScreenPosition().y > g_ScreenHeight + quad->GetHeight())
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(quad->GetScreenPosition().x > g_ScreenWidth + quad->GetHeight())
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else
+	{
+		quad->m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	}
 }

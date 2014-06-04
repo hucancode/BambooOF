@@ -9,6 +9,12 @@ enum QUAD_STATUS
 	QUAD_STATUS_SAFE_CHANGE,
 	QUAD_STATUS_NO_CHANGE
 };
+enum QUAD_VISIBILITY
+{
+	QUAD_VISIBILITY_IN_SCREEN,
+	QUAD_VISIBILITY_OFF_SCREEN,
+	QUAD_VISIBILITY_FAR_SCREEN
+};
 
 const float g_FarScreenThreshold = 1000;
 const int g_FarScreenUpdateSequence = 20;
@@ -30,9 +36,9 @@ private:
 	unsigned int m_IndexInRenderer;
 	bool m_Transparent;
 	QUAD_STATUS m_Status;
+	QUAD_VISIBILITY m_Visibility;
 private:
 	bool m_ScreenPositionUpdated;
-	bool m_FarFromScreen;
 	bool m_DistanceUpdated;
 	float m_DistanceToCamera;
 	ofVec3f m_ScreenPosition;
@@ -45,6 +51,9 @@ private:
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
+	void CalculateScreenPosition(const ofVec3f camera_position, bool fast_move = true);
+	float CalculateDistanceToCamera(const ofVec3f camera_position);
+	void SetPosition(const ofVec3f position, bool fast_move = true);
 	ofxSpriteMaterial* GetMaterial()
 	{
 		return m_Material;
@@ -54,7 +63,6 @@ public:
 	{
 		return m_WorldPosition;
 	}
-	void SetPosition(const ofVec3f position);
 	bool IsTransparent()
 	{
 		return m_Transparent;
@@ -63,31 +71,13 @@ public:
 	{
 		m_Transparent = value;
 	}
-	
+	QUAD_VISIBILITY GetVisibility()
+	{
+		return m_Visibility;
+	}
 	ofVec3f GetScreenPosition()
 	{
 		return m_ScreenPosition;
-	}
-	void CalculateScreenPosition(const ofVec3f camera_position)
-	{
-		m_ScreenPosition = m_WorldPosition - camera_position;
-		m_ScreenPositionUpdated = true;
-		m_DistanceUpdated = false;
-	}
-	float CalculateDistanceToCamera(const ofVec3f camera_position)
-	{
-		return m_WorldPosition.z;
-		// legacy way
-		if(!m_DistanceUpdated)
-		{
-			m_DistanceToCamera = camera_position.distance(m_WorldPosition);
-			m_DistanceUpdated = true;
-		}
-		return m_DistanceToCamera;
-	}
-	bool IsFarFromScreen()
-	{
-		return m_FarFromScreen;
 	}
 	bool IsScreenPositionUpdated()
 	{

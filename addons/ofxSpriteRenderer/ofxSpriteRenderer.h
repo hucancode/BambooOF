@@ -45,7 +45,7 @@ public:
 	void Update();
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);
-	bool CheckVisibility(ofxSpriteQuad* quad);
+	void UpdateVisibility(ofxSpriteQuad* quad);
 public:
 	ofxOrthoCamera* GetCamera()
 	{

@@ -24,7 +24,7 @@ ofxSpriteMaterial* ofxMaterialCache::GetMaterial(string material_file)
 void ofxMaterialCache::DeleteUnusedMaterial()
 {
 	map<string, ofxSpriteMaterial*>::iterator it = m_MaterialMap.begin();
-	for(;it != m_MaterialMap.end();)
+	while(it != m_MaterialMap.end())
 	{
 		ofxSpriteMaterial* material = (*it).second;
 		if(material->IsUnused())
