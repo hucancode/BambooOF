@@ -16,13 +16,6 @@ enum QUAD_VISIBILITY
 	QUAD_VISIBILITY_FAR_SCREEN
 };
 
-const float g_FarScreenThreshold = 1000;
-const int g_FarScreenUpdateSequence = 20;
-// 
-//!!!!! NEW IDEA
-// if a sprite gone too far(distance >= g_FarScreenThreshold), it will turn on m_FarFromScreen attribute
-// once a sprite being far from screen, it will be ignored(pause updating) for some(g_FarScreenUpdateSequence) frame
-// 
 class ofxSpriteCommand;
 class ofxSpriteRenderer;
 class ofxSpriteQuad
@@ -37,6 +30,7 @@ private:
 	bool m_Transparent;
 	QUAD_STATUS m_Status;
 	QUAD_VISIBILITY m_Visibility;
+	bool m_Visible;
 private:
 	bool m_ScreenPositionUpdated;
 	bool m_DistanceUpdated;
@@ -51,6 +45,7 @@ private:
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
+	virtual void Update(const float delta_time){}
 	void CalculateScreenPosition(const ofVec3f camera_position, bool fast_move = true);
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
 	void SetPosition(const ofVec3f position, bool fast_move = true);

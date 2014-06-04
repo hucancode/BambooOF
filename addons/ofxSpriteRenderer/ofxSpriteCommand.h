@@ -21,10 +21,12 @@ private:
 	unsigned short m_IndexInRenderer;
 	unsigned int m_FirstSpriteIndex;
 	unsigned int m_LastSpriteIndex;
+	unsigned int m_VisibleSpriteCount;
 	float m_DistanceMin;
 	float m_DistanceMax;
 	ofxSpriteMaterial* m_Material;
 	vector<ofxVertex> m_Vertices;
+	vector<bool> m_VisibleSprite;
 	GLuint m_VBOId;
 	GLsizei m_IndicesSize;
 	static vector<GLuint> m_Indices;

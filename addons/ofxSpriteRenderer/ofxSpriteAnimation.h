@@ -34,7 +34,7 @@ public:
 	void SetSequenceCount(unsigned short count);
 	void SetSequenceData(unsigned short index, unsigned short begin, unsigned short end);
 
-	void Update(const float delta_time);
+	virtual void Update(const float delta_time);
 	void PauseResume();
 	bool IsPaused();
 };

@@ -83,6 +83,7 @@ void ofxSpriteAnimation::SetSequenceData(unsigned short index, unsigned short be
 }
 void ofxSpriteAnimation::Update(const float delta_time)
 {
+	ofxSpriteQuad::Update(delta_time);
 	m_AnimationTime += delta_time;
 	if(m_AnimationTime >= m_FrameTime[m_SequenceIndex])
 	{

@@ -25,6 +25,7 @@ ofxSpriteCommand::ofxSpriteCommand()
 {
 	glGenBuffers(1, &m_VBOId);
 	//glGenBuffers(1, &m_IBOId);
+	m_VisibleSpriteCount = 0;
 }
 ofxSpriteCommand::~ofxSpriteCommand()
 {
@@ -49,6 +50,7 @@ void ofxSpriteCommand::Unbind()
 }
 void ofxSpriteCommand::Render()
 {
+	if(m_VisibleSpriteCount != m_VisibleSprite.size()) return;
 	Bind();
 	glDrawElements(GL_TRIANGLES, m_IndicesSize, GL_UNSIGNED_SHORT, 0);
 	Unbind();
@@ -63,7 +65,10 @@ void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 	m_Vertices.push_back(vertexC);
 	m_Vertices.push_back(vertexD);
 	m_IndicesSize += 6;
+	m_VisibleSprite.push_back(true);
+	m_VisibleSpriteCount++;
 	UpdateSprite(sprite);
+	
 }
 void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 {
@@ -85,7 +90,17 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 			m_Status = COMMAND_STATUS_DISMISSED;
 		}
 	}
+	
 	unsigned int index = sprite->m_IndexInCommand;
+	bool visible = sprite->m_Visible && sprite->m_Visibility == QUAD_VISIBILITY_IN_SCREEN;
+	if(visible && !m_VisibleSprite[index*0.25])
+	{
+		m_VisibleSpriteCount++;
+	}
+	else if(!visible && m_VisibleSprite[index*0.25])
+	{
+		m_VisibleSpriteCount--;
+	}
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
 	vertexA = &m_Vertices[index];
 	vertexB = &m_Vertices[index+1];
