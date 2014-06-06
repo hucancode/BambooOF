@@ -46,9 +46,10 @@ public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
 	virtual void Update(const float delta_time){}
-	void CalculateScreenPosition(const ofVec3f camera_position, bool fast_move = true);
+	void CalculateScreenPosition(const ofVec3f camera_position);
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
-	void SetPosition(const ofVec3f position, bool fast_move = true);
+	void MoveTo(const ofVec3f position);
+	void MoveBy(const ofVec3f accelerator);
 	ofxSpriteMaterial* GetMaterial()
 	{
 		return m_Material;

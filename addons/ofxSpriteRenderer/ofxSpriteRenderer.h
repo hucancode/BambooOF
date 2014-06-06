@@ -5,6 +5,10 @@
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
 
+#define FAR_SCREEN_DISTANCE_THRESHOLD 1000
+#define FAR_SCREEN_SPEED_THRESHOLD 50
+#define FAR_SCREEN_UPDATE_SEQUENCE 20
+
 class ofxSpriteRenderer
 {
 public :

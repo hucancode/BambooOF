@@ -190,7 +190,7 @@ static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* 
 }
 void ofxSpriteRenderer::Update()
 {
-	// it's a fancy and risky algorithm, need to test, test many times
+	// TODO: it's a fancy and risky algorithm, need to test, test many times
 	{
 		int size = m_SolidCommands.size();
 		bool* need_to_rebuild = new bool[size];
@@ -368,10 +368,7 @@ void ofxSpriteRenderer::Update()
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
 	}
 }
-float g_ScreenWidth = 800;
-float g_ScreenHeight = 600;
-#define FAR_SCREEN_THRESHOLD 1000
-#define FAR_SCREEN_UPDATE_SEQUENCE 20
+
 void ofxSpriteRenderer::UpdateVisibility(ofxSpriteQuad* quad)
 {
 	unsigned int frame_number = 1;
@@ -384,19 +381,19 @@ void ofxSpriteRenderer::UpdateVisibility(ofxSpriteQuad* quad)
 	{
 		quad->CalculateScreenPosition(m_Camera->getGlobalPosition());
 	}
-	if(quad->GetScreenPosition().y > -FAR_SCREEN_THRESHOLD)
+	if(quad->GetScreenPosition().y > -FAR_SCREEN_DISTANCE_THRESHOLD)
 	{
 		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(quad->GetScreenPosition().x > -FAR_SCREEN_THRESHOLD)
+	else if(quad->GetScreenPosition().x > -FAR_SCREEN_DISTANCE_THRESHOLD)
 	{
 		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(quad->GetScreenPosition().y < g_ScreenHeight + FAR_SCREEN_THRESHOLD + quad->GetHeight())
+	else if(quad->GetScreenPosition().y < FAR_SCREEN_DISTANCE_THRESHOLD + quad->GetHeight())
 	{
 		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(quad->GetScreenPosition().x < g_ScreenWidth + FAR_SCREEN_THRESHOLD + quad->GetWidth())
+	else if(quad->GetScreenPosition().x < FAR_SCREEN_DISTANCE_THRESHOLD + quad->GetWidth())
 	{
 		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}

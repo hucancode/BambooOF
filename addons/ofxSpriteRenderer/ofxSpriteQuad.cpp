@@ -27,26 +27,35 @@ void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 		m_Status = QUAD_STATUS_MATERIAL_CHANGE;
 	}
 }
-void ofxSpriteQuad::SetPosition(const ofVec3f position, bool fast_move)
+void ofxSpriteQuad::MoveTo(const ofVec3f position)
 {
 	m_WorldPosition = position;
 	m_ScreenPositionUpdated = false;
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
-	if(fast_move)
+	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+}
+void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
+{
+	m_WorldPosition += accelerator;
+	m_ScreenPositionUpdated = false;
+	m_DistanceUpdated = false;
+	m_Status = QUAD_STATUS_POSITION_CHANGE;
+	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD)
+	{
+		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	}
+	else if(accelerator.y > FAR_SCREEN_SPEED_THRESHOLD)
 	{
 		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 	}
 }
-void ofxSpriteQuad::CalculateScreenPosition(const ofVec3f camera_position, bool fast_move)
+void ofxSpriteQuad::CalculateScreenPosition(const ofVec3f camera_position)
 {
 	m_ScreenPosition = m_WorldPosition - camera_position;
 	m_ScreenPositionUpdated = true;
 	m_DistanceUpdated = false;
-	if(fast_move)
-	{
-		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
-	}
+	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 }
 float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 {
