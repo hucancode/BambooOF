@@ -1,8 +1,28 @@
 BambooOF
 ========
 this is my jx clone project. all these graphics & audio are extracted from the original game.
-i'm gonna do 2 task
-* build recast wrapper
-  * develop wrapper
-  * render using of
-* port bamboo from cc to of
+
+TASK LIST
+---------
+* build recast wrapper [OK]
+  * develop wrapper [OK]
+  * render using of [OK]
+* port bamboo from cc to of [DEV]
+  * develop 2d sprite renderer/3d plane renderer [DEV]
+  * render character using sprite renderer
+  * redesign data
+  * memory management
+* develop rts engine
+  * fog of war calculation
+  * multi-agent pathfinding
+  * dynamic object/obstacle placing
+  * combat engine
+    * Actor
+    * Fighter:Actor
+    * Mob:Actor
+    * Missile:Actor
+    * Dummy:Actor
+    * Damage
+    * Ability
+    * Skill: Ability
+    * ....
