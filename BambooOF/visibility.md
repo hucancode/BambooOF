@@ -4,6 +4,7 @@ visibility classification
 - cloak: is transparent and can not be targeted
 - invisible: is invisible and can not be targeted
 - detected: is transparent and can be targeted
+
 implementation
 -------------------
 - shader have visible info
