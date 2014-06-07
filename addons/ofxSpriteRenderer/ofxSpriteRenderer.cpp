@@ -368,7 +368,8 @@ void ofxSpriteRenderer::Update()
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
 	}
 }
-
+const int g_ScreenWidth = 800;
+const int g_ScreenHeight = 600;
 void ofxSpriteRenderer::UpdateVisibility(ofxSpriteQuad* quad)
 {
 	unsigned int frame_number = 1;

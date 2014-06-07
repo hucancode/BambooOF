@@ -1,4 +1,5 @@
 #include "ofxSpriteMaterial.h"
+#include "FreeImage.h"
 ofxSpriteMaterial::ofxSpriteMaterial()
 {
 	m_TextureCount = 0;
@@ -27,9 +28,19 @@ void ofxSpriteMaterial::SetMaxTexture(const int size)
 	m_TextureSize = new GLuint[size*2];
 	m_TextureOrder = new GLuint[size];
 }
-void ofxSpriteMaterial::LoadTexture(const char* texture_file, const int index)
+void ofxSpriteMaterial::LoadTexturePNG(const char* texture_file, const int index)
 {
-	char* image_data;// TODO: do something to load it from file
+	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
+	unsigned int bpp = FreeImage_GetBPP(image_data);
+	unsigned int width = FreeImage_GetWidth(image_data);
+	unsigned int height = FreeImage_GetHeight(image_data);
+	BYTE* pixel_data = FreeImage_GetBits(image_data);
+	{
+		GLenum format = bpp==24?GL_RGB:GL_RGBA;
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
+		m_TextureSize[index*2] = width;
+		m_TextureSize[index*2+1] = height;
+	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,param);
@@ -45,6 +56,7 @@ void ofxSpriteMaterial::LoadTexture(const char* texture_file, const int index)
 		}
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,param);
 	}
+	delete pixel_data;
 	delete image_data;
 }
 bool ofxSpriteMaterial::LoadShader(const char* vs_file, const char* fs_file)

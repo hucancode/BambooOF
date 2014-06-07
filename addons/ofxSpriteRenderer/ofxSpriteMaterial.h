@@ -9,7 +9,12 @@ struct ofxVertex
 class ofxSpriteMaterial
 {
 private:
+
+private:
 	unsigned int m_TextureCount;
+private:
+	unsigned int m_ReferenceCount;
+private:
 	GLuint* m_TextureId;
 	GLuint* m_TextureOrder;
 	GLuint* m_TextureSize;
@@ -19,12 +24,11 @@ private:
 	GLint* m_ShaderLocationUV;
 	GLint* m_ShaderLocationCUV;
 	GLint* m_ShaderLocationTexture;
-	unsigned int m_ReferenceCount;
 public:
 	ofxSpriteMaterial();
 	~ofxSpriteMaterial();
 	void SetMaxTexture(const int size);
-	void LoadTexture(const char* texture_file, const int index);
+	void LoadTexturePNG(const char* texture_file, const int index);
 	bool LoadShader(const char* vs_file, const char* fs_file);
 	void BuildMaterial();
 	void Bind();
