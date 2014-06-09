@@ -177,9 +177,11 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp" />
@@ -233,6 +235,7 @@
     <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\TestCases.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\addons\ofxFX\src\composers\ofxBlend.h" />
@@ -370,9 +373,11 @@
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAlloc.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h" />
@@ -429,6 +434,7 @@
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\TestCases.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
@@ -436,14 +442,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.frag">
-      <FileType>Document</FileType>
+    <None Include="..\addons\ofxSpriteRenderer\mono_shader.frag">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Resource>
-    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.vertex">
-      <FileType>Document</FileType>
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\mono_shader.vertex">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Resource>
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\poly_shader.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\poly_shader.vertex">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxSpriteMaterial.h"
-
+#include "ofxPolyMaterial.h"
+#include "ofxMonoMaterial.h"
 class ofxMaterialCache
 {
 public :
@@ -24,10 +24,10 @@ public :
 		s_Instance = 0;
 	}
 private:
-	map<string, ofxSpriteMaterial*> m_MaterialMap;
+	map<string, ofxMonoMaterial*> m_MaterialMap;
 public:
 	ofxMaterialCache();
 	~ofxMaterialCache();
-	ofxSpriteMaterial* GetMaterial(string material_file);
+	ofxMonoMaterial* GetMaterial(string material_file);
 	void DeleteUnusedMaterial();
 };

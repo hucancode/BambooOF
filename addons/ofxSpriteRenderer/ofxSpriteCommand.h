@@ -1,6 +1,6 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxSpriteMaterial.h"
+#include "ofxPolyMaterial.h"
 #include "ofxSpriteQuad.h"
 
 enum COMMAND_STATUS

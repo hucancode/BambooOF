@@ -132,8 +132,23 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 			i += 2, j += 2, 
 			x += 4, y += 4, w += 4, h += 4)
 		{
-			float texture_w = sprite->GetMaterial()->GetTextureSizeRaw(i);
-			float texture_h = sprite->GetMaterial()->GetTextureSizeRaw(j);
+			float texture_w;
+			float texture_h;
+			if(sprite->GetMaterial()->GetType() == MATERIAL_TYPE_MONO)
+			{
+				texture_w = ((ofxMonoMaterial*)sprite->GetMaterial())->GetTextureSizeX();
+				texture_h = ((ofxMonoMaterial*)sprite->GetMaterial())->GetTextureSizeY();
+			}
+			else if(sprite->GetMaterial()->GetType() == MATERIAL_TYPE_POLY)
+			{
+				texture_w = ((ofxPolyMaterial*)sprite->GetMaterial())->GetTextureSizeRaw(i);
+				texture_h = ((ofxPolyMaterial*)sprite->GetMaterial())->GetTextureSizeRaw(j);
+			}
+			else
+			{
+				texture_w = 1;
+				texture_h = 1;
+			}
 			float sprite_w = sprite->GetWidth();
 			float sprite_h = sprite->GetHeight();
 			float texture_rect_x = sprite->GetTextureRectRaw(x);

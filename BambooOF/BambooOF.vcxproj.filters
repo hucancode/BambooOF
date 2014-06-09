@@ -115,9 +115,6 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
@@ -424,6 +421,18 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\TestCases.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -618,9 +627,6 @@
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h">
@@ -1109,13 +1115,31 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\TestCases.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.frag">
+    <None Include="..\addons\ofxSpriteRenderer\mono_shader.frag">
       <Filter>addons\ofxSpriteRenderer</Filter>
-    </Resource>
-    <Resource Include="..\addons\ofxSpriteRenderer\default_shader.vertex">
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\mono_shader.vertex">
       <Filter>addons\ofxSpriteRenderer</Filter>
-    </Resource>
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\poly_shader.frag">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </None>
+    <None Include="..\addons\ofxSpriteRenderer\poly_shader.vertex">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </None>
   </ItemGroup>
 </Project>

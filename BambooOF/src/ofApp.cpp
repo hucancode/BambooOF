@@ -1,8 +1,24 @@
 #include "ofApp.h"
-
+#include "TestCases.h"
+//--------------------------------------------------------------
+Test* current_test = new SpriteTest();
+void setupTest()
+{
+	current_test->Setup();
+}
+void runRenderTest()
+{
+	current_test->Render();
+}
+void runUpdateTest()
+{
+	current_test->Update();
+}
 //--------------------------------------------------------------
 float g_WindowAspectRatio;
 void ofApp::setup() {
+	setupTest();
+	return;
 	ofBackground(0, 0, 0);
 	ofSetWindowTitle("Hello");
 	//------------------
@@ -42,12 +58,16 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
+	runUpdateTest();
+	return;
 	frameIndex = (int)(ofGetFrameNum()*0.5) % images.size();
 	mesh->UpdateCrowd(0.0030f);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+	runRenderTest();
+	return;
 	ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofSetColor(255);
 	//-------------------
@@ -80,6 +100,7 @@ void ofApp::draw() {
 //--------------------------------------------------------------
 #define ZOOM_SPEED 0.1f;
 void ofApp::keyPressed(int key){
+	return;
 	if(key == OF_KEY_UP) 
 		cam.scale -= ZOOM_SPEED;
 	if(key == OF_KEY_DOWN) 
@@ -106,6 +127,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	return;
 	if(button != 0 && button != 2) return;
 	ofVec3f ray[2];
 	// Define ray in screen space
@@ -164,6 +186,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
+	return;
 	g_WindowAspectRatio = (float)w/(float)h;
 	cam.setAspectRatio(g_WindowAspectRatio);
 }

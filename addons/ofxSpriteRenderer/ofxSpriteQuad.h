@@ -1,7 +1,7 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxSpriteMaterial.h"
-
+#include "ofxPolyMaterial.h"
+#include "ofxMonoMaterial.h"
 enum QUAD_STATUS
 {
 	QUAD_STATUS_MATERIAL_CHANGE,

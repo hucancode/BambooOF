@@ -4,6 +4,7 @@
 ofxSpriteQuad::ofxSpriteQuad()
 {
 	m_TextureRect = 0;
+	m_SpriteRect = 0;
 	m_Material = 0;
 	m_ScreenPositionUpdated = false;
 	m_DistanceUpdated = false;
@@ -18,9 +19,13 @@ ofxSpriteQuad::~ofxSpriteQuad()
 }
 void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 {
-	if(material == m_Material) return;
-	m_Material->DecreaseReference();
+	if(m_Material)
+	{
+		if(material == m_Material) return;
+		m_Material->DecreaseReference();
+	}
 	m_Material = material;
+	SetMaxTexture(material->GetTextureCount());
 	m_Material->IncreaseReference();
 	if(m_Status != QUAD_STATUS_POSITION_CHANGE)
 	{
