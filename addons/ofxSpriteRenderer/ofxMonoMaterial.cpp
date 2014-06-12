@@ -1,8 +1,9 @@
 #include "ofxMonoMaterial.h"
 #include "FreeImage.h"
+#define DEBUG
 ofxMonoMaterial::ofxMonoMaterial()
 {
-	m_TextureId = 0;
+	glGenTextures(1, &m_TextureId);
 	m_TextureSize[0] = m_TextureSize[1] = 0;
 	m_ShaderProgramId = 0;
 	m_ShaderLocationXYZ = -1;
@@ -18,6 +19,7 @@ ofxMonoMaterial::~ofxMonoMaterial()
 }
 void ofxMonoMaterial::LoadTexturePNG(const char* texture_file)
 {
+	
 	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
 	unsigned int bpp = FreeImage_GetBPP(image_data);
 	unsigned int width = FreeImage_GetWidth(image_data);
@@ -26,6 +28,7 @@ void ofxMonoMaterial::LoadTexturePNG(const char* texture_file)
 	{
 		GLenum format = bpp==24?GL_RGB:GL_RGBA;
 		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 		m_TextureSize[0] = width;
 		m_TextureSize[1] = height;
@@ -56,11 +59,16 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	m_ShaderProgramId = glCreateProgram();
 	// load data
 	ofBuffer vs_buffer = ofBufferFromFile(vs_file);
-	const char* vs_source = vs_buffer.getText().c_str();
-	glShaderSource(vs_id, 1, &vs_source, NULL);
+	string vs_string = vs_buffer.getText();
+	const char* vs_source = vs_string.c_str();
+	int vs_size = vs_buffer.getText().size()+1;
+	glShaderSource(vs_id, 1, &vs_source, &vs_size);
 	ofBuffer fs_buffer = ofBufferFromFile(fs_file);
-	const char* fs_source = fs_buffer.getText().c_str();
-	glShaderSource(fs_id, 1, &fs_source, NULL);
+	string fs_string = fs_buffer.getText();
+	const char* fs_source = fs_string.c_str();
+	printf("fs source:\n%s\n", fs_source);
+	int fs_size = fs_buffer.getText().size()+1;
+	glShaderSource(fs_id, 1, &fs_source, &fs_size);
 	// compile shader
 	glCompileShader(vs_id);
 	glCompileShader(fs_id);
@@ -75,16 +83,16 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 		glGetShaderiv(vs_id, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
-			glGetShaderInfoLog(vs_id, len, NULL, len);
+			char* info = new char[len];
+			glGetShaderInfoLog(vs_id, len, NULL, info);
 			printf("Error compiling vs shader:\n%s\n", info);
 			delete[] info;
 		}
 		glGetShaderiv(fs_id, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
-			glGetShaderInfoLog(fs_id, len, NULL, len);
+			char* info = new char[len];
+			glGetShaderInfoLog(fs_id, len, NULL, info);
 			printf("Error compiling fs shader:\n%s\n", info);
 			delete[] info;
 		}
@@ -106,9 +114,9 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 		glGetProgramiv(m_ShaderProgramId, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
+			char* info = new char[len];
 			glGetProgramInfoLog(m_ShaderProgramId, len, NULL, info);
-			printf("Error linking program:\n%s\n", infoLog);
+			printf("Error linking program:\n%s\n", info);
 			delete[] info;
 		}
 #endif
@@ -128,13 +136,14 @@ void ofxMonoMaterial::Bind()
 	glUseProgram(m_ShaderProgramId);
 	// vertices
 	glEnableVertexAttribArray(m_ShaderLocationXYZ);
-	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
+	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), 0);
 	// tex coords
 	glEnableVertexAttribArray(m_ShaderLocationUV);
-	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV));
+	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*3);
 	glEnableVertexAttribArray(m_ShaderLocationCUV);
-	glVertexAttribPointer(m_ShaderLocationCUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, CUV));
+	glVertexAttribPointer(m_ShaderLocationCUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*67);
 	// shader textures
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }

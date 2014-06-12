@@ -57,7 +57,10 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 }
 void ofxSpriteQuad::CalculateScreenPosition(const ofVec3f camera_position)
 {
-	m_ScreenPosition = m_WorldPosition - camera_position;
+	m_ScreenPosition.x = m_WorldPosition.x + camera_position.x;
+	m_ScreenPosition.y = m_WorldPosition.y + camera_position.y;
+	m_ScreenPosition.x /= 800.0f;
+	m_ScreenPosition.y /= 600.0f;
 	m_ScreenPositionUpdated = true;
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
@@ -109,6 +112,8 @@ void ofxSpriteQuad::SetSpriteRect(const unsigned short order,
 }
 void ofxSpriteQuad::SubmitChanges()
 {
+	if(m_Status == QUAD_STATUS_NO_CHANGE) return;
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN) return;
 	m_ParentCommand->UpdateSprite(this);
+	m_Status = QUAD_STATUS_NO_CHANGE;
 }

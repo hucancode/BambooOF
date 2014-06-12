@@ -5,9 +5,9 @@
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
 
-#define FAR_SCREEN_DISTANCE_THRESHOLD 1000
-#define FAR_SCREEN_SPEED_THRESHOLD 50
-#define FAR_SCREEN_UPDATE_SEQUENCE 20
+#define FAR_SCREEN_DISTANCE_THRESHOLD 2.0
+#define FAR_SCREEN_SPEED_THRESHOLD 0.01
+#define FAR_SCREEN_UPDATE_SEQUENCE 200
 
 class ofxSpriteRenderer
 {
@@ -34,7 +34,7 @@ private:
 	ofxSpriteQuads		m_TransparentQuads;
 	ofxSpriteCommands	m_SolidCommands;
 	ofxSpriteCommands	m_TransparentCommands;
-	bool				m_RendererUpdated;
+	bool				m_CameraUpdated;
 #ifdef DEBUG
 	int					m_DrawnBatches;
 	int					m_DrawnVertices;
@@ -49,10 +49,17 @@ public:
 	void Update();
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);
+private:
 	void UpdateVisibility(ofxSpriteQuad* quad);
 public:
 	ofxOrthoCamera* GetCamera()
 	{
 		return m_Camera;
+	}
+	void MoveCamera(ofVec3f vec)
+	{
+		m_CameraUpdated = false;
+		m_Camera->move(vec);
+
 	}
 };

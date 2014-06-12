@@ -30,15 +30,15 @@ private:
 	bool m_Transparent;
 	QUAD_STATUS m_Status;
 	QUAD_VISIBILITY m_Visibility;
-	bool m_Visible;
-private:
-	bool m_ScreenPositionUpdated;
-	bool m_DistanceUpdated;
-	float m_DistanceToCamera;
 	ofVec3f m_ScreenPosition;
 	ofVec3f m_WorldPosition;
 	GLfloat m_WorldQuad[2];
 	unsigned short m_Quad[2];
+	bool m_Visible;
+	float m_DistanceToCamera;
+private:
+	bool m_ScreenPositionUpdated;
+	bool m_DistanceUpdated;
 private:
 	unsigned short* m_TextureRect;
 	unsigned short* m_SpriteRect;
@@ -79,21 +79,37 @@ public:
 	{
 		return m_ScreenPositionUpdated;
 	}
-	unsigned int GetWidth()
+	unsigned int GetLogicWidth()
 	{
 		return m_Quad[0];
 	}
-	void SetWidth(const unsigned int width)
+	void SetLogicWidth(const unsigned int width)
 	{
 		m_Quad[0] = width;
 	}
-	unsigned int GetHeight()
+	unsigned int GetLogicHeight()
 	{
 		return m_Quad[1];
 	}
-	void SetHeight(const unsigned int height)
+	void SetLogicHeight(const unsigned int height)
 	{
 		m_Quad[1] = height;
+	}
+	float GetWidth()
+	{
+		return m_WorldQuad[0];
+	}
+	void SetWidth(const float width)
+	{
+		m_WorldQuad[0] = width;
+	}
+	float GetHeight()
+	{
+		return m_WorldQuad[1];
+	}
+	void SetHeight(const float height)
+	{
+		m_WorldQuad[1] = height;
 	}
 	unsigned int GetTextureRectRaw(const int index)
 	{

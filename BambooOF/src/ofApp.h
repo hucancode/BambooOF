@@ -26,12 +26,10 @@ class ofApp : public ofBaseApp{
 	private:
 		NavMesh* mesh;
 		NavMeshRender* render;
-		ofxOrthoCamera cam;
+		ofxOrthoCamera* cam;
 
 		int frameIndex;
 		vector <ofImage> images;
 
-		//ofPlanePrimitive plane;
-		ofPlanePrimitive** planes;
-		int planeIndex;
+		ofVboMesh* spriteMesh;
 };

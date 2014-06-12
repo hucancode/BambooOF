@@ -15,7 +15,7 @@ class ofxSpriteCommand
 	friend class ofxSpriteQuad;
 	friend class ofxSpriteRenderer;
 public:
-	static void GenerateSharedIndices(unsigned int number_of_quad=5000);
+	static void GenerateSharedIndices(unsigned short number_of_quad=5000);
 	static void DeleteSharedIndices();
 private:
 	unsigned short m_IndexInRenderer;
@@ -29,7 +29,7 @@ private:
 	vector<bool> m_VisibleSprite;
 	GLuint m_VBOId;
 	GLsizei m_IndicesSize;
-	static vector<GLuint> m_Indices;
+	static vector<GLushort> m_Indices;
 	static GLuint m_IBOId;
 	COMMAND_STATUS m_Status;
 public:

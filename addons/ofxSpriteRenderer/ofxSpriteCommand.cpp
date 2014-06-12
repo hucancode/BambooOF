@@ -1,18 +1,20 @@
 #include "ofxSpriteCommand.h"
 
-vector<GLuint> ofxSpriteCommand::m_Indices;
+vector<GLushort> ofxSpriteCommand::m_Indices;
 GLuint ofxSpriteCommand::m_IBOId;
-void ofxSpriteCommand::GenerateSharedIndices(unsigned int number_of_quad)
+void ofxSpriteCommand::GenerateSharedIndices(unsigned short number_of_quad)
 {
+	if(number_of_quad > 6000) return;
+	number_of_quad *= 4;
 	glGenBuffers(1, &m_IBOId);
 	for(unsigned int i=0;i<number_of_quad;i+=4)
 	{
 		m_Indices.push_back(i+0);
 		m_Indices.push_back(i+1);
 		m_Indices.push_back(i+2);
+		m_Indices.push_back(i+0);
 		m_Indices.push_back(i+2);
 		m_Indices.push_back(i+3);
-		m_Indices.push_back(i+0);
 	}
 }
 void ofxSpriteCommand::DeleteSharedIndices()
@@ -26,6 +28,7 @@ ofxSpriteCommand::ofxSpriteCommand()
 	glGenBuffers(1, &m_VBOId);
 	//glGenBuffers(1, &m_IBOId);
 	m_VisibleSpriteCount = 0;
+	m_IndicesSize = 0;
 }
 ofxSpriteCommand::~ofxSpriteCommand()
 {
@@ -36,10 +39,9 @@ ofxSpriteCommand::~ofxSpriteCommand()
 void ofxSpriteCommand::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices), &m_Vertices[0], GL_DYNAMIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices), &m_Indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
 	m_Material->Bind();
 }
 void ofxSpriteCommand::Unbind()
@@ -50,6 +52,7 @@ void ofxSpriteCommand::Unbind()
 }
 void ofxSpriteCommand::Render()
 {
+	if(m_VisibleSpriteCount == 0) return;
 	if(m_VisibleSpriteCount != m_VisibleSprite.size()) return;
 	Bind();
 	glDrawElements(GL_TRIANGLES, m_IndicesSize, GL_UNSIGNED_SHORT, 0);
@@ -93,13 +96,16 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 	
 	unsigned int index = sprite->m_IndexInCommand;
 	bool visible = sprite->m_Visible && sprite->m_Visibility == QUAD_VISIBILITY_IN_SCREEN;
-	if(visible && !m_VisibleSprite[index*0.25])
+	unsigned int index4 = index*0.25;
+	if(visible && !m_VisibleSprite[index4])
 	{
 		m_VisibleSpriteCount++;
+		m_VisibleSprite[index4] = true;
 	}
-	else if(!visible && m_VisibleSprite[index*0.25])
+	else if(!visible && m_VisibleSprite[index4])
 	{
 		m_VisibleSpriteCount--;
+		m_VisibleSprite[index4] = false;
 	}
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
 	vertexA = &m_Vertices[index];
@@ -149,8 +155,8 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 				texture_w = 1;
 				texture_h = 1;
 			}
-			float sprite_w = sprite->GetWidth();
-			float sprite_h = sprite->GetHeight();
+			float sprite_w = sprite->GetLogicWidth();
+			float sprite_h = sprite->GetLogicHeight();
 			float texture_rect_x = sprite->GetTextureRectRaw(x);
 			float texture_rect_y = sprite->GetTextureRectRaw(y);
 			float texture_rect_w = sprite->GetTextureRectRaw(w);

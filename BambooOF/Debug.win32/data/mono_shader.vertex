@@ -1,0 +1,11 @@
+attribute vec3 a_position;
+attribute vec2 a_uv;
+varying vec2 v_uv;
+attribute vec2 a_cuv;
+varying vec2 v_cuv;
+void main()
+{
+	v_uv = a_uv;
+	v_cuv = a_cuv;
+	gl_Position = vec4(a_position,1.0);
+}

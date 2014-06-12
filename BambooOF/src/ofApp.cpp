@@ -18,7 +18,6 @@ void runUpdateTest()
 float g_WindowAspectRatio;
 void ofApp::setup() {
 	setupTest();
-	return;
 	ofBackground(0, 0, 0);
 	ofSetWindowTitle("Hello");
 	//------------------
@@ -27,11 +26,7 @@ void ofApp::setup() {
 	mesh->BuildMesh();
 	mesh->InitCrowd();
 	render = new NavMeshRender(mesh);
-
-	//cam.setDistance(100);
-	g_WindowAspectRatio = 800.0/600.0;
-	cam.setAspectRatio(g_WindowAspectRatio);
-	cam.scale = 20;
+	cam = ofxSpriteRenderer::GetInstance()->GetCamera();
 
 	ofEnableAlphaBlending();
 	
@@ -46,65 +41,52 @@ void ofApp::setup() {
         }
     }
 	frameIndex = 0;
-	planeIndex = 0;
-	planes = new ofPlanePrimitive*[NUM_BILLBOARDS];
-	for (int i = 0; i < NUM_BILLBOARDS; i++)
-	{
-		planes[i] = 0;
-	}
-
-	
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	runUpdateTest();
-	return;
 	frameIndex = (int)(ofGetFrameNum()*0.5) % images.size();
 	mesh->UpdateCrowd(0.0030f);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	runRenderTest();
-	return;
-	ofBackgroundGradient(ofColor(64), ofColor(0));
-	ofSetColor(255);
-	//-------------------
-	cam.begin();
-	
+	//ofBackgroundGradient(ofColor(64), ofColor(0));
+	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	ofEnableDepthTest();
+	runRenderTest();
+	cam->begin();
 	render->Render();
-	ofSetColor(255);
-	int i=0;
-	while(i < planeIndex)
-	{
-		ofPlanePrimitive* plane = planes[i];
-		ofGetCurrentRenderer()->draw(plane->getMesh(),OF_MESH_FILL,false,true,false);
-		/*images[frameIndex].draw(
-			plane->getPosition().x, 
-			plane->getPosition().y, 
-			plane->getPosition().z, 
-			plane->getWidth(),
-			plane->getHeight());*/
-		i++;
-	}
+	cam->end();
 	ofDisableDepthTest();
-
-	cam.end();
 	//-------------------
-	ofSetColor(255);
-	ofDrawBitmapStringHighlight("FPS: "+ofToString(ofGetFrameRate(), 2)+"\nSprite: "+ofToString(planeIndex), 10, 20);
+	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+" --  Sprite: "+ofToString(0));
 }
 
 //--------------------------------------------------------------
 #define ZOOM_SPEED 0.1f;
 void ofApp::keyPressed(int key){
-	return;
 	if(key == OF_KEY_UP) 
-		cam.scale -= ZOOM_SPEED;
+	{
+		cam->scale -= ZOOM_SPEED;
+		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(0.0f,10.0f,0.0f));
+	}
 	if(key == OF_KEY_DOWN) 
-		cam.scale += ZOOM_SPEED;
+	{
+		cam->scale += ZOOM_SPEED;
+		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(0.0f,-10.0f,0.0f));
+	}
+	if(key == OF_KEY_LEFT) 
+	{
+		cam->scale -= ZOOM_SPEED;
+		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(-10.0f,0.0f,0.0f));
+	}
+	if(key == OF_KEY_RIGHT) 
+	{
+		cam->scale += ZOOM_SPEED;
+		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(10.0f,0.0f,0.0f));
+	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
 }
@@ -127,15 +109,15 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	return;
+	//return;
 	if(button != 0 && button != 2) return;
 	ofVec3f ray[2];
 	// Define ray in screen space
 	ray[0] = ofVec3f(x, y, -1);
 	ray[1] = ofVec3f(x, y, 1);
 	// Transform ray into world space
-	ray[0] = cam.orthoScreenToWorld(ray[0]);
-	ray[1] = cam.orthoScreenToWorld(ray[1]);
+	ray[0] = cam->orthoScreenToWorld(ray[0]);
+	ray[1] = cam->orthoScreenToWorld(ray[1]);
 	float* rays = new float[3];
 	float* raye = new float[3];
 	rays[0] = ray[0].x;
@@ -157,15 +139,6 @@ void ofApp::mousePressed(int x, int y, int button){
 			int ret = mesh->AddObstacle(hit_pos);
 			mesh->UpdateMesh(0.0f);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
-			for(int i=0;i<100;i++)
-			{
-				if(planeIndex >= NUM_BILLBOARDS) continue;
-				ofPlanePrimitive* plane = new ofPlanePrimitive();
-				plane->mapTexCoords(0, 192, 192, 0);
-				plane->setPosition(hit_pos[0], hit_pos[1], hit_pos[2]);
-				plane->set( 2.0f, 2.0f );
-				planes[planeIndex++] = plane;
-			}
 		}
 		else
 		{
@@ -186,9 +159,8 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-	return;
 	g_WindowAspectRatio = (float)w/(float)h;
-	cam.setAspectRatio(g_WindowAspectRatio);
+	cam->setAspectRatio(g_WindowAspectRatio);
 }
 
 //--------------------------------------------------------------
