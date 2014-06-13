@@ -26,3 +26,21 @@ TASK LIST
     * Ability
     * Skill: Ability
     * ....
+SKILL ARCHITECTURE
+---------
+- book
+	- fight skill
+		- fight ability
+			- buff
+			- damage
+			- target
+			- script(lua)
+		- fight ability cache
+		- fight skill runtime data
+	- fight skill cache
+	- trigger skill
+	- trigger skill cache
+	- passive skill
+	- passive skill cache
+- book cache
+- book set
