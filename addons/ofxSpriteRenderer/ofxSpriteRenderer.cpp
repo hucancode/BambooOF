@@ -70,26 +70,66 @@ void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 {
 	if(sprite->IsTransparent())
 	{
+		sprite->m_IndexInRenderer = m_TransparentQuads.size();
 		m_TransparentQuads.push_back(sprite);
-		// TODO: find command for sprite to get into
+		bool last_command_expanded = false;
+		if(m_TransparentCommands.size() > 0)
+		{
+			ofxSpriteCommand* last_command = m_TransparentCommands.back();
+			if(last_command->m_Status == COMMAND_STATUS_EXPANDED)
+			{
+				last_command_expanded = true;
+				last_command->PushSprite(sprite);
+			}
+		}
+		if(!last_command_expanded)
+		{
+			ofxSpriteCommand* command = new ofxSpriteCommand();
+			m_TransparentCommands.push_back(command);
+			command->m_Status = COMMAND_STATUS_EXPANDED;
+			command->SetMaterial(sprite->GetMaterial());
+			command->PushSprite(sprite);
+		}
 	}
 	else
 	{
 		m_SolidQuads.push_back(sprite);
-		// find command for sprite to get into
+		sprite->m_IndexInRenderer = m_SolidQuads.size();
+		m_SolidQuads.push_back(sprite);
+		bool last_command_expanded = false;
+		if(m_SolidCommands.size() > 0)
+		{
+			ofxSpriteCommand* last_command = m_SolidCommands.back();
+			if(last_command->m_Status == COMMAND_STATUS_EXPANDED)
+			{
+				last_command_expanded = true;
+				last_command->PushSprite(sprite);
+			}
+		}
+		if(!last_command_expanded)
+		{
+			ofxSpriteCommand* command = new ofxSpriteCommand();
+			m_SolidCommands.push_back(command);
+			command->m_Status = COMMAND_STATUS_EXPANDED;
+			command->SetMaterial(sprite->GetMaterial());
+			command->PushSprite(sprite);
+		}
 	}
 }
-void ofxSpriteRenderer::RemoveSprite(ofxSpriteQuad* sprite)
+void ofxSpriteRenderer::EraseSprite(ofxSpriteQuad* sprite)
 {
+	// tell command not to draw it
+	sprite->m_ParentCommand->EraseSprite(sprite);
+	// move it to the very far, so it won't get updated
+	sprite->MoveTo(ofVec3f(0.0f,FAR_SCREEN_DISTANCE_THRESHOLD,0.0f));
+	// tell renderer mark it as unused
 	if(sprite->IsTransparent())
 	{
-		ofxSpriteQuads::iterator it = m_TransparentQuads.begin() + sprite->m_IndexInCommand;
-		m_TransparentQuads.erase(it);
+		m_UnusedTransparentQuads.push_back(sprite->m_IndexInRenderer);
 	}
 	else
 	{
-		ofxSpriteQuads::iterator it = m_SolidQuads.begin() + sprite->m_IndexInCommand;
-		m_SolidQuads.erase(it);
+		m_UnusedSolidQuads.push_back(sprite->m_IndexInRenderer);
 	}
 }
 
@@ -110,15 +150,6 @@ static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 {
 	sort(m_SolidQuads.begin()+i, m_SolidQuads.begin()+j, SolidQuadCompare);
-	{
-		ofxSpriteCommands::iterator it = m_SolidCommands.begin();
-		for(;it != m_SolidCommands.end();it++)
-		{
-			ofxSpriteCommand* command = *it;
-			delete command;
-		}
-		m_SolidCommands.clear();
-	}
 	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin();
@@ -149,15 +180,6 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 {
 	sort(m_TransparentQuads.begin()+i, m_TransparentQuads.begin()+j, TransparentQuadCompare);
 	{
-		ofxSpriteCommands::iterator it = m_TransparentCommands.begin();
-		for(;it != m_TransparentCommands.end();it++)
-		{
-			ofxSpriteCommand* command = *it;
-			delete command;
-		}
-		m_TransparentCommands.clear();
-	}
-	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
 		for(;it != m_TransparentQuads.end();it++)
@@ -167,7 +189,6 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 			if(last_material != sprite->GetMaterial())
 			{
 				command = new ofxSpriteCommand();
-				
 				m_TransparentCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
@@ -200,7 +221,7 @@ void ofxSpriteRenderer::Update()
 		{
 			ofxSpriteQuad* item = *it;
 			item->Update(0.030f);
-			UpdateVisibility(item);
+			item->UpdateVisibility(m_CameraUpdated);
 			item->SubmitChanges();
 		}
 	}
@@ -210,12 +231,15 @@ void ofxSpriteRenderer::Update()
 		{
 			ofxSpriteQuad* item = *it;
 			item->Update(0.030f);
-			UpdateVisibility(item);
+			item->UpdateVisibility(m_CameraUpdated);
 			item->SubmitChanges();
 		}
 	}
+	bool transparent_commands_refreshed = CleanUnusedTransparentQuads();
+	bool solid_commands_refreshed = CleanUnusedSolidQuads();
 	m_CameraUpdated = true;
 	// TODO: it's a fancy and risky algorithm, need to test, test many times
+	if(!solid_commands_refreshed)
 	{
 		int size = m_SolidCommands.size();
 		bool* need_to_rebuild = new bool[size];
@@ -308,9 +332,11 @@ void ofxSpriteRenderer::Update()
 			m_SolidCommands[i]->m_IndexInRenderer = i;
 		}
 	}
+	if(!transparent_commands_refreshed)
 	{
 		int size = m_TransparentCommands.size();
 		bool* need_to_rebuild = new bool[size];
+		memset(need_to_rebuild,false,sizeof(bool)*size);
 		for(int i=0;i<size;i++)
 		{
 			ofxSpriteCommand* command = m_TransparentCommands[i];
@@ -325,7 +351,8 @@ void ofxSpriteRenderer::Update()
 			}
 			else if(command->m_Status == COMMAND_STATUS_EXPANDED)
 			{
-				int right = i;
+				need_to_rebuild[i] = true;
+				int right = i+1;
 				while(right < size)
 				{
 					ofxSpriteCommand* expanded = m_TransparentCommands[right];
@@ -338,7 +365,7 @@ void ofxSpriteRenderer::Update()
 						break;
 					}
 				}
-				int left = i;
+				int left = i-1;
 				while(left > 0)
 				{
 					ofxSpriteCommand* expanded = m_TransparentCommands[left];
@@ -358,9 +385,12 @@ void ofxSpriteRenderer::Update()
 		int k = 0;
 		int left = -1;
 		int right = -1;
-		while(index < bound)
+		while(k <= size)
 		{
-			if(need_to_rebuild[k])
+			bool trace = true;
+			if(k == size) trace = false;
+			else if(!need_to_rebuild[k]) trace = false;
+			if(trace)
 			{
 				if(left == -1)
 				{
@@ -378,7 +408,7 @@ void ofxSpriteRenderer::Update()
 				if(right != -1)
 				{
 					int min_sprite_index = m_TransparentCommands[left]->m_FirstSpriteIndex;
-					int max_sprite_index = m_TransparentCommands[left]->m_LastSpriteIndex;
+					int max_sprite_index = m_TransparentCommands[right]->m_LastSpriteIndex;
 					for(int i=left;i<=right;i++)
 					{
 						ofxSpriteCommand* command = m_TransparentCommands[i];
@@ -391,78 +421,44 @@ void ofxSpriteRenderer::Update()
 					left = -1;
 					right = -1;
 				}
+				else
+				{
+					break;
+				}
 			}
+			
 			k++;
 		}
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
-		for(int i=0;i<m_TransparentCommands.size();i++)
-		{
-			m_TransparentCommands[i]->m_IndexInRenderer = i;
-			//m_TransparentCommands[i]->m_FirstSpriteIndex;
-			//m_TransparentCommands[i]->m_LastSpriteIndex;
-			//m_TransparentCommands[i]->m_DistanceMin;
-			//m_TransparentCommands[i]->m_DistanceMax;
-		}
 	}
 }
-const int g_ScreenWidth = 800;
-const int g_ScreenHeight = 600;
-void ofxSpriteRenderer::UpdateVisibility(ofxSpriteQuad* quad)
+#define UNUSED_SOLID_QUAD_LIMIT 20
+bool ofxSpriteRenderer::CleanUnusedSolidQuads()
 {
-	unsigned int frame_number = 1;
-	if(quad->m_Visibility == QUAD_VISIBILITY_FAR_SCREEN 
-		&& frame_number % FAR_SCREEN_UPDATE_SEQUENCE != 0)
+	if(m_UnusedSolidQuads.size() < UNUSED_SOLID_QUAD_LIMIT) return false;
+	for(int i=0;i < m_UnusedSolidQuads.size(); i++)
 	{
-		return;
+		unsigned int index = m_UnusedSolidQuads[i];
+		ofxSpriteQuads::iterator it = m_SolidQuads.begin() + index;
+		m_SolidQuads.erase(it);
+		delete (*it);
 	}
-	if(!(quad->IsScreenPositionUpdated() && m_CameraUpdated))
+	m_UnusedSolidQuads.clear();
+	BuildSolidCommands(0, m_SolidCommands.size());
+	return true;
+}
+#define UNUSED_TRANSPARENT_QUAD_LIMIT 20
+bool ofxSpriteRenderer::CleanUnusedTransparentQuads()
+{
+	if(m_UnusedTransparentQuads.size() < UNUSED_TRANSPARENT_QUAD_LIMIT) return false;
+	for(int i=0;i < m_UnusedTransparentQuads.size(); i++)
 	{
-		if(quad->m_Status == QUAD_STATUS_NO_CHANGE)
-		{
-			quad->m_Status = QUAD_STATUS_SAFE_CHANGE;
-		}
-		quad->CalculateScreenPosition(m_Camera->getGlobalPosition());
+		unsigned int index = m_UnusedTransparentQuads[i];
+		ofxSpriteQuads::iterator it = m_TransparentQuads.begin() + index;
+		m_TransparentQuads.erase(it);
+		delete (*it);
 	}
-	if(quad->m_Status == QUAD_STATUS_NO_CHANGE || quad->m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
-	float x_min = quad->GetScreenPosition().x - quad->GetWidth()*0.5;
-	float x_max = x_min + quad->GetWidth();
-	float y_min = quad->GetScreenPosition().y;
-	float y_max = y_min + quad->GetHeight();
-
-	if(y_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
-	}
-	else if(x_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
-	}
-	else if(y_min > FAR_SCREEN_DISTANCE_THRESHOLD)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
-	}
-	else if(x_min > FAR_SCREEN_DISTANCE_THRESHOLD)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
-	}
-	else if(y_max < -1.0f)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
-	}
-	else if(x_max < -1.0f)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
-	}
-	else if(y_min > 1.0f)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
-	}
-	else if(x_min > 1.0f)
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
-	}
-	else
-	{
-		quad->m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
-	}
+	m_UnusedTransparentQuads.clear();
+	BuildSolidCommands(0, m_TransparentCommands.size());
+	return true;
 }

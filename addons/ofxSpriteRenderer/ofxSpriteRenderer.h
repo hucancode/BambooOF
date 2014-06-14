@@ -30,11 +30,13 @@ public :
 		s_Instance = 0;
 	}
 private:
-	ofxSpriteQuads		m_SolidQuads;
-	ofxSpriteQuads		m_TransparentQuads;
-	ofxSpriteCommands	m_SolidCommands;
-	ofxSpriteCommands	m_TransparentCommands;
-	bool				m_CameraUpdated;
+	ofxSpriteQuads			m_SolidQuads;
+	ofxSpriteQuads			m_TransparentQuads;
+	ofxSpriteCommands		m_SolidCommands;
+	ofxSpriteCommands		m_TransparentCommands;
+	bool					m_CameraUpdated;
+	vector<unsigned int>	m_UnusedSolidQuads;
+	vector<unsigned int>	m_UnusedTransparentQuads;
 #ifdef DEBUG
 	int					m_DrawnBatches;
 	int					m_DrawnVertices;
@@ -45,12 +47,13 @@ public:
 	~ofxSpriteRenderer();
 	void Render();
 	void PushSprite(ofxSpriteQuad* sprite);
-	void RemoveSprite(ofxSpriteQuad* sprite);
+	void EraseSprite(ofxSpriteQuad* sprite);
 	void Update();
+private:
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);
-private:
-	void UpdateVisibility(ofxSpriteQuad* quad);
+	bool CleanUnusedSolidQuads();
+	bool CleanUnusedTransparentQuads();
 public:
 	ofxOrthoCamera* GetCamera()
 	{
@@ -60,6 +63,5 @@ public:
 	{
 		m_CameraUpdated = false;
 		m_Camera->move(vec);
-
 	}
 };

@@ -1,7 +1,7 @@
 #include "ofApp.h"
 #include "TestCases.h"
 //--------------------------------------------------------------
-Test* current_test = new SpriteTest();
+Test* current_test = new RendererTest();
 void setupTest()
 {
 	current_test->Setup();

@@ -10,6 +10,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 	m_Status = QUAD_STATUS_NO_CHANGE;
+	m_Transparent = true;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
@@ -75,6 +76,66 @@ float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 		m_DistanceUpdated = true;
 	}
 	return m_DistanceToCamera;
+}
+void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
+{
+	unsigned int frame_number = 1;
+	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN 
+		&& frame_number % FAR_SCREEN_UPDATE_SEQUENCE != 0)
+	{
+		return;
+	}
+	if(!(IsScreenPositionUpdated() && camera_updated))
+	{
+		if(m_Status == QUAD_STATUS_NO_CHANGE)
+		{
+			m_Status = QUAD_STATUS_SAFE_CHANGE;
+		}
+		ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+		CalculateScreenPosition(camera_position);
+	}
+	if(m_Status == QUAD_STATUS_NO_CHANGE || m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
+	float x_min = GetScreenPosition().x - GetWidth()*0.5;
+	float x_max = x_min + GetWidth();
+	float y_min = GetScreenPosition().y;
+	float y_max = y_min + GetHeight();
+
+	if(y_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
+	{
+		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(x_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
+	{
+		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(y_min > FAR_SCREEN_DISTANCE_THRESHOLD)
+	{
+		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(x_min > FAR_SCREEN_DISTANCE_THRESHOLD)
+	{
+		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
+	}
+	else if(y_max < -1.0f)
+	{
+		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(x_max < -1.0f)
+	{
+		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(y_min > 1.0f)
+	{
+		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else if(x_min > 1.0f)
+	{
+		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
+	}
+	else
+	{
+		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	}
 }
 void ofxSpriteQuad::SetMaxTexture(const int size)
 {

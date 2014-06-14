@@ -42,7 +42,8 @@ public:
 	void Unbind();
 	void Render();
 	void PushSprite(ofxSpriteQuad* sprite);
-	void UpdateSprite(ofxSpriteQuad* sprite, bool update_status = true);
+	void EraseSprite(ofxSpriteQuad* sprite);
+	void UpdateSprite(ofxSpriteQuad* sprite);
 	void Rebuild();
 public:
 	unsigned int GetFirstSpriteIndex()

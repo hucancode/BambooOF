@@ -1,5 +1,5 @@
 #include "ofxSpriteCommand.h"
-
+#include "ofxSpriteRenderer.h"
 vector<GLushort> ofxSpriteCommand::m_Indices;
 GLuint ofxSpriteCommand::m_IBOId;
 void ofxSpriteCommand::GenerateSharedIndices(unsigned short number_of_quad)
@@ -29,6 +29,11 @@ ofxSpriteCommand::ofxSpriteCommand()
 	//glGenBuffers(1, &m_IBOId);
 	m_VisibleSpriteCount = 0;
 	m_IndicesSize = 0;
+	m_FirstSpriteIndex = -1;
+	m_LastSpriteIndex = -1;
+	m_DistanceMin = 0;
+	m_DistanceMax = 0;
+	m_Status = COMMAND_STATUS_UNITED;
 }
 ofxSpriteCommand::~ofxSpriteCommand()
 {
@@ -53,16 +58,39 @@ void ofxSpriteCommand::Unbind()
 void ofxSpriteCommand::Render()
 {
 	if(m_VisibleSpriteCount == 0) return;
-	if(m_VisibleSpriteCount != m_VisibleSprite.size()) return;
+	//if(m_VisibleSpriteCount != m_VisibleSprite.size()) return;
 	Bind();
 	glDrawElements(GL_TRIANGLES, m_IndicesSize, GL_UNSIGNED_SHORT, 0);
 	Unbind();
 }
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
+	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	float distance = sprite->CalculateDistanceToCamera(camera_position);
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
 	sprite->m_IndexInCommand = m_Vertices.size();
 	sprite->m_ParentCommand = this;
+	if(m_FirstSpriteIndex == -1)
+	{
+		m_FirstSpriteIndex = m_LastSpriteIndex = sprite->m_IndexInRenderer;
+		m_DistanceMin = m_DistanceMax = distance;
+	}
+	if(sprite->m_IndexInRenderer < m_FirstSpriteIndex)
+	{
+		m_FirstSpriteIndex = sprite->m_IndexInRenderer;
+	}
+	else if(sprite->m_IndexInRenderer > m_LastSpriteIndex)
+	{
+		m_LastSpriteIndex = sprite->m_IndexInRenderer;
+	}
+	if(distance < m_DistanceMin)
+	{
+		m_DistanceMin = distance;
+	}
+	else if(distance > m_DistanceMax)
+	{
+		m_DistanceMax = distance;
+	}
 	m_Vertices.push_back(vertexA);
 	m_Vertices.push_back(vertexB);
 	m_Vertices.push_back(vertexC);
@@ -73,17 +101,38 @@ void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 	UpdateSprite(sprite);
 	
 }
-void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
+void ofxSpriteCommand::EraseSprite(ofxSpriteQuad* sprite)
+{
+	if(m_Status != COMMAND_STATUS_EXPANDED || m_Status == COMMAND_STATUS_DISMISSED) return;
+	unsigned int index = sprite->m_IndexInCommand;
+	bool visible = sprite->m_Visible && sprite->m_Visibility == QUAD_VISIBILITY_IN_SCREEN;
+	unsigned int index4 = index*0.25;
+	if(visible && !m_VisibleSprite[index4])
+	{
+		m_VisibleSpriteCount++;
+		m_VisibleSprite[index4] = true;
+	}
+	else if(!visible && m_VisibleSprite[index4])
+	{
+		m_VisibleSpriteCount--;
+		m_VisibleSprite[index4] = false;
+	}
+	m_Vertices.erase(m_Vertices.begin() + index);
+	m_Vertices.erase(m_Vertices.begin() + index+1);
+	m_Vertices.erase(m_Vertices.begin() + index+2);
+	m_Vertices.erase(m_Vertices.begin() + index+3);
+}
+void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {
 	if(sprite->m_Status != QUAD_STATUS_NO_CHANGE && m_Status != COMMAND_STATUS_EXPANDED)
 	{
 		if(sprite->m_Status == QUAD_STATUS_POSITION_CHANGE)
 		{
-			if(sprite->GetPosition().y > m_DistanceMax || sprite->GetPosition().y < m_DistanceMin )
+			if(sprite->GetPosition().y > m_DistanceMax || sprite->GetPosition().y < m_DistanceMin)
 			{
 				m_Status = COMMAND_STATUS_EXPANDED;
 			}
-			else
+			else if(m_Status != COMMAND_STATUS_EXPANDED)
 			{
 				m_Status = COMMAND_STATUS_DISMISSED;
 			}
@@ -92,8 +141,12 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 		{
 			m_Status = COMMAND_STATUS_DISMISSED;
 		}
+		return;
 	}
-	
+	if(m_Status == COMMAND_STATUS_EXPANDED || m_Status == COMMAND_STATUS_DISMISSED)
+	{
+		return;
+	}
 	unsigned int index = sprite->m_IndexInCommand;
 	bool visible = sprite->m_Visible && sprite->m_Visibility == QUAD_VISIBILITY_IN_SCREEN;
 	unsigned int index4 = index*0.25;
@@ -108,24 +161,26 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite, bool update_status)
 		m_VisibleSprite[index4] = false;
 	}
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
-	vertexA = &m_Vertices[index];
-	vertexB = &m_Vertices[index+1];
-	vertexC = &m_Vertices[index+2];
-	vertexD = &m_Vertices[index+3];
+	{//position
+		vertexA = &m_Vertices[index];
+		vertexB = &m_Vertices[index+1];
+		vertexC = &m_Vertices[index+2];
+		vertexD = &m_Vertices[index+3];
 
-	vertexA->X = sprite->GetScreenPosition().x - sprite->GetWidth()*0.5;
-	vertexA->Y = sprite->GetScreenPosition().y;
-	vertexA->Z = sprite->GetScreenPosition().z;
-	vertexB->X = vertexA->X + sprite->GetWidth();
-	vertexB->Y = vertexA->Y;
-	vertexB->Z = vertexA->Z;
-	vertexC->X = vertexB->X;
-	vertexC->Y = vertexB->Y + sprite->GetHeight();
-	vertexC->Z = vertexA->Z;
-	vertexD->X = vertexA->X;
-	vertexD->Y = vertexC->Y;
-	vertexD->Z = vertexA->Z;
-	{
+		vertexA->X = sprite->GetScreenPosition().x - sprite->GetWidth()*0.5;
+		vertexA->Y = sprite->GetScreenPosition().y;
+		vertexA->Z = sprite->GetScreenPosition().z;
+		vertexB->X = vertexA->X + sprite->GetWidth();
+		vertexB->Y = vertexA->Y;
+		vertexB->Z = vertexA->Z;
+		vertexC->X = vertexB->X;
+		vertexC->Y = vertexB->Y + sprite->GetHeight();
+		vertexC->Z = vertexA->Z;
+		vertexD->X = vertexA->X;
+		vertexD->Y = vertexC->Y;
+		vertexD->Z = vertexA->Z;
+	}
+	{//uv & cuv
 		int tex_index = 0;
 		int i = 0;
 		int j = 1;

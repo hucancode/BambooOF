@@ -50,6 +50,8 @@ public:
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
 	void MoveTo(const ofVec3f position);
 	void MoveBy(const ofVec3f accelerator);
+	void UpdateVisibility(bool camera_updated);
+public:
 	ofxSpriteMaterial* GetMaterial()
 	{
 		return m_Material;
