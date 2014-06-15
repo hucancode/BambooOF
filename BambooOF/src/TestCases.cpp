@@ -45,21 +45,21 @@ void RendererTest::Setup()
 	material->LoadShader("mono_shader.vertex","mono_shader.frag");
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	material->BuildMaterial();
-	for(int i=0;i<10;i++)
+	for(int i=-20;i<20;i++)
 	{
-		for(int j=0;j<10;j++)
+		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->SetMaterial(material);
 			// 1.0x1.0 is medium to this scene
-			sprite->SetWidth(1.0f);
-			sprite->SetHeight(1.0f);
+			sprite->SetWidth(0.35f);
+			sprite->SetHeight(0.35f);
 			// 192x192 is size of sprint0001.png
 			sprite->SetLogicWidth(192);
 			sprite->SetLogicHeight(192);
 			sprite->SetSpriteRect(0,0,0,192,192);
 			sprite->SetTextureRect(0,0,0,192,192);
-			sprite->MoveTo(ofVec3f(i*80.0f,j*60.0f,0.0f));
+			sprite->MoveTo(ofVec3f(i*80.0f,j*60.0f,i*0.01f));
 			ofxSpriteRenderer::GetInstance()->PushSprite(sprite);
 		}
 	}

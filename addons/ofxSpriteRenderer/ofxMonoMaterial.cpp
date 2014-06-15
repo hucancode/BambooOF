@@ -66,7 +66,6 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	ofBuffer fs_buffer = ofBufferFromFile(fs_file);
 	string fs_string = fs_buffer.getText();
 	const char* fs_source = fs_string.c_str();
-	printf("fs source:\n%s\n", fs_source);
 	int fs_size = fs_buffer.getText().size()+1;
 	glShaderSource(fs_id, 1, &fs_source, &fs_size);
 	// compile shader

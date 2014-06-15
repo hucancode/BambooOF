@@ -40,13 +40,17 @@ ofxSpriteCommand::~ofxSpriteCommand()
 	glDeleteBuffers(1, &m_VBOId);
 	//glDeleteBuffers(1, &m_IBOId);
 }
-
+bool first_blood = true;
 void ofxSpriteCommand::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
+	if(first_blood)
+	{
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
+		first_blood = false;
+	}
 	m_Material->Bind();
 }
 void ofxSpriteCommand::Unbind()
@@ -58,7 +62,6 @@ void ofxSpriteCommand::Unbind()
 void ofxSpriteCommand::Render()
 {
 	if(m_VisibleSpriteCount == 0) return;
-	//if(m_VisibleSpriteCount != m_VisibleSprite.size()) return;
 	Bind();
 	glDrawElements(GL_TRIANGLES, m_IndicesSize, GL_UNSIGNED_SHORT, 0);
 	Unbind();

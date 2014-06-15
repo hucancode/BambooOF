@@ -54,12 +54,12 @@ void ofApp::update() {
 void ofApp::draw() {
 	//ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
-	ofEnableDepthTest();
+	//ofEnableDepthTest();
 	runRenderTest();
-	cam->begin();
-	render->Render();
-	cam->end();
-	ofDisableDepthTest();
+	//cam->begin();
+	//render->Render();
+	//cam->end();
+	//ofDisableDepthTest();
 	//-------------------
 	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+" --  Sprite: "+ofToString(0));
 }

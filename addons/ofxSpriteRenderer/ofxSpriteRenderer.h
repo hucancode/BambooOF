@@ -9,6 +9,14 @@
 #define FAR_SCREEN_SPEED_THRESHOLD 0.01
 #define FAR_SCREEN_UPDATE_SEQUENCE 200
 
+/*
+TODO: 
+- more material operator, anti alias, mip map,  or something
+- independence camera
+- multi-resolution support
+- particle effect support
+- independence matrix & vector
+*/
 class ofxSpriteRenderer
 {
 public :

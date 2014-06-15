@@ -57,12 +57,19 @@ void ofxSpriteRenderer::Render()
 		}
 	}
 	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		//glDisable(GL_DEPTH_TEST);// transparent isn't work well with depth test
+		glDepthMask(GL_FALSE);
 		ofxSpriteCommands::iterator it = m_TransparentCommands.begin();
 		for(;it != m_TransparentCommands.end();it++)
 		{
 			ofxSpriteCommand* cmd = *it;
 			cmd->Render();
 		}
+		//glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
 	}
 	m_Camera->end();
 }
@@ -239,6 +246,7 @@ void ofxSpriteRenderer::Update()
 	bool solid_commands_refreshed = CleanUnusedSolidQuads();
 	m_CameraUpdated = true;
 	// TODO: it's a fancy and risky algorithm, need to test, test many times
+	// for now, i can't find a way to test it. maybe it's bug will apear in future action
 	if(!solid_commands_refreshed)
 	{
 		int size = m_SolidCommands.size();
@@ -290,9 +298,12 @@ void ofxSpriteRenderer::Update()
 		int k = 0;
 		int left = -1;
 		int right = -1;
-		while(index < bound)
+		while(k <= size)
 		{
-			if(need_to_rebuild[k])
+			bool trace = true;
+			if(k == size) trace = false;
+			else if(!need_to_rebuild[k]) trace = false;
+			if(trace)
 			{
 				if(left == -1)
 				{
@@ -310,7 +321,7 @@ void ofxSpriteRenderer::Update()
 				if(right != -1)
 				{
 					int min_sprite_index = m_SolidCommands[left]->m_FirstSpriteIndex;
-					int max_sprite_index = m_SolidCommands[left]->m_LastSpriteIndex;
+					int max_sprite_index = m_SolidCommands[right]->m_LastSpriteIndex;
 					for(int i=left;i<=right;i++)
 					{
 						ofxSpriteCommand* command = m_SolidCommands[i];
@@ -421,15 +432,15 @@ void ofxSpriteRenderer::Update()
 					left = -1;
 					right = -1;
 				}
-				else
-				{
-					break;
-				}
 			}
 			
 			k++;
 		}
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
+		for(int i=0;i<m_TransparentCommands.size();i++)
+		{
+			m_TransparentCommands[i]->m_IndexInRenderer = i;
+		}
 	}
 }
 #define UNUSED_SOLID_QUAD_LIMIT 20
