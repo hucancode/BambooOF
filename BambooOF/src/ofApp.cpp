@@ -49,7 +49,8 @@ void ofApp::draw() {
 	//cam->end();
 	//ofDisableDepthTest();
 	//-------------------
-	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+" --  Sprite: "+ofToString(0));
+	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
+		" - Sprite: "+ofToString(ofxSpriteRenderer::GetInstance()->GetSpriteNumber()));
 }
 
 //--------------------------------------------------------------

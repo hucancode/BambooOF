@@ -97,14 +97,18 @@ void SortingTest::Setup()
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->SetMaterial(material);
 			// 1.0x1.0 is medium to this scene
-			sprite->SetWidth(0.35f);
-			sprite->SetHeight(0.35f);
+			float screen_width = ofGetWindowWidth();
+			float screen_height = ofGetWindowHeight();
+			/*sprite->SetWidth(0.48f);
+			sprite->SetWidth(0.64f);*/
+			sprite->SetWidth(192/screen_width*2);
+			sprite->SetHeight(192/screen_height*2);
 			// 192x192 is size of sprint0001.png
 			sprite->SetLogicWidth(192);
 			sprite->SetLogicHeight(192);
 			sprite->SetSpriteRect(0,0,0,192,192);
 			sprite->SetTextureRect(0,0,0,192,192);
-			sprite->MoveTo(ofVec3f(i*80.0f,j*60.0f,i*0.01f));
+			sprite->MoveTo(ofVec3f(i*192.0f,j*192.0f,i*0.01f));
 			ofxSpriteRenderer::GetInstance()->PushSprite(sprite);
 			if(i==-20 && j==-20) spriteA = sprite;
 			if(i==19 && j==19) spriteB = sprite;

@@ -142,17 +142,17 @@ void ofxSpriteRenderer::EraseSprite(ofxSpriteQuad* sprite)
 
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
-	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
+	/*if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
+	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;*/
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) < quadB->CalculateDistanceToCamera(camera_position);
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
+	/*if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
 		return true;
 	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
-		return true;
+		return true;*/
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }

@@ -67,6 +67,10 @@ private:
 	bool CleanUnusedSolidQuads();
 	bool CleanUnusedTransparentQuads();
 public:
+	unsigned int GetSpriteNumber()
+	{
+		return m_SolidQuads.size() + m_TransparentQuads.size() - m_UnusedSolidQuads.size() - m_UnusedTransparentQuads.size();
+	}
 	ofxOrthoCamera* GetCamera()
 	{
 		return m_Camera;
