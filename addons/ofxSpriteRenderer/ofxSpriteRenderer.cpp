@@ -159,6 +159,10 @@ static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 {
 	sort(m_SolidQuads.begin()+i, m_SolidQuads.begin()+j, SolidQuadCompare);
+	for(int i=0;i<m_SolidQuads.size();i++)
+	{
+		m_SolidQuads[i]->m_IndexInRenderer = i;
+	}
 	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin();
@@ -479,4 +483,18 @@ bool ofxSpriteRenderer::CleanUnusedTransparentQuads()
 	m_UnusedTransparentQuads.clear();
 	BuildSolidCommands(0, m_TransparentCommands.size());
 	return true;
+}
+void ofxSpriteRenderer::SetWindowSize(unsigned int width, unsigned int height)
+{
+	for(int i=0;i<m_TransparentQuads.size();i++)
+	{
+		m_TransparentQuads[i]->SetLogicWidth(m_TransparentQuads[i]->GetLogicWidth());
+		m_TransparentQuads[i]->SetLogicHeight(m_TransparentQuads[i]->GetLogicHeight());
+	}
+	for(int i=0;i<m_SolidQuads.size();i++)
+	{
+		m_SolidQuads[i]->SetLogicWidth(m_SolidQuads[i]->GetLogicWidth());
+		m_SolidQuads[i]->SetLogicHeight(m_SolidQuads[i]->GetLogicHeight());
+	}
+	m_CameraUpdated = false;
 }

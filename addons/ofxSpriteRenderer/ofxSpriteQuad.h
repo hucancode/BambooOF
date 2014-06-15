@@ -23,27 +23,27 @@ class ofxSpriteQuad
 	friend ofxSpriteCommand;
 	friend ofxSpriteRenderer;
 private:
-	ofxSpriteMaterial* m_Material;
-	unsigned int m_IndexInCommand;
-	ofxSpriteCommand* m_ParentCommand;
+	ofxSpriteMaterial*	m_Material;
+	unsigned int		m_IndexInCommand;
+	ofxSpriteCommand*	m_ParentCommand;
 public:
-	unsigned int m_IndexInRenderer;
+	unsigned int		m_IndexInRenderer;
 private:
-	bool m_Transparent;
-	QUAD_STATUS m_Status;
-	QUAD_VISIBILITY m_Visibility;
-	ofVec3f m_Position;
-	ofVec3f m_WorldPosition;
-	unsigned short m_WorldQuad[2];
-	GLfloat m_Quad[2];
-	bool m_Visible;
-	float m_DistanceToCamera;
+	bool				m_Transparent;
+	QUAD_STATUS			m_Status;
+	QUAD_VISIBILITY		m_Visibility;
+	ofVec3f				m_Position;
+	ofVec3f				m_WorldPosition;
+	unsigned short		m_WorldQuad[2];
+	GLfloat				m_Quad[2];
+	bool				m_Visible;
+	float				m_DistanceToCamera;
 private:
-	bool m_PositionUpdated;
-	bool m_DistanceUpdated;
+	bool				m_PositionUpdated;
+	bool				m_DistanceUpdated;
 private:
-	unsigned short* m_TextureRect;
-	unsigned short* m_SpriteRect;
+	unsigned short*		m_TextureRect;
+	unsigned short*		m_SpriteRect;
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
@@ -90,6 +90,8 @@ public:
 	void SetLogicWidth(const unsigned short width)
 	{
 		m_WorldQuad[0] = width;
+		float screen_width = ofGetWindowWidth();
+		SetWidth(width/screen_width*2);
 	}
 	unsigned short GetLogicHeight()
 	{
@@ -98,7 +100,10 @@ public:
 	void SetLogicHeight(const unsigned short height)
 	{
 		m_WorldQuad[1] = height;
+		float screen_height = ofGetWindowHeight();
+		SetHeight(height/screen_height*2);
 	}
+private:
 	float GetWidth()
 	{
 		return m_Quad[0];
@@ -106,6 +111,7 @@ public:
 	void SetWidth(const float width)
 	{
 		m_Quad[0] = width;
+		m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
 	float GetHeight()
 	{
@@ -114,7 +120,9 @@ public:
 	void SetHeight(const float height)
 	{
 		m_Quad[1] = height;
+		m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
+public:
 	unsigned int GetTextureRectRaw(const int index)
 	{
 		return m_TextureRect[index];

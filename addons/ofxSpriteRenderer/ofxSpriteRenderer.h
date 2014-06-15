@@ -61,6 +61,7 @@ public:
 	void PushSprite(ofxSpriteQuad* sprite);
 	void EraseSprite(ofxSpriteQuad* sprite);
 	void Update();
+	void SetWindowSize(unsigned int width, unsigned int height);
 private:
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);

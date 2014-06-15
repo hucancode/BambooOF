@@ -222,14 +222,15 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 					}
 				}
 				if(dismiss)
+				{
 					m_Status = COMMAND_STATUS_DISMISSED;
+				}
 			}
 		}
 		else if(sprite->m_Status == QUAD_STATUS_MATERIAL_CHANGE)
 		{
 			m_Status = COMMAND_STATUS_DISMISSED;
 		}
-		return;
 	}
 	if(m_Status == COMMAND_STATUS_EXPANDED || m_Status == COMMAND_STATUS_DISMISSED)
 	{

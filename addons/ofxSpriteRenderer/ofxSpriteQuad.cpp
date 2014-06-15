@@ -60,8 +60,8 @@ void ofxSpriteQuad::CalculatePosition(const ofVec3f camera_position)
 {
 	m_Position.x = m_WorldPosition.x + camera_position.x;
 	m_Position.y = m_WorldPosition.y + camera_position.y;
-	m_Position.x /= 1600.0f;
-	m_Position.y /= 1200.0f;
+	m_Position.x /= ofGetWindowWidth();
+	m_Position.y /= ofGetWindowHeight();
 	m_PositionUpdated = true;
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
