@@ -47,7 +47,7 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 }
 void ofxSpriteRenderer::Render()
 {
-	m_Camera->begin();
+	//m_Camera->begin();
 	{
 		ofxSpriteCommands::iterator it = m_SolidCommands.begin();
 		for(;it != m_SolidCommands.end();it++)
@@ -71,7 +71,7 @@ void ofxSpriteRenderer::Render()
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
-	m_Camera->end();
+	//m_Camera->end();
 }
 void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 {
@@ -149,8 +149,10 @@ static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
-	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
-	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
+	if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
+		return true;
+	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
+		return true;
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }
@@ -185,7 +187,12 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 }
 void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 {
+	printf("------------BuildTransparentCommands(%u,%u)\n",i,j);
 	sort(m_TransparentQuads.begin()+i, m_TransparentQuads.begin()+j, TransparentQuadCompare);
+	for(int i=0;i<m_TransparentQuads.size();i++)
+	{
+		m_TransparentQuads[i]->m_IndexInRenderer = i;
+	}
 	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
@@ -214,11 +221,11 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 }
 static bool SolidCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {
-	return cmdA->GetFirstSpriteIndex() >= cmdB->GetFirstSpriteIndex();
+	return cmdA->GetFirstSpriteIndex() > cmdB->GetFirstSpriteIndex();
 }
 static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {
-	return cmdA->GetFirstSpriteIndex() <= cmdB->GetFirstSpriteIndex();
+	return cmdA->GetFirstSpriteIndex() < cmdB->GetFirstSpriteIndex();
 }
 void ofxSpriteRenderer::Update()
 {
@@ -427,7 +434,7 @@ void ofxSpriteRenderer::Update()
 						delete command;
 						bound--;
 					}
-					BuildTransparentCommands(min_sprite_index, max_sprite_index);
+					BuildTransparentCommands(min_sprite_index, max_sprite_index+1);
 					index = left;
 					left = -1;
 					right = -1;

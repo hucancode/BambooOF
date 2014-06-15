@@ -19,6 +19,8 @@ TODO:
 */
 class ofxSpriteRenderer
 {
+	friend ofxSpriteCommand;
+	friend ofxSpriteQuad;
 public :
 	static ofxSpriteRenderer* s_Instance;
 	static void CreateInstance()
@@ -28,7 +30,9 @@ public :
 	}
 	static ofxSpriteRenderer* GetInstance()
 	{
-		if(!s_Instance) CreateInstance();
+		// NOTE: for perfomance, we not going to check instance null everytime we get it
+		// programmer must create instance before they get it
+		//if(!s_Instance) CreateInstance();
 		return s_Instance;
 	}
 	static void DestroyInstance()

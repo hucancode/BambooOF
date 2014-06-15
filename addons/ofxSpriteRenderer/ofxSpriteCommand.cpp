@@ -40,17 +40,12 @@ ofxSpriteCommand::~ofxSpriteCommand()
 	glDeleteBuffers(1, &m_VBOId);
 	//glDeleteBuffers(1, &m_IBOId);
 }
-bool first_blood = true;
 void ofxSpriteCommand::Bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
-	if(first_blood)
-	{
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
-		first_blood = false;
-	}
+	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
 	m_Material->Bind();
 }
 void ofxSpriteCommand::Unbind()
@@ -131,13 +126,103 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 	{
 		if(sprite->m_Status == QUAD_STATUS_POSITION_CHANGE)
 		{
-			if(sprite->GetPosition().y > m_DistanceMax || sprite->GetPosition().y < m_DistanceMin)
+			ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+			float distance = sprite->CalculateDistanceToCamera(camera_position);
+			if(distance > m_DistanceMax || distance < m_DistanceMin)
 			{
-				m_Status = COMMAND_STATUS_EXPANDED;
+				ofxSpriteCommand* prev;
+				ofxSpriteCommand* next;
+				unsigned short index = this->m_IndexInRenderer;
+				if(sprite->IsTransparent())
+				{
+					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+						m_TransparentCommands.size() - 1;
+					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
+						m_TransparentCommands[index-1];
+					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
+						m_TransparentCommands[index+1];
+				}
+				else
+				{
+					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+						m_SolidCommands.size() - 1;
+					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
+						m_SolidCommands[index-1];
+					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
+						m_SolidCommands[index+1];
+				}
+				bool expand = false;
+				if(prev)
+				{
+					if((distance > prev->m_DistanceMin && sprite->IsTransparent()) ||
+						(distance < prev->m_DistanceMax && !sprite->IsTransparent()))
+					{
+						expand = true;
+					}
+				}
+				if(next)
+				{
+					if((distance < next->m_DistanceMax && sprite->IsTransparent()) ||
+						(distance > next->m_DistanceMin && !sprite->IsTransparent()))
+					{
+						expand = true;
+					}
+				}
+				if(expand)
+				{
+					m_Status = COMMAND_STATUS_EXPANDED;
+				}
+				else
+				{
+					if(m_DistanceMax < distance) m_DistanceMax = distance;
+					if(m_DistanceMin > distance) m_DistanceMin = distance;
+				}
 			}
-			else if(m_Status != COMMAND_STATUS_EXPANDED)
+			if(m_Status == COMMAND_STATUS_UNITED)
 			{
-				m_Status = COMMAND_STATUS_DISMISSED;
+				ofxSpriteQuad* prev;
+				ofxSpriteQuad* next;
+				unsigned int index = sprite->m_IndexInRenderer;
+
+				if(sprite->IsTransparent())
+				{
+					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+						m_TransparentQuads.size() - 1;
+					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
+						m_TransparentQuads[index-1];
+					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
+						m_TransparentQuads[index+1];
+				}
+				else
+				{
+					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+						m_SolidQuads.size() - 1;
+					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
+						m_SolidQuads[index-1];
+					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
+						m_SolidQuads[index+1];
+				}
+				bool dismiss = false;
+				if(prev)
+				{
+					float prev_distance = prev->CalculateDistanceToCamera(camera_position);
+					if((distance > prev_distance && sprite->IsTransparent()) || 
+						(distance < prev_distance && !sprite->IsTransparent()))
+					{
+						dismiss = true;
+					}
+				}
+				if(next)
+				{
+					float next_distance = next->CalculateDistanceToCamera(camera_position);
+					if((distance < next_distance && sprite->IsTransparent()) ||
+						(distance > next_distance && !sprite->IsTransparent()))
+					{
+						dismiss = true;
+					}
+				}
+				if(dismiss)
+					m_Status = COMMAND_STATUS_DISMISSED;
 			}
 		}
 		else if(sprite->m_Status == QUAD_STATUS_MATERIAL_CHANGE)
@@ -170,9 +255,9 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		vertexC = &m_Vertices[index+2];
 		vertexD = &m_Vertices[index+3];
 
-		vertexA->X = sprite->GetScreenPosition().x - sprite->GetWidth()*0.5;
-		vertexA->Y = sprite->GetScreenPosition().y;
-		vertexA->Z = sprite->GetScreenPosition().z;
+		vertexA->X = sprite->GetPosition().x - sprite->GetWidth()*0.5;
+		vertexA->Y = sprite->GetPosition().y;
+		vertexA->Z = sprite->GetPosition().z;
 		vertexB->X = vertexA->X + sprite->GetWidth();
 		vertexB->Y = vertexA->Y;
 		vertexB->Z = vertexA->Z;

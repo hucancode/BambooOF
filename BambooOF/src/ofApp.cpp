@@ -1,23 +1,11 @@
 #include "ofApp.h"
 #include "TestCases.h"
 //--------------------------------------------------------------
-Test* current_test = new RendererTest();
-void setupTest()
-{
-	current_test->Setup();
-}
-void runRenderTest()
-{
-	current_test->Render();
-}
-void runUpdateTest()
-{
-	current_test->Update();
-}
+extern Test* current_test;
 //--------------------------------------------------------------
 float g_WindowAspectRatio;
 void ofApp::setup() {
-	setupTest();
+	current_test->Setup();
 	ofBackground(0, 0, 0);
 	ofSetWindowTitle("Hello");
 	//------------------
@@ -45,7 +33,7 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	runUpdateTest();
+	current_test->Update();
 	frameIndex = (int)(ofGetFrameNum()*0.5) % images.size();
 	mesh->UpdateCrowd(0.0030f);
 }
@@ -55,7 +43,7 @@ void ofApp::draw() {
 	//ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	//ofEnableDepthTest();
-	runRenderTest();
+	current_test->Render();
 	//cam->begin();
 	//render->Render();
 	//cam->end();

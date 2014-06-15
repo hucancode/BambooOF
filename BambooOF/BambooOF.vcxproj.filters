@@ -1128,18 +1128,4 @@
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\addons\ofxSpriteRenderer\mono_shader.frag">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </None>
-    <None Include="..\addons\ofxSpriteRenderer\mono_shader.vertex">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </None>
-    <None Include="..\addons\ofxSpriteRenderer\poly_shader.frag">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </None>
-    <None Include="..\addons\ofxSpriteRenderer\poly_shader.vertex">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </None>
-  </ItemGroup>
 </Project>

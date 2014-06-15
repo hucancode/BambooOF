@@ -6,7 +6,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_TextureRect = 0;
 	m_SpriteRect = 0;
 	m_Material = 0;
-	m_ScreenPositionUpdated = false;
+	m_PositionUpdated = false;
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 	m_Status = QUAD_STATUS_NO_CHANGE;
@@ -36,7 +36,7 @@ void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 void ofxSpriteQuad::MoveTo(const ofVec3f position)
 {
 	m_WorldPosition = position;
-	m_ScreenPositionUpdated = false;
+	m_PositionUpdated = false;
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
@@ -44,7 +44,7 @@ void ofxSpriteQuad::MoveTo(const ofVec3f position)
 void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 {
 	m_WorldPosition += accelerator;
-	m_ScreenPositionUpdated = false;
+	m_PositionUpdated = false;
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
 	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD)
@@ -56,13 +56,13 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 	}
 }
-void ofxSpriteQuad::CalculateScreenPosition(const ofVec3f camera_position)
+void ofxSpriteQuad::CalculatePosition(const ofVec3f camera_position)
 {
-	m_ScreenPosition.x = m_WorldPosition.x + camera_position.x;
-	m_ScreenPosition.y = m_WorldPosition.y + camera_position.y;
-	m_ScreenPosition.x /= 800.0f;
-	m_ScreenPosition.y /= 600.0f;
-	m_ScreenPositionUpdated = true;
+	m_Position.x = m_WorldPosition.x + camera_position.x;
+	m_Position.y = m_WorldPosition.y + camera_position.y;
+	m_Position.x /= 1600.0f;
+	m_Position.y /= 1200.0f;
+	m_PositionUpdated = true;
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 }
@@ -85,19 +85,19 @@ void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 	{
 		return;
 	}
-	if(!(IsScreenPositionUpdated() && camera_updated))
+	if(!(IsPositionUpdated() && camera_updated))
 	{
 		if(m_Status == QUAD_STATUS_NO_CHANGE)
 		{
 			m_Status = QUAD_STATUS_SAFE_CHANGE;
 		}
 		ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
-		CalculateScreenPosition(camera_position);
+		CalculatePosition(camera_position);
 	}
 	if(m_Status == QUAD_STATUS_NO_CHANGE || m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
-	float x_min = GetScreenPosition().x - GetWidth()*0.5;
+	float x_min = m_Position.x - GetWidth()*0.5;
 	float x_max = x_min + GetWidth();
-	float y_min = GetScreenPosition().y;
+	float y_min = GetPosition().y;
 	float y_max = y_min + GetHeight();
 
 	if(y_max < -FAR_SCREEN_DISTANCE_THRESHOLD)

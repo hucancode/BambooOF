@@ -26,18 +26,20 @@ private:
 	ofxSpriteMaterial* m_Material;
 	unsigned int m_IndexInCommand;
 	ofxSpriteCommand* m_ParentCommand;
+public:
 	unsigned int m_IndexInRenderer;
+private:
 	bool m_Transparent;
 	QUAD_STATUS m_Status;
 	QUAD_VISIBILITY m_Visibility;
-	ofVec3f m_ScreenPosition;
+	ofVec3f m_Position;
 	ofVec3f m_WorldPosition;
-	GLfloat m_WorldQuad[2];
-	unsigned short m_Quad[2];
+	unsigned short m_WorldQuad[2];
+	GLfloat m_Quad[2];
 	bool m_Visible;
 	float m_DistanceToCamera;
 private:
-	bool m_ScreenPositionUpdated;
+	bool m_PositionUpdated;
 	bool m_DistanceUpdated;
 private:
 	unsigned short* m_TextureRect;
@@ -46,7 +48,7 @@ public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
 	virtual void Update(const float delta_time){}
-	void CalculateScreenPosition(const ofVec3f camera_position);
+	void CalculatePosition(const ofVec3f camera_position);
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
 	void MoveTo(const ofVec3f position);
 	void MoveBy(const ofVec3f accelerator);
@@ -57,7 +59,7 @@ public:
 		return m_Material;
 	}
 	void SetMaterial(ofxSpriteMaterial* material);
-	ofVec3f GetPosition()
+	ofVec3f GetWorldPosition()
 	{
 		return m_WorldPosition;
 	}
@@ -73,45 +75,45 @@ public:
 	{
 		return m_Visibility;
 	}
-	ofVec3f GetScreenPosition()
+	ofVec3f GetPosition()
 	{
-		return m_ScreenPosition;
+		return m_Position;
 	}
-	bool IsScreenPositionUpdated()
+	bool IsPositionUpdated()
 	{
-		return m_ScreenPositionUpdated;
+		return m_PositionUpdated;
 	}
-	unsigned int GetLogicWidth()
-	{
-		return m_Quad[0];
-	}
-	void SetLogicWidth(const unsigned int width)
-	{
-		m_Quad[0] = width;
-	}
-	unsigned int GetLogicHeight()
-	{
-		return m_Quad[1];
-	}
-	void SetLogicHeight(const unsigned int height)
-	{
-		m_Quad[1] = height;
-	}
-	float GetWidth()
+	unsigned short GetLogicWidth()
 	{
 		return m_WorldQuad[0];
 	}
-	void SetWidth(const float width)
+	void SetLogicWidth(const unsigned short width)
 	{
 		m_WorldQuad[0] = width;
 	}
-	float GetHeight()
+	unsigned short GetLogicHeight()
 	{
 		return m_WorldQuad[1];
 	}
-	void SetHeight(const float height)
+	void SetLogicHeight(const unsigned short height)
 	{
 		m_WorldQuad[1] = height;
+	}
+	float GetWidth()
+	{
+		return m_Quad[0];
+	}
+	void SetWidth(const float width)
+	{
+		m_Quad[0] = width;
+	}
+	float GetHeight()
+	{
+		return m_Quad[1];
+	}
+	void SetHeight(const float height)
+	{
+		m_Quad[1] = height;
 	}
 	unsigned int GetTextureRectRaw(const int index)
 	{
