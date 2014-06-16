@@ -28,7 +28,7 @@ void SpriteTest::Setup()
 	sprite->SetTextureRect(0,0,0,192,192);
 	sprite->MoveTo(ofVec3f(0.0f,0.0f,0.1f));
 	ofxSpriteRenderer::GetInstance()->PushSprite(sprite);
-	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(800.0/600.0);
+	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(ofGetWindowWidth()/ofGetWindowHeight());
 	ofxSpriteRenderer::GetInstance()->GetCamera()->scale = 20;
 }
 void SpriteTest::Update()
@@ -46,10 +46,6 @@ void RendererTest::Setup()
 	material->LoadShader("mono_shader.vertex","mono_shader.frag");
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	material->BuildMaterial();
-	/*for(int i=-10;i<10;i++)
-	{
-		for(int j=-10;j<10;j++)
-		{*/
 	for(int i=-20;i<20;i++)
 	{
 		for(int j=-20;j<20;j++)
@@ -64,7 +60,7 @@ void RendererTest::Setup()
 			ofxSpriteRenderer::GetInstance()->PushSprite(sprite);
 		}
 	}
-	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(800.0/600.0);
+	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(ofGetWindowWidth()/ofGetWindowHeight());
 	ofxSpriteRenderer::GetInstance()->GetCamera()->scale = 20;
 }
 void RendererTest::Update()
@@ -82,13 +78,12 @@ void SortingTest::Setup()
 	material->LoadShader("mono_shader.vertex","mono_shader.frag");
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	material->BuildMaterial();
-	for(int i=-20;i<20;i++)
+	for(int i=-40;i<40;i++)
 	{
-		for(int j=-20;j<20;j++)
+		for(int j=-40;j<40;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->SetMaterial(material);
-			// 1.0x1.0 is medium to this scene
 			float screen_width = ofGetWindowWidth();
 			float screen_height = ofGetWindowHeight();
 			sprite->SetLogicWidth(192);
@@ -97,20 +92,19 @@ void SortingTest::Setup()
 			sprite->SetTextureRect(0,0,0,192,192);
 			sprite->MoveTo(ofVec3f(i*192.0f,j*192.0f,i*0.01f));
 			ofxSpriteRenderer::GetInstance()->PushSprite(sprite);
-			if(i==-20 && j==-20) spriteA = sprite;
-			if(i==19 && j==19) spriteB = sprite;
+			if(i==0 && j==0) spriteA = sprite;
+			if(i==1 && j==1) spriteB = sprite;
 		}
 	}
-	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(800.0/600.0);
+	ofxSpriteRenderer::GetInstance()->GetCamera()->setAspectRatio(ofGetWindowWidth()/ofGetWindowHeight());
 	ofxSpriteRenderer::GetInstance()->GetCamera()->scale = 20;
-	spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.00001f));
 }
 void SortingTest::Update()
 {
 	ofxSpriteRenderer::GetInstance()->Update();
 	if(spriteA->GetWorldPosition().z < 0.2f)
 	{
-		spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.00005f));
+		spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.0001f));
 	}
 	else
 	{
@@ -118,13 +112,15 @@ void SortingTest::Update()
 	}
 	if(spriteB->GetWorldPosition().z > -0.2f)
 	{
-		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-0.00005f));
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-0.0001f));
 	}
 	else
 	{
 		spriteB->MoveBy(ofVec3f(0.0f,0.0f,0.4f));
 	}
+	printf("spriteA->m_IndexInRenderer = %f\n", spriteA->GetWorldPosition().z);
 	printf("spriteA->m_IndexInRenderer = %d\n", spriteA->m_IndexInRenderer);
+	printf("spriteB->m_IndexInRenderer = %f\n", spriteB->GetWorldPosition().z);
 	printf("spriteB->m_IndexInRenderer = %d\n", spriteB->m_IndexInRenderer);
 }
 void SortingTest::Render()

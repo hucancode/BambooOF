@@ -6,6 +6,7 @@ extern Test* current_test;
 float g_WindowAspectRatio;
 void ofApp::setup() {
 	current_test->Setup();
+	ofSetFrameRate(60);
 	ofBackground(0, 0, 0);
 	ofSetWindowTitle("Hello");
 	//------------------

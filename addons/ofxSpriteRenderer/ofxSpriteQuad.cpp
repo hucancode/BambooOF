@@ -79,9 +79,8 @@ float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 }
 void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 {
-	unsigned int frame_number = 1;
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN 
-		&& frame_number % FAR_SCREEN_UPDATE_SEQUENCE != 0)
+		&& ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0)
 	{
 		return;
 	}

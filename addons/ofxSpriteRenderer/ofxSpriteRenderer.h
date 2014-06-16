@@ -13,7 +13,6 @@
 TODO: 
 - more material operator, anti alias, mip map,  or something
 - independence camera
-- multi-resolution support
 - particle effect support
 - independence matrix & vector
 */
