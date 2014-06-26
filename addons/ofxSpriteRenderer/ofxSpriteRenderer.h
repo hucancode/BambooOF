@@ -11,7 +11,7 @@
 
 /*
 TODO: 
-- more material operator, anti alias, mip map,  or something
+- more material operator, anti alias, or something
 - independence camera
 - particle effect support
 - independence matrix & vector
@@ -22,16 +22,8 @@ class ofxSpriteRenderer
 	friend ofxSpriteQuad;
 public :
 	static ofxSpriteRenderer* s_Instance;
-	static void CreateInstance()
-	{
-		if(s_Instance) return;
-		s_Instance = new ofxSpriteRenderer;
-	}
 	static ofxSpriteRenderer* GetInstance()
 	{
-		// NOTE: for perfomance, we not going to check instance null everytime we get it
-		// programmer must create instance before they get it
-		//if(!s_Instance) CreateInstance();
 		return s_Instance;
 	}
 	static void DestroyInstance()
@@ -49,10 +41,11 @@ private:
 	vector<unsigned int>	m_UnusedSolidQuads;
 	vector<unsigned int>	m_UnusedTransparentQuads;
 #ifdef DEBUG
-	int					m_DrawnBatches;
-	int					m_DrawnVertices;
+	int						m_DrawnBatches;
+	int						m_DrawnVertices;
 #endif
-	ofxOrthoCamera*		m_Camera;
+	ofxOrthoCamera*			m_Camera;
+	ofMatrix4x4				m_TransformMatrix;
 public:
 	ofxSpriteRenderer();
 	~ofxSpriteRenderer();
@@ -80,4 +73,9 @@ public:
 		m_CameraUpdated = false;
 		m_Camera->move(vec);
 	}
+	ofMatrix4x4 GetTransformation()
+	{
+		return m_TransformMatrix;
+	}
 };
+#define ofxRENDERER ofxSpriteRenderer::GetInstance()

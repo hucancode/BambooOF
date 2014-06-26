@@ -91,7 +91,7 @@ public:
 	{
 		m_WorldQuad[0] = width;
 		float screen_width = ofGetWindowWidth();
-		SetWidth(width/screen_width*2);
+		SetWidth(width/screen_width*2*40);
 	}
 	unsigned short GetLogicHeight()
 	{
@@ -101,7 +101,7 @@ public:
 	{
 		m_WorldQuad[1] = height;
 		float screen_height = ofGetWindowHeight();
-		SetHeight(height/screen_height*2);
+		SetHeight(height/screen_height*2*40);//20 = camera scale
 	}
 private:
 	float GetWidth()

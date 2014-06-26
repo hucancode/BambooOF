@@ -13,6 +13,7 @@ private:
 	GLint m_ShaderLocationXYZ;
 	GLint m_ShaderLocationUV;
 	GLint m_ShaderLocationCUV;
+	GLint m_ShaderLocationTransform;
 public:
 	ofxMonoMaterial();
 	~ofxMonoMaterial();

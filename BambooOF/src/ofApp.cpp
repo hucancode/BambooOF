@@ -15,8 +15,7 @@ void ofApp::setup() {
 	mesh->BuildMesh();
 	mesh->InitCrowd();
 	render = new NavMeshRender(mesh);
-	cam = ofxSpriteRenderer::GetInstance()->GetCamera();
-
+	cam = ofxRENDERER->GetCamera();
 	ofEnableAlphaBlending();
 	
 	ofDirectory dir;
@@ -43,39 +42,31 @@ void ofApp::update() {
 void ofApp::draw() {
 	//ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
-	//ofEnableDepthTest();
+	
+	ofEnableDepthTest();
+	ofEnableAlphaBlending();
+	cam->begin();
+	render->Render();
+	
+	ofDisableDepthTest();
+	ofDisableAlphaBlending();
 	current_test->Render();
-	//cam->begin();
-	//render->Render();
-	//cam->end();
-	//ofDisableDepthTest();
+	cam->end();
 	//-------------------
 	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
-		" - Sprite: "+ofToString(ofxSpriteRenderer::GetInstance()->GetSpriteNumber()));
+		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber()));
 }
 
 //--------------------------------------------------------------
-#define ZOOM_SPEED 0.1f;
+#define ZOOM_SPEED 0.1f
 void ofApp::keyPressed(int key){
 	if(key == OF_KEY_UP) 
 	{
-		cam->scale -= ZOOM_SPEED;
-		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(0.0f,10.0f,0.0f));
+		cam->SetScale(cam->GetScale() - ZOOM_SPEED);
 	}
 	if(key == OF_KEY_DOWN) 
 	{
-		cam->scale += ZOOM_SPEED;
-		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(0.0f,-10.0f,0.0f));
-	}
-	if(key == OF_KEY_LEFT) 
-	{
-		cam->scale -= ZOOM_SPEED;
-		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(-10.0f,0.0f,0.0f));
-	}
-	if(key == OF_KEY_RIGHT) 
-	{
-		cam->scale += ZOOM_SPEED;
-		ofxSpriteRenderer::GetInstance()->MoveCamera(ofVec3f(10.0f,0.0f,0.0f));
+		cam->SetScale(cam->GetScale() + ZOOM_SPEED);
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
@@ -98,6 +89,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
+extern ofxSpriteQuad* spriteObstacle;
 void ofApp::mousePressed(int x, int y, int button){
 	//return;
 	if(button != 0 && button != 2) return;
@@ -106,8 +98,8 @@ void ofApp::mousePressed(int x, int y, int button){
 	ray[0] = ofVec3f(x, y, -1);
 	ray[1] = ofVec3f(x, y, 1);
 	// Transform ray into world space
-	ray[0] = cam->orthoScreenToWorld(ray[0]);
-	ray[1] = cam->orthoScreenToWorld(ray[1]);
+	ray[0] = cam->OrthoScreenToWorld(ray[0]);
+	ray[1] = cam->OrthoScreenToWorld(ray[1]);
 	float* rays = new float[3];
 	float* raye = new float[3];
 	rays[0] = ray[0].x;
@@ -129,6 +121,12 @@ void ofApp::mousePressed(int x, int y, int button){
 			int ret = mesh->AddObstacle(hit_pos);
 			mesh->UpdateMesh(0.0f);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
+			spriteObstacle->MoveTo(ofVec3f(hit_pos[0],hit_pos[1],hit_pos[2]));
+			ofMatrix4x4 transform = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
+			ofVec4f position(hit_pos[0],hit_pos[1],hit_pos[2],1.0f);
+			ofVec4f position_transform = transform*position;
+			position_transform /= 20.0f;
+			int a = 10;
 		}
 		else
 		{
@@ -151,8 +149,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 void ofApp::windowResized(int w, int h){
 	g_WindowAspectRatio = (float)w/(float)h;
 	cam->setAspectRatio(g_WindowAspectRatio);
-	ofxSpriteRenderer::CreateInstance();
-	ofxSpriteRenderer::GetInstance()->SetWindowSize(w, h);
+	ofxRENDERER->SetWindowSize(w, h);
 }
 
 //--------------------------------------------------------------

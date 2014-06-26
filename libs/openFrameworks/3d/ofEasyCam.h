@@ -41,7 +41,7 @@ public:
 	
     void setAutoDistance(bool bAutoDistance);
 	
-private:
+protected:
 	void setDistance(float distance, bool save);
 
 	ofNode target;

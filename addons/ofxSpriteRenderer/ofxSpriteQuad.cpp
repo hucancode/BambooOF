@@ -58,17 +58,15 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 }
 void ofxSpriteQuad::CalculatePosition(const ofVec3f camera_position)
 {
-	m_Position.x = m_WorldPosition.x + camera_position.x;
-	m_Position.y = m_WorldPosition.y + camera_position.y;
-	m_Position.x /= ofGetWindowWidth();
-	m_Position.y /= ofGetWindowHeight();
+	// in this case, no calculation needed, but not sure that we don't need it in the future
+	m_Position = m_WorldPosition;
 	m_PositionUpdated = true;
 	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
 }
 float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 {
-	return m_WorldPosition.z;
+	return -m_WorldPosition.z;
 	// legacy way
 	if(!m_DistanceUpdated)
 	{
@@ -98,7 +96,7 @@ void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 	float x_max = x_min + GetWidth();
 	float y_min = GetPosition().y;
 	float y_max = y_min + GetHeight();
-
+	return;
 	if(y_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;

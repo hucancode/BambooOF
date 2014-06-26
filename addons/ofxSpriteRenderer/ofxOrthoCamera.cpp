@@ -1,58 +1,45 @@
 #include "ofxOrthoCamera.h"
 
-// Ortho camera is a custom
-//	camera we've created in
-//  this example
-//
-// We inherit from ofCamera
-
-ofxOrthoCamera::ofxOrthoCamera(){
-	//return;
-	enableOrtho();
-	scale = 1;
+/* =================================================================
+ofxOrthoCamera
+- this class inherrit from ofEasyCamera, and used to do orthographic projection
+- code implementation isn't optimized
+================================================================= */
+ofxOrthoCamera::ofxOrthoCamera()
+{
+	isOrtho = true;
+	SetScale(1);
 }
-
-void ofxOrthoCamera::begin(ofRectangle rect){
-	ofEasyCam::begin(rect);
-	//return;
-	//--
-	// Calculate aspect ratio
-
-	float vw = ofGetViewportWidth();
-	float vh = ofGetViewportHeight();
-
-	//aspect ratio
-	float ar = vw / vh;
-
-	float scalex, scaley;
-
-	if(ar > 1.0f){
-		//wide
-		scalex = scale * ar;
-		scaley = scale;
+ofxOrthoCamera::~ofxOrthoCamera()
+{
+}
+void ofxOrthoCamera::begin(ofRectangle viewport)
+{
+	if(this->viewport != viewport)
+	{
+		this->viewport = viewport;
+		SetScale(m_Scale);
 	}
-	else{
-		//tall
-		scalex = scale;
-		scaley = scale / ar;
+	if(!isActive)
+	{
+		ofPushView();
 	}
-
-	//--
-	// Setup projection
+	isActive = true;
+	ofSetOrientation(ofGetOrientation(),vFlip);
 
 	ofSetMatrixMode(OF_MATRIX_PROJECTION);
-	
-    
-    ortho.makeOrthoMatrix(-scalex, scalex, -scaley, scaley, -2000 * scale, 2800 * scale );
-	//ortho.makeOrthoMatrix(0, rect.width, 0, rect.height, -2000 * scale, 2800 * scale );
-    ofLoadMatrix( ortho );
+	ofLoadMatrix(getProjectionMatrix(viewport));
 
-    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
-
-	//
-	//--
+	ofSetMatrixMode(OF_MATRIX_MODELVIEW);
+	ofLoadMatrix(getModelViewMatrix());
 }
-ofVec3f ofxOrthoCamera::orthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewport)
+ofMatrix4x4 ofxOrthoCamera::getProjectionMatrix(ofRectangle viewport) const
+{
+	ofMatrix4x4 ortho;
+	ortho.makeOrthoMatrix(-m_ScaleX, m_ScaleX, -m_ScaleY, m_ScaleY, -2000 * m_Scale, 2800 * m_Scale );
+	return ortho;
+}
+ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewport)
 {
 	//convert from screen to camera
 	ofVec3f CameraXYZ;
@@ -62,8 +49,27 @@ ofVec3f ofxOrthoCamera::orthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewpo
 
 	//get inverse camera matrix
 	ofMatrix4x4 inverseCamera;
-	inverseCamera.makeInvertOf(getModelViewMatrix() * ortho);
+	inverseCamera.makeInvertOf(getModelViewMatrix() * getProjectionMatrix(viewport));
 
 	//convert camera to world
 	return CameraXYZ * inverseCamera;
+}
+void ofxOrthoCamera::SetScale(float scale)
+{
+	m_Scale = scale;
+	float ar = this->viewport.width / this->viewport.height;
+	if(ar > 1.0f){
+		//wide
+		m_ScaleX = m_Scale * ar;
+		m_ScaleY = m_Scale;
+	}
+	else{
+		//tall
+		m_ScaleX = m_Scale;
+		m_ScaleY = ar==0?0:(m_Scale / ar);
+	}
+}
+float ofxOrthoCamera::GetScale()
+{
+	return m_Scale;
 }

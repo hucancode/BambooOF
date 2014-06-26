@@ -1,4 +1,5 @@
 #include "ofxMonoMaterial.h"
+#include "ofxSpriteRenderer.h"
 #include "FreeImage.h"
 #define DEBUG
 ofxMonoMaterial::ofxMonoMaterial()
@@ -129,6 +130,7 @@ void ofxMonoMaterial::BuildMaterial()
 	m_ShaderLocationXYZ = glGetAttribLocation(m_ShaderProgramId, "a_position");
 	m_ShaderLocationUV = glGetAttribLocation(m_ShaderProgramId, "a_uv");
 	m_ShaderLocationCUV = glGetAttribLocation(m_ShaderProgramId, "a_cuv");
+	m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
 }
 void ofxMonoMaterial::Bind()
 {
@@ -142,7 +144,7 @@ void ofxMonoMaterial::Bind()
 	glEnableVertexAttribArray(m_ShaderLocationCUV);
 	glVertexAttribPointer(m_ShaderLocationCUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*67);
 	// shader textures
-	
+	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }

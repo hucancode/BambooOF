@@ -2,8 +2,10 @@
 ofxSpriteRenderer* ofxSpriteRenderer::s_Instance = 0;
 ofxSpriteRenderer::ofxSpriteRenderer()
 {
+	if(s_Instance) return;
 	ofxSpriteCommand::GenerateSharedIndices();
 	m_Camera = new ofxOrthoCamera();
+	s_Instance = this;
 }
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
@@ -47,6 +49,7 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 }
 void ofxSpriteRenderer::Render()
 {
+	m_TransformMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
 	//m_Camera->begin();
 	{
 		ofxSpriteCommands::iterator it = m_SolidCommands.begin();
@@ -57,7 +60,7 @@ void ofxSpriteRenderer::Render()
 		}
 	}
 	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 		//glDisable(GL_DEPTH_TEST);// transparent isn't work well with depth test
 		glDepthMask(GL_FALSE);
@@ -189,6 +192,7 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 		}
 	}
 }
+
 void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 {
 	printf("------------BuildTransparentCommands(%u,%u)\n",i,j);
@@ -233,6 +237,7 @@ static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* 
 }
 void ofxSpriteRenderer::Update()
 {
+	
 	{
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
 		for(;it != m_TransparentQuads.end();it++)
@@ -255,7 +260,7 @@ void ofxSpriteRenderer::Update()
 	}
 	bool transparent_commands_refreshed = CleanUnusedTransparentQuads();
 	bool solid_commands_refreshed = CleanUnusedSolidQuads();
-	m_CameraUpdated = true;
+	//m_CameraUpdated = true;
 	// TODO: it's a fancy and risky algorithm, need to test, test many times
 	// for now, i can't find a way to test it. maybe it's bug will apear in future action
 	if(!solid_commands_refreshed)
