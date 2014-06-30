@@ -171,17 +171,20 @@ static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }
-void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
+void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned int end_index)
 {
-	sort(m_SolidQuads.begin()+i, m_SolidQuads.begin()+j, SolidQuadCompare);
+	printf("------------BuildSolidCommands(%u,%u)\n",begin_index,end_index);
+	sort(m_SolidQuads.begin()+begin_index, m_SolidQuads.begin()+end_index, SolidQuadCompare);
 	for(int i=0;i<m_SolidQuads.size();i++)
 	{
 		m_SolidQuads[i]->m_IndexInRenderer = i;
 	}
 	{
 		ofxSpriteMaterial* last_material = 0;
-		ofxSpriteQuads::iterator it = m_SolidQuads.begin();
-		for(;it != m_SolidQuads.end();it++)
+		ofxSpriteQuads::iterator it = m_SolidQuads.begin()+begin_index;
+		ofxSpriteQuads::iterator bound_it = m_SolidQuads.begin()+end_index;
+
+		for(;it != bound_it;it++)
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
@@ -191,6 +194,10 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 				m_SolidCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
+#ifdef _DEBUG
+				m_DrawnBatches++;
+				m_DrawnVertices += 6;
+#endif
 			}
 			else
 			{
@@ -201,18 +208,20 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 	}
 }
 
-void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
+void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsigned int end_index)
 {
-	printf("------------BuildTransparentCommands(%u,%u)\n",i,j);
-	sort(m_TransparentQuads.begin()+i, m_TransparentQuads.begin()+j, TransparentQuadCompare);
+	printf("------------BuildTransparentCommands(%u,%u)\n",begin_index,end_index);
+	sort(m_TransparentQuads.begin()+begin_index, m_TransparentQuads.begin()+end_index, TransparentQuadCompare);
 	for(int i=0;i<m_TransparentQuads.size();i++)
 	{
 		m_TransparentQuads[i]->m_IndexInRenderer = i;
 	}
 	{
 		ofxSpriteMaterial* last_material = 0;
-		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
-		for(;it != m_TransparentQuads.end();it++)
+		ofxSpriteQuads::iterator it = m_TransparentQuads.begin()+begin_index;
+		ofxSpriteQuads::iterator bound_it = m_TransparentQuads.begin()+end_index;
+
+		for(;it != bound_it;it++)
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
@@ -345,7 +354,7 @@ void ofxSpriteRenderer::Update()
 				{
 					int min_sprite_index = m_SolidCommands[left]->m_FirstSpriteIndex;
 					int max_sprite_index = m_SolidCommands[right]->m_LastSpriteIndex;
-					for(int i=left;i<=right;i++)
+					for(int i=left;i<=right;right--)
 					{
 						ofxSpriteCommand* command = m_SolidCommands[i];
 						m_SolidCommands.erase(m_SolidCommands.begin() + i);
@@ -356,6 +365,10 @@ void ofxSpriteRenderer::Update()
 					index = left;
 					left = -1;
 					right = -1;
+				}
+				else
+				{
+					index++;
 				}
 			}
 			k++;
@@ -443,7 +456,7 @@ void ofxSpriteRenderer::Update()
 				{
 					int min_sprite_index = m_TransparentCommands[left]->m_FirstSpriteIndex;
 					int max_sprite_index = m_TransparentCommands[right]->m_LastSpriteIndex;
-					for(int i=left;i<=right;i++)
+					for(int i=left;i<=right;right--)
 					{
 						ofxSpriteCommand* command = m_TransparentCommands[i];
 						m_TransparentCommands.erase(m_TransparentCommands.begin() + i);
@@ -455,8 +468,11 @@ void ofxSpriteRenderer::Update()
 					left = -1;
 					right = -1;
 				}
+				else
+				{
+					index++;
+				}
 			}
-			
 			k++;
 		}
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
