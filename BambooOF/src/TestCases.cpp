@@ -1,8 +1,6 @@
 #include "TestCases.h"
 
-//Test* current_test = new SpriteTest();
-//Test* current_test = new RendererTest();
-Test* current_test = new SortingTest();
+Test* current_test = new TextureTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -12,7 +10,6 @@ void Test::Update()
 }
 void Test::Render()
 {
-	
 }
 void SpriteTest::Setup()
 {
@@ -132,12 +129,86 @@ void SortingTest::Render()
 {
 	ofxRENDERER->Render();
 }
+
 void SpriteBenchmarkTest::Setup()
 {
+	float screen_width = ofGetWindowWidth();
+	float screen_height = ofGetWindowHeight();
+	new ofxSpriteRenderer;
+	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
+	ofxRENDERER->GetCamera()->SetScale(40);
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
+	
+	material->BuildMaterial();
+	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	for(int i=-40;i<40;i++)
+	{
+		for(int j=-50;j<50;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(material);
+			
+			sprite->SetLogicWidth(192);
+			sprite->SetLogicHeight(192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(ofVec3f(i*space_x,0.0f,j*space_y));
+			ofxRENDERER->PushSprite(sprite);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
 }
 void SpriteBenchmarkTest::Update()
 {
+	ofxRENDERER->Update();
 }
 void SpriteBenchmarkTest::Render()
 {
+	ofxRENDERER->Render();
+}
+void TextureTest::Setup()
+{
+	float screen_width = ofGetWindowWidth();
+	float screen_height = ofGetWindowHeight();
+	new ofxSpriteRenderer;
+	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
+	ofxRENDERER->GetCamera()->SetScale(40);
+	ofxMonoMaterial** materials = new ofxMonoMaterial*[8];
+	for (int i = 0; i < 8; i++)
+	{
+		materials[i] = new ofxMonoMaterial();
+		materials[i]->LoadShader("mono_shader.vertex","mono_shader.frag");
+		((ofxMonoMaterial*)materials[i])->LoadTexturePNG(("data/plops/sprint000"+ofToString(i+1)+".png").c_str());
+		materials[i]->BuildMaterial();
+	}
+	
+	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	for(int i=-20;i<20;i++)
+	{
+		for(int j=-20;j<20;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(materials[(j+20)/5]);
+			
+			sprite->SetLogicWidth(192);
+			sprite->SetLogicHeight(192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(ofVec3f(i*space_x,0.0f,j*space_y));
+			ofxRENDERER->PushSprite(sprite);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
+}
+void TextureTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TextureTest::Render()
+{
+	ofxRENDERER->Render();
 }

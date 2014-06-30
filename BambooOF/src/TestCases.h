@@ -43,6 +43,22 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+// NOTE: try to draw 1000 sprite. random 5 material
+class TextureTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
+// NOTE: try to draw animation.
+class AnimationTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
 //-----------------------------------------------------------
 // STRESS TEST
 // engine runs under strictly environemt, and it must works well

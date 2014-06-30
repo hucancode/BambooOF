@@ -53,8 +53,12 @@ void ofApp::draw() {
 	current_test->Render();
 	cam->end();
 	//-------------------
+#ifdef _DEBUG
 	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
-		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber()));
+		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber())+
+		" - Draw call: "+ofToString(ofxRENDERER->GetDrawCall())+
+		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));
+#endif
 }
 
 //--------------------------------------------------------------

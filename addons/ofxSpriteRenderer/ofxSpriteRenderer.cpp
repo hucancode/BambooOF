@@ -49,6 +49,10 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 }
 void ofxSpriteRenderer::Render()
 {
+#ifdef _DEBUG
+	m_DrawnBatches = 0;
+	m_DrawnVertices = 0;
+#endif
 	m_TransformMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
 	//m_Camera->begin();
 	{
@@ -56,7 +60,11 @@ void ofxSpriteRenderer::Render()
 		for(;it != m_SolidCommands.end();it++)
 		{
 			ofxSpriteCommand* cmd = *it;
-			cmd->Render();
+			cmd->Render();	
+#ifdef _DEBUG
+			m_DrawnBatches++;
+			m_DrawnVertices += cmd->m_Vertices.size();
+#endif
 		}
 	}
 	{
@@ -69,6 +77,10 @@ void ofxSpriteRenderer::Render()
 		{
 			ofxSpriteCommand* cmd = *it;
 			cmd->Render();
+#ifdef _DEBUG
+			m_DrawnBatches++;
+			m_DrawnVertices += cmd->m_Vertices.size();
+#endif
 		}
 		//glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -179,10 +191,6 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int i, unsigned int j)
 				m_SolidCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
-#ifdef DEBUG
-				m_DrawnBatches++;
-				m_DrawnVertices += 6;
-#endif
 			}
 			else
 			{
@@ -214,7 +222,7 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int i, unsigned int j)
 				m_TransparentCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
-#ifdef DEBUG
+#ifdef _DEBUG
 				m_DrawnBatches++;
 				m_DrawnVertices += 6;
 #endif
@@ -237,7 +245,6 @@ static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* 
 }
 void ofxSpriteRenderer::Update()
 {
-	
 	{
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
 		for(;it != m_TransparentQuads.end();it++)

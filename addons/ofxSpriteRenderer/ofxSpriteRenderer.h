@@ -40,7 +40,7 @@ private:
 	bool					m_CameraUpdated;
 	vector<unsigned int>	m_UnusedSolidQuads;
 	vector<unsigned int>	m_UnusedTransparentQuads;
-#ifdef DEBUG
+#ifdef _DEBUG
 	int						m_DrawnBatches;
 	int						m_DrawnVertices;
 #endif
@@ -60,10 +60,6 @@ private:
 	bool CleanUnusedSolidQuads();
 	bool CleanUnusedTransparentQuads();
 public:
-	unsigned int GetSpriteNumber()
-	{
-		return m_SolidQuads.size() + m_TransparentQuads.size() - m_UnusedSolidQuads.size() - m_UnusedTransparentQuads.size();
-	}
 	ofxOrthoCamera* GetCamera()
 	{
 		return m_Camera;
@@ -77,5 +73,19 @@ public:
 	{
 		return m_TransformMatrix;
 	}
+#ifdef _DEBUG
+	unsigned int GetSpriteNumber()
+	{
+		return m_SolidQuads.size() + m_TransparentQuads.size() - m_UnusedSolidQuads.size() - m_UnusedTransparentQuads.size();
+	}
+	int	GetDrawCall()
+	{
+		return m_DrawnBatches;
+	}
+	int	GetDrawVertices()
+	{
+		return m_DrawnVertices;
+	}
+#endif
 };
 #define ofxRENDERER ofxSpriteRenderer::GetInstance()
