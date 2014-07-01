@@ -11,7 +11,7 @@ private:
 private:
 	GLuint* m_TextureId;
 	GLuint* m_TextureOrder;
-	GLuint* m_TextureSize;
+	ofVec2f* m_TextureSize;
 	GLuint m_ShaderProgramId;
 	GLint m_ShaderLocationXYZ;
 	GLint m_ShaderLocationTextureCount;
@@ -47,17 +47,9 @@ public:
 	{
 		return m_TextureCount;
 	}
-	GLuint GetTextureSizeRaw(const int index)
+	virtual ofVec2f GetTextureSize(const int index)
 	{
 		return m_TextureSize[index]; 
-	}
-	GLuint GetTextureSizeX(const int index)
-	{
-		return m_TextureSize[index*2]; 
-	}
-	GLuint GetTextureSizeY(const int index)
-	{
-		return m_TextureSize[index*2+1]; 
 	}
 	void SetOrder(const int texture_id, const int order)
 	{

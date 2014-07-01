@@ -8,7 +8,7 @@ private:
 	unsigned int m_ReferenceCount;
 private:
 	GLuint m_TextureId;
-	GLuint m_TextureSize[2];
+	ofVec2f m_TextureSize;
 	GLuint m_ShaderProgramId;
 	GLint m_ShaderLocationXYZ;
 	GLint m_ShaderLocationUV;
@@ -38,16 +38,12 @@ public:
 	{
 		return 1;
 	}
+	virtual ofVec2f GetTextureSize(const int index)
+	{
+		return m_TextureSize; 
+	}
 	bool IsUnused()
 	{
 		return m_ReferenceCount == 0;
-	}
-	GLuint GetTextureSizeX()
-	{
-		return m_TextureSize[0]; 
-	}
-	GLuint GetTextureSizeY()
-	{
-		return m_TextureSize[1]; 
 	}
 };

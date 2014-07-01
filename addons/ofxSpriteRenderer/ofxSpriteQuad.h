@@ -32,23 +32,23 @@ private:
 	bool				m_Transparent;
 	QUAD_STATUS			m_Status;
 	QUAD_VISIBILITY		m_Visibility;
-	ofVec3f				m_Position;
 	ofVec3f				m_WorldPosition;
-	unsigned short		m_WorldQuad[2];
-	GLfloat				m_Quad[2];
+	ofVec2f				m_WorldQuad;
 	bool				m_Visible;
 	float				m_DistanceToCamera;
 private:
-	bool				m_PositionUpdated;
 	bool				m_DistanceUpdated;
 private:
-	unsigned short*		m_TextureRect;
-	unsigned short*		m_SpriteRect;
+	ofVec4f*			m_TextureRect;
+	ofVec4f*			m_SpriteRect;
+private:
+	ofVec3f				m_glPosition[4];
+	ofVec4f*			m_glUV;
+	ofVec4f*			m_glCUV;
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
 	virtual void Update(const float delta_time){}
-	void CalculatePosition(const ofVec3f camera_position);
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
 	void MoveTo(const ofVec3f position);
 	void MoveBy(const ofVec3f accelerator);
@@ -75,101 +75,40 @@ public:
 	{
 		return m_Visibility;
 	}
-	ofVec3f GetPosition()
+	float GetLogicWidth()
 	{
-		return m_Position;
+		return m_WorldQuad.x;
 	}
-	bool IsPositionUpdated()
+	void SetLogicWidth(const float width)
 	{
-		return m_PositionUpdated;
+		m_WorldQuad.x = width;
+		if(m_Status == QUAD_STATUS_NO_CHANGE)
+			m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
-	unsigned short GetLogicWidth()
+	float GetLogicHeight()
 	{
-		return m_WorldQuad[0];
+		return m_WorldQuad.y;
 	}
-	void SetLogicWidth(const unsigned short width)
+	void SetLogicHeight(const float height)
 	{
-		m_WorldQuad[0] = width;
-		float screen_width = ofGetWindowWidth();
-		SetWidth(width/screen_width*2*40);
-	}
-	unsigned short GetLogicHeight()
-	{
-		return m_WorldQuad[1];
-	}
-	void SetLogicHeight(const unsigned short height)
-	{
-		m_WorldQuad[1] = height;
-		float screen_height = ofGetWindowHeight();
-		SetHeight(height/screen_height*2*40);//20 = camera scale
-	}
-private:
-	float GetWidth()
-	{
-		return m_Quad[0];
-	}
-	void SetWidth(const float width)
-	{
-		m_Quad[0] = width;
-		m_Status = QUAD_STATUS_SAFE_CHANGE;
-	}
-	float GetHeight()
-	{
-		return m_Quad[1];
-	}
-	void SetHeight(const float height)
-	{
-		m_Quad[1] = height;
-		m_Status = QUAD_STATUS_SAFE_CHANGE;
+		m_WorldQuad.y = height;
+		if(m_Status == QUAD_STATUS_NO_CHANGE)
+			m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
 public:
-	unsigned int GetTextureRectRaw(const int index)
+	ofVec4f GetTextureRect(const int index)
 	{
 		return m_TextureRect[index];
 	}
-	unsigned int GetTextureRectX(const int index)
-	{
-		return m_TextureRect[index*4];
-	}
-	unsigned int GetTextureRectY(const int index)
-	{
-		return m_TextureRect[index*2+1];
-	}
-	unsigned int GetTextureRectW(const int index)
-	{
-		return m_TextureRect[index*4+2];
-	}
-	unsigned int GetTextureRectH(const int index)
-	{
-		return m_TextureRect[index*4+3];
-	}
-	unsigned int GetSpriteRectRaw(const int index)
+	ofVec4f GetSpriteRect(const int index)
 	{
 		return m_SpriteRect[index];
 	}
-	unsigned int GetSpriteRectX(const int index)
-	{
-		return m_SpriteRect[index*4];
-	}
-	unsigned int GetSpriteRectY(const int index)
-	{
-		return m_SpriteRect[index*2+1];
-	}
-	unsigned int GetSpriteRectW(const int index)
-	{
-		return m_SpriteRect[index*4+2];
-	}
-	unsigned int GetSpriteRectH(const int index)
-	{
-		return m_SpriteRect[index*4+3];
-	}
 	void SetMaxTexture(const int size);
-	void SetTextureRect(const unsigned short order,
-		const unsigned short x, const unsigned short y, 
-		const unsigned short w, const unsigned short h);
-	void SetSpriteRect(const unsigned short order,
-		const unsigned short x, const unsigned short y, 
-		const unsigned short w, const unsigned short h);
+	void SetTextureRect(const int index, const float x, const float y, const float w, const float h);
+	void SetSpriteRect(const int index, const float x, const float y, const float w, const float h);
+	void SetTextureRect(const int index, const ofVec4f rect);
+	void SetSpriteRect(const int index, const ofVec4f rect);
 	void SubmitChanges();
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;

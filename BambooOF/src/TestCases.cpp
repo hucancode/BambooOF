@@ -232,7 +232,7 @@ void SortBenchmarkTest::Setup()
 	float screen_height = ofGetWindowHeight();
 	new ofxSpriteRenderer;
 	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
-	ofxRENDERER->GetCamera()->SetScale(40);
+	ofxRENDERER->GetCamera()->SetScale(min(screen_width,screen_height)*0.5);
 	ofxSpriteMaterial* material = new ofxMonoMaterial();
 	material->LoadShader("mono_shader.vertex","mono_shader.frag");
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
@@ -240,9 +240,9 @@ void SortBenchmarkTest::Setup()
 	material->BuildMaterial();
 	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
 	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
-	for(int i=-40;i<40;i++)
+	for(int i=-60;i<60;i++)
 	{
-		for(int j=-50;j<50;j++)
+		for(int j=-60;j<60;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->SetMaterial(material);
@@ -270,16 +270,17 @@ void SortBenchmarkTest::Update()
 	{
 		spriteA->MoveBy(ofVec3f(0.0f,0.0f,-0.4f));
 	}
-	if(spriteB->GetWorldPosition().z > -0.2f)
+	if(spriteB->GetWorldPosition().z > -200.0f)
 	{
-		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-0.1f));
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-1.0f));
 	}
 	else
 	{
-		spriteB->MoveBy(ofVec3f(0.0f,0.0f,0.4f));
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,400.0f));
 	}
 }
 void SortBenchmarkTest::Render()
 {
 	ofxRENDERER->Render();
+	printf("update time = %u\nrender time = %u\n",ofxRENDERER->GetUpdateTimeMilisecond(),ofxRENDERER->GetRenderTimeMilisecond());
 }

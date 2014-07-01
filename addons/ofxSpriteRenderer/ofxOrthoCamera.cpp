@@ -8,6 +8,9 @@ ofxOrthoCamera
 ofxOrthoCamera::ofxOrthoCamera()
 {
 	isOrtho = true;
+	m_ProjectionUpdated = false;
+	m_ModelViewProjectionnUpdated = false;
+	m_InverseCameraUpdated = false;
 	SetScale(1);
 }
 ofxOrthoCamera::~ofxOrthoCamera()
@@ -28,16 +31,62 @@ void ofxOrthoCamera::begin(ofRectangle viewport)
 	ofSetOrientation(ofGetOrientation(),vFlip);
 
 	ofSetMatrixMode(OF_MATRIX_PROJECTION);
-	ofLoadMatrix(getProjectionMatrix(viewport));
+	ofLoadMatrix(GetProjectionMatrix());
 
 	ofSetMatrixMode(OF_MATRIX_MODELVIEW);
-	ofLoadMatrix(getModelViewMatrix());
+	ofLoadMatrix(GetModelViewMatrix());
 }
-ofMatrix4x4 ofxOrthoCamera::getProjectionMatrix(ofRectangle viewport) const
+ofMatrix4x4 ofxOrthoCamera::GetProjectionMatrix()
 {
-	ofMatrix4x4 ortho;
-	ortho.makeOrthoMatrix(-m_ScaleX, m_ScaleX, -m_ScaleY, m_ScaleY, -2000 * m_Scale, 2800 * m_Scale );
-	return ortho;
+	if(!m_ProjectionUpdated)
+	{
+		m_ProjectionMatrix.makeOrthoMatrix(-m_ScaleX, m_ScaleX, -m_ScaleY, m_ScaleY, -20000, 20000);
+		m_ProjectionUpdated = true;
+	}
+	return m_ProjectionMatrix;
+}
+bool ofxOrthoCamera::ModelViewUpdated()
+{
+	bool ret = m_LocalTransformMatrix._mat[0] == getLocalTransformMatrix()._mat[0] && 
+		m_LocalTransformMatrix._mat[1] == getLocalTransformMatrix()._mat[1] &&
+		m_LocalTransformMatrix._mat[2] == getLocalTransformMatrix()._mat[2] &&
+		m_LocalTransformMatrix._mat[3] == getLocalTransformMatrix()._mat[3];
+	if(!ret)
+	{
+		m_ModelViewProjectionnUpdated = false;
+		m_InverseCameraUpdated = false;
+	}
+	return ret;
+}
+ofMatrix4x4 ofxOrthoCamera::GetModelViewMatrix()
+{
+	if(!ModelViewUpdated())
+	{
+		m_LocalTransformMatrix = getLocalTransformMatrix();
+		m_ModelViewMatrix = ofMatrix4x4::getInverseOf(m_LocalTransformMatrix);
+		m_ModelViewProjectionnUpdated = false;
+		m_InverseCameraUpdated = false;
+	}
+	return m_ModelViewMatrix;
+}
+ofMatrix4x4 ofxOrthoCamera::GetModelViewProjectionMatrix()
+{
+	if(!(ModelViewUpdated() && m_ProjectionUpdated && m_ModelViewProjectionnUpdated))
+	{
+		m_ModelViewProjectionMatrix = GetModelViewMatrix() * GetProjectionMatrix();
+		m_InverseCameraUpdated = false;
+	}
+	m_ModelViewProjectionnUpdated = true;
+	return m_ModelViewProjectionMatrix;
+}
+ofMatrix4x4 ofxOrthoCamera::GetInverseCameraMatrix()
+{
+	if(!(ModelViewUpdated() && m_ProjectionUpdated && m_ModelViewProjectionnUpdated && m_InverseCameraUpdated))
+	{
+		m_InverseCameraMatrix = ofMatrix4x4::getInverseOf(GetModelViewProjectionMatrix());
+	}
+	m_InverseCameraUpdated = true;
+	return m_InverseCameraMatrix;
 }
 ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewport)
 {
@@ -47,12 +96,8 @@ ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewpo
 	CameraXYZ.y = 1.0f - 2.0f *(ScreenXYZ.y - viewport.y) / viewport.height;
 	CameraXYZ.z = ScreenXYZ.z;
 
-	//get inverse camera matrix
-	ofMatrix4x4 inverseCamera;
-	inverseCamera.makeInvertOf(getModelViewMatrix() * getProjectionMatrix(viewport));
-
 	//convert camera to world
-	return CameraXYZ * inverseCamera;
+	return CameraXYZ * GetInverseCameraMatrix();
 }
 void ofxOrthoCamera::SetScale(float scale)
 {
@@ -68,6 +113,7 @@ void ofxOrthoCamera::SetScale(float scale)
 		m_ScaleX = m_Scale;
 		m_ScaleY = ar==0?0:(m_Scale / ar);
 	}
+	m_ProjectionUpdated = false;
 }
 float ofxOrthoCamera::GetScale()
 {

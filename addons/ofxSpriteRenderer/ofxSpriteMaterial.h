@@ -22,5 +22,6 @@ public:
 	virtual void IncreaseReference(){}
 	virtual void DecreaseReference(){}
 	virtual unsigned int GetTextureCount(){ return 0;}
+	virtual ofVec2f GetTextureSize(const int index){return ofVec2f::zero();}
 	
 };

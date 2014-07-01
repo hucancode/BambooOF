@@ -63,7 +63,7 @@ void ofxSpriteCommand::Render()
 }
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
-	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	float distance = sprite->CalculateDistanceToCamera(camera_position);
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
 	sprite->m_IndexInCommand = m_Vertices.size();
@@ -122,11 +122,12 @@ void ofxSpriteCommand::EraseSprite(ofxSpriteQuad* sprite)
 }
 void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {
+	// this is costly works, need to optimize it
 	if(sprite->m_Status != QUAD_STATUS_NO_CHANGE && m_Status != COMMAND_STATUS_EXPANDED)
 	{
 		if(sprite->m_Status == QUAD_STATUS_POSITION_CHANGE)
 		{
-			ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+			ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 			float distance = sprite->CalculateDistanceToCamera(camera_position);
 			if(distance > m_DistanceMax || distance < m_DistanceMin)
 			{
@@ -250,97 +251,43 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		m_VisibleSprite[index4] = false;
 	}
 	ofxVertex *vertexA, *vertexB, *vertexC, *vertexD;
-	{//position
-		vertexA = &m_Vertices[index];
-		vertexB = &m_Vertices[index+1];
-		vertexC = &m_Vertices[index+2];
-		vertexD = &m_Vertices[index+3];
-
-		vertexA->X = sprite->GetPosition().x - sprite->GetWidth()*0.5;
-		vertexA->Y = sprite->GetPosition().y;
-		vertexA->Z = sprite->GetPosition().z;
-		vertexB->X = vertexA->X + sprite->GetWidth();
-		vertexB->Y = vertexA->Y;
-		vertexB->Z = vertexA->Z;
-		vertexC->X = vertexB->X;
-		vertexC->Y = vertexB->Y + sprite->GetHeight();
-		vertexC->Z = vertexA->Z;
-		vertexD->X = vertexA->X;
-		vertexD->Y = vertexC->Y;
-		vertexD->Z = vertexA->Z;
+	vertexA = &m_Vertices[index];
+	vertexB = &m_Vertices[index+1];
+	vertexC = &m_Vertices[index+2];
+	vertexD = &m_Vertices[index+3];
+	{
+		vertexA->X = sprite->m_glPosition[0].x;
+		vertexA->Y = sprite->m_glPosition[0].y;
+		vertexA->Z = sprite->m_glPosition[0].z;
+		vertexB->X = sprite->m_glPosition[1].x;
+		vertexB->Y = sprite->m_glPosition[1].y;
+		vertexB->Z = sprite->m_glPosition[1].z;
+		vertexC->X = sprite->m_glPosition[2].x;
+		vertexC->Y = sprite->m_glPosition[2].y;
+		vertexC->Z = sprite->m_glPosition[2].z;
+		vertexD->X = sprite->m_glPosition[3].x;
+		vertexD->Y = sprite->m_glPosition[3].y;
+		vertexD->Z = sprite->m_glPosition[3].z;
 	}
-	{//uv & cuv
-		int tex_index = 0;
-		int i = 0;
-		int j = 1;
-		int x = 0;
-		int y = 1;
-		int w = 2;
-		int h = 3;
-		for(;tex_index < sprite->GetMaterial()->GetTextureCount();
-			tex_index++,
-			i += 2, j += 2, 
-			x += 4, y += 4, w += 4, h += 4)
-		{
-			float texture_w;
-			float texture_h;
-			if(sprite->GetMaterial()->GetType() == MATERIAL_TYPE_MONO)
-			{
-				texture_w = ((ofxMonoMaterial*)sprite->GetMaterial())->GetTextureSizeX();
-				texture_h = ((ofxMonoMaterial*)sprite->GetMaterial())->GetTextureSizeY();
-			}
-			else if(sprite->GetMaterial()->GetType() == MATERIAL_TYPE_POLY)
-			{
-				texture_w = ((ofxPolyMaterial*)sprite->GetMaterial())->GetTextureSizeRaw(i);
-				texture_h = ((ofxPolyMaterial*)sprite->GetMaterial())->GetTextureSizeRaw(j);
-			}
-			else
-			{
-				texture_w = 1;
-				texture_h = 1;
-			}
-			float sprite_w = sprite->GetLogicWidth();
-			float sprite_h = sprite->GetLogicHeight();
-			float texture_rect_x = sprite->GetTextureRectRaw(x);
-			float texture_rect_y = sprite->GetTextureRectRaw(y);
-			float texture_rect_w = sprite->GetTextureRectRaw(w);
-			float texture_rect_h = sprite->GetTextureRectRaw(h);
-			float sprite_rect_x = sprite->GetSpriteRectRaw(x);
-			float sprite_rect_y = sprite->GetSpriteRectRaw(y);
-			float sprite_rect_w = sprite->GetSpriteRectRaw(w);
-			float sprite_rect_h = sprite->GetSpriteRectRaw(h);
-			{
-				float uv_w = texture_w/sprite_w;
-				float uv_h = texture_h/sprite_h;
-				float uv_min_x = (texture_rect_x - sprite_rect_x)/uv_w;
-				float uv_min_y = (texture_rect_y - sprite_rect_y)/uv_h;
-				float uv_max_x = uv_min_x + uv_w;
-				float uv_max_y = uv_min_y + uv_h;
-				vertexA->UV[i] = uv_min_x;
-				vertexA->UV[j] = uv_min_y;
-				vertexB->UV[i] = uv_max_x;
-				vertexB->UV[j] = uv_min_y;
-				vertexC->UV[i] = uv_max_x;
-				vertexC->UV[j] = uv_max_y;
-				vertexD->UV[i] = uv_min_x;
-				vertexD->UV[j] = uv_max_y;
-			}
-			{
-				float crop_w = sprite_w/sprite_rect_w;
-				float crop_h = sprite_h/sprite_rect_h;
-				float crop_min_x = -sprite_rect_x/sprite_rect_w;
-				float crop_min_y = -sprite_rect_y/sprite_rect_h;
-				float crop_max_x = crop_min_x + crop_w;
-				float crop_max_y = crop_min_y + crop_h;
-				vertexA->CUV[i] = crop_min_x;
-				vertexA->CUV[j] = crop_min_y;
-				vertexB->CUV[i] = crop_max_x;
-				vertexB->CUV[j] = crop_min_y;
-				vertexC->CUV[i] = crop_max_x;
-				vertexC->CUV[j] = crop_max_y;
-				vertexD->CUV[i] = crop_min_x;
-				vertexD->CUV[j] = crop_max_y;
-			}
-		}
+	for(int i = 0;i < sprite->GetMaterial()->GetTextureCount();i++)
+	{
+		int x = i<<1;
+		int y = x+1;
+		vertexA->UV[x] = sprite->m_glUV[i].x;
+		vertexA->UV[y] = sprite->m_glUV[i].y;
+		vertexB->UV[x] = sprite->m_glUV[i].z;
+		vertexB->UV[y] = sprite->m_glUV[i].y;
+		vertexC->UV[x] = sprite->m_glUV[i].z;
+		vertexC->UV[y] = sprite->m_glUV[i].w;
+		vertexD->UV[x] = sprite->m_glUV[i].x;
+		vertexD->UV[y] = sprite->m_glUV[i].w;
+		vertexA->CUV[x] = sprite->m_glCUV[i].x;
+		vertexA->CUV[y] = sprite->m_glCUV[i].y;
+		vertexB->CUV[x] = sprite->m_glCUV[i].z;
+		vertexB->CUV[y] = sprite->m_glCUV[i].y;
+		vertexC->CUV[x] = sprite->m_glCUV[i].z;
+		vertexC->CUV[y] = sprite->m_glCUV[i].w;
+		vertexD->CUV[x] = sprite->m_glCUV[i].x;
+		vertexD->CUV[y] = sprite->m_glCUV[i].w;
 	}
 }

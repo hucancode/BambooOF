@@ -8,8 +8,9 @@ enum COMMAND_STATUS
 	COMMAND_STATUS_UNITED,
 	COMMAND_STATUS_DISMISSED,
 	COMMAND_STATUS_EXPANDED
-	
 };
+#define COMMAND_CAPACITY 800
+
 class ofxSpriteCommand
 {
 	friend class ofxSpriteQuad;

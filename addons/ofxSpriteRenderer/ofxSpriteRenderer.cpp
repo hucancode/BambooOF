@@ -52,6 +52,7 @@ void ofxSpriteRenderer::Render()
 #ifdef _DEBUG
 	m_DrawnBatches = 0;
 	m_DrawnVertices = 0;
+	unsigned long long time_start_render = ofGetSystemTime();
 #endif
 	m_TransformMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
 	//m_Camera->begin();
@@ -62,8 +63,11 @@ void ofxSpriteRenderer::Render()
 			ofxSpriteCommand* cmd = *it;
 			cmd->Render();	
 #ifdef _DEBUG
-			m_DrawnBatches++;
-			m_DrawnVertices += cmd->m_Vertices.size();
+			if(cmd->m_VisibleSpriteCount != 0)
+			{
+				m_DrawnBatches++;
+				m_DrawnVertices += cmd->m_Vertices.size();
+			}
 #endif
 		}
 	}
@@ -78,8 +82,11 @@ void ofxSpriteRenderer::Render()
 			ofxSpriteCommand* cmd = *it;
 			cmd->Render();
 #ifdef _DEBUG
-			m_DrawnBatches++;
-			m_DrawnVertices += cmd->m_Vertices.size();
+			if(cmd->m_VisibleSpriteCount != 0)
+			{
+				m_DrawnBatches++;
+				m_DrawnVertices += cmd->m_Vertices.size();
+			}
 #endif
 		}
 		//glEnable(GL_DEPTH_TEST);
@@ -87,6 +94,10 @@ void ofxSpriteRenderer::Render()
 		glDisable(GL_BLEND);
 	}
 	//m_Camera->end();
+#ifdef _DEBUG
+	unsigned long long time_finish_render = ofGetSystemTime();
+	m_RenderTimeMilisecond = time_finish_render - time_start_render;
+#endif
 }
 void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 {
@@ -159,7 +170,7 @@ static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
 	/*if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
 	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;*/
-	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) < quadB->CalculateDistanceToCamera(camera_position);
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
@@ -168,9 +179,10 @@ static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 		return true;
 	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
 		return true;*/
-	ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
 }
+
 void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned int end_index)
 {
 	printf("------------BuildSolidCommands(%u,%u)\n",begin_index,end_index);
@@ -183,27 +195,25 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned in
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin()+begin_index;
 		ofxSpriteQuads::iterator bound_it = m_SolidQuads.begin()+end_index;
-
+		int sprite_count = 0;
 		for(;it != bound_it;it++)
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->GetMaterial())
+			if(last_material != sprite->GetMaterial() || sprite_count > COMMAND_CAPACITY)
 			{
 				command = new ofxSpriteCommand();
 				m_SolidCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
-#ifdef _DEBUG
-				m_DrawnBatches++;
-				m_DrawnVertices += 6;
-#endif
+				sprite_count = 0;
 			}
 			else
 			{
 				command = m_SolidCommands.back();
 			}
 			command->PushSprite(sprite);
+			sprite_count++;
 		}
 	}
 }
@@ -211,6 +221,7 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned in
 void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsigned int end_index)
 {
 	printf("------------BuildTransparentCommands(%u,%u)\n",begin_index,end_index);
+	unsigned long long time_start_build = ofGetSystemTime();
 	sort(m_TransparentQuads.begin()+begin_index, m_TransparentQuads.begin()+end_index, TransparentQuadCompare);
 	for(int i=0;i<m_TransparentQuads.size();i++)
 	{
@@ -220,29 +231,29 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin()+begin_index;
 		ofxSpriteQuads::iterator bound_it = m_TransparentQuads.begin()+end_index;
-
+		int sprite_count = 0;
 		for(;it != bound_it;it++)
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->GetMaterial())
+			if(last_material != sprite->GetMaterial() || sprite_count > COMMAND_CAPACITY)
 			{
 				command = new ofxSpriteCommand();
 				m_TransparentCommands.push_back(command);
 				last_material = sprite->GetMaterial();
 				command->SetMaterial(last_material);
-#ifdef _DEBUG
-				m_DrawnBatches++;
-				m_DrawnVertices += 6;
-#endif
+				sprite_count = 0;
 			}
 			else
 			{
 				command = m_TransparentCommands.back();
 			}
 			command->PushSprite(sprite);
+			sprite_count++;
 		}
 	}
+	unsigned long long time_finish_build = ofGetSystemTime();
+	printf("build time =  %llu",time_finish_build - time_start_build);
 }
 static bool SolidCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {
@@ -254,6 +265,9 @@ static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* 
 }
 void ofxSpriteRenderer::Update()
 {
+#ifdef _DEBUG
+	unsigned long long time_start_update = ofGetSystemTime();
+#endif
 	{
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
 		for(;it != m_TransparentQuads.end();it++)
@@ -481,6 +495,10 @@ void ofxSpriteRenderer::Update()
 			m_TransparentCommands[i]->m_IndexInRenderer = i;
 		}
 	}
+#ifdef _DEBUG
+	unsigned long long time_finish_update = ofGetSystemTime();
+	m_UpdateTimeMilisecond = time_finish_update - time_start_update;
+#endif
 }
 #define UNUSED_SOLID_QUAD_LIMIT 20
 bool ofxSpriteRenderer::CleanUnusedSolidQuads()
@@ -525,4 +543,18 @@ void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 		m_SolidQuads[i]->SetLogicHeight(m_SolidQuads[i]->GetLogicHeight());
 	}
 	m_CameraUpdated = false;
+	m_Camera->SetScale(min(width,height)*0.5);
+	m_RenderRect.z = width*0.5;
+	m_RenderRect.w = height*0.5;
+	m_RenderRect.x = -m_RenderRect.z;
+	m_RenderRect.y = -m_RenderRect.w;
+}
+ofVec2f ofxSpriteRenderer::NormalizeVector(ofVec2f logic_vector)
+{
+
+	return logic_vector;
+}
+ofVec2f ofxSpriteRenderer::InverseVector(ofVec2f device_vector)
+{
+	return device_vector;
 }

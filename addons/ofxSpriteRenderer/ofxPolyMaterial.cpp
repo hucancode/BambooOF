@@ -25,7 +25,7 @@ void ofxPolyMaterial::SetMaxTexture(const int size)
 	if(m_TextureId || m_TextureSize || m_TextureOrder) return;
 	m_TextureCount = size;
 	m_TextureId = new GLuint[size];
-	m_TextureSize = new GLuint[size*2];
+	m_TextureSize = new ofVec2f[size];
 	m_TextureOrder = new GLuint[size];
 }
 void ofxPolyMaterial::LoadTexturePNG(const char* texture_file, const int index)
@@ -39,8 +39,8 @@ void ofxPolyMaterial::LoadTexturePNG(const char* texture_file, const int index)
 		GLenum format = bpp==24?GL_RGB:GL_RGBA;
 		glActiveTexture(GL_TEXTURE0+index);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
-		m_TextureSize[index*2] = width;
-		m_TextureSize[index*2+1] = height;
+		m_TextureSize[index].x = width;
+		m_TextureSize[index].y = height;
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;

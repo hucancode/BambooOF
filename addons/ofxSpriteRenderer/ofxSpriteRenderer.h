@@ -5,8 +5,8 @@
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
 
-#define FAR_SCREEN_DISTANCE_THRESHOLD 2.0
-#define FAR_SCREEN_SPEED_THRESHOLD 0.01
+#define FAR_SCREEN_DISTANCE_THRESHOLD 6000.0
+#define FAR_SCREEN_SPEED_THRESHOLD 30.0
 #define FAR_SCREEN_UPDATE_SEQUENCE 200
 
 /*
@@ -41,7 +41,10 @@ private:
 #ifdef _DEBUG
 	int						m_DrawnBatches;
 	int						m_DrawnVertices;
+	unsigned int			m_UpdateTimeMilisecond;
+	unsigned int			m_RenderTimeMilisecond;
 #endif
+	ofVec4f					m_RenderRect;
 	ofxOrthoCamera*			m_Camera;
 	ofMatrix4x4				m_TransformMatrix;
 public:
@@ -52,6 +55,8 @@ public:
 	void EraseSprite(ofxSpriteQuad* sprite);
 	void Update();
 	void SetRenderSize(unsigned int width, unsigned int height);
+	ofVec2f NormalizeVector(ofVec2f logic_vector);
+	ofVec2f InverseVector(ofVec2f device_vector);
 private:
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);
@@ -71,6 +76,10 @@ public:
 	{
 		return m_TransformMatrix;
 	}
+	ofVec4f GetRenderRect()
+	{
+		return m_RenderRect;
+	}
 #ifdef _DEBUG
 	unsigned int GetSpriteNumber()
 	{
@@ -83,6 +92,14 @@ public:
 	int	GetDrawVertices()
 	{
 		return m_DrawnVertices;
+	}
+	unsigned int GetUpdateTimeMilisecond()
+	{
+		return m_UpdateTimeMilisecond;
+	}
+	unsigned int GetRenderTimeMilisecond()
+	{
+		return m_RenderTimeMilisecond;
 	}
 #endif
 };
