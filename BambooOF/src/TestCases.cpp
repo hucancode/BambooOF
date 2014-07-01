@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new TextureTest();
+Test* current_test = new SortBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -129,46 +129,6 @@ void SortingTest::Render()
 {
 	ofxRENDERER->Render();
 }
-
-void SpriteBenchmarkTest::Setup()
-{
-	float screen_width = ofGetWindowWidth();
-	float screen_height = ofGetWindowHeight();
-	new ofxSpriteRenderer;
-	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
-	ofxRENDERER->GetCamera()->SetScale(40);
-	ofxSpriteMaterial* material = new ofxMonoMaterial();
-	material->LoadShader("mono_shader.vertex","mono_shader.frag");
-	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
-	
-	material->BuildMaterial();
-	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
-	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
-	for(int i=-40;i<40;i++)
-	{
-		for(int j=-50;j<50;j++)
-		{
-			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetMaterial(material);
-			
-			sprite->SetLogicWidth(192);
-			sprite->SetLogicHeight(192);
-			sprite->SetSpriteRect(0,0,0,192,192);
-			sprite->SetTextureRect(0,0,0,192,192);
-			sprite->MoveTo(ofVec3f(i*space_x,0.0f,j*space_y));
-			ofxRENDERER->PushSprite(sprite);
-			if(i==0 && j==0) spriteObstacle = sprite;
-		}
-	}
-}
-void SpriteBenchmarkTest::Update()
-{
-	ofxRENDERER->Update();
-}
-void SpriteBenchmarkTest::Render()
-{
-	ofxRENDERER->Render();
-}
 void TextureTest::Setup()
 {
 	float screen_width = ofGetWindowWidth();
@@ -209,6 +169,117 @@ void TextureTest::Update()
 	ofxRENDERER->Update();
 }
 void TextureTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void AnimationTest::Setup()
+{
+	float screen_width = ofGetWindowWidth();
+	float screen_height = ofGetWindowHeight();
+	new ofxSpriteRenderer;
+	
+}
+void AnimationTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void AnimationTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void SpriteBenchmarkTest::Setup()
+{
+	float screen_width = ofGetWindowWidth();
+	float screen_height = ofGetWindowHeight();
+	new ofxSpriteRenderer;
+	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
+	ofxRENDERER->GetCamera()->SetScale(40);
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
+	
+	material->BuildMaterial();
+	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	for(int i=-40;i<40;i++)
+	{
+		for(int j=-50;j<50;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(material);
+			
+			sprite->SetLogicWidth(192);
+			sprite->SetLogicHeight(192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(ofVec3f(i*space_x,0.0f,j*space_y));
+			ofxRENDERER->PushSprite(sprite);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
+}
+void SpriteBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void SpriteBenchmarkTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void SortBenchmarkTest::Setup()
+{
+	float screen_width = ofGetWindowWidth();
+	float screen_height = ofGetWindowHeight();
+	new ofxSpriteRenderer;
+	ofxRENDERER->GetCamera()->setAspectRatio(screen_width/screen_height);
+	ofxRENDERER->GetCamera()->SetScale(40);
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
+	
+	material->BuildMaterial();
+	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	for(int i=-40;i<40;i++)
+	{
+		for(int j=-50;j<50;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(material);
+			
+			sprite->SetLogicWidth(192);
+			sprite->SetLogicHeight(192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(ofVec3f(i*space_x,0.0f,j*space_y));
+			ofxRENDERER->PushSprite(sprite);
+			if(i==0 && j==0) spriteObstacle = sprite;
+			if(i==0 && j==0) spriteA = sprite;
+			if(i==1 && j==1) spriteB = sprite;
+		}
+	}
+}
+void SortBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+	if(spriteA->GetWorldPosition().z < 0.2f)
+	{
+		spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.0001f));
+	}
+	else
+	{
+		spriteA->MoveBy(ofVec3f(0.0f,0.0f,-0.4f));
+	}
+	if(spriteB->GetWorldPosition().z > -0.2f)
+	{
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-0.1f));
+	}
+	else
+	{
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,0.4f));
+	}
+}
+void SortBenchmarkTest::Render()
 {
 	ofxRENDERER->Render();
 }

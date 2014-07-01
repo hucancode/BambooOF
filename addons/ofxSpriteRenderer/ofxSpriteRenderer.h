@@ -11,8 +11,6 @@
 
 /*
 TODO: 
-- more material operator, anti alias, or something
-- independence camera
 - particle effect support
 - independence matrix & vector
 */
@@ -53,7 +51,7 @@ public:
 	void PushSprite(ofxSpriteQuad* sprite);
 	void EraseSprite(ofxSpriteQuad* sprite);
 	void Update();
-	void SetWindowSize(unsigned int width, unsigned int height);
+	void SetRenderSize(unsigned int width, unsigned int height);
 private:
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);

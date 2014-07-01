@@ -278,7 +278,7 @@ void ofxSpriteRenderer::Update()
 	bool solid_commands_refreshed = CleanUnusedSolidQuads();
 	//m_CameraUpdated = true;
 	// TODO: it's a fancy and risky algorithm, need to test, test many times
-	// for now, i can't find a way to test it. maybe it's bug will apear in future action
+	// for now, after some rough test & fix, it works, hope it works fine
 	if(!solid_commands_refreshed)
 	{
 		int size = m_SolidCommands.size();
@@ -512,7 +512,7 @@ bool ofxSpriteRenderer::CleanUnusedTransparentQuads()
 	BuildSolidCommands(0, m_TransparentCommands.size());
 	return true;
 }
-void ofxSpriteRenderer::SetWindowSize(unsigned int width, unsigned int height)
+void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 {
 	for(int i=0;i<m_TransparentQuads.size();i++)
 	{

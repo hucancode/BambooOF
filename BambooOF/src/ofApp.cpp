@@ -153,7 +153,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 void ofApp::windowResized(int w, int h){
 	g_WindowAspectRatio = (float)w/(float)h;
 	cam->setAspectRatio(g_WindowAspectRatio);
-	ofxRENDERER->SetWindowSize(w, h);
+	ofxRENDERER->SetRenderSize(w, h);
 }
 
 //--------------------------------------------------------------
