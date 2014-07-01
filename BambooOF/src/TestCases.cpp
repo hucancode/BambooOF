@@ -83,8 +83,8 @@ void SortingTest::Setup()
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	
 	material->BuildMaterial();
-	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
-	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_x = 192.0f;
+	float space_y = 192.0f;
 	for(int i=-40;i<40;i++)
 	{
 		for(int j=-40;j<40;j++)
@@ -145,8 +145,8 @@ void TextureTest::Setup()
 		materials[i]->BuildMaterial();
 	}
 	
-	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
-	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_x = 192.0f;
+	float space_y = 192.0f;
 	for(int i=-20;i<20;i++)
 	{
 		for(int j=-20;j<20;j++)
@@ -199,8 +199,8 @@ void SpriteBenchmarkTest::Setup()
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	
 	material->BuildMaterial();
-	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
-	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_x = 192.0f;
+	float space_y = 192.0f;
 	for(int i=-40;i<40;i++)
 	{
 		for(int j=-50;j<50;j++)
@@ -238,8 +238,8 @@ void SortBenchmarkTest::Setup()
 	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
 	
 	material->BuildMaterial();
-	float space_x = 192.0/screen_width*2*ofxRENDERER->GetCamera()->GetScale();
-	float space_y = 192.0/screen_height*2*ofxRENDERER->GetCamera()->GetScale();
+	float space_x = 192.0f;
+	float space_y = 192.0f;
 	for(int i=-60;i<60;i++)
 	{
 		for(int j=-60;j<60;j++)
@@ -264,19 +264,20 @@ void SortBenchmarkTest::Update()
 	ofxRENDERER->Update();
 	if(spriteA->GetWorldPosition().z < 0.2f)
 	{
-		spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.0001f));
+		//spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.0001f));
 	}
 	else
 	{
 		spriteA->MoveBy(ofVec3f(0.0f,0.0f,-0.4f));
 	}
-	if(spriteB->GetWorldPosition().z > -200.0f)
+	if(spriteB->GetWorldPosition().z > -400.0f)
 	{
-		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-1.0f));
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-5.0f));
+		printf("%f\n",spriteB->GetWorldPosition().z);
 	}
 	else
 	{
-		spriteB->MoveBy(ofVec3f(0.0f,0.0f,400.0f));
+		spriteB->MoveBy(ofVec3f(0.0f,0.0f,800.0f));
 	}
 }
 void SortBenchmarkTest::Render()

@@ -187,7 +187,7 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned in
 {
 	printf("------------BuildSolidCommands(%u,%u)\n",begin_index,end_index);
 	sort(m_SolidQuads.begin()+begin_index, m_SolidQuads.begin()+end_index, SolidQuadCompare);
-	for(int i=0;i<m_SolidQuads.size();i++)
+	for(int i=begin_index;i<end_index;i++)
 	{
 		m_SolidQuads[i]->m_IndexInRenderer = i;
 	}
@@ -223,7 +223,7 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 	printf("------------BuildTransparentCommands(%u,%u)\n",begin_index,end_index);
 	unsigned long long time_start_build = ofGetSystemTime();
 	sort(m_TransparentQuads.begin()+begin_index, m_TransparentQuads.begin()+end_index, TransparentQuadCompare);
-	for(int i=0;i<m_TransparentQuads.size();i++)
+	for(int i=begin_index;i<end_index;i++)
 	{
 		m_TransparentQuads[i]->m_IndexInRenderer = i;
 	}
@@ -257,7 +257,7 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 }
 static bool SolidCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {
-	return cmdA->GetFirstSpriteIndex() > cmdB->GetFirstSpriteIndex();
+	return cmdA->GetFirstSpriteIndex() < cmdB->GetFirstSpriteIndex();
 }
 static bool TransparentCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {
@@ -297,15 +297,11 @@ void ofxSpriteRenderer::Update()
 	{
 		int size = m_SolidCommands.size();
 		bool* need_to_rebuild = new bool[size];
+		memset(need_to_rebuild,false,sizeof(bool)*size);
 		for(int i=0;i<size;i++)
 		{
 			ofxSpriteCommand* command = m_SolidCommands[i];
-			if(need_to_rebuild[i]) continue;
-			if(command->m_Status == COMMAND_STATUS_UNITED)
-			{
-				need_to_rebuild[i] = false;
-			}
-			else if(command->m_Status == COMMAND_STATUS_DISMISSED)
+			if(command->m_Status == COMMAND_STATUS_DISMISSED)
 			{
 				need_to_rebuild[i] = true;
 			}
@@ -315,7 +311,7 @@ void ofxSpriteRenderer::Update()
 				while(right < size)
 				{
 					ofxSpriteCommand* expanded = m_SolidCommands[right];
-					if(command->m_DistanceMin < expanded->m_DistanceMax)
+					if(command->m_DistanceMax > expanded->m_DistanceMin)
 					{
 						need_to_rebuild[right++] = true;
 					}
@@ -328,7 +324,7 @@ void ofxSpriteRenderer::Update()
 				while(left > 0)
 				{
 					ofxSpriteCommand* expanded = m_SolidCommands[left];
-					if(command->m_DistanceMax > expanded->m_DistanceMin)
+					if(command->m_DistanceMin < expanded->m_DistanceMax)
 					{
 						need_to_rebuild[left--] = true;
 					}
@@ -401,12 +397,7 @@ void ofxSpriteRenderer::Update()
 		for(int i=0;i<size;i++)
 		{
 			ofxSpriteCommand* command = m_TransparentCommands[i];
-			if(need_to_rebuild[i]) continue;
-			if(command->m_Status == COMMAND_STATUS_UNITED)
-			{
-				need_to_rebuild[i] = false;
-			}
-			else if(command->m_Status == COMMAND_STATUS_DISMISSED)
+			if(command->m_Status == COMMAND_STATUS_DISMISSED)
 			{
 				need_to_rebuild[i] = true;
 			}
@@ -417,7 +408,7 @@ void ofxSpriteRenderer::Update()
 				while(right < size)
 				{
 					ofxSpriteCommand* expanded = m_TransparentCommands[right];
-					if(command->m_DistanceMax > expanded->m_DistanceMin)
+					if(command->m_DistanceMin < expanded->m_DistanceMax)
 					{
 						need_to_rebuild[right++] = true;
 					}
@@ -430,7 +421,7 @@ void ofxSpriteRenderer::Update()
 				while(left > 0)
 				{
 					ofxSpriteCommand* expanded = m_TransparentCommands[left];
-					if(command->m_DistanceMin < expanded->m_DistanceMax)
+					if(command->m_DistanceMax > expanded->m_DistanceMin)
 					{
 						need_to_rebuild[left--] = true;
 					}

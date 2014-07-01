@@ -136,7 +136,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 				unsigned short index = this->m_IndexInRenderer;
 				if(sprite->IsTransparent())
 				{
-					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+					unsigned short max_index = ofxSpriteRenderer::GetInstance()->
 						m_TransparentCommands.size() - 1;
 					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
 						m_TransparentCommands[index-1];
@@ -145,7 +145,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 				}
 				else
 				{
-					unsigned int max_index = ofxSpriteRenderer::GetInstance()->
+					unsigned short max_index = ofxSpriteRenderer::GetInstance()->
 						m_SolidCommands.size() - 1;
 					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
 						m_SolidCommands[index-1];
@@ -161,7 +161,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 						expand = true;
 					}
 				}
-				if(next)
+				if(next && !expand)
 				{
 					if((distance < next->m_DistanceMax && sprite->IsTransparent()) ||
 						(distance > next->m_DistanceMin && !sprite->IsTransparent()))
@@ -173,11 +173,8 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 				{
 					m_Status = COMMAND_STATUS_EXPANDED;
 				}
-				else
-				{
-					if(m_DistanceMax < distance) m_DistanceMax = distance;
-					if(m_DistanceMin > distance) m_DistanceMin = distance;
-				}
+				if(m_DistanceMax < distance) m_DistanceMax = distance;
+				if(m_DistanceMin > distance) m_DistanceMin = distance;
 			}
 			if(m_Status == COMMAND_STATUS_UNITED)
 			{
@@ -213,7 +210,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 						dismiss = true;
 					}
 				}
-				if(next)
+				if(next && !dismiss)
 				{
 					float next_distance = next->CalculateDistanceToCamera(camera_position);
 					if((distance < next_distance && sprite->IsTransparent()) ||

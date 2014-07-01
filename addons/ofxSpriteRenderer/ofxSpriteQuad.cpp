@@ -57,7 +57,7 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 }
 float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 {
-	return -m_WorldPosition.z;
+	return m_WorldPosition.z;
 	// legacy way
 	if(!m_DistanceUpdated)
 	{
@@ -68,9 +68,12 @@ float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 }
 void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 {
+	return;
 	// if camera isn't looking straight into world, these calculation mean nothing
-	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0) return;
 	if(m_Status == QUAD_STATUS_NO_CHANGE || m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
+	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0) 
+		return;
+	
 	float x_min = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	float x_max = x_min + m_WorldQuad.x;
 	float y_min = m_WorldPosition.y;
