@@ -262,18 +262,17 @@ void SortBenchmarkTest::Setup()
 void SortBenchmarkTest::Update()
 {
 	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 0.2f)
+	if(spriteA->GetWorldPosition().z < 400.0f)
 	{
-		//spriteA->MoveBy(ofVec3f(0.0f,0.0f,0.0001f));
+		spriteA->MoveBy(ofVec3f(0.0f,0.0f,15.0f));
 	}
 	else
 	{
-		spriteA->MoveBy(ofVec3f(0.0f,0.0f,-0.4f));
+		spriteA->MoveBy(ofVec3f(0.0f,0.0f,-800.0f));
 	}
 	if(spriteB->GetWorldPosition().z > -400.0f)
 	{
 		spriteB->MoveBy(ofVec3f(0.0f,0.0f,-5.0f));
-		printf("%f\n",spriteB->GetWorldPosition().z);
 	}
 	else
 	{
@@ -283,5 +282,7 @@ void SortBenchmarkTest::Update()
 void SortBenchmarkTest::Render()
 {
 	ofxRENDERER->Render();
-	printf("update time = %u\nrender time = %u\n",ofxRENDERER->GetUpdateTimeMilisecond(),ofxRENDERER->GetRenderTimeMilisecond());
+	printf("update time = %u\nrender time = %u\n",
+		ofxRENDERER->GetUpdateTimeMilisecond(),
+		ofxRENDERER->GetRenderTimeMilisecond());
 }

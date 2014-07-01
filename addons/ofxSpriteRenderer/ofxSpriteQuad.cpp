@@ -57,7 +57,7 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 }
 float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 {
-	return m_WorldPosition.z;
+	return -m_WorldPosition.z;
 	// legacy way
 	if(!m_DistanceUpdated)
 	{

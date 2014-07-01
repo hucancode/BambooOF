@@ -253,7 +253,7 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 		}
 	}
 	unsigned long long time_finish_build = ofGetSystemTime();
-	printf("build time =  %llu",time_finish_build - time_start_build);
+	printf("build time =  %llu\n",time_finish_build - time_start_build);
 }
 static bool SolidCommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
 {

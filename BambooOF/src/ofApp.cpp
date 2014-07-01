@@ -40,7 +40,6 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	unsigned long long time_start_draw = ofGetSystemTime();
 	//ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	
@@ -60,9 +59,6 @@ void ofApp::draw() {
 		" - Draw call: "+ofToString(ofxRENDERER->GetDrawCall())+
 		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));
 #endif
-	unsigned long long time_finish_draw = ofGetSystemTime();
-	int draw_time = time_finish_draw - time_start_draw;
-	printf("draw time = %u\n", draw_time);
 }
 
 //--------------------------------------------------------------
