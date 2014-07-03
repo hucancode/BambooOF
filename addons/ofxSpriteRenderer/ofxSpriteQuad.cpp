@@ -34,12 +34,20 @@ void ofxSpriteQuad::SetMaterial(ofxSpriteMaterial* material)
 		m_Status = QUAD_STATUS_MATERIAL_CHANGE;
 	}
 }
+void ofxSpriteQuad::MoveTo(const float x, const float y, const float z)
+{
+	MoveTo(ofVec3f(x,y,z));
+}
 void ofxSpriteQuad::MoveTo(const ofVec3f position)
 {
 	m_WorldPosition = position;
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+}
+void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
+{
+	MoveBy(ofVec3f(x,y,z));
 }
 void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 {
@@ -68,7 +76,6 @@ float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
 }
 void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 {
-	return;
 	// if camera isn't looking straight into world, these calculation mean nothing
 	if(m_Status == QUAD_STATUS_NO_CHANGE || m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0) 

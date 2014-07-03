@@ -5,6 +5,8 @@ extern Test* current_test;
 //--------------------------------------------------------------
 float g_WindowAspectRatio;
 void ofApp::setup() {
+	new ofxSpriteRenderer;
+	ofxRENDERER->SetRenderSize(ofGetWindowWidth(), ofGetWindowHeight());
 	current_test->Setup();
 	ofSetFrameRate(60);
 	ofBackground(0, 0, 0);
@@ -40,19 +42,14 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	//ofBackgroundGradient(ofColor(64), ofColor(0));
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	
-	ofEnableDepthTest();
-	ofEnableAlphaBlending();
 	cam->begin();
+	ofEnableDepthTest();
 	render->Render();
-	
 	ofDisableDepthTest();
-	ofDisableAlphaBlending();
 	current_test->Render();
 	cam->end();
-	//-------------------
 #ifdef _DEBUG
 	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
 		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber())+
@@ -62,7 +59,7 @@ void ofApp::draw() {
 }
 
 //--------------------------------------------------------------
-#define ZOOM_SPEED 0.1f
+#define ZOOM_SPEED 1.1f
 void ofApp::keyPressed(int key){
 	if(key == OF_KEY_UP) 
 	{

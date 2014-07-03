@@ -11,7 +11,7 @@ ofxOrthoCamera::ofxOrthoCamera()
 	m_ProjectionUpdated = false;
 	m_ModelViewProjectionnUpdated = false;
 	m_InverseCameraUpdated = false;
-	SetScale(1);
+	viewport = ofRectangle(0,0,0,0);
 }
 ofxOrthoCamera::~ofxOrthoCamera()
 {

@@ -50,7 +50,9 @@ public:
 	~ofxSpriteQuad();
 	virtual void Update(const float delta_time){}
 	float CalculateDistanceToCamera(const ofVec3f camera_position);
+	void MoveTo(const float x, const float y, const float z);
 	void MoveTo(const ofVec3f position);
+	void MoveBy(const float x, const float y, const float z);
 	void MoveBy(const ofVec3f accelerator);
 	void UpdateVisibility(bool camera_updated);
 public:
@@ -92,6 +94,16 @@ public:
 	void SetLogicHeight(const float height)
 	{
 		m_WorldQuad.y = height;
+		if(m_Status == QUAD_STATUS_NO_CHANGE)
+			m_Status = QUAD_STATUS_SAFE_CHANGE;
+	}
+	void SetLogicSize(const float width, const float height)
+	{
+		SetLogicSize(ofVec2f(width,height));
+	}
+	void SetLogicSize(ofVec2f dimension)
+	{
+		m_WorldQuad = dimension;
 		if(m_Status == QUAD_STATUS_NO_CHANGE)
 			m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
