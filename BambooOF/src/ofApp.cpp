@@ -59,7 +59,7 @@ void ofApp::draw() {
 }
 
 //--------------------------------------------------------------
-#define ZOOM_SPEED 1.1f
+#define ZOOM_SPEED 5.0f
 void ofApp::keyPressed(int key){
 	if(key == OF_KEY_UP) 
 	{

@@ -22,6 +22,7 @@ void ofxMonoMaterial::LoadTexturePNG(const char* texture_file)
 {
 	
 	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
+	FreeImage_FlipVertical(image_data);
 	unsigned int bpp = FreeImage_GetBPP(image_data);
 	unsigned int width = FreeImage_GetWidth(image_data);
 	unsigned int height = FreeImage_GetHeight(image_data);

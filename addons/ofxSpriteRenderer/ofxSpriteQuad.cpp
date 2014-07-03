@@ -161,7 +161,7 @@ void ofxSpriteQuad::SetSpriteRect(const int index, const ofVec4f rect)
 void ofxSpriteQuad::SubmitChanges()
 {
 	if(m_Status == QUAD_STATUS_NO_CHANGE) return;
-	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN) return;
+	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN || m_Visibility == QUAD_VISIBILITY_OFF_SCREEN) return;
 	m_glPosition[0].x = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	m_glPosition[0].y = m_WorldPosition.y;
 	m_glPosition[0].z = m_WorldPosition.z;
@@ -174,29 +174,29 @@ void ofxSpriteQuad::SubmitChanges()
 	m_glPosition[3].x = m_glPosition[0].x;
 	m_glPosition[3].y = m_glPosition[2].y;
 	m_glPosition[3].z = m_glPosition[0].z;
-
+	// optimize these calculation will help gain alot of fps
 	for(int i=0;i<m_Material->GetTextureCount();i++)
 	{
-		float uv_w = m_Material->GetTextureSize(i).x/m_WorldQuad.x;
-		float uv_h = m_Material->GetTextureSize(i).y/m_WorldQuad.y;
-		float uv_min_x = (m_TextureRect[i].x - m_SpriteRect[i].x)/uv_w;
-		float uv_min_y = (m_TextureRect[i].y - m_SpriteRect[i].y)/uv_h;
+		float uv_w = m_WorldQuad.x/m_Material->GetTextureSize(i).x;
+		float uv_h = m_WorldQuad.y/m_Material->GetTextureSize(i).y;
+		float uv_min_x = (m_TextureRect[i].x - m_SpriteRect[i].x)/m_Material->GetTextureSize(i).x;
+		float uv_min_y = (m_TextureRect[i].y - m_SpriteRect[i].y)/m_Material->GetTextureSize(i).y;
 		float uv_max_x = uv_min_x + uv_w;
 		float uv_max_y = uv_min_y + uv_h;
 		m_glUV[i].x = uv_min_x;
-		m_glUV[i].y = uv_min_y;
+		m_glUV[i].y = uv_max_y;
 		m_glUV[i].z = uv_max_x;
-		m_glUV[i].w = uv_max_y;
+		m_glUV[i].w = uv_min_y;
 		float crop_w = m_WorldQuad.x/m_SpriteRect[i].z;
 		float crop_h = m_WorldQuad.y/m_SpriteRect[i].w;
 		float crop_min_x = -m_SpriteRect[i].x/m_SpriteRect[i].z;
-		float crop_min_y = -m_SpriteRect[i].x/m_SpriteRect[i].w;
+		float crop_min_y = -m_SpriteRect[i].y/m_SpriteRect[i].w;
 		float crop_max_x = crop_min_x + crop_w;
 		float crop_max_y = crop_min_y + crop_h;
 		m_glCUV[i].x = crop_min_x;
-		m_glCUV[i].y = crop_min_y;
+		m_glCUV[i].y = crop_max_y;
 		m_glCUV[i].z = crop_max_x;
-		m_glCUV[i].w = crop_max_y;
+		m_glCUV[i].w = crop_min_y;
 	}
 	m_ParentCommand->UpdateSprite(this);
 	m_Status = QUAD_STATUS_NO_CHANGE;

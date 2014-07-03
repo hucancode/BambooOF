@@ -22,13 +22,13 @@ class ofxSpriteQuad
 {
 	friend ofxSpriteCommand;
 	friend ofxSpriteRenderer;
-private:
+protected:
 	ofxSpriteMaterial*	m_Material;
 	unsigned int		m_IndexInCommand;
 	ofxSpriteCommand*	m_ParentCommand;
 public:
 	unsigned int		m_IndexInRenderer;
-private:
+protected:
 	bool				m_Transparent;
 	QUAD_STATUS			m_Status;
 	QUAD_VISIBILITY		m_Visibility;
@@ -38,10 +38,10 @@ private:
 	float				m_DistanceToCamera;
 private:
 	bool				m_DistanceUpdated;
-private:
+protected:
 	ofVec4f*			m_TextureRect;
 	ofVec4f*			m_SpriteRect;
-private:
+protected:
 	ofVec3f				m_glPosition[4];
 	ofVec4f*			m_glUV;
 	ofVec4f*			m_glCUV;

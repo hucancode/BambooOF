@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new SortBenchmarkTest();
+Test* current_test = new AnimationTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -15,7 +15,7 @@ void SpriteTest::Setup()
 {
 	ofxSpriteMaterial* material = new ofxMonoMaterial();
 	material->LoadShader("mono_shader.vertex","mono_shader.frag");
-	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/animal_tiger1_attack.png");
 	material->BuildMaterial();
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->SetMaterial(material);
@@ -162,7 +162,49 @@ void TextureTest::Render()
 void AnimationTest::Setup()
 {
 	new ofxSpriteRenderer;
-	
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/animal_tiger1_attack.png");
+	material->BuildMaterial();
+	ofxSpriteAnimation* animation = new ofxSpriteAnimation();
+	animation->SetMaterial(material);
+	animation->SetLogicSize(256,256);
+	animation->MoveTo(0.0f,0.0f,0.0f);
+	animation->SetFrameCount(24);
+
+	animation->SetSequenceCount(2);
+	animation->SetFrameTime(0,0.1f);
+	{
+		int i=0;
+		animation->SetFrameData(i++,0,1,1,27,72,147,134,27,72);
+		animation->SetFrameData(i++,0,1,76,27,72,147,134,27,72);
+		animation->SetFrameData(i++,0,31,1,28,73,146,133,28,73);
+		animation->SetFrameData(i++,0,62,1,28,72,146,134,28,72);
+		animation->SetFrameData(i++,0,31,77,28,75,147,136,28,75);
+		animation->SetFrameData(i++,0,62,76,27,71,147,133,27,71);
+		animation->SetFrameData(i++,0,93,1,27,67,147,126,27,67);
+		animation->SetFrameData(i++,0,123,1,28,78,146,131,28,78);
+		animation->SetFrameData(i++,0,93,71,27,78,147,135,27,78);
+		animation->SetFrameData(i++,0,1,151,27,75,147,140,27,75);
+		animation->SetFrameData(i++,0,31,155,28,68,146,146,28,68);
+		animation->SetFrameData(i++,0,62,150,28,72,146,140,28,72);
+		animation->SetSequenceData(0,0,11);
+		animation->SetFrameData(i++,0,154,1,93,67,113,139,93,67);
+		animation->SetFrameData(i++,0,123,82,94,62,114,140,94,62);
+		animation->SetFrameData(i++,0,93,152,93,62,118,140,93,62);
+		animation->SetFrameData(i++,0,250,1,94,62,120,140,94,62);
+		animation->SetFrameData(i++,0,220,82,97,60,119,143,97,60);
+		animation->SetFrameData(i++,0,189,152,118,55,99,144,118,55);
+		animation->SetFrameData(i++,0,347,1,117,55,85,134,117,55);
+		animation->SetFrameData(i++,0,320,82,115,56,84,138,115,56);
+		animation->SetFrameData(i++,0,310,152,112,55,88,143,112,55);
+		animation->SetFrameData(i++,0,467,1,109,52,94,149,109,52);
+		animation->SetFrameData(i++,0,438,82,106,54,99,149,106,54);
+		animation->SetFrameData(i++,0,425,152,101,62,105,144,101,62);
+		animation->SetSequenceData(1,12,23);
+	}
+	animation->SetSequence(0);
+	ofxRENDERER->PushSprite(animation);
 }
 void AnimationTest::Update()
 {
