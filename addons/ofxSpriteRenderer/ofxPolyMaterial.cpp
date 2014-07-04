@@ -33,9 +33,11 @@ void ofxPolyMaterial::SetMaxTexture(const int size)
 	m_TextureOrder = new GLuint[size];
 	m_ImageData = new FIBITMAP*[size];
 }
-void ofxPolyMaterial::LoadTexturePNG(const char* texture_file, const int index)
+void ofxPolyMaterial::LoadTexturePNG(const int index, const char* texture_file)
 {
+	glGenTextures(1, &m_TextureId[index]);
 	m_ImageData[index] = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
+	FreeImage_FlipVertical(m_ImageData[index]);
 	unsigned int bpp = FreeImage_GetBPP(m_ImageData[index]);
 	unsigned int width = FreeImage_GetWidth(m_ImageData[index]);
 	unsigned int height = FreeImage_GetHeight(m_ImageData[index]);
@@ -43,6 +45,7 @@ void ofxPolyMaterial::LoadTexturePNG(const char* texture_file, const int index)
 	{
 		GLenum format = bpp==24?GL_RGB:GL_RGBA;
 		glActiveTexture(GL_TEXTURE0+index);
+		glBindTexture(GL_TEXTURE_2D, m_TextureId[index]);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 		m_TextureSize[index].x = width;
 		m_TextureSize[index].y = height;
@@ -73,11 +76,15 @@ bool ofxPolyMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	m_ShaderProgramId = glCreateProgram();
 	// load data
 	ofBuffer vs_buffer = ofBufferFromFile(vs_file);
-	const char* vs_source = vs_buffer.getText().c_str();
-	glShaderSource(vs_id, 1, &vs_source, NULL);
+	string vs_string = vs_buffer.getText();
+	const char* vs_source = vs_string.c_str();
+	int vs_size = vs_buffer.getText().size()+1;
+	glShaderSource(vs_id, 1, &vs_source, &vs_size);
 	ofBuffer fs_buffer = ofBufferFromFile(fs_file);
-	const char* fs_source = fs_buffer.getText().c_str();
-	glShaderSource(fs_id, 1, &fs_source, NULL);
+	string fs_string = fs_buffer.getText();
+	const char* fs_source = fs_string.c_str();
+	int fs_size = fs_buffer.getText().size()+1;
+	glShaderSource(fs_id, 1, &fs_source, &fs_size);
 	// compile shader
 	glCompileShader(vs_id);
 	glCompileShader(fs_id);
@@ -87,21 +94,21 @@ bool ofxPolyMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	glGetShaderiv(fs_id, GL_COMPILE_STATUS, &fs_compile_status);
 	if(!(vs_compile_status && fs_compile_status))
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		GLint len = 0;
 		glGetShaderiv(vs_id, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
-			glGetShaderInfoLog(vs_id, len, NULL, len);
+			char* info = new char[len];
+			glGetShaderInfoLog(vs_id, len, NULL, info);
 			printf("Error compiling vs shader:\n%s\n", info);
 			delete[] info;
 		}
 		glGetShaderiv(fs_id, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
-			glGetShaderInfoLog(fs_id, len, NULL, len);
+			char* info = new char[len];
+			glGetShaderInfoLog(fs_id, len, NULL, info);
 			printf("Error compiling fs shader:\n%s\n", info);
 			delete[] info;
 		}
@@ -118,14 +125,14 @@ bool ofxPolyMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	glGetProgramiv(m_ShaderProgramId, GL_LINK_STATUS, &link_status);
 	if(!link_status)
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		GLint len = 0;
 		glGetProgramiv(m_ShaderProgramId, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
 		{
-			char* info = malloc(sizeof(char) * len);
+			char* info = new char[len];
 			glGetProgramInfoLog(m_ShaderProgramId, len, NULL, info);
-			printf("Error linking program:\n%s\n", infoLog);
+			printf("Error linking program:\n%s\n", info);
 			delete[] info;
 		}
 #endif
@@ -150,7 +157,6 @@ void ofxPolyMaterial::BuildMaterial()
 	{
 		string i_string(ofToString(i));
 		m_ShaderLocationUV[i] = glGetAttribLocation(m_ShaderProgramId, string("a_uv["+i_string+"]").c_str());
-		m_ShaderLocationCUV[i] = glGetAttribLocation(m_ShaderProgramId, string("a_cuv["+i_string+"]").c_str());
 		m_ShaderLocationTexture[i] = glGetUniformLocation(m_ShaderProgramId, string("u_texture["+i_string+"]").c_str());
 	}
 }
@@ -164,11 +170,9 @@ void ofxPolyMaterial::Bind()
 	for(int i=0;i<m_TextureCount;i++)
 	{
 		int id = m_TextureOrder[i];
-		int idx2 = id<<1;
+		int idx4 = id<<2;
 		glEnableVertexAttribArray(m_ShaderLocationUV[i]);
-		glVertexAttribPointer(m_ShaderLocationUV[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx2]));
-		glEnableVertexAttribArray(m_ShaderLocationCUV[i]);
-		glVertexAttribPointer(m_ShaderLocationCUV[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, CUV[idx2]));
+		glVertexAttribPointer(m_ShaderLocationUV[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx4]));
 		glUniform1i(m_ShaderLocationTexture[i], i);
 	}
 	// matrix
@@ -181,6 +185,7 @@ void ofxPolyMaterial::Bind()
 		int id = m_TextureOrder[i];
 		glActiveTexture(GL_TEXTURE0+i);
 		glBindTexture(GL_TEXTURE_2D, m_TextureId[id]);
+		glUniform1i(m_ShaderLocationTexture[i],i);
 	}
 }
 void ofxPolyMaterial::Unbind()

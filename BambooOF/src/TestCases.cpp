@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new SortBenchmarkTest();
+Test* current_test = new MultiTextureTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -118,21 +118,13 @@ void SortingTest::Render()
 void TextureTest::Setup()
 {
 	ofxSpriteMaterial** materials = new ofxSpriteMaterial*[8];
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		materials[i] = new ofxMonoMaterial();
 		materials[i]->LoadShader("mono_shader.vertex","mono_shader.frag");
 		((ofxMonoMaterial*)materials[i])->LoadTexturePNG(("data/plops/sprint000"+ofToString(i+1)+".png").c_str());
 		materials[i]->BuildMaterial();
 	}
-	for (int i = 4; i < 8; i++)
-	{
-		materials[i] = new ofxPolyMaterial();
-		materials[i]->LoadShader("poly_shader.vertex","poly_shader.frag");
-		((ofxPolyMaterial*)materials[i])->LoadTexturePNG(("data/plops/sprint000"+ofToString(i+1)+".png").c_str(),0);
-		materials[i]->BuildMaterial();
-	}
-	
 	float space_x = 192.0f;
 	float space_y = 192.0f;
 	for(int i=-20;i<20;i++)
@@ -156,6 +148,37 @@ void TextureTest::Update()
 	ofxRENDERER->Update();
 }
 void TextureTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void MultiTextureTest::Setup()
+{
+	ofxSpriteMaterial* material = new ofxPolyMaterial();
+	material->LoadShader("poly_shader.vertex","poly_shader.frag");
+	((ofxPolyMaterial*)material)->SetMaxTexture(2);
+	((ofxPolyMaterial*)material)->LoadTexturePNG(0,"data/animal_tiger1_attack.png");
+	((ofxPolyMaterial*)material)->LoadTexturePNG(1,"data/animal_tiger1_attack_shadow.png");
+	((ofxPolyMaterial*)material)->SetOrder(0,0);
+	((ofxPolyMaterial*)material)->SetOrder(1,1);
+	material->BuildMaterial();
+
+	ofxSpriteQuad* sprite = new ofxSpriteQuad();
+	sprite->SetMaterial(material);
+	sprite->SetLogicSize(256,256);
+	sprite->SetSpriteRect(0,147,134,27,72);
+	sprite->SetTextureRect(0,1,1,27,72);
+	sprite->SetSpriteRect(1,147,162,45,56);
+	sprite->SetTextureRect(1,1,1,45,56);
+
+	sprite->MoveTo(0.0f,0.0f,0.0f);
+	ofxRENDERER->PushSprite(sprite);
+	spriteObstacle = sprite;
+}
+void MultiTextureTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void MultiTextureTest::Render()
 {
 	ofxRENDERER->Render();
 }
@@ -212,6 +235,62 @@ void AnimationTest::Update()
 	ofxRENDERER->Update();
 }
 void AnimationTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void MultiTextureAnimationTest::Setup()
+{
+	new ofxSpriteRenderer;
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/animal_tiger1_attack.png");
+	material->BuildMaterial();
+	ofxSpriteAnimation* animation = new ofxSpriteAnimation();
+	animation->SetMaterial(material);
+	animation->SetLogicSize(256,256);
+	animation->MoveTo(0.0f,0.0f,0.0f);
+	animation->SetFrameCount(24);
+
+	animation->SetSequenceCount(2);
+	animation->SetFrameTime(0,0.1f);
+	{
+		int i=0;
+		animation->SetFrameData(i++,0,1,1,27,72,147,134,27,72);
+		animation->SetFrameData(i++,0,1,76,27,72,147,134,27,72);
+		animation->SetFrameData(i++,0,31,1,28,73,146,133,28,73);
+		animation->SetFrameData(i++,0,62,1,28,72,146,134,28,72);
+		animation->SetFrameData(i++,0,31,77,28,75,147,136,28,75);
+		animation->SetFrameData(i++,0,62,76,27,71,147,133,27,71);
+		animation->SetFrameData(i++,0,93,1,27,67,147,126,27,67);
+		animation->SetFrameData(i++,0,123,1,28,78,146,131,28,78);
+		animation->SetFrameData(i++,0,93,71,27,78,147,135,27,78);
+		animation->SetFrameData(i++,0,1,151,27,75,147,140,27,75);
+		animation->SetFrameData(i++,0,31,155,28,68,146,146,28,68);
+		animation->SetFrameData(i++,0,62,150,28,72,146,140,28,72);
+		animation->SetSequenceData(0,0,11);
+		animation->SetFrameData(i++,0,154,1,93,67,113,139,93,67);
+		animation->SetFrameData(i++,0,123,82,94,62,114,140,94,62);
+		animation->SetFrameData(i++,0,93,152,93,62,118,140,93,62);
+		animation->SetFrameData(i++,0,250,1,94,62,120,140,94,62);
+		animation->SetFrameData(i++,0,220,82,97,60,119,143,97,60);
+		animation->SetFrameData(i++,0,189,152,118,55,99,144,118,55);
+		animation->SetFrameData(i++,0,347,1,117,55,85,134,117,55);
+		animation->SetFrameData(i++,0,320,82,115,56,84,138,115,56);
+		animation->SetFrameData(i++,0,310,152,112,55,88,143,112,55);
+		animation->SetFrameData(i++,0,467,1,109,52,94,149,109,52);
+		animation->SetFrameData(i++,0,438,82,106,54,99,149,106,54);
+		animation->SetFrameData(i++,0,425,152,101,62,105,144,101,62);
+		animation->SetSequenceData(1,12,23);
+	}
+	animation->SetSequence(0);
+	ofxRENDERER->PushSprite(animation);
+	spriteObstacle = animation;
+}
+void MultiTextureAnimationTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void MultiTextureAnimationTest::Render()
 {
 	ofxRENDERER->Render();
 }
@@ -299,6 +378,45 @@ void SortBenchmarkTest::Update()
 	}
 }
 void SortBenchmarkTest::Render()
+{
+	ofxRENDERER->Render();
+	printf("update time = %u\nrender time = %u\n",
+		ofxRENDERER->GetUpdateTimeMilisecond(),
+		ofxRENDERER->GetRenderTimeMilisecond());
+}
+void AnimationBenchmarkTest::Setup()
+{
+	ofxMonoMaterial** materials = new ofxMonoMaterial*[8];
+	for (int i = 0; i < 8; i++)
+	{
+		materials[i] = new ofxMonoMaterial();
+		materials[i]->LoadShader("mono_shader.vertex","mono_shader.frag");
+		((ofxMonoMaterial*)materials[i])->LoadTexturePNG(("data/plops/sprint000"+ofToString(i+1)+".png").c_str());
+		materials[i]->BuildMaterial();
+	}
+	float space_x = 192.0f;
+	float space_y = 192.0f;
+	for(int i=-60;i<60;i++)
+	{
+		for(int j=-60;j<60;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(materials[(j+60)/15]);
+			
+			sprite->SetLogicSize(192,192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(i*space_x,0.0f,j*space_y);
+			ofxRENDERER->PushSprite(sprite);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
+}
+void AnimationBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void AnimationBenchmarkTest::Render()
 {
 	ofxRENDERER->Render();
 	printf("update time = %u\nrender time = %u\n",

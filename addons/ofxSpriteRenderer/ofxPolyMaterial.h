@@ -27,7 +27,7 @@ public:
 	ofxPolyMaterial();
 	~ofxPolyMaterial();
 	void SetMaxTexture(const int size);
-	void LoadTexturePNG(const char* texture_file, const int index);
+	void LoadTexturePNG(const int index, const char* texture_file);
 	virtual bool LoadShader(const char* vs_file, const char* fs_file);
 	virtual void BuildMaterial();
 	virtual void Bind();

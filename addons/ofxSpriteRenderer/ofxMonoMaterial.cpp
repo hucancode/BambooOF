@@ -8,10 +8,10 @@ ofxMonoMaterial::ofxMonoMaterial()
 	m_TextureSize[0] = m_TextureSize[1] = 0;
 	m_ShaderProgramId = 0;
 	m_ShaderLocationXYZ = -1;
-	m_ShaderLocationUV = 0;
-	m_ShaderLocationCUV = 0;
-	m_ShaderLocationTransform = 0;
-	m_ShaderLocationInvModelView = 0;
+	m_ShaderLocationUV = -1;
+	m_ShaderLocationCUV = -1;
+	m_ShaderLocationTransform = -1;
+	m_ShaderLocationInvModelView = -1;
 	m_ReferenceCount = 0;
 }
 ofxMonoMaterial::~ofxMonoMaterial()
@@ -81,7 +81,7 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	glGetShaderiv(fs_id, GL_COMPILE_STATUS, &fs_compile_status);
 	if(!(vs_compile_status && fs_compile_status))
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		GLint len = 0;
 		glGetShaderiv(vs_id, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)
@@ -112,7 +112,7 @@ bool ofxMonoMaterial::LoadShader(const char* vs_file, const char* fs_file)
 	glGetProgramiv(m_ShaderProgramId, GL_LINK_STATUS, &link_status);
 	if(!link_status)
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		GLint len = 0;
 		glGetProgramiv(m_ShaderProgramId, GL_INFO_LOG_LENGTH, &len);
 		if(len > 1)

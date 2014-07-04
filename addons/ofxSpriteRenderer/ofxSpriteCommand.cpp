@@ -270,6 +270,8 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 	{
 		int x = i<<1;
 		int y = x+1;
+		int z = y+1;
+		int w = z+1;
 		vertexA->UV[x] = sprite->m_glUV[i].x;
 		vertexA->UV[y] = sprite->m_glUV[i].y;
 		vertexB->UV[x] = sprite->m_glUV[i].z;
@@ -278,13 +280,13 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		vertexC->UV[y] = sprite->m_glUV[i].w;
 		vertexD->UV[x] = sprite->m_glUV[i].x;
 		vertexD->UV[y] = sprite->m_glUV[i].w;
-		vertexA->CUV[x] = sprite->m_glCUV[i].x;
-		vertexA->CUV[y] = sprite->m_glCUV[i].y;
-		vertexB->CUV[x] = sprite->m_glCUV[i].z;
-		vertexB->CUV[y] = sprite->m_glCUV[i].y;
-		vertexC->CUV[x] = sprite->m_glCUV[i].z;
-		vertexC->CUV[y] = sprite->m_glCUV[i].w;
-		vertexD->CUV[x] = sprite->m_glCUV[i].x;
-		vertexD->CUV[y] = sprite->m_glCUV[i].w;
+		vertexA->UV[z] = sprite->m_glCUV[i].x;
+		vertexA->UV[w] = sprite->m_glCUV[i].y;
+		vertexB->UV[z] = sprite->m_glCUV[i].z;
+		vertexB->UV[w] = sprite->m_glCUV[i].y;
+		vertexC->UV[z] = sprite->m_glCUV[i].z;
+		vertexC->UV[w] = sprite->m_glCUV[i].w;
+		vertexD->UV[z] = sprite->m_glCUV[i].x;
+		vertexD->UV[w] = sprite->m_glCUV[i].w;
 	}
 }
