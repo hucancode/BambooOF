@@ -158,6 +158,7 @@ void ofxSpriteQuad::SetSpriteRect(const int index, const ofVec4f rect)
 		m_Status = QUAD_STATUS_SAFE_CHANGE;
 	}
 }
+#define QUAD_GRADIENT 0.7071067811865475
 void ofxSpriteQuad::SubmitChanges()
 {
 	if(m_Status == QUAD_STATUS_NO_CHANGE) return;
@@ -170,11 +171,11 @@ void ofxSpriteQuad::SubmitChanges()
 	m_glPosition[1].z = m_glPosition[0].z;
 	m_glPosition[2].x = m_glPosition[1].x;
 	m_glPosition[2].y = m_glPosition[1].y + m_WorldQuad.y;
-	m_glPosition[2].z = m_glPosition[0].z;
+	m_glPosition[2].z = m_glPosition[0].z - QUAD_GRADIENT*m_WorldQuad.y;
 	m_glPosition[3].x = m_glPosition[0].x;
 	m_glPosition[3].y = m_glPosition[2].y;
-	m_glPosition[3].z = m_glPosition[0].z;
-	// optimize these calculation will help gain alot of fps
+	m_glPosition[3].z = m_glPosition[2].z;
+	// TODO: optimize these calculation will help gain alot of fps
 	for(int i=0;i<m_Material->GetTextureCount();i++)
 	{
 		float uv_w = m_WorldQuad.x/m_Material->GetTextureSize(i).x;

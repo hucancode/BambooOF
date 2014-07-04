@@ -1,11 +1,14 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
+#include "FreeImage.h"
 class ofxMonoMaterial
 	:public ofxSpriteMaterial
 {
 private:
 	unsigned int m_ReferenceCount;
+private:
+	FIBITMAP* m_ImageData;
 private:
 	GLuint m_TextureId;
 	ofVec2f m_TextureSize;
@@ -14,6 +17,7 @@ private:
 	GLint m_ShaderLocationUV;
 	GLint m_ShaderLocationCUV;
 	GLint m_ShaderLocationTransform;
+	GLint m_ShaderLocationInvModelView;
 public:
 	ofxMonoMaterial();
 	~ofxMonoMaterial();

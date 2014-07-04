@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxSpriteMaterial.h"
+#include "FreeImage.h"
 class ofxPolyMaterial
 	:public ofxSpriteMaterial
 {
@@ -8,6 +9,8 @@ private:
 	unsigned int m_TextureCount;
 private:
 	unsigned int m_ReferenceCount;
+private:
+	FIBITMAP** m_ImageData;
 private:
 	GLuint* m_TextureId;
 	GLuint* m_TextureOrder;
@@ -18,6 +21,8 @@ private:
 	GLint* m_ShaderLocationUV;
 	GLint* m_ShaderLocationCUV;
 	GLint* m_ShaderLocationTexture;
+	GLint m_ShaderLocationTransform;
+	GLint m_ShaderLocationInvModelView;
 public:
 	ofxPolyMaterial();
 	~ofxPolyMaterial();

@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new AnimationTest();
+Test* current_test = new SortBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -205,6 +205,7 @@ void AnimationTest::Setup()
 	}
 	animation->SetSequence(0);
 	ofxRENDERER->PushSprite(animation);
+	spriteObstacle = animation;
 }
 void AnimationTest::Update()
 {

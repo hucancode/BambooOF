@@ -1,6 +1,6 @@
 #include "ofxMonoMaterial.h"
 #include "ofxSpriteRenderer.h"
-#include "FreeImage.h"
+
 #define DEBUG
 ofxMonoMaterial::ofxMonoMaterial()
 {
@@ -10,6 +10,8 @@ ofxMonoMaterial::ofxMonoMaterial()
 	m_ShaderLocationXYZ = -1;
 	m_ShaderLocationUV = 0;
 	m_ShaderLocationCUV = 0;
+	m_ShaderLocationTransform = 0;
+	m_ShaderLocationInvModelView = 0;
 	m_ReferenceCount = 0;
 }
 ofxMonoMaterial::~ofxMonoMaterial()
@@ -17,23 +19,23 @@ ofxMonoMaterial::~ofxMonoMaterial()
 	// TODO: do some glDeleteWhatever here
 	//glDetachShader(program, id);
 	//glDeleteShader(id);
+	//FreeImage_Unload(m_ImageData);
 }
 void ofxMonoMaterial::LoadTexturePNG(const char* texture_file)
 {
-	
-	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
-	FreeImage_FlipVertical(image_data);
-	unsigned int bpp = FreeImage_GetBPP(image_data);
-	unsigned int width = FreeImage_GetWidth(image_data);
-	unsigned int height = FreeImage_GetHeight(image_data);
-	BYTE* pixel_data = FreeImage_GetBits(image_data);
+	m_ImageData = FreeImage_Load(FIF_PNG, texture_file, PNG_DEFAULT);
+	FreeImage_FlipVertical(m_ImageData);
+	unsigned int bpp = FreeImage_GetBPP(m_ImageData);
+	unsigned int width = FreeImage_GetWidth(m_ImageData);
+	unsigned int height = FreeImage_GetHeight(m_ImageData);
+	BYTE* pixel_data = FreeImage_GetBits(m_ImageData);
 	{
 		GLenum format = bpp==24?GL_RGB:GL_RGBA;
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
-		m_TextureSize[0] = width;
-		m_TextureSize[1] = height;
+		m_TextureSize.x = width;
+		m_TextureSize.y = height;
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
@@ -132,6 +134,7 @@ void ofxMonoMaterial::BuildMaterial()
 	m_ShaderLocationUV = glGetAttribLocation(m_ShaderProgramId, "a_uv");
 	m_ShaderLocationCUV = glGetAttribLocation(m_ShaderProgramId, "a_cuv");
 	m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
+	m_ShaderLocationInvModelView = glGetUniformLocation(m_ShaderProgramId, "u_cam_inverse_matrix");
 }
 void ofxMonoMaterial::Bind()
 {
@@ -144,8 +147,10 @@ void ofxMonoMaterial::Bind()
 	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*3);
 	glEnableVertexAttribArray(m_ShaderLocationCUV);
 	glVertexAttribPointer(m_ShaderLocationCUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*67);
-	// shader textures
+	// matrix
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
+	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetCamera()->GetInverseModelViewMatrix().getPtr());
+	// shader textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }

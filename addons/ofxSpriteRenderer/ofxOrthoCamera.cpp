@@ -11,6 +11,7 @@ ofxOrthoCamera::ofxOrthoCamera()
 	m_ProjectionUpdated = false;
 	m_ModelViewProjectionnUpdated = false;
 	m_InverseCameraUpdated = false;
+	m_InverseModelViewUpdated = false;
 	viewport = ofRectangle(0,0,0,0);
 }
 ofxOrthoCamera::~ofxOrthoCamera()
@@ -55,6 +56,7 @@ bool ofxOrthoCamera::ModelViewUpdated()
 	{
 		m_ModelViewProjectionnUpdated = false;
 		m_InverseCameraUpdated = false;
+		m_InverseModelViewUpdated = false;
 	}
 	return ret;
 }
@@ -87,6 +89,15 @@ ofMatrix4x4 ofxOrthoCamera::GetInverseCameraMatrix()
 	}
 	m_InverseCameraUpdated = true;
 	return m_InverseCameraMatrix;
+}
+ofMatrix4x4 ofxOrthoCamera::GetInverseModelViewMatrix()
+{
+	if(!(ModelViewUpdated() && m_InverseModelViewUpdated))
+	{
+		m_InverseModelViewMatrix = ofMatrix4x4::getTransposedOf(GetModelViewMatrix());
+	}
+	m_InverseModelViewUpdated = true;
+	return m_InverseModelViewMatrix;
 }
 ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewport)
 {
