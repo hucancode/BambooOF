@@ -1,6 +1,6 @@
 uniform int u_texture_count;
-uniform sampler2D u_texture[8];
-varying vec4 v_uv[8];
+uniform sampler2D u_texture[15];
+varying vec4 v_uv[15];
 void main()
 {
 	vec4 final_color = vec4(0.0,0.0,0.0,0.0);
@@ -18,5 +18,5 @@ void main()
 		if(final_color.a >= 1.0) break;
 	}
 	if(final_color.a == 0.0) discard;
-    gl_FragColor = vec4(v_uv[1].zw,0.0,1.0);
+    gl_FragColor = final_color;
 }

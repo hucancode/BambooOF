@@ -268,7 +268,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 	}
 	for(int i = 0;i < sprite->GetMaterial()->GetTextureCount();i++)
 	{
-		int x = i<<1;
+		int x = i<<2;
 		int y = x+1;
 		int z = y+1;
 		int w = z+1;

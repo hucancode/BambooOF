@@ -1,6 +1,6 @@
 #include "ofxPolyMaterial.h"
 #include "ofxSpriteRenderer.h"
-
+#include <assert.h>
 ofxPolyMaterial::ofxPolyMaterial()
 {
 	m_TextureCount = 0;
@@ -171,8 +171,9 @@ void ofxPolyMaterial::Bind()
 	{
 		int id = m_TextureOrder[i];
 		int idx4 = id<<2;
+		//assert(idx4 == id*4);
 		glEnableVertexAttribArray(m_ShaderLocationUV[i]);
-		glVertexAttribPointer(m_ShaderLocationUV[i], 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx4]));
+		glVertexAttribPointer(m_ShaderLocationUV[i], 4, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx4]));
 		glUniform1i(m_ShaderLocationTexture[i], i);
 	}
 	// matrix
