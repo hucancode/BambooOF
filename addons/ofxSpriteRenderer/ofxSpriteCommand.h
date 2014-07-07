@@ -18,8 +18,7 @@ class ofxSpriteCommand
 public:
 	static void GenerateSharedIndices(unsigned short number_of_quad=5000);
 	static void DeleteSharedIndices();
-//private:
-public:
+private:
 	unsigned short m_IndexInRenderer;
 	unsigned int m_FirstSpriteIndex;
 	unsigned int m_LastSpriteIndex;

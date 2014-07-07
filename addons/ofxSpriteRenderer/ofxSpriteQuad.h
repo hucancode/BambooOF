@@ -23,8 +23,7 @@ class ofxSpriteQuad
 {
 	friend ofxSpriteCommand;
 	friend ofxSpriteRenderer;
-//protected:
-public:
+protected:
 	ofxSpriteMaterial*	m_Material;
 	unsigned int		m_IndexInCommand;
 	ofxSpriteCommand*	m_ParentCommand;

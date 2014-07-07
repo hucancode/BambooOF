@@ -363,7 +363,6 @@ void SortBenchmarkTest::Update()
 	if(spriteA->GetWorldPosition().z < 1000.0f)
 	{
 		spriteA->MoveBy(0.0f,0.0f,15.0f);
-		printf("spriteA at command %d\n",spriteA->m_ParentCommand->m_IndexInRenderer);
 	}
 	else
 	{
