@@ -170,8 +170,8 @@ static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
 	/*if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;
 	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) return true;*/
-	ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
-	return quadA->CalculateDistanceToCamera(camera_position) < quadB->CalculateDistanceToCamera(camera_position);
+	//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	return quadA->GetWorldPosition().z > quadB->GetWorldPosition().z;
 }
 static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 {
@@ -179,22 +179,22 @@ static bool TransparentQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 		return true;
 	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
 		return true;*/
-	ofVec3f camera_position = ofVec3f::zero();//ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
-	return quadA->CalculateDistanceToCamera(camera_position) > quadB->CalculateDistanceToCamera(camera_position);
+	//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
+	return quadA->GetWorldPosition().z < quadB->GetWorldPosition().z;
 }
 
 void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned int end_index)
 {
 	printf("------------BuildSolidCommands(%u,%u)\n",begin_index,end_index);
-	sort(m_SolidQuads.begin()+begin_index, m_SolidQuads.begin()+end_index, SolidQuadCompare);
-	for(int i=begin_index;i<end_index;i++)
+	sort(m_SolidQuads.begin()+begin_index, m_SolidQuads.begin()+end_index+1, SolidQuadCompare);
+	for(int i=begin_index;i<=end_index;i++)
 	{
 		m_SolidQuads[i]->m_IndexInRenderer = i;
 	}
 	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin()+begin_index;
-		ofxSpriteQuads::iterator bound_it = m_SolidQuads.begin()+end_index;
+		ofxSpriteQuads::iterator bound_it = m_SolidQuads.begin()+end_index+1;
 		int sprite_count = 0;
 		for(;it != bound_it;it++)
 		{
@@ -222,15 +222,15 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 {
 	printf("------------BuildTransparentCommands(%u,%u)\n",begin_index,end_index);
 	unsigned long long time_start_build = ofGetSystemTime();
-	sort(m_TransparentQuads.begin()+begin_index, m_TransparentQuads.begin()+end_index, TransparentQuadCompare);
-	for(int i=begin_index;i<end_index;i++)
+	sort(m_TransparentQuads.begin()+begin_index, m_TransparentQuads.begin()+end_index+1, TransparentQuadCompare);
+	for(int i=begin_index;i<=end_index;i++)
 	{
 		m_TransparentQuads[i]->m_IndexInRenderer = i;
 	}
 	{
 		ofxSpriteMaterial* last_material = 0;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin()+begin_index;
-		ofxSpriteQuads::iterator bound_it = m_TransparentQuads.begin()+end_index;
+		ofxSpriteQuads::iterator bound_it = m_TransparentQuads.begin()+end_index+1;
 		int sprite_count = 0;
 		for(;it != bound_it;it++)
 		{
@@ -274,7 +274,6 @@ void ofxSpriteRenderer::Update()
 		{
 			ofxSpriteQuad* item = *it;
 			item->Update(0.030f);
-			item->UpdateVisibility(m_CameraUpdated);
 			item->SubmitChanges();
 		}
 	}
@@ -284,17 +283,16 @@ void ofxSpriteRenderer::Update()
 		{
 			ofxSpriteQuad* item = *it;
 			item->Update(0.030f);
-			item->UpdateVisibility(m_CameraUpdated);
 			item->SubmitChanges();
 		}
 	}
 	bool transparent_commands_refreshed = CleanUnusedTransparentQuads();
 	bool solid_commands_refreshed = CleanUnusedSolidQuads();
-	//m_CameraUpdated = true;
 	// TODO: it's a fancy and risky algorithm, need to test, test many times
 	// for now, after some rough test & fix, it works, hope it works fine
 	if(!solid_commands_refreshed)
 	{
+		// find overlap
 		int size = m_SolidCommands.size();
 		bool* need_to_rebuild = new bool[size];
 		memset(need_to_rebuild,false,sizeof(bool)*size);
@@ -307,82 +305,73 @@ void ofxSpriteRenderer::Update()
 			}
 			else if(command->m_Status == COMMAND_STATUS_EXPANDED)
 			{
-				int right = i;
+				need_to_rebuild[i] = true;
+				int right = i + 1, left = i - 1;
 				while(right < size)
 				{
-					ofxSpriteCommand* expanded = m_SolidCommands[right];
-					if(command->m_DistanceMax > expanded->m_DistanceMin)
+					if(command->m_DistanceMin < m_SolidCommands[right]->m_DistanceMax)
 					{
 						need_to_rebuild[right++] = true;
+						continue;
 					}
-					else
-					{
-						break;
-					}
+					break;
 				}
-				int left = i;
 				while(left > 0)
 				{
-					ofxSpriteCommand* expanded = m_SolidCommands[left];
-					if(command->m_DistanceMin < expanded->m_DistanceMax)
+					if(command->m_DistanceMax > m_SolidCommands[left]->m_DistanceMin)
 					{
 						need_to_rebuild[left--] = true;
+						continue;
 					}
-					else
-					{
-						break;
-					}
+					break;
 				}
 			}
 		}
+		// trace
 		int index = 0;
-		int bound = m_SolidCommands.size();
 		int k = 0;
 		int left = -1;
 		int right = -1;
 		while(k <= size)
 		{
-			bool trace = true;
-			if(k == size) trace = false;
-			else if(!need_to_rebuild[k]) trace = false;
-			if(trace)
+			// find segment
+			if(k != size) if(need_to_rebuild[k])
 			{
 				if(left == -1)
 				{
-					left = index;
-					right = index;
+					right = left = index;
 				}
 				else
 				{
 					right = index;
 				}
 				index++;
+				k++;
+				continue;
+			}
+			// build segment
+			if(right != -1)
+			{
+				int min_sprite_index = m_SolidCommands[left]->m_FirstSpriteIndex;
+				int max_sprite_index = m_SolidCommands[right]->m_LastSpriteIndex;
+				BuildSolidCommands(min_sprite_index, max_sprite_index);
+				for(int i=left;i<=right;right--)
+				{
+					ofxSpriteCommand* command = m_SolidCommands[i];
+					m_SolidCommands.erase(m_SolidCommands.begin() + i);
+					delete command;
+				}
+				index = left;
+				left = -1;
+				right = -1;
 			}
 			else
 			{
-				if(right != -1)
-				{
-					int min_sprite_index = m_SolidCommands[left]->m_FirstSpriteIndex;
-					int max_sprite_index = m_SolidCommands[right]->m_LastSpriteIndex;
-					for(int i=left;i<=right;right--)
-					{
-						ofxSpriteCommand* command = m_SolidCommands[i];
-						m_SolidCommands.erase(m_SolidCommands.begin() + i);
-						delete command;
-						bound--;
-					}
-					BuildSolidCommands(min_sprite_index, max_sprite_index);
-					index = left;
-					left = -1;
-					right = -1;
-				}
-				else
-				{
-					index++;
-				}
+				index++;
 			}
 			k++;
 		}
+		// sort
 		sort(m_SolidCommands.begin(),m_SolidCommands.end(), SolidCommandCompare);
 		for(int i=0;i<m_SolidCommands.size();i++)
 		{
@@ -391,6 +380,7 @@ void ofxSpriteRenderer::Update()
 	}
 	if(!transparent_commands_refreshed)
 	{
+		// find overlap
 		int size = m_TransparentCommands.size();
 		bool* need_to_rebuild = new bool[size];
 		memset(need_to_rebuild,false,sizeof(bool)*size);
@@ -404,82 +394,72 @@ void ofxSpriteRenderer::Update()
 			else if(command->m_Status == COMMAND_STATUS_EXPANDED)
 			{
 				need_to_rebuild[i] = true;
-				int right = i+1;
+				int right = i+1, left = i-1;
 				while(right < size)
 				{
-					ofxSpriteCommand* expanded = m_TransparentCommands[right];
-					if(command->m_DistanceMin < expanded->m_DistanceMax)
+					if(command->m_DistanceMax > m_TransparentCommands[right]->m_DistanceMin)
 					{
 						need_to_rebuild[right++] = true;
+						continue;
 					}
-					else
-					{
-						break;
-					}
+					break;
 				}
-				int left = i-1;
 				while(left > 0)
 				{
-					ofxSpriteCommand* expanded = m_TransparentCommands[left];
-					if(command->m_DistanceMax > expanded->m_DistanceMin)
+					if(command->m_DistanceMin < m_TransparentCommands[left]->m_DistanceMax)
 					{
 						need_to_rebuild[left--] = true;
+						continue;
 					}
-					else
-					{
-						break;
-					}
+					break;
 				}
 			}
 		}
+		// trace
 		int index = 0;
-		int bound = m_TransparentCommands.size();
 		int k = 0;
 		int left = -1;
 		int right = -1;
 		while(k <= size)
 		{
-			bool trace = true;
-			if(k == size) trace = false;
-			else if(!need_to_rebuild[k]) trace = false;
-			if(trace)
+			// find segment
+			if(k != size) if(need_to_rebuild[k])
 			{
 				if(left == -1)
 				{
-					left = index;
-					right = index;
+					right = left = index;
 				}
 				else
 				{
 					right = index;
 				}
 				index++;
+				k++;
+				continue;
+			}
+			// build segment
+			if(right != -1)
+			{
+				int min_sprite_index = m_TransparentCommands[left]->m_FirstSpriteIndex;
+				int max_sprite_index = m_TransparentCommands[right]->m_LastSpriteIndex;
+				BuildTransparentCommands(min_sprite_index, max_sprite_index);
+				for(int i=left;i<=right;right--)
+				{
+					ofxSpriteCommand* command = m_TransparentCommands[i];
+					m_TransparentCommands.erase(m_TransparentCommands.begin() + i);
+					delete command;
+				}
+				index = left;
+				left = -1;
+				right = -1;
 			}
 			else
 			{
-				if(right != -1)
-				{
-					int min_sprite_index = m_TransparentCommands[left]->m_FirstSpriteIndex;
-					int max_sprite_index = m_TransparentCommands[right]->m_LastSpriteIndex;
-					for(int i=left;i<=right;right--)
-					{
-						ofxSpriteCommand* command = m_TransparentCommands[i];
-						m_TransparentCommands.erase(m_TransparentCommands.begin() + i);
-						delete command;
-						bound--;
-					}
-					BuildTransparentCommands(min_sprite_index, max_sprite_index+1);
-					index = left;
-					left = -1;
-					right = -1;
-				}
-				else
-				{
-					index++;
-				}
+				index++;
 			}
 			k++;
 		}
+		// sort
 		sort(m_TransparentCommands.begin(),m_TransparentCommands.end(), TransparentCommandCompare);
 		for(int i=0;i<m_TransparentCommands.size();i++)
 		{
@@ -533,19 +513,9 @@ void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 		m_SolidQuads[i]->SetLogicWidth(m_SolidQuads[i]->GetLogicWidth());
 		m_SolidQuads[i]->SetLogicHeight(m_SolidQuads[i]->GetLogicHeight());
 	}
-	m_CameraUpdated = false;
 	m_Camera->SetScale(min(width,height)*0.5);
 	m_RenderRect.z = width*0.5;
 	m_RenderRect.w = height*0.5;
 	m_RenderRect.x = -m_RenderRect.z;
 	m_RenderRect.y = -m_RenderRect.w;
-}
-ofVec2f ofxSpriteRenderer::NormalizeVector(ofVec2f logic_vector)
-{
-
-	return logic_vector;
-}
-ofVec2f ofxSpriteRenderer::InverseVector(ofVec2f device_vector)
-{
-	return device_vector;
 }

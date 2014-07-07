@@ -2,8 +2,7 @@
 struct ofxVertex
 {
 	float X,Y,Z;// position
-	float UV[64];// texture uv
-	float CUV[64];// crop uv, the value determine if we should use this pixel or not, cuv in (0,1) = true, else = false
+	float UV[60];// texture uv
 };
 enum MATERIAL_TYPE
 {

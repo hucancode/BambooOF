@@ -18,6 +18,7 @@ void ofApp::setup() {
 	mesh->InitCrowd();
 	render = new NavMeshRender(mesh);
 	cam = ofxRENDERER->GetCamera();
+	cam->disableMouseMiddleButton();
 	ofEnableAlphaBlending();
 	
 	ofDirectory dir;
@@ -59,15 +60,40 @@ void ofApp::draw() {
 }
 
 //--------------------------------------------------------------
-#define ZOOM_SPEED 5.0f
+#define ZOOM_SPEED 15.0f
+#define MOVE_SPEED 15.0f
 void ofApp::keyPressed(int key){
-	if(key == OF_KEY_UP) 
+	if(key == OF_KEY_PAGE_UP) 
 	{
 		cam->SetScale(cam->GetScale() - ZOOM_SPEED);
 	}
-	if(key == OF_KEY_DOWN) 
+	if(key == OF_KEY_PAGE_DOWN) 
 	{
 		cam->SetScale(cam->GetScale() + ZOOM_SPEED);
+	}
+	if(key == OF_KEY_UP) 
+	{
+		cam->setPosition(cam->getPosition().x,
+			cam->getPosition().y,
+			cam->getPosition().z - MOVE_SPEED);
+	}
+	if(key == OF_KEY_DOWN) 
+	{
+		cam->setPosition(cam->getPosition().x,
+			cam->getPosition().y,
+			cam->getPosition().z + MOVE_SPEED);
+	}
+	if(key == OF_KEY_LEFT) 
+	{
+		cam->setPosition(cam->getPosition().x + MOVE_SPEED,
+			cam->getPosition().y,
+			cam->getPosition().z);
+	}
+	if(key == OF_KEY_RIGHT) 
+	{
+		cam->setPosition(cam->getPosition().x - MOVE_SPEED,
+			cam->getPosition().y,
+			cam->getPosition().z);
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
@@ -123,11 +149,6 @@ void ofApp::mousePressed(int x, int y, int button){
 			mesh->UpdateMesh(0.0f);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
 			spriteObstacle->MoveTo(ofVec3f(hit_pos[0],hit_pos[1],hit_pos[2]));
-			ofMatrix4x4 transform = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
-			ofVec4f position(hit_pos[0],hit_pos[1],hit_pos[2],1.0f);
-			ofVec4f position_transform = transform*position;
-			position_transform /= 20.0f;
-			int a = 10;
 		}
 		else
 		{

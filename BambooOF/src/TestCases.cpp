@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new MultiTextureTest();
+Test* current_test = new SortBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -360,22 +360,24 @@ void SortBenchmarkTest::Setup()
 void SortBenchmarkTest::Update()
 {
 	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 400.0f)
+	if(spriteA->GetWorldPosition().z < 1000.0f)
 	{
 		spriteA->MoveBy(0.0f,0.0f,15.0f);
+		printf("spriteA at command %d\n",spriteA->m_ParentCommand->m_IndexInRenderer);
 	}
 	else
 	{
-		spriteA->MoveBy(0.0f,0.0f,-800.0f);
+		spriteA->MoveBy(0.0f,0.0f,-2000.0f);
 	}
-	if(spriteB->GetWorldPosition().z > -400.0f)
+	if(spriteB->GetWorldPosition().z > -300.0f)
 	{
 		spriteB->MoveBy(0.0f,0.0f,-5.0f);
 	}
 	else
 	{
-		spriteB->MoveBy(0.0f,0.0f,800.0f);
+		spriteB->MoveBy(0.0f,0.0f,600.0f);
 	}
+	int a = 10;
 }
 void SortBenchmarkTest::Render()
 {

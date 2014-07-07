@@ -144,9 +144,7 @@ void ofxMonoMaterial::Bind()
 	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), 0);
 	// tex coords
 	glEnableVertexAttribArray(m_ShaderLocationUV);
-	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*3);
-	glEnableVertexAttribArray(m_ShaderLocationCUV);
-	glVertexAttribPointer(m_ShaderLocationCUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (char*)0 + sizeof(float)*67);
+	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[0]));
 	// matrix
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetCamera()->GetInverseModelViewMatrix().getPtr());

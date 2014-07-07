@@ -3,7 +3,7 @@
 /* =================================================================
 ofxOrthoCamera
 - this class inherrit from ofEasyCamera, and used to do orthographic projection
-- code implementation isn't optimized
+- this transformation make 1 opengl unit = 1 pixel
 ================================================================= */
 ofxOrthoCamera::ofxOrthoCamera()
 {
@@ -13,6 +13,7 @@ ofxOrthoCamera::ofxOrthoCamera()
 	m_InverseCameraUpdated = false;
 	m_InverseModelViewUpdated = false;
 	viewport = ofRectangle(0,0,0,0);
+	lookAt(ofVec3f(0.0,0.0,0.0));
 }
 ofxOrthoCamera::~ofxOrthoCamera()
 {
@@ -28,6 +29,9 @@ void ofxOrthoCamera::begin(ofRectangle viewport)
 	{
 		ofPushView();
 	}
+	/*float x = this->getPosition().x;
+	float z = this->getPosition().z;
+	this->setPosition(x,viewport.height*0.5,z);*/
 	isActive = true;
 	ofSetOrientation(ofGetOrientation(),vFlip);
 
@@ -124,6 +128,7 @@ void ofxOrthoCamera::SetScale(float scale)
 		m_ScaleX = m_Scale;
 		m_ScaleY = ar==0?0:(m_Scale / ar);
 	}
+	this->setDistance(this->viewport.height*0.5,true);
 	m_ProjectionUpdated = false;
 }
 float ofxOrthoCamera::GetScale()

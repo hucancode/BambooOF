@@ -7,7 +7,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_SpriteRect = 0;
 	m_Material = 0;
 	m_DistanceUpdated = false;
-	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 	m_Status = QUAD_STATUS_NO_CHANGE;
 	m_Transparent = true;
 }
@@ -43,7 +43,7 @@ void ofxSpriteQuad::MoveTo(const ofVec3f position)
 	m_WorldPosition = position;
 	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
-	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 }
 void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
 {
@@ -52,41 +52,38 @@ void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
 void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 {
 	m_WorldPosition += accelerator;
-	m_DistanceUpdated = false;
 	m_Status = QUAD_STATUS_POSITION_CHANGE;
 	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD)
 	{
-		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+		m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 	}
 	else if(accelerator.y > FAR_SCREEN_SPEED_THRESHOLD)
 	{
-		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+		m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 	}
 }
-float ofxSpriteQuad::CalculateDistanceToCamera(const ofVec3f camera_position)
-{
-	return -m_WorldPosition.z;
-	// legacy way
-	if(!m_DistanceUpdated)
-	{
-		m_DistanceToCamera = camera_position.distance(m_WorldPosition);
-		m_DistanceUpdated = true;
-	}
-	return m_DistanceToCamera;
-}
-void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
+void ofxSpriteQuad::UpdateVisibility()
 {
 	// if camera isn't looking straight into world, these calculation mean nothing
 	if(m_Status == QUAD_STATUS_NO_CHANGE || m_Status == QUAD_STATUS_MATERIAL_CHANGE) return;
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0) 
 		return;
-	
+
+	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	float view_x = ofxRENDERER->GetCamera()->getPosition().x;
+	float view_y = ofxRENDERER->GetCamera()->getPosition().z;
+	float view_width = ofxRENDERER->GetRenderRect().z;
+	float view_height = ofxRENDERER->GetRenderRect().w*1.4142;
+	view_x -= view_width;
+	view_y -= view_height;
+	float view_z = view_x + view_width*2;
+	float view_w = view_y + view_height*2;
 	float x_min = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	float x_max = x_min + m_WorldQuad.x;
-	float y_min = m_WorldPosition.y;
-	float y_max = y_min + m_WorldQuad.y;
+	float z_min = m_WorldPosition.z;
+	float z_max = z_min + m_WorldQuad.y;
 	
-	if(y_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
+	if(z_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
@@ -94,7 +91,7 @@ void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(y_min > FAR_SCREEN_DISTANCE_THRESHOLD)
+	else if(z_min > FAR_SCREEN_DISTANCE_THRESHOLD)
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
@@ -102,19 +99,19 @@ void ofxSpriteQuad::UpdateVisibility(bool camera_updated)
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(y_max < ofxRENDERER->GetRenderRect().y)
+	else if(z_max < view_y)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(x_max < ofxRENDERER->GetRenderRect().x)
+	else if(x_max < view_x)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(y_min > ofxRENDERER->GetRenderRect().w)
+	else if(z_min > view_w)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(x_min > ofxRENDERER->GetRenderRect().z)
+	else if(x_min > view_z)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
@@ -162,6 +159,7 @@ void ofxSpriteQuad::SetSpriteRect(const int index, const ofVec4f rect)
 void ofxSpriteQuad::SubmitChanges()
 {
 	if(m_Status == QUAD_STATUS_NO_CHANGE) return;
+	UpdateVisibility();
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN || m_Visibility == QUAD_VISIBILITY_OFF_SCREEN) return;
 	m_glPosition[0].x = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	m_glPosition[0].y = m_WorldPosition.y;

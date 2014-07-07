@@ -35,7 +35,6 @@ private:
 	ofxSpriteQuads			m_TransparentQuads;
 	ofxSpriteCommands		m_SolidCommands;
 	ofxSpriteCommands		m_TransparentCommands;
-	bool					m_CameraUpdated;
 	vector<unsigned int>	m_UnusedSolidQuads;
 	vector<unsigned int>	m_UnusedTransparentQuads;
 #ifdef _DEBUG
@@ -55,8 +54,6 @@ public:
 	void EraseSprite(ofxSpriteQuad* sprite);
 	void Update();
 	void SetRenderSize(unsigned int width, unsigned int height);
-	ofVec2f NormalizeVector(ofVec2f logic_vector);
-	ofVec2f InverseVector(ofVec2f device_vector);
 private:
 	void BuildSolidCommands(unsigned int i, unsigned int j);
 	void BuildTransparentCommands(unsigned int i, unsigned int j);
@@ -66,11 +63,6 @@ public:
 	ofxOrthoCamera* GetCamera()
 	{
 		return m_Camera;
-	}
-	void MoveCamera(ofVec3f vec)
-	{
-		m_CameraUpdated = false;
-		m_Camera->move(vec);
 	}
 	ofMatrix4x4 GetTransformation()
 	{

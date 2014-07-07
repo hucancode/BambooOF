@@ -13,7 +13,8 @@ enum QUAD_VISIBILITY
 {
 	QUAD_VISIBILITY_IN_SCREEN,
 	QUAD_VISIBILITY_OFF_SCREEN,
-	QUAD_VISIBILITY_FAR_SCREEN
+	QUAD_VISIBILITY_FAR_SCREEN,
+	QUAD_VISIBILITY_UNKNOWN,
 };
 
 class ofxSpriteCommand;
@@ -22,7 +23,8 @@ class ofxSpriteQuad
 {
 	friend ofxSpriteCommand;
 	friend ofxSpriteRenderer;
-protected:
+//protected:
+public:
 	ofxSpriteMaterial*	m_Material;
 	unsigned int		m_IndexInCommand;
 	ofxSpriteCommand*	m_ParentCommand;
@@ -49,12 +51,11 @@ public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
 	virtual void Update(const float delta_time){}
-	float CalculateDistanceToCamera(const ofVec3f camera_position);
 	void MoveTo(const float x, const float y, const float z);
 	void MoveTo(const ofVec3f position);
 	void MoveBy(const float x, const float y, const float z);
 	void MoveBy(const ofVec3f accelerator);
-	void UpdateVisibility(bool camera_updated);
+	void UpdateVisibility();
 public:
 	ofxSpriteMaterial* GetMaterial()
 	{
