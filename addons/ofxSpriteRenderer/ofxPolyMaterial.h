@@ -19,8 +19,9 @@ private:
 	GLint m_ShaderLocationXYZ;
 	GLint m_ShaderLocationTextureCount;
 	GLint* m_ShaderLocationUV;
-	GLint* m_ShaderLocationCUV;
 	GLint* m_ShaderLocationTexture;
+	GLint m_ShaderLocationProjection;
+	GLint m_ShaderLocationModelView;
 	GLint m_ShaderLocationTransform;
 	GLint m_ShaderLocationInvModelView;
 public:

@@ -7,7 +7,7 @@
 
 #define FAR_SCREEN_DISTANCE_THRESHOLD 6000.0
 #define FAR_SCREEN_SPEED_THRESHOLD 30.0
-#define FAR_SCREEN_UPDATE_SEQUENCE 200
+#define FAR_SCREEN_UPDATE_SEQUENCE 100
 
 /*
 TODO: 
@@ -43,6 +43,7 @@ private:
 	unsigned int			m_UpdateTimeMilisecond;
 	unsigned int			m_RenderTimeMilisecond;
 #endif
+	ofVec4f					m_WorldRect;
 	ofVec4f					m_RenderRect;
 	ofxOrthoCamera*			m_Camera;
 	ofMatrix4x4				m_TransformMatrix;
@@ -64,13 +65,44 @@ public:
 	{
 		return m_Camera;
 	}
+	void MoveCamera(float x, float y, float z)
+	{
+		m_Camera->setPosition(
+			m_Camera->getPosition().x + x,
+			m_Camera->getPosition().y + y,
+			m_Camera->getPosition().z + z);
+	}
+	ofMatrix4x4 GetProjectionMatrix()
+	{
+		return m_Camera->GetProjectionMatrix();
+	}
+	ofMatrix4x4 GetModelViewMatrix()
+	{
+		return m_Camera->GetModelViewMatrix();
+	}
+	ofMatrix4x4 GetModelViewProjectionMatrix()
+	{
+		return m_Camera->GetModelViewProjectionMatrix();
+	}
+	ofMatrix4x4 GetInverseCameraMatrix()
+	{
+		return m_Camera->GetInverseCameraMatrix();
+	}
 	ofMatrix4x4 GetTransformation()
 	{
 		return m_TransformMatrix;
 	}
+	ofMatrix4x4 GetInverseModelViewMatrix()
+	{
+		return m_Camera->GetInverseModelViewMatrix();
+	}
 	ofVec4f GetRenderRect()
 	{
 		return m_RenderRect;
+	}
+	ofVec4f GetWorldRect()
+	{
+		return m_WorldRect;
 	}
 #ifdef _DEBUG
 	unsigned int GetSpriteNumber()

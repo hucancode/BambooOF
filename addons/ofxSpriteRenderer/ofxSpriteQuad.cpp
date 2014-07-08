@@ -70,14 +70,7 @@ void ofxSpriteQuad::UpdateVisibility()
 		return;
 
 	m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
-	float view_x = ofxRENDERER->GetCamera()->getPosition().x;
-	float view_y = ofxRENDERER->GetCamera()->getPosition().z;
-	float view_width = ofxRENDERER->GetRenderRect().z;
-	float view_height = ofxRENDERER->GetRenderRect().w*1.4142;
-	view_x -= view_width;
-	view_y -= view_height;
-	float view_z = view_x + view_width*2;
-	float view_w = view_y + view_height*2;
+	
 	float x_min = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	float x_max = x_min + m_WorldQuad.x;
 	float z_min = m_WorldPosition.z;
@@ -99,19 +92,19 @@ void ofxSpriteQuad::UpdateVisibility()
 	{
 		m_Visibility = QUAD_VISIBILITY_FAR_SCREEN;
 	}
-	else if(z_max < view_y)
+	else if(z_max < ofxRENDERER->GetWorldRect().y)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(x_max < view_x)
+	else if(x_max < ofxRENDERER->GetWorldRect().x)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(z_min > view_w)
+	else if(z_min > ofxRENDERER->GetWorldRect().w)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}
-	else if(x_min > view_z)
+	else if(x_min > ofxRENDERER->GetWorldRect().z)
 	{
 		m_Visibility = QUAD_VISIBILITY_OFF_SCREEN;
 	}

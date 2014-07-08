@@ -268,6 +268,14 @@ void ofxSpriteRenderer::Update()
 #ifdef _DEBUG
 	unsigned long long time_start_update = ofGetSystemTime();
 #endif
+	m_WorldRect.x = m_Camera->getPosition().x;
+	m_WorldRect.y = m_Camera->getPosition().z;
+	float width = m_RenderRect.z;
+	float height = m_RenderRect.w*1.4142;
+	m_WorldRect.x -= width;
+	m_WorldRect.y -= height;
+	m_WorldRect.z = m_WorldRect.x + width*2;
+	m_WorldRect.w = m_WorldRect.y + height*2;
 	{
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin();
 		for(;it != m_TransparentQuads.end();it++)

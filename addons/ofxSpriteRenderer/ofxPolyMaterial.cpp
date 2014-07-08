@@ -11,7 +11,6 @@ ofxPolyMaterial::ofxPolyMaterial()
 	m_ShaderLocationXYZ = -1;
 	m_ShaderLocationTextureCount = -1;
 	m_ShaderLocationUV = 0;
-	m_ShaderLocationCUV = 0;
 	m_ShaderLocationTexture = 0;
 	m_ShaderLocationTransform = 0;
 	m_ShaderLocationInvModelView = 0;
@@ -144,11 +143,11 @@ bool ofxPolyMaterial::LoadShader(const char* vs_file, const char* fs_file)
 void ofxPolyMaterial::BuildMaterial()
 {
 	m_ShaderLocationUV = new GLint[m_TextureCount];
-	m_ShaderLocationCUV = new GLint[m_TextureCount];
 	m_ShaderLocationTexture = new GLint[m_TextureCount];
 
 	m_ShaderLocationXYZ = glGetAttribLocation(m_ShaderProgramId, "a_position");
-	
+	m_ShaderLocationProjection = glGetUniformLocation(m_ShaderProgramId, "u_projection_matrix");
+	m_ShaderLocationModelView = glGetUniformLocation(m_ShaderProgramId, "u_modelview_matrix");
 	m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
 	m_ShaderLocationInvModelView = glGetUniformLocation(m_ShaderProgramId, "u_cam_inverse_matrix");
 
@@ -177,8 +176,10 @@ void ofxPolyMaterial::Bind()
 		glUniform1i(m_ShaderLocationTexture[i], i);
 	}
 	// matrix
+	glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
+	glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
-	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetCamera()->GetInverseModelViewMatrix().getPtr());
+	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetInverseModelViewMatrix().getPtr());
 	// shader textures
 	glUniform1i(m_ShaderLocationTextureCount, m_TextureCount);
 	for(int i=0;i<m_TextureCount;i++)

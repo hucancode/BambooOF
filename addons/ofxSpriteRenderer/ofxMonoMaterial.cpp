@@ -9,7 +9,8 @@ ofxMonoMaterial::ofxMonoMaterial()
 	m_ShaderProgramId = 0;
 	m_ShaderLocationXYZ = -1;
 	m_ShaderLocationUV = -1;
-	m_ShaderLocationCUV = -1;
+	m_ShaderLocationProjection = -1;
+	m_ShaderLocationModelView = -1;
 	m_ShaderLocationTransform = -1;
 	m_ShaderLocationInvModelView = -1;
 	m_ReferenceCount = 0;
@@ -132,7 +133,8 @@ void ofxMonoMaterial::BuildMaterial()
 {
 	m_ShaderLocationXYZ = glGetAttribLocation(m_ShaderProgramId, "a_position");
 	m_ShaderLocationUV = glGetAttribLocation(m_ShaderProgramId, "a_uv");
-	m_ShaderLocationCUV = glGetAttribLocation(m_ShaderProgramId, "a_cuv");
+	m_ShaderLocationProjection = glGetUniformLocation(m_ShaderProgramId, "u_projection_matrix");
+	m_ShaderLocationModelView = glGetUniformLocation(m_ShaderProgramId, "u_modelview_matrix");
 	m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
 	m_ShaderLocationInvModelView = glGetUniformLocation(m_ShaderProgramId, "u_cam_inverse_matrix");
 }
@@ -146,8 +148,10 @@ void ofxMonoMaterial::Bind()
 	glEnableVertexAttribArray(m_ShaderLocationUV);
 	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[0]));
 	// matrix
+	glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
+	glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
-	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetCamera()->GetInverseModelViewMatrix().getPtr());
+	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetInverseModelViewMatrix().getPtr());
 	// shader textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);

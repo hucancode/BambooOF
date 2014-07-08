@@ -73,27 +73,19 @@ void ofApp::keyPressed(int key){
 	}
 	if(key == OF_KEY_UP) 
 	{
-		cam->setPosition(cam->getPosition().x,
-			cam->getPosition().y,
-			cam->getPosition().z - MOVE_SPEED);
+		ofxRENDERER->MoveCamera(0, 0, -MOVE_SPEED);
 	}
 	if(key == OF_KEY_DOWN) 
 	{
-		cam->setPosition(cam->getPosition().x,
-			cam->getPosition().y,
-			cam->getPosition().z + MOVE_SPEED);
+		ofxRENDERER->MoveCamera(0, 0, MOVE_SPEED);
 	}
 	if(key == OF_KEY_LEFT) 
 	{
-		cam->setPosition(cam->getPosition().x + MOVE_SPEED,
-			cam->getPosition().y,
-			cam->getPosition().z);
+		ofxRENDERER->MoveCamera(-MOVE_SPEED, 0, 0);
 	}
 	if(key == OF_KEY_RIGHT) 
 	{
-		cam->setPosition(cam->getPosition().x - MOVE_SPEED,
-			cam->getPosition().y,
-			cam->getPosition().z);
+		ofxRENDERER->MoveCamera(MOVE_SPEED, 0, 0);
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
