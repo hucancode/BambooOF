@@ -6,6 +6,8 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 	ofxSpriteCommand::GenerateSharedIndices();
 	m_Camera = new ofxOrthoCamera();
 	s_Instance = this;
+	m_CameraMove = true;
+	m_CameraForce = true;
 }
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
@@ -474,6 +476,8 @@ void ofxSpriteRenderer::Update()
 			m_TransparentCommands[i]->m_IndexInRenderer = i;
 		}
 	}
+	m_CameraMove = false;
+	m_CameraForce = false;
 #ifdef _DEBUG
 	unsigned long long time_finish_update = ofGetSystemTime();
 	m_UpdateTimeMilisecond = time_finish_update - time_start_update;
@@ -511,6 +515,8 @@ bool ofxSpriteRenderer::CleanUnusedTransparentQuads()
 }
 void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 {
+	m_CameraMove = true;
+	m_CameraForce = true;
 	for(int i=0;i<m_TransparentQuads.size();i++)
 	{
 		m_TransparentQuads[i]->SetLogicWidth(m_TransparentQuads[i]->GetLogicWidth());

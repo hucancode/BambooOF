@@ -3,14 +3,12 @@
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
-float g_WindowAspectRatio;
 void ofApp::setup() {
 	new ofxSpriteRenderer;
 	ofxRENDERER->SetRenderSize(ofGetWindowWidth(), ofGetWindowHeight());
 	current_test->Setup();
-	ofSetFrameRate(60);
-	ofBackground(0, 0, 0);
-	ofSetWindowTitle("Hello");
+	//ofSetFrameRate(60);
+	ofSetWindowTitle("Bamboo OF");
 	//------------------
 	mesh = new NavMesh;
 	mesh->LoadMesh("nav_test.obj");
@@ -20,24 +18,11 @@ void ofApp::setup() {
 	cam = ofxRENDERER->GetCamera();
 	cam->disableMouseMiddleButton();
 	ofEnableAlphaBlending();
-	
-	ofDirectory dir;
-    int nFiles = dir.listDir("plops");
-    if(nFiles) {
-        for(int i=0; i<dir.numFiles(); i++) {
-            string filePath = dir.getPath(i);
-            images.push_back(ofImage());
-            images.back().loadImage(filePath);
-			images.back().getTextureReference().setTextureMinMagFilter(GL_LINEAR, GL_NEAREST);
-        }
-    }
-	frameIndex = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	current_test->Update();
-	frameIndex = (int)(ofGetFrameNum()*0.5) % images.size();
 	mesh->UpdateCrowd(0.0030f);
 }
 
@@ -161,8 +146,6 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-	g_WindowAspectRatio = (float)w/(float)h;
-	cam->setAspectRatio(g_WindowAspectRatio);
 	ofxRENDERER->SetRenderSize(w, h);
 }
 

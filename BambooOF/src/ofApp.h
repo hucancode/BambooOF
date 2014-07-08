@@ -27,9 +27,5 @@ class ofApp : public ofBaseApp{
 		NavMesh* mesh;
 		NavMeshRender* render;
 		ofxOrthoCamera* cam;
-
-		int frameIndex;
-		vector <ofImage> images;
-
 		ofVboMesh* spriteMesh;
 };

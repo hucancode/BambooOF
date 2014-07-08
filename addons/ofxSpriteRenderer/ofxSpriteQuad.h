@@ -4,8 +4,9 @@
 #include "ofxMonoMaterial.h"
 enum QUAD_STATUS
 {
-	QUAD_STATUS_MATERIAL_CHANGE,
 	QUAD_STATUS_POSITION_CHANGE,
+	QUAD_STATUS_VISIBILITY_CHANGE,
+	QUAD_STATUS_MATERIAL_CHANGE,
 	QUAD_STATUS_SAFE_CHANGE,
 	QUAD_STATUS_NO_CHANGE
 };
@@ -54,7 +55,7 @@ public:
 	void MoveTo(const ofVec3f position);
 	void MoveBy(const float x, const float y, const float z);
 	void MoveBy(const ofVec3f accelerator);
-	void UpdateVisibility();
+	void UpdateVisibility(bool force_update=false, bool camera_move=false);
 public:
 	ofxSpriteMaterial* GetMaterial()
 	{

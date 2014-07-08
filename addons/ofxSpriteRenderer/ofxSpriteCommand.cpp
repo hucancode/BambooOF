@@ -289,20 +289,5 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		vertexC->UV[w] = sprite->m_glCUV[i].w;
 		vertexD->UV[z] = sprite->m_glCUV[i].x;
 		vertexD->UV[w] = sprite->m_glCUV[i].w;
-		//if(sprite->m_Visibility != QUAD_VISIBILITY_IN_SCREEN)
-		//{
-		//	/*vertexA->X = vertexA->Y = vertexA->Z = -1000000.0;
-		//	vertexB->X = vertexB->Y = vertexB->Z = -1000000.0;
-		//	vertexC->X = vertexC->Y = vertexC->Z = -1000000.0;
-		//	vertexD->X = vertexD->Y = vertexD->Z = -1000000.0;*/
-		//	vertexA->UV[x] = -1.0;
-		//	vertexA->UV[y] = -1.0;
-		//	vertexB->UV[x] = -1.0;
-		//	vertexB->UV[y] = -1.0;
-		//	vertexC->UV[x] = -1.0;
-		//	vertexC->UV[y] = -1.0;
-		//	vertexD->UV[x] = -1.0;
-		//	vertexD->UV[y] = -1.0;
-		//}
 	}
 }

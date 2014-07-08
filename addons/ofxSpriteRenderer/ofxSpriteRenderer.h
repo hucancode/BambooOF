@@ -5,9 +5,10 @@
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
 
-#define FAR_SCREEN_DISTANCE_THRESHOLD 6000.0
+#define FAR_SCREEN_DISTANCE_THRESHOLD 3000.0
 #define FAR_SCREEN_SPEED_THRESHOLD 30.0
 #define FAR_SCREEN_UPDATE_SEQUENCE 100
+#define IN_SCREEN_UPDATE_SEQUENCE 20
 
 /*
 TODO: 
@@ -43,6 +44,8 @@ private:
 	unsigned int			m_UpdateTimeMilisecond;
 	unsigned int			m_RenderTimeMilisecond;
 #endif
+	bool					m_CameraMove;
+	bool					m_CameraForce;
 	ofVec4f					m_WorldRect;
 	ofVec4f					m_RenderRect;
 	ofxOrthoCamera*			m_Camera;
@@ -71,6 +74,17 @@ public:
 			m_Camera->getPosition().x + x,
 			m_Camera->getPosition().y + y,
 			m_Camera->getPosition().z + z);
+		m_CameraMove = true;
+		if(abs(x) > FAR_SCREEN_SPEED_THRESHOLD || abs(y) > FAR_SCREEN_SPEED_THRESHOLD)
+			m_CameraForce = true;
+	}
+	bool IsCameraMove()
+	{
+		return m_CameraMove;
+	}
+	bool IsCameraForce()
+	{
+		return m_CameraForce;
 	}
 	ofMatrix4x4 GetProjectionMatrix()
 	{

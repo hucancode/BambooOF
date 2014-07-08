@@ -534,6 +534,9 @@
     <Filter Include="addons\ofxSpriteRenderer">
       <UniqueIdentifier>{8d1a721d-41b4-467f-875d-fad03f12c0c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{a291c525-b8ef-4ed5-9976-f1f858548289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
