@@ -368,14 +368,7 @@ void SortBenchmarkTest::Update()
 	{
 		spriteA->MoveBy(0.0f,0.0f,-2000.0f);
 	}
-	if(spriteB->GetWorldPosition().z > -300.0f)
-	{
-		spriteB->MoveBy(0.0f,0.0f,-5.0f);
-	}
-	else
-	{
-		spriteB->MoveBy(0.0f,0.0f,600.0f);
-	}
+	spriteB->MoveTo(ofxRENDERER->GetCamera()->getPosition());
 	int a = 10;
 }
 void SortBenchmarkTest::Render()

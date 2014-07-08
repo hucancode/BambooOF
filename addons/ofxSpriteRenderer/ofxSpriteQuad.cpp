@@ -79,8 +79,8 @@ void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 
 	float x_min = m_WorldPosition.x - m_WorldQuad.x*0.5;
 	float x_max = x_min + m_WorldQuad.x;
-	float z_min = m_WorldPosition.z;
-	float z_max = z_min + m_WorldQuad.y;
+	float z_max = m_WorldPosition.z;
+	float z_min = z_max - m_WorldQuad.y;
 	
 	if(z_max < -FAR_SCREEN_DISTANCE_THRESHOLD)
 	{

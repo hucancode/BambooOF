@@ -16,7 +16,7 @@ void ofApp::setup() {
 	mesh->InitCrowd();
 	render = new NavMeshRender(mesh);
 	cam = ofxRENDERER->GetCamera();
-	cam->disableMouseMiddleButton();
+	//cam->disableMouseMiddleButton();
 	ofEnableAlphaBlending();
 }
 

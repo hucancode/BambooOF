@@ -176,8 +176,8 @@ void ofxPolyMaterial::Bind()
 		glUniform1i(m_ShaderLocationTexture[i], i);
 	}
 	// matrix
-	glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
-	glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());
+	//glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
+	//glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetInverseModelViewMatrix().getPtr());
 	// shader textures

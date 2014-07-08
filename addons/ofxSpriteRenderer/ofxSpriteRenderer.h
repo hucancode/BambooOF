@@ -5,7 +5,7 @@
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteAnimation.h"
 
-#define FAR_SCREEN_DISTANCE_THRESHOLD 3000.0
+#define FAR_SCREEN_DISTANCE_THRESHOLD 6000.0
 #define FAR_SCREEN_SPEED_THRESHOLD 30.0
 #define FAR_SCREEN_UPDATE_SEQUENCE 100
 #define IN_SCREEN_UPDATE_SEQUENCE 20
