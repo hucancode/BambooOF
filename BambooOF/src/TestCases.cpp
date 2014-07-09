@@ -197,6 +197,7 @@ void AnimationTest::Setup()
 
 	animation->SetSequenceCount(2);
 	animation->SetFrameTime(0,0.1f);
+	animation->SetFrameTime(1,0.1f);
 	{
 		int i=0;
 		animation->SetFrameData(i++,0,1,1,27,72,147,134,27,72);
@@ -257,6 +258,7 @@ void MultiTextureAnimationTest::Setup()
 
 	animation->SetSequenceCount(2);
 	animation->SetFrameTime(0,0.1f);
+	animation->SetFrameTime(1,0.1f);
 	{
 		int i=0;
 		// texture 1
@@ -318,7 +320,7 @@ void MultiTextureAnimationTest::Setup()
         animation->SetFrameData(i++,1,525,174,105,67,106,147,105,67);
 		
 	}
-	animation->SetSequence(0);
+	animation->SetSequence(1);
 	ofxRENDERER->PushSprite(animation);
 	spriteObstacle = animation;
 }
