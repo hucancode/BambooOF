@@ -418,19 +418,19 @@
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\TestCases.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.cpp">
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.cpp">
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.cpp">
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResourcePool.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1115,19 +1115,19 @@
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMaterialCache.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\TestCases.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxPolyMaterial.h">
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxMonoMaterial.h">
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteMaterial.h">
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResourcePool.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>

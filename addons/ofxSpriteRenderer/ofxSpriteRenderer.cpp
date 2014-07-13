@@ -122,7 +122,8 @@ void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 			ofxSpriteCommand* command = new ofxSpriteCommand();
 			m_TransparentCommands.push_back(command);
 			command->m_Status = COMMAND_STATUS_EXPANDED;
-			command->SetMaterial(sprite->GetMaterial());
+			command->m_Textures = sprite->m_Textures;
+			command->m_Shader = sprite->m_Shader;
 			command->PushSprite(sprite);
 		}
 	}
@@ -146,7 +147,8 @@ void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 			ofxSpriteCommand* command = new ofxSpriteCommand();
 			m_SolidCommands.push_back(command);
 			command->m_Status = COMMAND_STATUS_EXPANDED;
-			command->SetMaterial(sprite->GetMaterial());
+			command->m_Textures = sprite->m_Textures;
+			command->m_Shader = sprite->m_Shader;
 			command->PushSprite(sprite);
 		}
 	}
@@ -166,6 +168,7 @@ void ofxSpriteRenderer::EraseSprite(ofxSpriteQuad* sprite)
 	{
 		m_UnusedSolidQuads.push_back(sprite->m_IndexInRenderer);
 	}
+	sprite->m_IndexInRenderer = -1;
 }
 
 static bool SolidQuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
@@ -194,7 +197,8 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned in
 		m_SolidQuads[i]->m_IndexInRenderer = i;
 	}
 	{
-		ofxSpriteMaterial* last_material = 0;
+		ofxShaderProgram* last_shader = 0;
+		ofxTextures last_texture;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin()+begin_index;
 		ofxSpriteQuads::iterator bound_it = m_SolidQuads.begin()+end_index+1;
 		int sprite_count = 0;
@@ -202,12 +206,14 @@ void ofxSpriteRenderer::BuildSolidCommands(unsigned int begin_index, unsigned in
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->GetMaterial() || sprite_count > COMMAND_CAPACITY)
+			if(last_shader != sprite->GetShader() || last_texture != sprite->GetTextures() ||  sprite_count > COMMAND_CAPACITY)
 			{
 				command = new ofxSpriteCommand();
 				m_SolidCommands.push_back(command);
-				last_material = sprite->GetMaterial();
-				command->SetMaterial(last_material);
+				last_shader = sprite->GetShader();
+				last_texture = sprite->GetTextures();
+				command->m_Shader = last_shader;
+				command->m_Textures = last_texture;
 				sprite_count = 0;
 			}
 			else
@@ -230,7 +236,8 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 		m_TransparentQuads[i]->m_IndexInRenderer = i;
 	}
 	{
-		ofxSpriteMaterial* last_material = 0;
+		ofxShaderProgram* last_shader = 0;
+		ofxTextures last_texture;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin()+begin_index;
 		ofxSpriteQuads::iterator bound_it = m_TransparentQuads.begin()+end_index+1;
 		int sprite_count = 0;
@@ -238,12 +245,14 @@ void ofxSpriteRenderer::BuildTransparentCommands(unsigned int begin_index, unsig
 		{
 			ofxSpriteQuad* sprite = *it;
 			ofxSpriteCommand* command;
-			if(last_material != sprite->GetMaterial() || sprite_count > COMMAND_CAPACITY)
+			if(last_shader != sprite->GetShader() || last_texture != sprite->GetTextures() || sprite_count > COMMAND_CAPACITY)
 			{
 				command = new ofxSpriteCommand();
 				m_TransparentCommands.push_back(command);
-				last_material = sprite->GetMaterial();
-				command->SetMaterial(last_material);
+				last_shader = sprite->GetShader();
+				last_texture = sprite->GetTextures();
+				command->m_Shader = last_shader;
+				command->m_Textures = last_texture;
 				sprite_count = 0;
 			}
 			else
@@ -487,12 +496,12 @@ void ofxSpriteRenderer::Update()
 bool ofxSpriteRenderer::CleanUnusedSolidQuads()
 {
 	if(m_UnusedSolidQuads.size() < UNUSED_SOLID_QUAD_LIMIT) return false;
+	sort(m_UnusedSolidQuads.begin(),m_UnusedSolidQuads.end());
 	for(int i=0;i < m_UnusedSolidQuads.size(); i++)
 	{
-		unsigned int index = m_UnusedSolidQuads[i];
+		unsigned int index = m_UnusedSolidQuads[i] - i;
 		ofxSpriteQuads::iterator it = m_SolidQuads.begin() + index;
 		m_SolidQuads.erase(it);
-		delete (*it);
 	}
 	m_UnusedSolidQuads.clear();
 	BuildSolidCommands(0, m_SolidCommands.size());
@@ -502,12 +511,12 @@ bool ofxSpriteRenderer::CleanUnusedSolidQuads()
 bool ofxSpriteRenderer::CleanUnusedTransparentQuads()
 {
 	if(m_UnusedTransparentQuads.size() < UNUSED_TRANSPARENT_QUAD_LIMIT) return false;
+	sort(m_UnusedTransparentQuads.begin(),m_UnusedTransparentQuads.end());
 	for(int i=0;i < m_UnusedTransparentQuads.size(); i++)
 	{
-		unsigned int index = m_UnusedTransparentQuads[i];
+		unsigned int index = m_UnusedTransparentQuads[i] - i;
 		ofxSpriteQuads::iterator it = m_TransparentQuads.begin() + index;
 		m_TransparentQuads.erase(it);
-		delete (*it);
 	}
 	m_UnusedTransparentQuads.clear();
 	BuildSolidCommands(0, m_TransparentCommands.size());

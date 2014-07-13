@@ -75,6 +75,13 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+class SpriteEraseTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
 //-----------------------------------------------------------
 // STRESS TEST
 // engine runs under strictly environemt, and it must works well
@@ -97,6 +104,13 @@ public:
 	virtual void Render();
 };
 class AnimationBenchmarkTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
+class EraseBenchmarkTest: public Test
 {
 public:
 	virtual void Setup();

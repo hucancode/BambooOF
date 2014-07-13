@@ -1,6 +1,5 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxPolyMaterial.h"
 #include "ofxSpriteQuad.h"
 
 enum COMMAND_STATUS
@@ -25,7 +24,8 @@ private:
 	unsigned int m_VisibleSpriteCount;
 	float m_DistanceMin;
 	float m_DistanceMax;
-	ofxSpriteMaterial* m_Material;
+	ofxTextures m_Textures;
+	ofxShaderProgram* m_Shader;
 	vector<ofxVertex> m_Vertices;
 	vector<bool> m_VisibleSprite;
 	GLuint m_VBOId;
@@ -36,9 +36,7 @@ private:
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
-	
-	ofxSpriteMaterial* GetMaterial() { return m_Material; }
-	void SetMaterial(ofxSpriteMaterial* material) { m_Material = material; }
+private:
 	void Bind();
 	void Unbind();
 	void Render();

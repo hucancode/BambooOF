@@ -33,6 +33,7 @@ ofxSpriteCommand::ofxSpriteCommand()
 	m_LastSpriteIndex = -1;
 	m_DistanceMin = 0;
 	m_DistanceMax = 0;
+	m_Shader = 0;
 	m_Status = COMMAND_STATUS_UNITED;
 }
 ofxSpriteCommand::~ofxSpriteCommand()
@@ -46,13 +47,18 @@ void ofxSpriteCommand::Bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
-	m_Material->Bind();
+	m_Shader->Bind();
+	ofxTextures::iterator it = m_Textures.begin();
+	for (; it != m_Textures.end();it++)
+	{
+		(*it)->Bind();
+	}
 }
 void ofxSpriteCommand::Unbind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	m_Material->Unbind();
+	// more unbind available, but is it need?
 }
 void ofxSpriteCommand::Render()
 {
@@ -123,7 +129,7 @@ void ofxSpriteCommand::EraseSprite(ofxSpriteQuad* sprite)
 }
 void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {
-	if(sprite->m_Status == QUAD_STATUS_POSITION_CHANGE)
+	if(sprite->m_PositionChange)
 	{
 		//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 		float distance = sprite->GetWorldPosition().z;
@@ -226,7 +232,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 			}
 		}
 	}
-	else if(sprite->m_Status == QUAD_STATUS_MATERIAL_CHANGE)
+	else if(sprite->m_MaterialChange)
 	{
 		m_Status = COMMAND_STATUS_DISMISSED;
 	}
@@ -252,7 +258,7 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 	vertexB = &m_Vertices[index+1];
 	vertexC = &m_Vertices[index+2];
 	vertexD = &m_Vertices[index+3];
-	
+	if(sprite->m_PositionChange)
 	{
 		vertexA->X = sprite->m_glPosition[0].x;
 		vertexA->Y = sprite->m_glPosition[0].y;
@@ -267,27 +273,30 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		vertexD->Y = sprite->m_glPosition[3].y;
 		vertexD->Z = sprite->m_glPosition[3].z;
 	}
-	for(int i = 0;i < sprite->GetMaterial()->GetTextureCount();i++)
+	if(sprite->m_UVChange)
 	{
-		int x = i<<2;
-		int y = x+1;
-		int z = y+1;
-		int w = z+1;
-		vertexA->UV[x] = sprite->m_glUV[i].x;
-		vertexA->UV[y] = sprite->m_glUV[i].y;
-		vertexB->UV[x] = sprite->m_glUV[i].z;
-		vertexB->UV[y] = sprite->m_glUV[i].y;
-		vertexC->UV[x] = sprite->m_glUV[i].z;
-		vertexC->UV[y] = sprite->m_glUV[i].w;
-		vertexD->UV[x] = sprite->m_glUV[i].x;
-		vertexD->UV[y] = sprite->m_glUV[i].w;
-		vertexA->UV[z] = sprite->m_glCUV[i].x;
-		vertexA->UV[w] = sprite->m_glCUV[i].y;
-		vertexB->UV[z] = sprite->m_glCUV[i].z;
-		vertexB->UV[w] = sprite->m_glCUV[i].y;
-		vertexC->UV[z] = sprite->m_glCUV[i].z;
-		vertexC->UV[w] = sprite->m_glCUV[i].w;
-		vertexD->UV[z] = sprite->m_glCUV[i].x;
-		vertexD->UV[w] = sprite->m_glCUV[i].w;
+		for(int i = 0;i < sprite->m_Textures.size();i++)
+		{
+			int x = i<<2;
+			int y = x+1;
+			int z = y+1;
+			int w = z+1;
+			vertexA->UV[x] = sprite->m_glUV[i].x;
+			vertexA->UV[y] = sprite->m_glUV[i].y;
+			vertexB->UV[x] = sprite->m_glUV[i].z;
+			vertexB->UV[y] = sprite->m_glUV[i].y;
+			vertexC->UV[x] = sprite->m_glUV[i].z;
+			vertexC->UV[y] = sprite->m_glUV[i].w;
+			vertexD->UV[x] = sprite->m_glUV[i].x;
+			vertexD->UV[y] = sprite->m_glUV[i].w;
+			vertexA->UV[z] = sprite->m_glCUV[i].x;
+			vertexA->UV[w] = sprite->m_glCUV[i].y;
+			vertexB->UV[z] = sprite->m_glCUV[i].z;
+			vertexB->UV[w] = sprite->m_glCUV[i].y;
+			vertexC->UV[z] = sprite->m_glCUV[i].z;
+			vertexC->UV[w] = sprite->m_glCUV[i].w;
+			vertexD->UV[z] = sprite->m_glCUV[i].x;
+			vertexD->UV[w] = sprite->m_glCUV[i].w;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 #include "TestCases.h"
 
-Test* current_test = new MultiTextureAnimationTest();
+Test* current_test = new SpriteEraseTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -329,6 +329,45 @@ void MultiTextureAnimationTest::Update()
 	ofxRENDERER->Update();
 }
 void MultiTextureAnimationTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void SpriteEraseTest::Setup()
+{
+	ofxSpriteMaterial* material = new ofxMonoMaterial();
+	material->LoadShader("mono_shader.vertex","mono_shader.frag");
+	((ofxMonoMaterial*)material)->LoadTexturePNG("data/plops/sprint0001.png");
+	material->BuildMaterial();
+	for(int i=-20;i<20;i++)
+	{
+		for(int j=-20;j<20;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetMaterial(material);
+			sprite->SetLogicSize(192,192);
+			sprite->SetSpriteRect(0,0,0,192,192);
+			sprite->SetTextureRect(0,0,0,192,192);
+			sprite->MoveTo(i*80.0f,j*60.0f,0.0f);
+			ofxRENDERER->PushSprite(sprite);
+			if(i == 0 && j == 0)
+				spriteObstacle = sprite;
+		}
+	}
+}
+void SpriteEraseTest::Update()
+{
+	if(ofGetFrameNum() % 100 == 0)
+	{
+		ofxRENDERER->EraseSprite(spriteObstacle);
+	}
+	else if(ofGetFrameNum() % 100 == 1)
+	{
+		spriteObstacle->MoveTo(0.0f,0.0f,0.0f);
+		ofxRENDERER->PushSprite(spriteObstacle);
+	}
+	ofxRENDERER->Update();
+}
+void SpriteEraseTest::Render()
 {
 	ofxRENDERER->Render();
 }
