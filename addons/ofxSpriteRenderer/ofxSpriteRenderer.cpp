@@ -1,5 +1,15 @@
 #include "ofxSpriteRenderer.h"
 ofxSpriteRenderer* ofxSpriteRenderer::s_Instance = 0;
+ofxSpriteRenderer* ofxSpriteRenderer::GetInstance()
+{
+	return s_Instance;
+}
+void ofxSpriteRenderer::DestroyInstance()
+{
+	if(!s_Instance) return;
+	delete s_Instance;
+	s_Instance = 0;
+}
 ofxSpriteRenderer::ofxSpriteRenderer()
 {
 	if(s_Instance) return;

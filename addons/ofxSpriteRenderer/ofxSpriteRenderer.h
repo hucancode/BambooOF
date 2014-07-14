@@ -21,16 +21,8 @@ class ofxSpriteRenderer
 	friend ofxSpriteQuad;
 public :
 	static ofxSpriteRenderer* s_Instance;
-	static ofxSpriteRenderer* GetInstance()
-	{
-		return s_Instance;
-	}
-	static void DestroyInstance()
-	{
-		if(!s_Instance) return;
-		delete s_Instance;
-		s_Instance = 0;
-	}
+	static ofxSpriteRenderer* GetInstance();
+	static void DestroyInstance();
 private:
 	ofxSpriteQuads			m_SolidQuads;
 	ofxSpriteQuads			m_TransparentQuads;

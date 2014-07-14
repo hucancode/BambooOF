@@ -1,5 +1,7 @@
 #include "ofxTexture.h"
+ofxTexture* ofxTexture::s_ActivatedTexture[16];
 ofxTexture::ofxTexture()
+	:ofxResource()
 {
 	glGenTextures(1, &m_TextureId);
 }
@@ -42,6 +44,18 @@ bool ofxTexture::Load(string texture_file)
 	/*delete pixel_data;
 	delete image_data;*/
 	return true;
+}
+void ofxTexture::IncreaseReference()
+{
+	ofxResource::IncreaseReference();
+}
+void ofxTexture::DecreaseReference()
+{
+	ofxResource::DecreaseReference();
+}
+bool ofxTexture::IsUnused()
+{
+	return ofxResource::IsUnused();
 }
 void ofxTexture::Bind(GLuint slot)
 {

@@ -12,7 +12,10 @@ public:
 	virtual ~ofxResource()
 	{
 	}
-	virtual bool Load(string resource_file);
+	virtual bool Load(string resource_file)
+	{
+		return false;
+	}
 	virtual void IncreaseReference()
 	{
 		m_ReferenceCount++;

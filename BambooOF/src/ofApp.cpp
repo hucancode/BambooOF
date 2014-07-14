@@ -1,10 +1,16 @@
 #include "ofApp.h"
 #include "TestCases.h"
+#include "ofxTextureCache.h"
+#include "ofxShaderCache.h"
+#include "ofxShaderProgramCache.h"
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
 void ofApp::setup() {
 	new ofxSpriteRenderer;
+	new ofxShaderProgramCache;
+	new ofxShaderCache;
+	new ofxTextureCache;
 	ofxRENDERER->SetRenderSize(ofGetWindowWidth(), ofGetWindowHeight());
 	current_test->Setup();
 	//ofSetFrameRate(60);

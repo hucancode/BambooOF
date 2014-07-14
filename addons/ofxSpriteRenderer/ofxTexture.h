@@ -6,7 +6,7 @@ class ofxTexture
 	: public ofxResource
 {
 public:
-	static ofxTexture* s_ActivatedTexture[32];
+	static ofxTexture* s_ActivatedTexture[16];
 private:
 	FIBITMAP* m_ImageData;
 private:
@@ -16,6 +16,9 @@ public:
 	ofxTexture();
 	virtual ~ofxTexture();
 	virtual bool Load(string texture_file);
+	virtual void IncreaseReference();
+	virtual void DecreaseReference();
+	virtual bool IsUnused();
 	void Bind(GLuint slot=0);
 	void Unbind();
 	ofVec2f GetTextureSize()

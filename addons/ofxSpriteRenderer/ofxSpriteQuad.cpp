@@ -1,27 +1,22 @@
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteCommand.h"
 #include "ofxSpriteRenderer.h"
-#include "ofxResourcePool.h"
+#include "ofxShaderProgramCache.h"
+#include "ofxTextureCache.h"
 ofxSpriteQuad::ofxSpriteQuad()
 {
-	m_TextureRect = 0;
-	m_SpriteRect = 0;
 	m_Shader = 0;
-	m_DistanceUpdated = false;
 	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
-	m_PositionChange = false;
-	m_MaterialChange = false;
-	m_UVChange = false;
-	m_VisibilityChange = false;
+	m_PositionChange = true;
+	m_MaterialChange = true;
+	m_UVChange = true;
+	m_VisibilityChange = true;
 	m_Transparent = true;
+	m_UsePrivateShader = false;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
 	if(m_Shader) m_Shader->DecreaseReference();
-	if(m_TextureRect) delete[] m_TextureRect;
-	if(m_SpriteRect) delete[] m_SpriteRect;
-	if(m_glUV) delete[] m_glUV;
-	if(m_glCUV) delete[] m_glCUV;
 }
 void ofxSpriteQuad::SetUsePrivateShader(bool value)
 {
@@ -29,6 +24,7 @@ void ofxSpriteQuad::SetUsePrivateShader(bool value)
 }
 bool ofxSpriteQuad::IsUsingPrivateShader()
 {
+	return m_UsePrivateShader;
 }
 ofxShaderProgram* ofxSpriteQuad::GetShader()
 {
@@ -47,7 +43,7 @@ void ofxSpriteQuad::LoadShader(string shader_path)
 	}
 	else
 	{
-		m_Shader = ofxPROGRAMCACHE->GetResource(shader_path);
+		m_Shader = ofxSHADERPROGRAMCACHE->GetResource(shader_path);
 	}
 	m_Shader->IncreaseReference();
 }
@@ -81,7 +77,6 @@ void ofxSpriteQuad::MoveTo(const float x, const float y, const float z)
 void ofxSpriteQuad::MoveTo(const ofVec3f position)
 {
 	m_WorldPosition = position;
-	m_DistanceUpdated = false;
 	m_PositionChange = true;
 	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 }

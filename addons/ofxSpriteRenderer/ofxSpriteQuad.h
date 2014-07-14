@@ -1,6 +1,6 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxShader.h"
+#include "ofxShaderProgram.h"
 #include "ofxTexture.h"
 struct ofxVertex
 {
@@ -49,9 +49,6 @@ protected:
 	ofVec3f				m_WorldPosition;
 	ofVec2f				m_WorldQuad;
 	bool				m_Visible;
-	float				m_DistanceToCamera;
-private:
-	bool				m_DistanceUpdated;
 protected:
 	vector<ofVec4f>		m_TextureRect;
 	vector<ofVec4f>		m_SpriteRect;

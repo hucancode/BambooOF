@@ -47,11 +47,10 @@ void ofxSpriteCommand::Bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
-	m_Shader->Bind();
-	ofxTextures::iterator it = m_Textures.begin();
-	for (; it != m_Textures.end();it++)
+	m_Shader->Bind(m_Textures.size());
+	for(int i=0;i<m_Textures.size();i++)
 	{
-		(*it)->Bind();
+		m_Textures[i]->Bind(i);
 	}
 }
 void ofxSpriteCommand::Unbind()
@@ -69,7 +68,6 @@ void ofxSpriteCommand::Render()
 }
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
-	//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 	float distance = sprite->GetWorldPosition().z;
 	ofxVertex vertexA, vertexB, vertexC, vertexD;
 	sprite->m_IndexInCommand = m_Vertices.size();
@@ -102,6 +100,8 @@ void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 	m_IndicesSize += 6;
 	m_VisibleSprite.push_back(true);
 	m_VisibleSpriteCount++;
+	sprite->m_PositionChange = true;
+	sprite->m_UVChange = true;
 	UpdateSprite(sprite);
 	
 }
@@ -131,7 +131,6 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 {
 	if(sprite->m_PositionChange)
 	{
-		//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
 		float distance = sprite->GetWorldPosition().z;
 		if(distance > m_DistanceMax || distance < m_DistanceMin)
 		{

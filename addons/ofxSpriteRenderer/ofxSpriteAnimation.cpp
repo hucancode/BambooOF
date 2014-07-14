@@ -22,7 +22,7 @@ ofxSpriteAnimation::~ofxSpriteAnimation()
 	if(m_TextureRectTable)		delete[] m_TextureRectTable;
 	for(int i=0; i < m_FrameCount;i++)
 	{
-		for(int j=0; j<m_Material->GetTextureCount();j++)
+		for(int j=0; j< m_Textures.size();j++)
 		{
 			delete[] m_SpriteRectTable[i][j];
 		}
@@ -45,7 +45,7 @@ void ofxSpriteAnimation::SetFrameTime(unsigned short sequence_index, float time)
 void ofxSpriteAnimation::SetFrameCount(unsigned short count)
 {
 	m_FrameCount = count;
-	int texture_count = m_Material->GetTextureCount();
+	int texture_count = m_Textures.size();
 	m_TextureRectTable = new unsigned short**[count];
 	for(int i=0; i < count;i++)
 	{
@@ -59,7 +59,7 @@ void ofxSpriteAnimation::SetFrameCount(unsigned short count)
 	for(int i=0; i < count;i++)
 	{
 		m_SpriteRectTable[i] = new unsigned short*[texture_count];
-		for(int j=0; j < m_Material->GetTextureCount();j++)
+		for(int j=0; j < texture_count;j++)
 		{
 			m_SpriteRectTable[i][j] = new unsigned short[4];
 		}
@@ -110,7 +110,7 @@ void ofxSpriteAnimation::Update(const float delta_time)
 		{
 			m_FrameIndex++;
 		}
-		for(int i=0;i<m_Material->GetTextureCount();i++)
+		for(int i=0;i<m_Textures.size();i++)
 		{
 			SetTextureRect(i,
 				m_TextureRectTable[m_FrameIndex][i][0],

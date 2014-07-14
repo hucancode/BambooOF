@@ -427,10 +427,19 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResourcePool.cpp">
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderCache.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1124,10 +1133,19 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResourcePool.h">
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderCache.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
