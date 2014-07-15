@@ -35,6 +35,8 @@ ofxSpriteCommand::ofxSpriteCommand()
 	m_DistanceMax = 0;
 	m_Shader = 0;
 	m_Status = COMMAND_STATUS_UNITED;
+	m_NextSibling = 0;
+	m_PrevSibling = 0;
 }
 ofxSpriteCommand::~ofxSpriteCommand()
 {
@@ -47,11 +49,11 @@ void ofxSpriteCommand::Bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_Vertices.size(), &m_Vertices[0], GL_DYNAMIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
-	m_Shader->Bind(m_Textures.size());
 	for(int i=0;i<m_Textures.size();i++)
 	{
 		m_Textures[i]->Bind(i);
 	}
+	m_Shader->Bind(m_Textures.size());
 }
 void ofxSpriteCommand::Unbind()
 {
@@ -136,40 +138,17 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		{
 			if(m_Status != COMMAND_STATUS_EXPANDED)
 			{
-				ofxSpriteCommand* prev;
-				ofxSpriteCommand* next;
-				unsigned short index = this->m_IndexInRenderer;
-				if(sprite->IsTransparent())
-				{
-					unsigned short max_index = ofxSpriteRenderer::GetInstance()->
-						m_TransparentCommands.size() - 1;
-					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
-						m_TransparentCommands[index-1];
-					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
-						m_TransparentCommands[index+1];
-				}
-				else
-				{
-					unsigned short max_index = ofxSpriteRenderer::GetInstance()->
-						m_SolidCommands.size() - 1;
-					prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
-						m_SolidCommands[index-1];
-					next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
-						m_SolidCommands[index+1];
-				}
 				bool expand = false;
-				if(next)
+				if(m_NextSibling)
 				{
-					if((distance > next->m_DistanceMin && sprite->IsTransparent()) ||
-						(distance < next->m_DistanceMax && !sprite->IsTransparent()))
+					if(distance > m_NextSibling->m_DistanceMin)
 					{
 						expand = true;
 					}
 				}
-				if(prev && !expand)
+				if(m_PrevSibling && !expand)
 				{
-					if((distance < prev->m_DistanceMax && sprite->IsTransparent()) ||
-						(distance > prev->m_DistanceMin && !sprite->IsTransparent()))
+					if(distance < m_PrevSibling->m_DistanceMax)
 					{
 						expand = true;
 					}
@@ -184,43 +163,19 @@ void ofxSpriteCommand::UpdateSprite(ofxSpriteQuad* sprite)
 		}
 		if(m_Status == COMMAND_STATUS_UNITED && m_FirstSpriteIndex != m_LastSpriteIndex)
 		{
-			ofxSpriteQuad* prev;
-			ofxSpriteQuad* next;
-			unsigned int index = sprite->m_IndexInRenderer;
-
-			if(sprite->IsTransparent())
-			{
-				unsigned int max_index = ofxSpriteRenderer::GetInstance()->
-					m_TransparentQuads.size() - 1;
-				prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
-					m_TransparentQuads[index-1];
-				next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
-					m_TransparentQuads[index+1];
-			}
-			else
-			{
-				unsigned int max_index = ofxSpriteRenderer::GetInstance()->
-					m_SolidQuads.size() - 1;
-				prev = index == 0?0:ofxSpriteRenderer::GetInstance()->
-					m_SolidQuads[index-1];
-				next = index == max_index?0:ofxSpriteRenderer::GetInstance()->
-					m_SolidQuads[index+1];
-			}
 			bool dismiss = false;
-			if(next)
+			if(sprite->NextSibling())
 			{
-				float next_distance = next->GetWorldPosition().z;
-				if((distance > next_distance && sprite->IsTransparent()) || 
-					(distance < next_distance && !sprite->IsTransparent()))
+				float next_distance = sprite->NextSibling()->GetWorldPosition().z;
+				if(distance > next_distance)
 				{
 					dismiss = true;
 				}
 			}
-			if(prev && !dismiss)
+			if(sprite->NextSibling() && !dismiss)
 			{
-				float prev_distance = prev->GetWorldPosition().z;
-				if((distance < prev_distance && sprite->IsTransparent()) ||
-					(distance > prev_distance && !sprite->IsTransparent()))
+				float prev_distance = sprite->NextSibling()->GetWorldPosition().z;
+				if(distance < prev_distance)
 				{
 					dismiss = true;
 				}

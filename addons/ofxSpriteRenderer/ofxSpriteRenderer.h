@@ -13,7 +13,6 @@
 /*
 TODO: 
 - particle effect support
-- independence matrix & vector
 */
 class ofxSpriteRenderer
 {
@@ -24,12 +23,10 @@ public :
 	static ofxSpriteRenderer* GetInstance();
 	static void DestroyInstance();
 private:
-	ofxSpriteQuads			m_SolidQuads;
-	ofxSpriteQuads			m_TransparentQuads;
-	ofxSpriteCommands		m_SolidCommands;
-	ofxSpriteCommands		m_TransparentCommands;
-	vector<unsigned int>	m_UnusedSolidQuads;
-	vector<unsigned int>	m_UnusedTransparentQuads;
+	ofxSpriteQuads			m_Quads;
+	ofxSpriteCommands		m_Commands;
+	vector<bool>			m_OverlapStatus;
+	vector<unsigned int>	m_UnusedQuads;
 #ifdef _DEBUG
 	int						m_DrawnBatches;
 	int						m_DrawnVertices;
@@ -51,24 +48,15 @@ public:
 	void Update();
 	void SetRenderSize(unsigned int width, unsigned int height);
 private:
-	void BuildSolidCommands(unsigned int i, unsigned int j);
-	void BuildTransparentCommands(unsigned int i, unsigned int j);
-	bool CleanUnusedSolidQuads();
-	bool CleanUnusedTransparentQuads();
+	void BuildOverlapStatus();
+	void SolveOverlap();
+	void BuildCommands(unsigned int i, unsigned int j);
+	bool CleanUnusedQuads();
 public:
+	void MoveCamera(float x, float y, float z);
 	ofxOrthoCamera* GetCamera()
 	{
 		return m_Camera;
-	}
-	void MoveCamera(float x, float y, float z)
-	{
-		m_Camera->setPosition(
-			m_Camera->getPosition().x + x,
-			m_Camera->getPosition().y + y,
-			m_Camera->getPosition().z + z);
-		m_CameraMove = true;
-		if(abs(x) > FAR_SCREEN_SPEED_THRESHOLD || abs(y) > FAR_SCREEN_SPEED_THRESHOLD)
-			m_CameraForce = true;
 	}
 	bool IsCameraMove()
 	{
@@ -113,7 +101,7 @@ public:
 #ifdef _DEBUG
 	unsigned int GetSpriteNumber()
 	{
-		return m_SolidQuads.size() + m_TransparentQuads.size() - m_UnusedSolidQuads.size() - m_UnusedTransparentQuads.size();
+		return m_Quads.size() - m_UnusedQuads.size();
 	}
 	int	GetDrawCall()
 	{

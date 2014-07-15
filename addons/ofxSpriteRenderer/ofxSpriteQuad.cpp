@@ -11,8 +11,9 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_MaterialChange = true;
 	m_UVChange = true;
 	m_VisibilityChange = true;
-	m_Transparent = true;
 	m_UsePrivateShader = false;
+	m_NextSibling = 0;
+	m_PrevSibling = 0;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
@@ -162,14 +163,6 @@ ofVec3f ofxSpriteQuad::GetWorldPosition()
 {
 	return m_WorldPosition;
 }
-bool ofxSpriteQuad::IsTransparent()
-{
-	return m_Transparent;
-}
-void ofxSpriteQuad::SetTransparent(bool value)
-{
-	m_Transparent = value;
-}
 QUAD_VISIBILITY ofxSpriteQuad::GetVisibility()
 {
 	return m_Visibility;
@@ -292,4 +285,12 @@ void ofxSpriteQuad::SubmitChanges()
 	m_MaterialChange = false;
 	m_UVChange = false;
 	m_VisibilityChange = false;
+}
+ofxSpriteQuad* ofxSpriteQuad::NextSibling()
+{
+	return m_NextSibling;
+}
+ofxSpriteQuad* ofxSpriteQuad::PreviousSibling()
+{
+	return m_PrevSibling;
 }

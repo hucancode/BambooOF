@@ -19,6 +19,9 @@ public:
 	static void DeleteSharedIndices();
 private:
 	unsigned short m_IndexInRenderer;
+	ofxSpriteCommand* m_NextSibling;
+	ofxSpriteCommand* m_PrevSibling;
+private:
 	unsigned int m_FirstSpriteIndex;
 	unsigned int m_LastSpriteIndex;
 	unsigned int m_VisibleSpriteCount;
@@ -52,6 +55,14 @@ public:
 	unsigned int GetLastSpriteIndex()
 	{
 		return m_LastSpriteIndex;
+	}
+	ofxSpriteCommand* NextSibling()
+	{
+		return m_NextSibling;
+	}
+	ofxSpriteCommand* PreviousSibling()
+	{
+		return m_PrevSibling;
 	}
 };
 typedef vector<ofxSpriteCommand*> ofxSpriteCommands;

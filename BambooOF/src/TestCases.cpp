@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new SpriteEraseTest();
+Test* current_test = new SpriteTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {

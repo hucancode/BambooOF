@@ -8,10 +8,7 @@ void main()
 	{
 		vec2 uv = v_uv[i].xy;
 		vec2 cuv = v_uv[i].zw;
-		if(cuv.x < 0.0) continue;
-        if(cuv.x > 1.0) continue;
-		if(cuv.y < 0.0) continue;
-        if(cuv.y > 1.0) continue;
+		if(cuv.x < 0 || cuv.x > 1 || cuv.y < 0 || cuv.y > 1) discard;
 		vec4 color = texture2D(u_texture[i],uv);
 		if(color.a == 0.0) continue;
 		final_color += color;

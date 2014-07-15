@@ -7,14 +7,6 @@ struct ofxVertex
 	float X,Y,Z;// position
 	float UV[60];// texture uv
 };
-enum QUAD_STATUS
-{
-	QUAD_STATUS_POSITION_CHANGE,
-	QUAD_STATUS_VISIBILITY_CHANGE,
-	QUAD_STATUS_MATERIAL_CHANGE,
-	QUAD_STATUS_SAFE_CHANGE,
-	QUAD_STATUS_NO_CHANGE
-};
 enum QUAD_VISIBILITY
 {
 	QUAD_VISIBILITY_IN_SCREEN,
@@ -37,6 +29,8 @@ protected:
 	ofxSpriteCommand*	m_ParentCommand;
 public:
 	unsigned int		m_IndexInRenderer;
+	ofxSpriteQuad*		m_NextSibling;
+	ofxSpriteQuad*		m_PrevSibling;
 protected:
 	bool				m_PositionChange;
 	bool				m_DimensionChange;
@@ -44,7 +38,6 @@ protected:
 	bool				m_UVChange;
 	bool				m_VisibilityChange;
 protected:
-	bool				m_Transparent;
 	QUAD_VISIBILITY		m_Visibility;
 	ofVec3f				m_WorldPosition;
 	ofVec2f				m_WorldQuad;
@@ -67,8 +60,6 @@ public:
 	void				UpdateVisibility(bool force_update=false, bool camera_move=false);
 	QUAD_VISIBILITY		GetVisibility();
 	ofVec3f				GetWorldPosition();
-	bool				IsTransparent();
-	void				SetTransparent(bool value);
 	float				GetLogicWidth();
 	void				SetLogicWidth(const float width);
 	float				GetLogicHeight();
@@ -91,5 +82,8 @@ public:
 	void				SetTextureRect(const int index, const ofVec4f rect);
 	void				SetSpriteRect(const int index, const ofVec4f rect);
 	void				SubmitChanges();
+public:
+	ofxSpriteQuad*		NextSibling();
+	ofxSpriteQuad*		PreviousSibling();
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;
