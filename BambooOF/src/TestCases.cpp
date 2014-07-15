@@ -16,7 +16,7 @@ void Test::Render()
 void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->LoadShader("mono_shader");
+	sprite->LoadShader("poly_shader");
 	sprite->PushTexture("data/animal_tiger1_attack.png");
 	sprite->SetLogicSize(192,192);
 	sprite->SetSpriteRect(0,0,0,192,192);

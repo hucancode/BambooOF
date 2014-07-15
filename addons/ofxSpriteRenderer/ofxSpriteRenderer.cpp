@@ -147,6 +147,7 @@ void ofxSpriteRenderer::BuildCommands(unsigned int begin_index, unsigned int end
 			{
 				command = new ofxSpriteCommand();
 				m_Commands.push_back(command);
+				m_OverlapStatus.push_back(true);
 				last_shader = sprite->GetShader();
 				last_texture = sprite->GetTextures();
 				command->m_Shader = last_shader;
@@ -282,6 +283,7 @@ void ofxSpriteRenderer::Update()
 			m_Commands[i]->m_IndexInRenderer = i;
 			if(i!=0) m_Commands[i]->m_PrevSibling = m_Commands[i-1];
 			if(i!=max_index) m_Commands[i]->m_NextSibling = m_Commands[i+1];
+			m_OverlapStatus[i] = false;
 		}
 	}
 	m_CameraMove = false;

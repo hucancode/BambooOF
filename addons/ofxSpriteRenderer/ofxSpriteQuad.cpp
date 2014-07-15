@@ -222,22 +222,22 @@ void ofxSpriteQuad::SubmitChanges()
 	if(!(m_PositionChange || m_MaterialChange || m_UVChange || m_VisibilityChange)) return;
 	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN || m_Visibility == QUAD_VISIBILITY_OFF_SCREEN)
 	{
-		m_glPosition[0].x = -1000000.0;
-		m_glPosition[0].y = -1000000.0;
-		m_glPosition[0].z = -1000000.0;
-		m_glPosition[1].x = -1000000.0;
-		m_glPosition[1].y = -1000000.0;
-		m_glPosition[1].z = -1000000.0;
-		m_glPosition[2].x = -1000000.0;
-		m_glPosition[2].y = -1000000.0;
-		m_glPosition[2].z = -1000000.0;
-		m_glPosition[3].x = -1000000.0;
-		m_glPosition[3].y = -1000000.0;
-		m_glPosition[3].z = -1000000.0;
+		m_glPosition[0].x = -100000.0;
+		m_glPosition[0].y = -100000.0;
+		m_glPosition[0].z = -100000.0;
+		m_glPosition[1].x = -100000.0;
+		m_glPosition[1].y = -100000.0;
+		m_glPosition[1].z = -100000.0;
+		m_glPosition[2].x = -100000.0;
+		m_glPosition[2].y = -100000.0;
+		m_glPosition[2].z = -100000.0;
+		m_glPosition[3].x = -100000.0;
+		m_glPosition[3].y = -100000.0;
+		m_glPosition[3].z = -100000.0;
 	}
 	else
 	{
-		if(m_PositionChange)
+		if(m_PositionChange || true)
 		{
 			m_glPosition[0].x = m_WorldPosition.x - m_WorldQuad.x*0.5;
 			m_glPosition[0].y = m_WorldPosition.y;
@@ -253,7 +253,7 @@ void ofxSpriteQuad::SubmitChanges()
 			m_glPosition[3].z = m_glPosition[2].z;
 		}
 		// TODO: optimize these calculation will help gain alot of fps
-		if(m_UVChange)
+		if(m_UVChange || true)
 		{
 			for(int i=0;i< m_Textures.size();i++)
 			{
