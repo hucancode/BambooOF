@@ -7,8 +7,6 @@
 class ofxShaderProgram
 	:public ofxResource
 {
-public:
-	static ofxShaderProgram* s_ActivatedShader;
 private:
 	vector<GLuint> m_TextureOrder;
 private:

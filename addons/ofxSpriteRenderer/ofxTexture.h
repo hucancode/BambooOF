@@ -5,8 +5,6 @@
 class ofxTexture
 	: public ofxResource
 {
-public:
-	static ofxTexture* s_ActivatedTexture[16];
 private:
 	FIBITMAP* m_ImageData;
 private:
@@ -20,7 +18,7 @@ public:
 	virtual void DecreaseReference();
 	virtual bool IsUnused();
 	void Bind(GLuint slot=0);
-	void Unbind();
+	void Unbind(GLuint slot=0);
 	ofVec2f GetTextureSize()
 	{
 		return m_TextureSize; 

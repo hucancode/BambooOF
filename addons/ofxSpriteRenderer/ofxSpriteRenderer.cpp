@@ -94,6 +94,7 @@ void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 	}
 	if(!last_command_expanded)
 	{
+		m_OverlapStatus.push_back(false);
 		ofxSpriteCommand* command = new ofxSpriteCommand();
 		m_Commands.push_back(command);
 		command->m_Status = COMMAND_STATUS_EXPANDED;
@@ -236,6 +237,7 @@ void ofxSpriteRenderer::SolveOverlap()
 			{
 				ofxSpriteCommand* command = m_Commands[i];
 				m_Commands.erase(m_Commands.begin() + i);
+				m_OverlapStatus.erase(m_OverlapStatus.begin() + i);
 				delete command;
 			}
 			index = left;

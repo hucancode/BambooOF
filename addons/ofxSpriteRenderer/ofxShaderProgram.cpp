@@ -2,7 +2,6 @@
 #include "ofxShaderCache.h"
 #include "ofxSpriteRenderer.h"
 
-ofxShaderProgram* ofxShaderProgram::s_ActivatedShader = 0;
 ofxShaderProgram::ofxShaderProgram()
 {
 	m_ShaderProgramId = glCreateProgram();
@@ -67,8 +66,13 @@ void ofxShaderProgram::SetOrder(const int texture_id, const int order)
 }
 void ofxShaderProgram::Bind(const int texture_count)
 {
-	if(s_ActivatedShader == this) return;
 	glUseProgram(m_ShaderProgramId);
+	// shader textures
+	glUniform1i(m_ShaderLocationTextureCount, texture_count);
+	for(int i=0;i<texture_count;i++)
+	{
+		glUniform1i(m_ShaderLocationTexture[i],i);
+	}
 	// vertices
 	glEnableVertexAttribArray(m_ShaderLocationXYZ);
 	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
@@ -79,23 +83,16 @@ void ofxShaderProgram::Bind(const int texture_count)
 		int idx4 = id<<2;
 		glEnableVertexAttribArray(m_ShaderLocationUV[i]);
 		glVertexAttribPointer(m_ShaderLocationUV[i], 4, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx4]));
-		glUniform1i(m_ShaderLocationTexture[i], i);
 	}
 	// matrix
 	glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, ofxRENDERER->GetTransformation().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationInvModelView, 1, GL_FALSE, ofxRENDERER->GetInverseModelViewMatrix().getPtr());
-	// shader textures
-	glUniform1i(m_ShaderLocationTextureCount, texture_count);
-	for(int i=0;i<texture_count;i++)
-	{
-		glUniform1i(m_ShaderLocationTexture[i],i);
-	}
-	s_ActivatedShader = this;
 }
 void ofxShaderProgram::Unbind()
 {
+	glUseProgram(0);
 }
 void ofxShaderProgram::IncreaseReference()
 {

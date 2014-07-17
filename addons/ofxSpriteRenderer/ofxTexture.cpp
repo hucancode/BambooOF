@@ -1,5 +1,4 @@
 #include "ofxTexture.h"
-ofxTexture* ofxTexture::s_ActivatedTexture[16];
 ofxTexture::ofxTexture()
 	:ofxResource()
 {
@@ -59,12 +58,11 @@ bool ofxTexture::IsUnused()
 }
 void ofxTexture::Bind(GLuint slot)
 {
-	if(s_ActivatedTexture[slot] == this) return;
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
-	s_ActivatedTexture[slot] = this;
 }
-void ofxTexture::Unbind()
+void ofxTexture::Unbind(GLuint slot)
 {
+	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

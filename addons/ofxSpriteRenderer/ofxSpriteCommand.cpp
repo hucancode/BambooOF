@@ -59,7 +59,11 @@ void ofxSpriteCommand::Unbind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	// more unbind available, but is it need?
+	m_Shader->Unbind();
+	for(int i=0;i<m_Textures.size();i++)
+	{
+		m_Textures[i]->Unbind(i);
+	}
 }
 void ofxSpriteCommand::Render()
 {
