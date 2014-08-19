@@ -5,9 +5,6 @@
 ofxShaderProgram::ofxShaderProgram()
 {
 	m_ShaderProgramId = glCreateProgram();
-	m_TextureOrder.resize(DEFAULT_TEXTURE_COUNT);
-	m_ShaderLocationUV.resize(DEFAULT_TEXTURE_COUNT);
-	m_ShaderLocationTexture.resize(DEFAULT_TEXTURE_COUNT);
 }
 ofxShaderProgram::~ofxShaderProgram()
 {
@@ -51,39 +48,22 @@ bool ofxShaderProgram::Load(string vs_path, string fs_path)
 	m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
 	m_ShaderLocationInvModelView = glGetUniformLocation(m_ShaderProgramId, "u_cam_inverse_matrix");
 
-	m_ShaderLocationTextureCount = glGetUniformLocation(m_ShaderProgramId, "u_texture_count");
-	for(int i=0;i<DEFAULT_TEXTURE_COUNT;i++)
-	{
-		string i_string(ofToString(i));
-		m_ShaderLocationUV[i] = glGetAttribLocation(m_ShaderProgramId, string("a_uv["+i_string+"]").c_str());
-		m_ShaderLocationTexture[i] = glGetUniformLocation(m_ShaderProgramId, string("u_texture["+i_string+"]").c_str());
-	}
+	m_ShaderLocationUV = glGetAttribLocation(m_ShaderProgramId, string("a_uv").c_str());
+	m_ShaderLocationTexture = glGetUniformLocation(m_ShaderProgramId, string("u_texture").c_str());
+	
 	return true;
 }
-void ofxShaderProgram::SetOrder(const int texture_id, const int order)
-{
-	m_TextureOrder[order] = texture_id;
-}
-void ofxShaderProgram::Bind(const int texture_count)
+void ofxShaderProgram::Bind()
 {
 	glUseProgram(m_ShaderProgramId);
 	// shader textures
-	glUniform1i(m_ShaderLocationTextureCount, texture_count);
-	for(int i=0;i<texture_count;i++)
-	{
-		glUniform1i(m_ShaderLocationTexture[i],i);
-	}
+	glUniform1i(m_ShaderLocationTexture,0);
 	// vertices
 	glEnableVertexAttribArray(m_ShaderLocationXYZ);
-	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, X));
+	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, x));
 	// tex coords
-	for(int i=0;i<texture_count;i++)
-	{
-		int id = m_TextureOrder[i];
-		int idx4 = id<<2;
-		glEnableVertexAttribArray(m_ShaderLocationUV[i]);
-		glVertexAttribPointer(m_ShaderLocationUV[i], 4, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, UV[idx4]));
-	}
+	glEnableVertexAttribArray(m_ShaderLocationUV);
+	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, u));
 	// matrix
 	glUniformMatrix4fv(m_ShaderLocationProjection, 1, GL_FALSE, ofxRENDERER->GetProjectionMatrix().getPtr());
 	glUniformMatrix4fv(m_ShaderLocationModelView, 1, GL_FALSE, ofxRENDERER->GetModelViewMatrix().getPtr());

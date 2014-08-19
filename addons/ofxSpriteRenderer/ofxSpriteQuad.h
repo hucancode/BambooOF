@@ -4,8 +4,8 @@
 #include "ofxTexture.h"
 struct ofxVertex
 {
-	float X,Y,Z;// position
-	float UV[60];// texture uv
+	float x,y,z;// position
+	float u,v;// texture uv
 };
 enum QUAD_VISIBILITY
 {
@@ -22,68 +22,59 @@ class ofxSpriteQuad
 	friend ofxSpriteCommand;
 	friend ofxSpriteRenderer;
 protected:
-	ofxTextures			m_Textures;
+	ofxTexture*			m_Texture;
 	ofxShaderProgram*	m_Shader;
-	bool				m_UsePrivateShader;
-	unsigned int		m_IndexInCommand;
-	ofxSpriteCommand*	m_ParentCommand;
-public:
-	unsigned int		m_IndexInRenderer;
-	ofxSpriteQuad*		m_NextSibling;
-	ofxSpriteQuad*		m_PrevSibling;
+	int					m_ID;
 protected:
+	static const char	s_PositionFlag		= 128;	// 10000000
+	static const char	s_DimensionFlag		= 64;	// 01000000
+	static const char	s_TextureFlag		= 32;	// 00100000
+	static const char	s_UVFlag			= 16;	// 00010000
+	static const char	s_VisibilityFlag	= 8;	// 00001000
+	char				m_ModificationFlag;
 	bool				m_PositionChange;
 	bool				m_DimensionChange;
-	bool				m_MaterialChange;
+	bool				m_TextureChange;
 	bool				m_UVChange;
 	bool				m_VisibilityChange;
 protected:
 	QUAD_VISIBILITY		m_Visibility;
 	ofVec3f				m_WorldPosition;
-	ofVec2f				m_WorldQuad;
 	bool				m_Visible;
 protected:
-	vector<ofVec4f>		m_TextureRect;
-	vector<ofVec4f>		m_SpriteRect;
+	ofVec4f				m_TextureRect;
+	ofVec4f				m_SpriteRect;
 protected:
-	ofVec3f				m_glPosition[4];
-	vector<ofVec4f>		m_glUV;
-	vector<ofVec4f>		m_glCUV;
+	ofxVertex			m_Vertex[4];
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
 	virtual void		Update(const float delta_time){}
+	void				SetVisible(bool value);
+	bool				GetVisible();
 	void				MoveTo(const float x, const float y, const float z);
 	void				MoveTo(const ofVec3f position);
 	void				MoveBy(const float x, const float y, const float z);
 	void				MoveBy(const ofVec3f accelerator);
-	void				UpdateVisibility(bool force_update=false, bool camera_move=false);
+	void				SetTextureRect(const float x, const float y, const float w, const float h);
+	void				SetTextureRect(const ofVec4f rect);
+	void				SetSpriteRect(const float x, const float y, const float w, const float h);
+	void				SetSpriteRect(const ofVec4f rect);
+	ofVec4f&			GetTextureRect();
+	ofVec4f&			GetSpriteRect();
+	void				SubmitChanges();
+	bool				IsBehind(ofxSpriteQuad* other);
+	bool				IsInFront(ofxSpriteQuad* other);
+	int					GetID();
+public:
 	QUAD_VISIBILITY		GetVisibility();
 	ofVec3f				GetWorldPosition();
-	float				GetLogicWidth();
-	void				SetLogicWidth(const float width);
-	float				GetLogicHeight();
-	void				SetLogicHeight(const float height);
-	void				SetLogicSize(const float width, const float height);
-	void				SetLogicSize(ofVec2f dimension);
-public:
-	void				SetUsePrivateShader(bool value);
-	bool				IsUsingPrivateShader();
 	ofxShaderProgram*	GetShader();
 	void				LoadShader(string shader_path);
-	void				PushTexture(string texture_path);
-	void				ClearTexture();
-	ofxTextures			GetTextures();
-public:
-	ofVec4f				GetTextureRect(const int index);
-	ofVec4f				GetSpriteRect(const int index);
-	void				SetTextureRect(const int index, const float x, const float y, const float w, const float h);
-	void				SetSpriteRect(const int index, const float x, const float y, const float w, const float h);
-	void				SetTextureRect(const int index, const ofVec4f rect);
-	void				SetSpriteRect(const int index, const ofVec4f rect);
-	void				SubmitChanges();
-public:
-	ofxSpriteQuad*		NextSibling();
-	ofxSpriteQuad*		PreviousSibling();
+	void				SetTexture(string texture_path);
+	ofxTexture*			GetTexture();
+private:
+	void				UpdateVisibility(bool force_update=false, bool camera_move=false);
+	void				SetID(int id);
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;

@@ -25,8 +25,6 @@ public :
 private:
 	ofxSpriteQuads			m_Quads;
 	ofxSpriteCommands		m_Commands;
-	vector<bool>			m_OverlapStatus;
-	vector<unsigned int>	m_UnusedQuads;
 #ifdef _DEBUG
 	int						m_DrawnBatches;
 	int						m_DrawnVertices;
@@ -48,10 +46,9 @@ public:
 	void Update();
 	void SetRenderSize(unsigned int width, unsigned int height);
 private:
-	void BuildOverlapStatus();
-	void SolveOverlap();
-	void BuildCommands(unsigned int i, unsigned int j);
-	bool CleanUnusedQuads();
+	void UpdateQuads();
+private:
+	void BuildCommands();
 public:
 	void MoveCamera(float x, float y, float z);
 	ofxOrthoCamera* GetCamera()
@@ -101,7 +98,7 @@ public:
 #ifdef _DEBUG
 	unsigned int GetSpriteNumber()
 	{
-		return m_Quads.size() - m_UnusedQuads.size();
+		return m_Quads.size();
 	}
 	int	GetDrawCall()
 	{

@@ -41,8 +41,64 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 		m_Quads.clear();
 	}
 }
+static bool QuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
+{
+	return quadA->IsBehind(quadB);
+}
 void ofxSpriteRenderer::Render()
 {
+	for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
+	{
+		ofxSpriteCommand* item = *it;
+		delete item;
+	}
+	m_Commands.clear();
+	printf("------------BuildCommands()\n");
+	unsigned long long time_start_build = ofGetSystemTime();
+	sort(m_Quads.begin(), m_Quads.end(), QuadCompare);
+	for(int i=0;i<m_Quads.size();i++)
+	{
+		m_Quads[i]->SetID(i);
+	}
+	unsigned long long time_finish_sort = ofGetSystemTime();
+	printf("sort time =  %llu\n", time_finish_sort - time_start_build);
+	int sprite_count = 0;
+	for(ofxSpriteQuads::iterator it = m_Quads.begin();it != m_Quads.end();it++)
+	{
+		ofxSpriteQuad* sprite = *it;
+		if(sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN && sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN ||
+			!sprite->GetVisible())
+		{
+			continue;
+		}
+		ofxSpriteCommand* command;
+		if(m_Commands.size() == 0)
+		{
+			command = new ofxSpriteCommand();
+			command->SetShader(sprite->GetShader());
+			command->SetTexture(sprite->GetTexture());
+			m_Commands.push_back(command);
+			sprite_count = 0;
+		}
+		else
+		{
+			command = m_Commands.back();
+			if(command->GetShader() != sprite->GetShader() 
+				|| command->GetTexture() != sprite->GetTexture() 
+				|| sprite_count > COMMAND_CAPACITY)
+			{
+				command = new ofxSpriteCommand();
+				command->SetShader(sprite->GetShader());
+				command->SetTexture(sprite->GetTexture());
+				m_Commands.push_back(command);
+				sprite_count = 0;
+			}
+		}
+		command->PushSprite(sprite);
+		sprite_count++;
+	}
+	unsigned long long time_finish_build = ofGetSystemTime();
+	printf("build time =  %llu\n", time_finish_build - time_start_build);
 #ifdef _DEBUG
 	m_DrawnBatches = 0;
 	m_DrawnVertices = 0;
@@ -55,17 +111,13 @@ void ofxSpriteRenderer::Render()
 		glEnable(GL_BLEND);
 		//glDisable(GL_DEPTH_TEST);// transparent isn't work well with depth test
 		glDepthMask(GL_FALSE);
-		ofxSpriteCommands::iterator it = m_Commands.begin();
-		for(;it != m_Commands.end();it++)
+		for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 		{
 			ofxSpriteCommand* cmd = *it;
 			cmd->Render();
 #ifdef _DEBUG
-			if(cmd->m_VisibleSpriteCount != 0)
-			{
-				m_DrawnBatches++;
-				m_DrawnVertices += cmd->m_Vertices.size();
-			}
+			m_DrawnBatches++;
+			m_DrawnVertices += cmd->m_VerticesSize;
 #endif
 		}
 		//glEnable(GL_DEPTH_TEST);
@@ -80,177 +132,15 @@ void ofxSpriteRenderer::Render()
 }
 void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
 {
-	sprite->m_IndexInRenderer = m_Quads.size();
+	sprite->SetID(m_Quads.size());
 	m_Quads.push_back(sprite);
-	bool last_command_expanded = false;
-	if(m_Commands.size() > 0)
-	{
-		ofxSpriteCommand* last_command = m_Commands.back();
-		if(last_command->m_Status == COMMAND_STATUS_EXPANDED)
-		{
-			last_command_expanded = true;
-			last_command->PushSprite(sprite);
-		}
-	}
-	if(!last_command_expanded)
-	{
-		m_OverlapStatus.push_back(false);
-		ofxSpriteCommand* command = new ofxSpriteCommand();
-		m_Commands.push_back(command);
-		command->m_Status = COMMAND_STATUS_EXPANDED;
-		command->m_Textures = sprite->m_Textures;
-		command->m_Shader = sprite->m_Shader;
-		command->PushSprite(sprite);
-	}
 }
 void ofxSpriteRenderer::EraseSprite(ofxSpriteQuad* sprite)
 {
-	// tell command not to draw it
-	sprite->m_ParentCommand->EraseSprite(sprite);
-	// move it to the very far, so it won't get updated
-	sprite->MoveTo(ofVec3f(0.0f,FAR_SCREEN_DISTANCE_THRESHOLD,0.0f));
-	// tell renderer mark it as unused
-	m_UnusedQuads.push_back(sprite->m_IndexInRenderer);
-	sprite->m_IndexInRenderer = -1;
+	m_Quads.erase(m_Quads.begin() + sprite->GetID());
+	sprite->SetID(-1);
 }
-static bool QuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
-{
-	/*if(quadA->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
-		return true;
-	if(quadB->GetVisibility() == QUAD_VISIBILITY_FAR_SCREEN) 
-		return true;*/
-	//ofVec3f camera_position = ofxSpriteRenderer::GetInstance()->GetCamera()->getGlobalPosition();
-	return quadA->GetWorldPosition().z < quadB->GetWorldPosition().z;
-}
-void ofxSpriteRenderer::BuildCommands(unsigned int begin_index, unsigned int end_index)
-{
-	printf("------------BuildCommands(%u,%u)\n",begin_index,end_index);
-	unsigned long long time_start_build = ofGetSystemTime();
-	sort(m_Quads.begin()+begin_index, m_Quads.begin()+end_index+1, QuadCompare);
-	int max_index = m_Quads.size()-1;
-	for(int i=begin_index;i<=end_index;i++)
-	{
-		m_Quads[i]->m_IndexInRenderer = i;
-		if(i!=0) m_Quads[i]->m_PrevSibling = m_Quads[i-1];
-		if(i!=max_index) m_Quads[i]->m_NextSibling = m_Quads[i+1];
-	}
-	{
-		ofxShaderProgram* last_shader = 0;
-		ofxTextures last_texture;
-		ofxSpriteQuads::iterator it = m_Quads.begin()+begin_index;
-		ofxSpriteQuads::iterator bound_it = m_Quads.begin()+end_index+1;
-		int sprite_count = 0;
-		for(;it != bound_it;it++)
-		{
-			ofxSpriteQuad* sprite = *it;
-			ofxSpriteCommand* command;
-			if(last_shader != sprite->GetShader() || last_texture != sprite->GetTextures() || sprite_count > COMMAND_CAPACITY)
-			{
-				command = new ofxSpriteCommand();
-				m_Commands.push_back(command);
-				m_OverlapStatus.push_back(true);
-				last_shader = sprite->GetShader();
-				last_texture = sprite->GetTextures();
-				command->m_Shader = last_shader;
-				command->m_Textures = last_texture;
-				sprite_count = 0;
-			}
-			else
-			{
-				command = m_Commands.back();
-			}
-			command->PushSprite(sprite);
-			sprite_count++;
-		}
-	}
-	unsigned long long time_finish_build = ofGetSystemTime();
-	printf("build time =  %llu\n",time_finish_build - time_start_build);
-}
-static bool CommandCompare(ofxSpriteCommand* cmdA, ofxSpriteCommand* cmdB)
-{
-	return cmdA->GetFirstSpriteIndex() < cmdB->GetFirstSpriteIndex();
-}
-void ofxSpriteRenderer::BuildOverlapStatus()
-{
-	for(int i=0;i<m_OverlapStatus.size();i++)
-	{
-		ofxSpriteCommand* command = m_Commands[i];
-		if(command->m_Status == COMMAND_STATUS_DISMISSED)
-		{
-			m_OverlapStatus[i] = true;
-		}
-		else if(command->m_Status == COMMAND_STATUS_EXPANDED)
-		{
-			m_OverlapStatus[i] = true;
-			int right = i + 1, left = i - 1;
-			while(right < m_OverlapStatus.size())
-			{
-				if(command->m_DistanceMin < m_Commands[right]->m_DistanceMax)
-				{
-					m_OverlapStatus[right++] = true;
-					continue;
-				}
-				break;
-			}
-			while(left > 0)
-			{
-				if(command->m_DistanceMax > m_Commands[left]->m_DistanceMin)
-				{
-					m_OverlapStatus[left--] = true;
-					continue;
-				}
-				break;
-			}
-		}
-	}
-}
-void ofxSpriteRenderer::SolveOverlap()
-{
-	int index = 0;
-	int k = 0;
-	int left = -1;
-	int right = -1;
-	while(k <= m_OverlapStatus.size())
-	{
-		// find segment
-		if(k != m_OverlapStatus.size()) if(m_OverlapStatus[k])
-		{
-			if(left == -1)
-			{
-				right = left = index;
-			}
-			else
-			{
-				right = index;
-			}
-			index++;
-			k++;
-			continue;
-		}
-		// build segment
-		if(right != -1)
-		{
-			int min_sprite_index = m_Commands[left]->m_FirstSpriteIndex;
-			int max_sprite_index = m_Commands[right]->m_LastSpriteIndex;
-			BuildCommands(min_sprite_index, max_sprite_index);
-			for(int i=left;i<=right;right--)
-			{
-				ofxSpriteCommand* command = m_Commands[i];
-				m_Commands.erase(m_Commands.begin() + i);
-				m_OverlapStatus.erase(m_OverlapStatus.begin() + i);
-				delete command;
-			}
-			index = left;
-			left = -1;
-			right = -1;
-		}
-		else
-		{
-			index++;
-		}
-		k++;
-	}
-}
+
 void ofxSpriteRenderer::Update()
 {
 #ifdef _DEBUG
@@ -273,21 +163,6 @@ void ofxSpriteRenderer::Update()
 			item->SubmitChanges();
 		}
 	}
-	bool transparent_commands_refreshed = CleanUnusedQuads();
-	if(!transparent_commands_refreshed)
-	{
-		BuildOverlapStatus();
-		SolveOverlap();
-		sort(m_Commands.begin(),m_Commands.end(), CommandCompare);
-		int max_index = m_Commands.size() - 1;
-		for(int i=0;i<m_Commands.size();i++)
-		{
-			m_Commands[i]->m_IndexInRenderer = i;
-			if(i!=0) m_Commands[i]->m_PrevSibling = m_Commands[i-1];
-			if(i!=max_index) m_Commands[i]->m_NextSibling = m_Commands[i+1];
-			m_OverlapStatus[i] = false;
-		}
-	}
 	m_CameraMove = false;
 	m_CameraForce = false;
 #ifdef _DEBUG
@@ -295,29 +170,13 @@ void ofxSpriteRenderer::Update()
 	m_UpdateTimeMilisecond = time_finish_update - time_start_update;
 #endif
 }
-#define UNUSED_TRANSPARENT_QUAD_LIMIT 20
-bool ofxSpriteRenderer::CleanUnusedQuads()
-{
-	if(m_UnusedQuads.size() < UNUSED_TRANSPARENT_QUAD_LIMIT) return false;
-	sort(m_UnusedQuads.begin(),m_UnusedQuads.end());
-	for(int i=0;i < m_UnusedQuads.size(); i++)
-	{
-		unsigned int index = m_UnusedQuads[i] - i;
-		ofxSpriteQuads::iterator it = m_Quads.begin() + index;
-		m_Quads.erase(it);
-	}
-	m_UnusedQuads.clear();
-	BuildCommands(0, m_Commands.size());
-	return true;
-}
 void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 {
 	m_CameraMove = true;
 	m_CameraForce = true;
 	for(int i=0;i<m_Quads.size();i++)
 	{
-		m_Quads[i]->SetLogicWidth(m_Quads[i]->GetLogicWidth());
-		m_Quads[i]->SetLogicHeight(m_Quads[i]->GetLogicHeight());
+		m_Quads[i]->m_ModificationFlag = m_Quads[i]->m_ModificationFlag | m_Quads[i]->s_DimensionFlag;
 	}
 	m_Camera->SetScale(min(width,height)*0.5);
 	m_RenderRect.z = width*0.5;
