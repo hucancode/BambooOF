@@ -38,7 +38,7 @@ protected:
 	ofVec4f				m_TextureRect;
 	ofVec4f				m_SpriteRect;
 protected:
-	ofxVertex			m_Vertex[4];
+	ofxVertex			m_Vertices[4];
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();

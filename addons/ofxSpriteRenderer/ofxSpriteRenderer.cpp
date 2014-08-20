@@ -47,13 +47,14 @@ static bool QuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 }
 void ofxSpriteRenderer::Render()
 {
+	printf("--------------RENDER--------------\n");
 	for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 	{
 		ofxSpriteCommand* item = *it;
 		delete item;
 	}
 	m_Commands.clear();
-	printf("------------BuildCommands()\n");
+	
 	unsigned long long time_start_build = ofGetSystemTime();
 	sort(m_Quads.begin(), m_Quads.end(), QuadCompare);
 	for(int i=0;i<m_Quads.size();i++)
@@ -66,7 +67,7 @@ void ofxSpriteRenderer::Render()
 	for(ofxSpriteQuads::iterator it = m_Quads.begin();it != m_Quads.end();it++)
 	{
 		ofxSpriteQuad* sprite = *it;
-		if(sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN && sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN ||
+		if(sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN && sprite->GetVisibility() != QUAD_VISIBILITY_UNKNOWN ||
 			!sprite->GetVisible())
 		{
 			continue;
@@ -85,8 +86,9 @@ void ofxSpriteRenderer::Render()
 			command = m_Commands.back();
 			if(command->GetShader() != sprite->GetShader() 
 				|| command->GetTexture() != sprite->GetTexture() 
-				|| sprite_count > COMMAND_CAPACITY)
+				|| sprite_count >= COMMAND_CAPACITY)
 			{
+				//command->m_IndicesSize = command->m_VerticesSize*1.5;
 				command = new ofxSpriteCommand();
 				command->SetShader(sprite->GetShader());
 				command->SetTexture(sprite->GetTexture());

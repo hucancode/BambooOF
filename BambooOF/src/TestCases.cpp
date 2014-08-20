@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new RendererTest();
+Test* current_test = new SortBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -17,7 +17,7 @@ void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->LoadShader("sprite2d");
-	sprite->SetTexture("data/animal_tiger1_attack.png");
+	sprite->SetTexture("data/sprint0001.png");
 	
 	sprite->SetSpriteRect(0,0,192,192);
 	sprite->SetTextureRect(0,0,192,192);
@@ -45,7 +45,7 @@ void RendererTest::Setup()
 			
 			sprite->SetSpriteRect(0,0,192,192);
 			sprite->SetTextureRect(0,0,192,192);
-			sprite->MoveTo(i*80.0f,0.0f,j*60.0f);
+			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
 			ofxRENDERER->PushSprite(sprite);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
@@ -117,7 +117,7 @@ void TextureTest::Setup()
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
-			sprite->SetTexture(("data/plops/sprint000"+ofToString((j+20)/5+1)+".png").c_str());
+			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
 			
 			sprite->SetSpriteRect(0,0,192,192);
 			sprite->SetTextureRect(0,0,192,192);
@@ -199,7 +199,7 @@ void SpriteBenchmarkTest::Setup()
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
-			sprite->SetTexture("data/plops/sprint0001.png");
+			sprite->SetTexture("data/sprint0001.png");
 			
 			sprite->SetSpriteRect(0,0,192,192);
 			sprite->SetTextureRect(0,0,192,192);
@@ -227,7 +227,7 @@ void SortBenchmarkTest::Setup()
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
-			sprite->SetTexture(("data/plops/sprint000"+ofToString((j+20)/5+1)+".png").c_str());
+			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
 			
 			sprite->SetSpriteRect(0,0,192,192);
 			sprite->SetTextureRect(0,0,192,192);
@@ -270,7 +270,7 @@ void AnimationBenchmarkTest::Setup()
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
-			sprite->SetTexture(("data/plops/sprint000"+ofToString((j+20)/5+1)+".png").c_str());
+			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
 			
 			sprite->SetSpriteRect(0,0,192,192);
 			sprite->SetTextureRect(0,0,192,192);

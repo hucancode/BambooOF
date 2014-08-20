@@ -44,7 +44,7 @@ void ofxSpriteCommand::Render()
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_VerticesSize, &m_Vertices[0], GL_DYNAMIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*m_IndicesSize, &m_Indices[0], GL_STATIC_DRAW);
 	m_Shader->Bind();
 	m_Texture->Bind();
 
@@ -57,7 +57,7 @@ void ofxSpriteCommand::Render()
 }
 void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
 {
-	memcpy(&m_Vertices[m_VerticesSize], &sprite->m_Vertex[0], sizeof(ofxVertex)*4);
+	memcpy(&m_Vertices[m_VerticesSize], &sprite->m_Vertices[0], sizeof(ofxVertex)*4);
 	m_VerticesSize += 4;
 	m_IndicesSize += 6;
 }

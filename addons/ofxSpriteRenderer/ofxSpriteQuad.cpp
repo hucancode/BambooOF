@@ -80,8 +80,9 @@ void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 }
 void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 {
+	/*m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
+	return;*/
 	// if camera isn't looking straight into world, these calculation mean nothing
-	//if(!(camera_move || m_PositionChange))
 	if(!(camera_move || m_PositionChange))
 		return;
 	if(!force_update && 
@@ -189,18 +190,18 @@ void ofxSpriteQuad::SubmitChanges()
 	if(!(m_PositionChange || m_DimensionChange || m_UVChange || m_VisibilityChange)) return;
 	if(m_PositionChange || m_DimensionChange)
 	{
-		m_Vertex[0].x = m_WorldPosition.x - m_SpriteRect.z*0.5 + m_SpriteRect.x;
-		m_Vertex[0].y = m_WorldPosition.y + m_SpriteRect.y;
-		m_Vertex[0].z = m_WorldPosition.z;
-		m_Vertex[1].x = m_Vertex[0].x + m_SpriteRect.z;
-		m_Vertex[1].y = m_Vertex[0].y;
-		m_Vertex[1].z = m_Vertex[0].z;
-		m_Vertex[2].x = m_Vertex[1].x;
-		m_Vertex[2].y = m_Vertex[1].y + m_SpriteRect.w;
-		m_Vertex[2].z = m_Vertex[0].z - QUAD_GRADIENT*m_SpriteRect.w;
-		m_Vertex[3].x = m_Vertex[0].x;
-		m_Vertex[3].y = m_Vertex[2].y;
-		m_Vertex[3].z = m_Vertex[2].z;
+		m_Vertices[0].x = m_WorldPosition.x - m_SpriteRect.z*0.5 + m_SpriteRect.x;
+		m_Vertices[0].y = m_WorldPosition.y + m_SpriteRect.y;
+		m_Vertices[0].z = m_WorldPosition.z;
+		m_Vertices[1].x = m_Vertices[0].x + m_SpriteRect.z;
+		m_Vertices[1].y = m_Vertices[0].y;
+		m_Vertices[1].z = m_Vertices[0].z;
+		m_Vertices[2].x = m_Vertices[1].x;
+		m_Vertices[2].y = m_Vertices[1].y + m_SpriteRect.w;
+		m_Vertices[2].z = m_Vertices[0].z - QUAD_GRADIENT*m_SpriteRect.w;
+		m_Vertices[3].x = m_Vertices[0].x;
+		m_Vertices[3].y = m_Vertices[2].y;
+		m_Vertices[3].z = m_Vertices[2].z;
 	}
 	if(m_UVChange)
 	{
@@ -209,14 +210,14 @@ void ofxSpriteQuad::SubmitChanges()
 		float uv_max_x = uv_min_x + m_TextureRect.z/m_Texture->GetTextureSize().x;
 		float uv_max_y = uv_min_y + m_TextureRect.w/m_Texture->GetTextureSize().y;
 		swap(uv_min_y, uv_max_y);
-		m_Vertex[0].u = uv_min_x;
-		m_Vertex[0].v = uv_min_y;
-		m_Vertex[1].u = uv_max_x;
-		m_Vertex[1].v = uv_min_y;
-		m_Vertex[2].u = uv_max_x;
-		m_Vertex[2].v = uv_max_y;
-		m_Vertex[3].u = uv_min_x;
-		m_Vertex[3].v = uv_max_y;
+		m_Vertices[0].u = uv_min_x;
+		m_Vertices[0].v = uv_min_y;
+		m_Vertices[1].u = uv_max_x;
+		m_Vertices[1].v = uv_min_y;
+		m_Vertices[2].u = uv_max_x;
+		m_Vertices[2].v = uv_max_y;
+		m_Vertices[3].u = uv_min_x;
+		m_Vertices[3].v = uv_max_y;
 	}
 	m_PositionChange = m_DimensionChange = m_UVChange = m_VisibilityChange = false;
 }
