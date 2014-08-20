@@ -26,15 +26,8 @@ protected:
 	ofxShaderProgram*	m_Shader;
 	int					m_ID;
 protected:
-	static const char	s_PositionFlag		= 128;	// 10000000
-	static const char	s_DimensionFlag		= 64;	// 01000000
-	static const char	s_TextureFlag		= 32;	// 00100000
-	static const char	s_UVFlag			= 16;	// 00010000
-	static const char	s_VisibilityFlag	= 8;	// 00001000
-	char				m_ModificationFlag;
 	bool				m_PositionChange;
 	bool				m_DimensionChange;
-	bool				m_TextureChange;
 	bool				m_UVChange;
 	bool				m_VisibilityChange;
 protected:
@@ -60,8 +53,8 @@ public:
 	void				SetTextureRect(const ofVec4f rect);
 	void				SetSpriteRect(const float x, const float y, const float w, const float h);
 	void				SetSpriteRect(const ofVec4f rect);
-	ofVec4f&			GetTextureRect();
-	ofVec4f&			GetSpriteRect();
+	ofVec4f				GetTextureRect();
+	ofVec4f				GetSpriteRect();
 	void				SubmitChanges();
 	bool				IsBehind(ofxSpriteQuad* other);
 	bool				IsInFront(ofxSpriteQuad* other);

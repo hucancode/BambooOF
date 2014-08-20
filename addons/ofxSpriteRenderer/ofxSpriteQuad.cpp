@@ -7,13 +7,11 @@ ofxSpriteQuad::ofxSpriteQuad()
 {
 	m_Shader = 0;
 	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
-	m_ModificationFlag = 248;// 11111000
 	m_Texture = 0;
-	/*m_PositionChange = true;
+	m_PositionChange = true;
 	m_DimensionChange = true;
-	m_TextureChange = true;
 	m_UVChange = true;
-	m_VisibilityChange = true;*/
+	m_VisibilityChange = true;
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
@@ -60,8 +58,7 @@ void ofxSpriteQuad::MoveTo(const float x, const float y, const float z)
 void ofxSpriteQuad::MoveTo(const ofVec3f position)
 {
 	m_WorldPosition = position;
-	m_ModificationFlag = m_ModificationFlag | s_PositionFlag;
-	//m_PositionChange = true;
+	m_PositionChange = true;
 	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
 }
 void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
@@ -71,8 +68,7 @@ void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
 void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
 {
 	m_WorldPosition += accelerator;
-	m_ModificationFlag = m_ModificationFlag | s_PositionFlag;
-	//m_PositionChange = true;
+	m_PositionChange = true;
 	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD)
 	{
 		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
@@ -86,7 +82,7 @@ void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 {
 	// if camera isn't looking straight into world, these calculation mean nothing
 	//if(!(camera_move || m_PositionChange))
-	if(!(camera_move || (m_ModificationFlag & s_PositionFlag)))
+	if(!(camera_move || m_PositionChange))
 		return;
 	if(!force_update && 
 		(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0))
@@ -97,7 +93,7 @@ void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 
 	QUAD_VISIBILITY old_visibility = m_Visibility;
 
-	float x_min = m_WorldPosition.x - m_SpriteRect.z*0.5 +m_SpriteRect.x;
+	float x_min = m_WorldPosition.x - m_SpriteRect.z*0.5 + m_SpriteRect.x;
 	float x_max = x_min + m_SpriteRect.z;
 	float z_max = m_WorldPosition.z;
 	float z_min = z_max - m_SpriteRect.w;
@@ -140,8 +136,7 @@ void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 	}
 	if(m_Visibility != old_visibility)
 	{
-		m_ModificationFlag = m_ModificationFlag | s_VisibilityFlag;
-		//m_VisibilityChange = true;
+		m_VisibilityChange = true;
 	}
 }
 
@@ -153,19 +148,18 @@ QUAD_VISIBILITY ofxSpriteQuad::GetVisibility()
 {
 	return m_Visibility;
 }
-ofVec4f& ofxSpriteQuad::GetTextureRect()
+ofVec4f ofxSpriteQuad::GetTextureRect()
 {
 	return m_TextureRect;
 }
-ofVec4f& ofxSpriteQuad::GetSpriteRect()
+ofVec4f ofxSpriteQuad::GetSpriteRect()
 {
 	return m_SpriteRect;
 }
 void ofxSpriteQuad::SetTextureRect(const float x, const float y, const float w, const float h)
 {
 	m_TextureRect.set(x,y,w,h);
-	m_ModificationFlag = m_ModificationFlag | s_UVFlag;
-	//m_UVChange = true;
+	m_UVChange = true;
 }
 void ofxSpriteQuad::SetSpriteRect(const float x, const float y, const float w, const float h)
 {
@@ -174,8 +168,7 @@ void ofxSpriteQuad::SetSpriteRect(const float x, const float y, const float w, c
 void ofxSpriteQuad::SetTextureRect(const ofVec4f rect)
 {
 	m_TextureRect = rect;
-	m_ModificationFlag = m_ModificationFlag | s_UVFlag;
-	//m_UVChange = true;
+	m_UVChange = true;
 }
 void ofxSpriteQuad::SetSpriteRect(const ofVec4f rect)
 {
@@ -193,58 +186,39 @@ int ofxSpriteQuad::GetID()
 void ofxSpriteQuad::SubmitChanges()
 {
 	UpdateVisibility(ofxRENDERER->IsCameraForce(), ofxRENDERER->IsCameraMove());
-	//if(!(m_PositionChange || m_DimensionChange || m_MaterialChange || m_UVChange || m_VisibilityChange)) return;
-	if(!m_ModificationFlag) return;
-	if(m_Visibility == QUAD_VISIBILITY_FAR_SCREEN || m_Visibility == QUAD_VISIBILITY_OFF_SCREEN)
+	if(!(m_PositionChange || m_DimensionChange || m_UVChange || m_VisibilityChange)) return;
+	if(m_PositionChange || m_DimensionChange)
 	{
-		m_Vertex[0].x = -100000.0;
-		m_Vertex[0].y = -100000.0;
-		m_Vertex[0].z = -100000.0;
-		m_Vertex[1].x = -100000.0;
-		m_Vertex[1].y = -100000.0;
-		m_Vertex[1].z = -100000.0;
-		m_Vertex[2].x = -100000.0;
-		m_Vertex[2].y = -100000.0;
-		m_Vertex[2].z = -100000.0;
-		m_Vertex[3].x = -100000.0;
-		m_Vertex[3].y = -100000.0;
-		m_Vertex[3].z = -100000.0;
+		m_Vertex[0].x = m_WorldPosition.x - m_SpriteRect.z*0.5 + m_SpriteRect.x;
+		m_Vertex[0].y = m_WorldPosition.y + m_SpriteRect.y;
+		m_Vertex[0].z = m_WorldPosition.z;
+		m_Vertex[1].x = m_Vertex[0].x + m_SpriteRect.z;
+		m_Vertex[1].y = m_Vertex[0].y;
+		m_Vertex[1].z = m_Vertex[0].z;
+		m_Vertex[2].x = m_Vertex[1].x;
+		m_Vertex[2].y = m_Vertex[1].y + m_SpriteRect.w;
+		m_Vertex[2].z = m_Vertex[0].z - QUAD_GRADIENT*m_SpriteRect.w;
+		m_Vertex[3].x = m_Vertex[0].x;
+		m_Vertex[3].y = m_Vertex[2].y;
+		m_Vertex[3].z = m_Vertex[2].z;
 	}
-	else
+	if(m_UVChange)
 	{
-		if(m_ModificationFlag & 192)// (s_PositionFlag | s_DimensionFlag) = 11000000 = 192
-		{
-			m_Vertex[0].x = m_WorldPosition.x - m_SpriteRect.z*0.5 + m_SpriteRect.x;
-			m_Vertex[0].y = m_WorldPosition.y + m_SpriteRect.y;
-			m_Vertex[0].z = m_WorldPosition.z;
-			m_Vertex[1].x = m_Vertex[0].x + m_SpriteRect.z;
-			m_Vertex[1].y = m_Vertex[0].y;
-			m_Vertex[1].z = m_Vertex[0].z;
-			m_Vertex[2].x = m_Vertex[1].x;
-			m_Vertex[2].y = m_Vertex[1].y + m_SpriteRect.w;
-			m_Vertex[2].z = m_Vertex[0].z - QUAD_GRADIENT*m_SpriteRect.w;
-			m_Vertex[3].x = m_Vertex[0].x;
-			m_Vertex[3].y = m_Vertex[2].y;
-			m_Vertex[3].z = m_Vertex[2].z;
-		}
-		if(m_UVChange)
-		{
-			float uv_min_x = m_TextureRect.x/m_Texture->GetTextureSize().x;
-			float uv_min_y = m_TextureRect.y/m_Texture->GetTextureSize().y;
-			float uv_max_x = uv_min_x + m_TextureRect.z/m_Texture->GetTextureSize().x;
-			float uv_max_y = uv_min_y + m_TextureRect.w/m_Texture->GetTextureSize().y;
-			swap(uv_min_y, uv_max_y);
-			m_Vertex[0].u = uv_min_x;
-			m_Vertex[0].v = uv_min_y;
-			m_Vertex[1].u = uv_max_x;
-			m_Vertex[1].v = uv_min_y;
-			m_Vertex[2].u = uv_max_x;
-			m_Vertex[2].v = uv_max_y;
-			m_Vertex[3].u = uv_min_x;
-			m_Vertex[3].v = uv_max_y;
-		}
+		float uv_min_x = m_TextureRect.x/m_Texture->GetTextureSize().x;
+		float uv_min_y = m_TextureRect.y/m_Texture->GetTextureSize().y;
+		float uv_max_x = uv_min_x + m_TextureRect.z/m_Texture->GetTextureSize().x;
+		float uv_max_y = uv_min_y + m_TextureRect.w/m_Texture->GetTextureSize().y;
+		swap(uv_min_y, uv_max_y);
+		m_Vertex[0].u = uv_min_x;
+		m_Vertex[0].v = uv_min_y;
+		m_Vertex[1].u = uv_max_x;
+		m_Vertex[1].v = uv_min_y;
+		m_Vertex[2].u = uv_max_x;
+		m_Vertex[2].v = uv_max_y;
+		m_Vertex[3].u = uv_min_x;
+		m_Vertex[3].v = uv_max_y;
 	}
-	m_ModificationFlag = 0;
+	m_PositionChange = m_DimensionChange = m_UVChange = m_VisibilityChange = false;
 }
 bool ofxSpriteQuad::IsBehind(ofxSpriteQuad* other)
 {

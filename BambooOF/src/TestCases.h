@@ -51,31 +51,8 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
-// NOTE: try to draw 1000 sprite. random 5 multi texture material
-class MultiTextureTest: public Test
-{
-public:
-	virtual void Setup();
-	virtual void Update();
-	virtual void Render();
-};
 // NOTE: try to draw animation.
 class AnimationTest: public Test
-{
-public:
-	virtual void Setup();
-	virtual void Update();
-	virtual void Render();
-};
-// NOTE: try to draw multi texture animation.
-class MultiTextureAnimationTest: public Test
-{
-public:
-	virtual void Setup();
-	virtual void Update();
-	virtual void Render();
-};
-class SpriteEraseTest: public Test
 {
 public:
 	virtual void Setup();
@@ -104,13 +81,6 @@ public:
 	virtual void Render();
 };
 class AnimationBenchmarkTest: public Test
-{
-public:
-	virtual void Setup();
-	virtual void Update();
-	virtual void Render();
-};
-class EraseBenchmarkTest: public Test
 {
 public:
 	virtual void Setup();

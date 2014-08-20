@@ -176,7 +176,7 @@ void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 	m_CameraForce = true;
 	for(int i=0;i<m_Quads.size();i++)
 	{
-		m_Quads[i]->m_ModificationFlag = m_Quads[i]->m_ModificationFlag | m_Quads[i]->s_DimensionFlag;
+		m_Quads[i]->m_DimensionChange = true;
 	}
 	m_Camera->SetScale(min(width,height)*0.5);
 	m_RenderRect.z = width*0.5;
