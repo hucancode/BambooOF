@@ -82,6 +82,9 @@ public:
 };
 class AnimationBenchmarkTest: public Test
 {
+private:
+	ofxSpriteQuad* spriteA;
+	ofxSpriteQuad* spriteB;
 public:
 	virtual void Setup();
 	virtual void Update();

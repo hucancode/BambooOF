@@ -442,11 +442,17 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxTerrainGenerator\ofxTerrain.cpp">
-      <Filter>addons\ofxTerrainGenerator</Filter>
+    <ClCompile Include="..\addons\ofxTerrain\ofxDoodad.cpp">
+      <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxTerrainGenerator\ofxTile.cpp">
-      <Filter>addons\ofxTerrainGenerator</Filter>
+    <ClCompile Include="..\addons\ofxTerrain\ofxStructure.cpp">
+      <Filter>addons\ofxTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxTerrain\ofxTerrain.cpp">
+      <Filter>addons\ofxTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxTerrain\ofxTile.cpp">
+      <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -552,7 +558,7 @@
     <Filter Include="Game">
       <UniqueIdentifier>{a291c525-b8ef-4ed5-9976-f1f858548289}</UniqueIdentifier>
     </Filter>
-    <Filter Include="addons\ofxTerrainGenerator">
+    <Filter Include="addons\ofxTerrain">
       <UniqueIdentifier>{c2bb230e-4074-4e89-ab8d-3caf2261db64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1157,11 +1163,17 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxTerrainGenerator\ofxTerrain.h">
-      <Filter>addons\ofxTerrainGenerator</Filter>
+    <ClInclude Include="..\addons\ofxTerrain\ofxDoodad.h">
+      <Filter>addons\ofxTerrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxTerrainGenerator\ofxTile.h">
-      <Filter>addons\ofxTerrainGenerator</Filter>
+    <ClInclude Include="..\addons\ofxTerrain\ofxStructure.h">
+      <Filter>addons\ofxTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxTerrain\ofxTerrain.h">
+      <Filter>addons\ofxTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxTerrain\ofxTile.h">
+      <Filter>addons\ofxTerrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

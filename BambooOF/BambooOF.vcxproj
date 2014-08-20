@@ -188,8 +188,10 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp" />
-    <ClCompile Include="..\addons\ofxTerrainGenerator\ofxTerrain.cpp" />
-    <ClCompile Include="..\addons\ofxTerrainGenerator\ofxTile.cpp" />
+    <ClCompile Include="..\addons\ofxTerrain\ofxDoodad.cpp" />
+    <ClCompile Include="..\addons\ofxTerrain\ofxStructure.cpp" />
+    <ClCompile Include="..\addons\ofxTerrain\ofxTerrain.cpp" />
+    <ClCompile Include="..\addons\ofxTerrain\ofxTile.cpp" />
     <ClCompile Include="..\addons\ofxUI\src\ofxUI2DGraph.cpp" />
     <ClCompile Include="..\addons\ofxUI\src\ofxUI2DPad.cpp" />
     <ClCompile Include="..\addons\ofxUI\src\ofxUIBaseDraws.cpp" />
@@ -389,8 +391,10 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h" />
-    <ClInclude Include="..\addons\ofxTerrainGenerator\ofxTerrain.h" />
-    <ClInclude Include="..\addons\ofxTerrainGenerator\ofxTile.h" />
+    <ClInclude Include="..\addons\ofxTerrain\ofxDoodad.h" />
+    <ClInclude Include="..\addons\ofxTerrain\ofxStructure.h" />
+    <ClInclude Include="..\addons\ofxTerrain\ofxTerrain.h" />
+    <ClInclude Include="..\addons\ofxTerrain\ofxTile.h" />
     <ClInclude Include="..\addons\ofxUI\src\ofxUI.h" />
     <ClInclude Include="..\addons\ofxUI\src\ofxUI2DGraph.h" />
     <ClInclude Include="..\addons\ofxUI\src\ofxUI2DPad.h" />

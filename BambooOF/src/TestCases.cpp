@@ -225,17 +225,49 @@ void SortBenchmarkTest::Setup()
 	{
 		for(int j=-60;j<60;j++)
 		{
-			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
-			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
-			sprite->MoveTo(i*space_x,0.0f,j*space_y);
-			ofxRENDERER->PushSprite(sprite);
-			if(i==0 && j==0) spriteObstacle = sprite;
-			if(i==0 && j==0) spriteA = sprite;
-			if(i==1 && j==1) spriteB = sprite;
+			ofxSpriteAnimation* animation = new ofxSpriteAnimation();
+			animation->LoadShader("sprite2d");
+			animation->SetTexture("data/animal_tiger1_attack.png");
+			animation->MoveTo(i*space_x,0.0f,j*space_y);
+			animation->SetFrameCount(24);
+
+			animation->SetSequenceCount(2);
+			animation->SetFrameTime(0,0.1f);
+			animation->SetFrameTime(1,0.1f);
+			{
+				int i=0;
+				animation->SetFrameData(i++,1,1,27,72,147,134,27,72);
+				animation->SetFrameData(i++,1,76,27,72,147,134,27,72);
+				animation->SetFrameData(i++,31,1,28,73,146,133,28,73);
+				animation->SetFrameData(i++,62,1,28,72,146,134,28,72);
+				animation->SetFrameData(i++,31,77,28,75,147,136,28,75);
+				animation->SetFrameData(i++,62,76,27,71,147,133,27,71);
+				animation->SetFrameData(i++,93,1,27,67,147,126,27,67);
+				animation->SetFrameData(i++,123,1,28,78,146,131,28,78);
+				animation->SetFrameData(i++,93,71,27,78,147,135,27,78);
+				animation->SetFrameData(i++,1,151,27,75,147,140,27,75);
+				animation->SetFrameData(i++,31,155,28,68,146,146,28,68);
+				animation->SetFrameData(i++,62,150,28,72,146,140,28,72);
+				animation->SetSequenceData(0,0,11);
+				animation->SetFrameData(i++,154,1,93,67,113,139,93,67);
+				animation->SetFrameData(i++,123,82,94,62,114,140,94,62);
+				animation->SetFrameData(i++,93,152,93,62,118,140,93,62);
+				animation->SetFrameData(i++,250,1,94,62,120,140,94,62);
+				animation->SetFrameData(i++,220,82,97,60,119,143,97,60);
+				animation->SetFrameData(i++,189,152,118,55,99,144,118,55);
+				animation->SetFrameData(i++,347,1,117,55,85,134,117,55);
+				animation->SetFrameData(i++,320,82,115,56,84,138,115,56);
+				animation->SetFrameData(i++,310,152,112,55,88,143,112,55);
+				animation->SetFrameData(i++,467,1,109,52,94,149,109,52);
+				animation->SetFrameData(i++,438,82,106,54,99,149,106,54);
+				animation->SetFrameData(i++,425,152,101,62,105,144,101,62);
+				animation->SetSequenceData(1,12,23);
+			}
+			animation->SetSequence(0);
+			ofxRENDERER->PushSprite(animation);
+			if(i==0 && j==0) spriteObstacle = animation;
+			if(i==0 && j==0) spriteA = animation;
+			if(i==1 && j==1) spriteB = animation;
 		}
 	}
 }
@@ -277,12 +309,23 @@ void AnimationBenchmarkTest::Setup()
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			ofxRENDERER->PushSprite(sprite);
 			if(i==0 && j==0) spriteObstacle = sprite;
+			if(i==0 && j==0) spriteA = sprite;
+			if(i==1 && j==1) spriteB = sprite;
 		}
 	}
 }
 void AnimationBenchmarkTest::Update()
 {
 	ofxRENDERER->Update();
+	if(spriteA->GetWorldPosition().z < 1000.0f)
+	{
+		spriteA->MoveBy(0.0f,0.0f,15.0f);
+	}
+	else
+	{
+		spriteA->MoveBy(0.0f,0.0f,-2000.0f);
+	}
+	spriteB->MoveTo(ofxRENDERER->GetCamera()->getPosition());
 }
 void AnimationBenchmarkTest::Render()
 {
