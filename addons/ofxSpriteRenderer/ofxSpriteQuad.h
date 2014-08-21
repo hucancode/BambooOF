@@ -71,3 +71,4 @@ private:
 	void				SetID(int id);
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;
+#define DEFAULT_SHADER "sprite2d"

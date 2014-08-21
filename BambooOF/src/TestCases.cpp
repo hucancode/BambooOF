@@ -16,7 +16,6 @@ void Test::Render()
 void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->LoadShader("sprite2d");
 	sprite->SetTexture("data/sprint0001.png");
 	spriteObstacle = sprite;
 }
@@ -35,7 +34,6 @@ void RendererTest::Setup()
 		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
 			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
 			if(i==0 && j==0) spriteObstacle = sprite;
@@ -60,7 +58,6 @@ void SortingTest::Setup()
 		for(int j=-40;j<40;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteA = sprite;
@@ -103,7 +100,6 @@ void TextureTest::Setup()
 		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
 			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
@@ -122,7 +118,6 @@ void TextureTest::Render()
 void AnimationTest::Setup()
 {
 	ofxSpriteAnimation* animation = new ofxSpriteAnimation();
-	animation->LoadShader("sprite2d");
 	animation->SetTexture("data/animal_tiger1_attack.png");
 	animation->MoveTo(0.0f,0.0f,0.0f);
 	animation->SetFrameCount(24);
@@ -179,7 +174,6 @@ void SpriteBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
@@ -203,7 +197,6 @@ void SortBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
 			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
@@ -242,7 +235,6 @@ void AnimationBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteAnimation* animation = new ofxSpriteAnimation();
-			animation->LoadShader("sprite2d");
 			animation->SetTexture("data/animal_tiger1_attack.png");
 			animation->MoveTo(i*space_x,0.0f,j*space_y);
 			animation->SetFrameCount(24);

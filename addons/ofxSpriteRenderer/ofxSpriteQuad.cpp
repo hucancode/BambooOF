@@ -12,6 +12,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_DimensionChange = true;
 	m_UVChange = true;
 	m_VisibilityChange = true;
+	LoadShader(DEFAULT_SHADER);
 	ofxRENDERER->PushSprite(this);
 }
 ofxSpriteQuad::~ofxSpriteQuad()
