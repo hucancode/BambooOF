@@ -190,7 +190,15 @@ int ofxSpriteQuad::GetID()
 {
 	return m_ID;
 }
-#define QUAD_GRADIENT 0.7071067811865475
+// in order to make the quad skew 30 degree, we must put some adjust on Y and Z
+#define SKEW30
+#if defined(SKEW30)
+#define QUAD_GRADIENT_Z 0.4472135954999579// sqrt(0.2)
+#define QUAD_GRADIENT_Y 0.8944271909999159// sqrt(0.8)
+#elif defined(SKEW45)
+#define QUAD_GRADIENT_Z 0.7071067811865475// sqrt(0.5)
+#define QUAD_GRADIENT_Y 0.7071067811865475// sqrt(0.5)
+#endif
 void ofxSpriteQuad::SubmitChanges()
 {
 	UpdateVisibility(ofxRENDERER->IsCameraForce(), ofxRENDERER->IsCameraMove());
@@ -204,8 +212,8 @@ void ofxSpriteQuad::SubmitChanges()
 		m_Vertices[1].y = m_Vertices[0].y;
 		m_Vertices[1].z = m_Vertices[0].z;
 		m_Vertices[2].x = m_Vertices[1].x;
-		m_Vertices[2].y = m_Vertices[1].y + m_SpriteRect.w;
-		m_Vertices[2].z = m_Vertices[0].z - QUAD_GRADIENT*m_SpriteRect.w;
+		m_Vertices[2].y = m_Vertices[1].y + QUAD_GRADIENT_Y*m_SpriteRect.w;
+		m_Vertices[2].z = m_Vertices[0].z - QUAD_GRADIENT_Z*m_SpriteRect.w;
 		m_Vertices[3].x = m_Vertices[0].x;
 		m_Vertices[3].y = m_Vertices[2].y;
 		m_Vertices[3].z = m_Vertices[2].z;
