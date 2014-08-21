@@ -3,6 +3,9 @@
 #include "ofxResource.h"
 #include "ofxShader.h"
 
+/*
+TODO: make this class more dynamic, allow user to add custom uniform
+*/
 class ofxShaderProgram
 	:public ofxResource
 {

@@ -15,6 +15,7 @@ public:
 	ofxTextureCache();
 	~ofxTextureCache();
 	ofxTexture* GetResource(string resource_file);
+	bool PushResource(ofxTexture* resource, string resource_name);
 	void Clean();
 };
 #define ofxTEXTURECACHE ofxTextureCache::GetInstance()

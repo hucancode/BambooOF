@@ -35,6 +35,15 @@ ofxTexture* ofxTextureCache::GetResource(string resource_file)
 	}
 	return m_ResourceMap[resource_file];
 }
+bool ofxTextureCache::PushResource(ofxTexture* resource, string resource_name)
+{
+	if(m_ResourceMap[resource_name] == 0)
+	{
+		m_ResourceMap[resource_name] = resource;
+		return true;
+	}
+	return false;
+}
 void ofxTextureCache::Clean()
 {
 	map<string, ofxTexture*>::iterator it = m_ResourceMap.begin();

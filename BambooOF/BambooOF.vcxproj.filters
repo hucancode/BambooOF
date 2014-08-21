@@ -454,6 +454,12 @@
     <ClCompile Include="..\addons\ofxTerrain\ofxTile.cpp">
       <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteText.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteParticleEffect.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -1174,6 +1180,12 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxTerrain\ofxTile.h">
       <Filter>addons\ofxTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteText.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteParticleEffect.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
