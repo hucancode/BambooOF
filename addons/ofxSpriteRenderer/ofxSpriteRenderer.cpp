@@ -47,7 +47,7 @@ static bool QuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
 }
 void ofxSpriteRenderer::Render()
 {
-	printf("--------------RENDER--------------\n");
+	//printf("--------------RENDER--------------\n");
 	for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 	{
 		ofxSpriteCommand* item = *it;
@@ -55,20 +55,20 @@ void ofxSpriteRenderer::Render()
 	}
 	m_Commands.clear();
 	
-	unsigned long long time_start_build = ofGetSystemTime();
+	//unsigned long long time_start_build = ofGetSystemTime();
 	sort(m_Quads.begin(), m_Quads.end(), QuadCompare);
 	for(int i=0;i<m_Quads.size();i++)
 	{
 		m_Quads[i]->SetID(i);
 	}
-	unsigned long long time_finish_sort = ofGetSystemTime();
-	printf("sort time =  %llu\n", time_finish_sort - time_start_build);
+	//unsigned long long time_finish_sort = ofGetSystemTime();
+	//printf("sort time =  %llu\n", time_finish_sort - time_start_build);
 	int sprite_count = 0;
 	for(ofxSpriteQuads::iterator it = m_Quads.begin();it != m_Quads.end();it++)
 	{
 		ofxSpriteQuad* sprite = *it;
 		if(sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN && sprite->GetVisibility() != QUAD_VISIBILITY_UNKNOWN ||
-			!sprite->GetVisible())
+			!sprite->IsVisible())
 		{
 			continue;
 		}
@@ -88,7 +88,6 @@ void ofxSpriteRenderer::Render()
 				|| command->GetTexture() != sprite->GetTexture() 
 				|| sprite_count >= COMMAND_CAPACITY)
 			{
-				//command->m_IndicesSize = command->m_VerticesSize*1.5;
 				command = new ofxSpriteCommand();
 				command->SetShader(sprite->GetShader());
 				command->SetTexture(sprite->GetTexture());
@@ -99,8 +98,8 @@ void ofxSpriteRenderer::Render()
 		command->PushSprite(sprite);
 		sprite_count++;
 	}
-	unsigned long long time_finish_build = ofGetSystemTime();
-	printf("build time =  %llu\n", time_finish_build - time_start_build);
+	//unsigned long long time_finish_build = ofGetSystemTime();
+	//printf("build time =  %llu\n", time_finish_build - time_start_build);
 #ifdef _DEBUG
 	m_DrawnBatches = 0;
 	m_DrawnVertices = 0;

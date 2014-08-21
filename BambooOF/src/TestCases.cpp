@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new SortBenchmarkTest();
+Test* current_test = new AnimationBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -18,11 +18,6 @@ void SpriteTest::Setup()
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->LoadShader("sprite2d");
 	sprite->SetTexture("data/sprint0001.png");
-	
-	sprite->SetSpriteRect(0,0,192,192);
-	sprite->SetTextureRect(0,0,192,192);
-	sprite->MoveTo(0.0f,0.0f,0.1f);
-	ofxRENDERER->PushSprite(sprite);
 	spriteObstacle = sprite;
 }
 void SpriteTest::Update()
@@ -42,11 +37,7 @@ void RendererTest::Setup()
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
 			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
-			ofxRENDERER->PushSprite(sprite);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
 	}
@@ -71,11 +62,7 @@ void SortingTest::Setup()
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
-			sprite->MoveTo(i*space_x,i*0.01f,j*space_y);
-			ofxRENDERER->PushSprite(sprite);
+			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteA = sprite;
 			if(i==1 && j==1) spriteB = sprite;
 		}
@@ -118,11 +105,7 @@ void TextureTest::Setup()
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
 			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
-			ofxRENDERER->PushSprite(sprite);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
 	}
@@ -143,7 +126,6 @@ void AnimationTest::Setup()
 	animation->SetTexture("data/animal_tiger1_attack.png");
 	animation->MoveTo(0.0f,0.0f,0.0f);
 	animation->SetFrameCount(24);
-
 	animation->SetSequenceCount(2);
 	animation->SetFrameTime(0,0.1f);
 	animation->SetFrameTime(1,0.1f);
@@ -177,7 +159,6 @@ void AnimationTest::Setup()
 		animation->SetSequenceData(1,12,23);
 	}
 	animation->SetSequence(0);
-	ofxRENDERER->PushSprite(animation);
 	spriteObstacle = animation;
 }
 void AnimationTest::Update()
@@ -200,11 +181,7 @@ void SpriteBenchmarkTest::Setup()
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
 			sprite->LoadShader("sprite2d");
 			sprite->SetTexture("data/sprint0001.png");
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
-			ofxRENDERER->PushSprite(sprite);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
 	}
@@ -221,16 +198,54 @@ void SortBenchmarkTest::Setup()
 {
 	float space_x = 192.0f;
 	float space_y = 192.0f;
-	for(int i=-60;i<60;i++)
+	for(int i=-50;i<50;i++)
 	{
-		for(int j=-60;j<60;j++)
+		for(int j=-50;j<50;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->LoadShader("sprite2d");
+			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
+			sprite->MoveTo(i*space_x,0.0f,j*space_y);
+			if(i==0 && j==0) spriteObstacle = sprite;
+			if(i==0 && j==0) spriteA = sprite;
+			if(i==1 && j==1) spriteB = sprite;
+		}
+	}
+}
+void SortBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+	if(spriteA->GetWorldPosition().z < 1000.0f)
+	{
+		spriteA->MoveBy(0.0f,0.0f,15.0f);
+	}
+	else
+	{
+		spriteA->MoveBy(0.0f,0.0f,-2000.0f);
+	}
+	spriteB->MoveTo(ofxRENDERER->GetCamera()->getPosition());
+	int a = 10;
+}
+void SortBenchmarkTest::Render()
+{
+	ofxRENDERER->Render();
+	printf("update time = %u\nrender time = %u\n",
+		ofxRENDERER->GetUpdateTimeMilisecond(),
+		ofxRENDERER->GetRenderTimeMilisecond());
+}
+void AnimationBenchmarkTest::Setup()
+{
+	float space_x = 192.0f;
+	float space_y = 192.0f;
+	for(int i=-50;i<50;i++)
+	{
+		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteAnimation* animation = new ofxSpriteAnimation();
 			animation->LoadShader("sprite2d");
 			animation->SetTexture("data/animal_tiger1_attack.png");
 			animation->MoveTo(i*space_x,0.0f,j*space_y);
 			animation->SetFrameCount(24);
-
 			animation->SetSequenceCount(2);
 			animation->SetFrameTime(0,0.1f);
 			animation->SetFrameTime(1,0.1f);
@@ -264,53 +279,9 @@ void SortBenchmarkTest::Setup()
 				animation->SetSequenceData(1,12,23);
 			}
 			animation->SetSequence(0);
-			ofxRENDERER->PushSprite(animation);
 			if(i==0 && j==0) spriteObstacle = animation;
 			if(i==0 && j==0) spriteA = animation;
 			if(i==1 && j==1) spriteB = animation;
-		}
-	}
-}
-void SortBenchmarkTest::Update()
-{
-	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 1000.0f)
-	{
-		spriteA->MoveBy(0.0f,0.0f,15.0f);
-	}
-	else
-	{
-		spriteA->MoveBy(0.0f,0.0f,-2000.0f);
-	}
-	spriteB->MoveTo(ofxRENDERER->GetCamera()->getPosition());
-	int a = 10;
-}
-void SortBenchmarkTest::Render()
-{
-	ofxRENDERER->Render();
-	printf("update time = %u\nrender time = %u\n",
-		ofxRENDERER->GetUpdateTimeMilisecond(),
-		ofxRENDERER->GetRenderTimeMilisecond());
-}
-void AnimationBenchmarkTest::Setup()
-{
-	float space_x = 192.0f;
-	float space_y = 192.0f;
-	for(int i=-60;i<60;i++)
-	{
-		for(int j=-60;j<60;j++)
-		{
-			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->LoadShader("sprite2d");
-			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
-			
-			sprite->SetSpriteRect(0,0,192,192);
-			sprite->SetTextureRect(0,0,192,192);
-			sprite->MoveTo(i*space_x,0.0f,j*space_y);
-			ofxRENDERER->PushSprite(sprite);
-			if(i==0 && j==0) spriteObstacle = sprite;
-			if(i==0 && j==0) spriteA = sprite;
-			if(i==1 && j==1) spriteB = sprite;
 		}
 	}
 }

@@ -44,7 +44,7 @@ public:
 	~ofxSpriteQuad();
 	virtual void		Update(const float delta_time){}
 	void				SetVisible(bool value);
-	bool				GetVisible();
+	bool				IsVisible();
 	void				MoveTo(const float x, const float y, const float z);
 	void				MoveTo(const ofVec3f position);
 	void				MoveBy(const float x, const float y, const float z);

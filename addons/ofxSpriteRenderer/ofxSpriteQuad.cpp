@@ -12,16 +12,18 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_DimensionChange = true;
 	m_UVChange = true;
 	m_VisibilityChange = true;
+	ofxRENDERER->PushSprite(this);
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
 	if(m_Shader) m_Shader->DecreaseReference();
+	ofxRENDERER->EraseSprite(this);
 }
 void ofxSpriteQuad::SetVisible(bool value)
 {
 	m_Visible = value;
 }
-bool ofxSpriteQuad::GetVisible()
+bool ofxSpriteQuad::IsVisible()
 {
 	return m_Visible;
 }
@@ -46,6 +48,8 @@ void ofxSpriteQuad::SetTexture(string texture_path)
 	}
 	m_Texture = ofxTEXTURECACHE->GetResource(texture_path);
 	m_Texture->IncreaseReference();
+	SetSpriteRect(0, 0, m_Texture->GetTextureSize().x, m_Texture->GetTextureSize().y);
+	SetTextureRect(0, 0, m_Texture->GetTextureSize().x, m_Texture->GetTextureSize().y);
 }
 ofxTexture* ofxSpriteQuad::GetTexture()
 {
@@ -165,6 +169,7 @@ void ofxSpriteQuad::SetTextureRect(const float x, const float y, const float w, 
 void ofxSpriteQuad::SetSpriteRect(const float x, const float y, const float w, const float h)
 {
 	m_SpriteRect.set(x,y,w,h);
+	m_DimensionChange = true;
 }
 void ofxSpriteQuad::SetTextureRect(const ofVec4f rect)
 {
@@ -174,6 +179,7 @@ void ofxSpriteQuad::SetTextureRect(const ofVec4f rect)
 void ofxSpriteQuad::SetSpriteRect(const ofVec4f rect)
 {
 	m_SpriteRect = rect;
+	m_DimensionChange = true;
 }
 void ofxSpriteQuad::SetID(int id)
 {
