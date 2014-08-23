@@ -8,7 +8,7 @@ enum COMMAND_STATUS
 	COMMAND_STATUS_DISMISSED,
 	COMMAND_STATUS_EXPANDED
 };
-#define COMMAND_CAPACITY 10000
+#define COMMAND_CAPACITY 5000
 
 class ofxSpriteCommand
 {
@@ -24,7 +24,7 @@ private:
 	ofxShaderProgram*		m_Shader;
 	ofxVertex*				m_Vertices;
 	GLuint					m_VBOId;
-	int						m_VerticesSize;
+	GLsizei					m_VerticesSize;
 	GLsizei					m_IndicesSize;
 public:
 	ofxSpriteCommand();

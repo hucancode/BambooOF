@@ -7,6 +7,11 @@ struct ofxVertex
 	float x,y,z;// position
 	float u,v;// texture uv
 };
+// --------------------------------
+// note:
+// programmatically, QUAD_VISIBILITY_IN_SCREEN and QUAD_VISIBILITY_UNKNOWN define same state
+// both needs to update position information. but we split it to improve code readability
+// ---------------------------------
 enum QUAD_VISIBILITY
 {
 	QUAD_VISIBILITY_IN_SCREEN,

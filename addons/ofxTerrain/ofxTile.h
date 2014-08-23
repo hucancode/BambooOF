@@ -1,6 +1,7 @@
 #pragma once
-class ofxTile
+struct ofxTile
 {
-private:
-public:
+	float x,y,z;
+	float u,v;
+	float id;
 };
