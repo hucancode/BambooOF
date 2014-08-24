@@ -30,11 +30,11 @@ public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
 private:
-	void Render();
-	void PushSprite(ofxSpriteQuad* sprite);
-	ofxTexture* GetTexture();
-	ofxShaderProgram* GetShader();
-	void SetTexture(ofxTexture* texture);
-	void SetShader(ofxShaderProgram* shader);
+	void					Render();
+	void					PushSprite(ofxSpriteQuad* sprite);
+	ofxTexture*				GetTexture();
+	ofxShaderProgram*		GetShader();
+	void					SetTexture(ofxTexture* texture);
+	void					SetShader(ofxShaderProgram* shader);
 };
 typedef vector<ofxSpriteCommand*> ofxSpriteCommands;

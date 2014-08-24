@@ -6,13 +6,13 @@ class ofxShader
 {
 	friend class ofxShaderProgram;
 private:
-	GLuint m_ShaderId;
+	GLuint			m_ShaderId;
 public:
 	ofxShader();
 	~ofxShader();
-	virtual bool Load(string shader_file);
-	virtual void IncreaseReference();
-	virtual void DecreaseReference();
-	virtual bool IsUnused();
-	bool Load(string shader_file, GLenum type);
+	virtual bool	Load(string shader_file);
+	virtual void	IncreaseReference();
+	virtual void	DecreaseReference();
+	virtual bool	IsUnused();
+	bool			Load(string shader_file, GLenum type);
 };

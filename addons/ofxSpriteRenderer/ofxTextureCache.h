@@ -6,16 +6,16 @@
 class ofxTextureCache
 {
 public :
-	static ofxTextureCache* s_Instance;
-	static ofxTextureCache* GetInstance();
-	static void DestroyInstance();
+	static ofxTextureCache*		s_Instance;
+	static ofxTextureCache*		GetInstance();
+	static void					DestroyInstance();
 private:
-	map<string, ofxTexture*> m_ResourceMap;
+	map<string, ofxTexture*>	m_ResourceMap;
 public:
 	ofxTextureCache();
 	~ofxTextureCache();
-	ofxTexture* GetResource(string resource_file);
-	bool PushResource(ofxTexture* resource, string resource_name);
-	void Clean();
+	ofxTexture*					GetResource(string resource_file);
+	bool						PushResource(ofxTexture* resource, string resource_name);
+	void						Clean();
 };
 #define ofxTEXTURECACHE ofxTextureCache::GetInstance()

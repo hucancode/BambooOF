@@ -66,3 +66,7 @@ void ofxTexture::Unbind(GLuint slot)
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+ofVec2f ofxTexture::GetTextureSize()
+{
+	return m_TextureSize; 
+}

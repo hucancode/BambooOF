@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxTile.h"
+#include "FreeImage.h"
 
 class ofxTerrain
 {
@@ -16,6 +17,9 @@ private:
 	GLsizei					m_IndicesSize;
 	GLuint*					m_Indices;
 	GLuint					m_IBOId;
+private:
+	FIBITMAP*				m_SurfaceImageData;
+	GLuint					m_TextureId;
 public:
 	ofxTerrain();
 	~ofxTerrain();
@@ -26,4 +30,6 @@ public:
 	float					GetHeight(int x, int y);
 	void					BuildTileMap();
 	void					RenderTiles();
+public:
+	void					LoadSurfaceTexture(string path);
 };
