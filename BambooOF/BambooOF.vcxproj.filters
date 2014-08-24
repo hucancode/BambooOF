@@ -442,12 +442,6 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxTerrain\ofxDoodad.cpp">
-      <Filter>addons\ofxTerrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxTerrain\ofxStructure.cpp">
-      <Filter>addons\ofxTerrain</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxTerrain\ofxTerrain.cpp">
       <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
@@ -1168,12 +1162,6 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxTerrain\ofxDoodad.h">
-      <Filter>addons\ofxTerrain</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxTerrain\ofxStructure.h">
-      <Filter>addons\ofxTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxTerrain\ofxTerrain.h">
       <Filter>addons\ofxTerrain</Filter>

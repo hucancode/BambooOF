@@ -8,14 +8,12 @@ class ofxTerrain
 private:
 	int						m_Width;
 	int						m_Height;
-	int**					m_TileMap;
-	float**					m_HeightMap;
+	vector<vector<short> >	m_TileMap;
+	vector<vector<float> >	m_HeightMap;
 private:
-	GLsizei					m_VerticesSize;
-	ofxTile*				m_Tiles;
+	vector<ofxTile>			m_Tiles;
 	GLuint					m_VBOId;
-	GLsizei					m_IndicesSize;
-	GLuint*					m_Indices;
+	vector<GLuint>			m_Indices;
 	GLuint					m_IBOId;
 private:
 	FIBITMAP*				m_SurfaceImageData;
@@ -24,12 +22,12 @@ public:
 	ofxTerrain();
 	~ofxTerrain();
 	void					Initialize(int width, int height);
-	void					SetTile(int x, int y, int id);
-	int						GetTile(int x, int y);
+	void					SetTile(int x, int y, short id);
+	short					GetTile(int x, int y);
 	void					SetHeight(int x, int y, float height);
 	float					GetHeight(int x, int y);
 	void					BuildTileMap();
 	void					RenderTiles();
 public:
-	void					LoadSurfaceTexture(string path);
+	bool					LoadSurfaceTexture(string path);
 };
