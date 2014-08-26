@@ -8,7 +8,8 @@ TASK LIST
   * develop wrapper [OK]
   * render using of [OK]
 * port bamboo from cc to of [DEV]
-  * develop 2d sprite renderer/3d plane renderer [DEV]
+  * develop 2d sprite renderer/3d plane renderer [OK]
+  * terrain rendering [DEV]
   * render character using sprite renderer
   * redesign data
   * memory management
