@@ -2,6 +2,8 @@
 #include "ofMain.h"
 #include "ofxTile.h"
 #include "FreeImage.h"
+#define INF 10000
+#define NUMBER_OF_LAYERS 3
 
 class ofxTerrain
 {
@@ -11,13 +13,17 @@ private:
 	vector<vector<short> >	m_TileMap;
 	vector<vector<float> >	m_HeightMap;
 private:
-	vector<ofxTile>			m_Tiles;
-	GLuint					m_VBOId;
-	vector<GLuint>			m_Indices;
-	GLuint					m_IBOId;
+	GLuint					m_BaseVBOId;
+	GLuint					m_BaseIBOId;
+	vector<ofxTile>			m_GroundVetices[NUMBER_OF_LAYERS];
+	GLuint					m_GroundVBOId[NUMBER_OF_LAYERS];
+	vector<GLuint>			m_GroundIndices[NUMBER_OF_LAYERS];
+	GLuint					m_GroundIBOId[NUMBER_OF_LAYERS];
 private:
-	FIBITMAP*				m_SurfaceImageData;
-	GLuint					m_TextureId;
+	FIBITMAP*				m_BaseImage;
+	GLuint					m_BaseTextureId;
+	FIBITMAP*				m_GroundImage[NUMBER_OF_LAYERS];
+	GLuint					m_GroundTextureId[NUMBER_OF_LAYERS];
 public:
 	ofxTerrain();
 	~ofxTerrain();
@@ -29,5 +35,6 @@ public:
 	void					BuildTileMap();
 	void					RenderTiles();
 public:
-	bool					LoadSurfaceTexture(string path);
+	bool					LoadBaseTexture(string path);
+	bool					LoadGroundTexture(string path, short layer);
 };
