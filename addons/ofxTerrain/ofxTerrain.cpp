@@ -90,7 +90,26 @@ float ofxTerrain::GetHeight(int x, int y)
 void ofxTerrain::BuildTileMap()
 {
 	{
-		// TODO: generate base indices & uv
+		m_BaseVertices[0].x = 0.0f;
+		m_BaseVertices[0].y = 0.0f;
+		m_BaseVertices[0].z = 0.0f;
+		m_BaseVertices[1].x = m_BaseVertices[0].x + (m_Width+1)*TILE_SIZE;
+		m_BaseVertices[1].y = m_BaseVertices[0].y;
+		m_BaseVertices[1].z = m_BaseVertices[0].z;
+		m_BaseVertices[2].x = m_BaseVertices[1].x;
+		m_BaseVertices[2].y = m_BaseVertices[1].y + (m_Height+1)*TILE_SIZE;
+		m_BaseVertices[2].z = m_BaseVertices[1].z;
+		m_BaseVertices[3].x = m_BaseVertices[0].x;
+		m_BaseVertices[3].y = m_BaseVertices[2].y;
+		m_BaseVertices[3].z = m_BaseVertices[2].z;
+		m_BaseVertices[0].u = 0.0f;
+		m_BaseVertices[0].v = 0.0f;
+		m_BaseVertices[1].u = m_BaseVertices[0].u + (m_Width+1);
+		m_BaseVertices[1].v = m_BaseVertices[0].v;
+		m_BaseVertices[2].u = m_BaseVertices[1].u;
+		m_BaseVertices[2].v = m_BaseVertices[1].v + (m_Height+1);
+		m_BaseVertices[3].u = m_BaseVertices[0].u;
+		m_BaseVertices[3].v = m_BaseVertices[2].v;
 	}
 	for(int i=0;i<m_Width;i++)
 	{
@@ -188,19 +207,19 @@ bool ofxTerrain::LoadBaseTexture(string path)
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 	}
 	{
-		GLint param = GL_CLAMP_TO_EDGE;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,param);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,param);
+		GLint param = GL_REPEAT;
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, param);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, param);
 	}
 	{
-		GLint param = GL_CLAMP_TO_EDGE;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,param);
+		GLint param = GL_REPEAT;
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)
 		{
 			glGenerateMipmap(GL_TEXTURE_2D);
 			param = GL_LINEAR;
 		}
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,param);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, param);
 	}
 	/*delete pixel_data;
 	delete image_data;*/
