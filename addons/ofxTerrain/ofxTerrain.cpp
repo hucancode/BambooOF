@@ -141,8 +141,8 @@ void ofxTerrain::BuildTileMap()
 		m_BaseVertices[1].y = m_BaseVertices[0].y;
 		m_BaseVertices[1].z = m_BaseVertices[0].z;
 		m_BaseVertices[2].x = m_BaseVertices[1].x;
-		m_BaseVertices[2].y = m_BaseVertices[1].y + (m_Height+1)*TILE_SIZE;
-		m_BaseVertices[2].z = m_BaseVertices[1].z;
+		m_BaseVertices[2].y = m_BaseVertices[1].y;
+		m_BaseVertices[2].z = m_BaseVertices[1].z + (m_Height+1)*TILE_SIZE;
 		m_BaseVertices[3].x = m_BaseVertices[0].x;
 		m_BaseVertices[3].y = m_BaseVertices[2].y;
 		m_BaseVertices[3].z = m_BaseVertices[2].z;
@@ -184,14 +184,14 @@ void ofxTerrain::BuildTileMap()
 			vertex_d.v = vertex_c.v;
 
 			vertex_a.x = i*TILE_SIZE;
-			vertex_a.y = j*TILE_SIZE;
-			vertex_a.z = m_HeightMap[i][j];
+			vertex_a.y = m_HeightMap[i][j];
+			vertex_a.z = j*TILE_SIZE;
 			vertex_b.x = vertex_a.x + TILE_SIZE;
 			vertex_b.y = vertex_a.y;
 			vertex_b.z = vertex_a.z;
 			vertex_c.x = vertex_b.x;
-			vertex_c.y = vertex_b.y + TILE_SIZE;
-			vertex_c.z = vertex_b.z;
+			vertex_c.y = vertex_b.y;
+			vertex_c.z = vertex_b.z + TILE_SIZE;
 			vertex_d.x = vertex_a.x;
 			vertex_d.y = vertex_c.y;
 			vertex_d.z = vertex_c.z;
