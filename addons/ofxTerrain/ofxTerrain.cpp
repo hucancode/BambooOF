@@ -111,6 +111,11 @@ void ofxTerrain::BuildTileMap()
 		m_BaseVertices[3].u = m_BaseVertices[0].u;
 		m_BaseVertices[3].v = m_BaseVertices[2].v;
 	}
+	for(int i=0;i<NUMBER_OF_LAYERS;i++)
+	{
+		m_GroundIndices[i].clear();
+		m_GroundVetices[i].clear();
+	}
 	for(int i=0;i<m_Width;i++)
 	{
 		for(int j=0;j<m_Height;j++)
@@ -124,7 +129,16 @@ void ofxTerrain::BuildTileMap()
 				vertex_b,
 				vertex_c,
 				vertex_d;
-			// TODO: calculate uv
+
+			vertex_a.u = (id%4)*0.25f;
+			vertex_a.v = (id/4)*0.25f;// this calculation is not optimized to improve readability
+			vertex_b.u = vertex_a.u + 0.25f;
+			vertex_b.v = vertex_a.v;
+			vertex_c.u = vertex_b.u;
+			vertex_c.v = vertex_b.v + 0.25f;
+			vertex_d.u = vertex_a.u;
+			vertex_d.v = vertex_c.v;
+
 			vertex_a.x = i*TILE_SIZE;
 			vertex_a.y = j*TILE_SIZE;
 			vertex_a.z = m_HeightMap[i][j];

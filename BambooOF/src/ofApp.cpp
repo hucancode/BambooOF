@@ -3,7 +3,6 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-#include <string>
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
