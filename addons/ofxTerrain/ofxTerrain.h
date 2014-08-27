@@ -2,9 +2,8 @@
 #include "ofMain.h"
 #include "ofxTile.h"
 #include "FreeImage.h"
-#define INF 10000
+#define INF 255
 #define NUMBER_OF_LAYERS 3
-#define NUMBER_OF_DIFFERENT_TILE 16
 #define TILE_SIZE 64
 #define VERTEX_SHADER											\
 "uniform mat4 u_transform_matrix;								\
@@ -25,6 +24,11 @@ void main()														\
     gl_FragColor = color;										\
 }"
 
+/*----------------------------------
+note: 
+- terrain layer doesn't like layer in photoshop
+- it's kind of group, 2 tiles in the same layer draw at the same time, using same texture
+------------------------------------*/
 class ofxTerrain
 {
 private:
@@ -39,7 +43,8 @@ private:
 private:
 	int						m_Width;
 	int						m_Height;
-	vector<vector<short> >	m_TileMap;
+	vector<vector<char> >	m_TileMap;
+	vector<vector<char> >	m_LayerMap;
 	vector<vector<float> >	m_HeightMap;
 private:
 	ofxTile					m_BaseVertices[4];
@@ -60,8 +65,10 @@ public:
 	ofxTerrain();
 	~ofxTerrain();
 	void					Initialize(int width, int height);
-	void					SetTile(int x, int y, short id);
-	short					GetTile(int x, int y);
+	void					PaintTile(int x, int y);
+	void					EraseTile(int x, int y);
+	void					SetLayer(int x, int y, char layer);
+	short					GetTileID(int x, int y);
 	void					SetHeight(int x, int y, float height);
 	float					GetHeight(int x, int y);
 	void					BuildTileMap();

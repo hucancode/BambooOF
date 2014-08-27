@@ -71,11 +71,55 @@ void ofxTerrain::Initialize(int width, int height)
 		m_HeightMap[i].resize(height);
 	}
 }
-void ofxTerrain::SetTile(int x, int y, short id)
+void ofxTerrain::PaintTile(int x, int y)
 {
-	m_TileMap[x][y] = id;
+	// Bottom Left
+	if(x > 0)
+	{
+		m_TileMap[x-1][y] = m_TileMap[x-1][y] | 1;//0001
+	}
+	// Top Left
+	if(x > 0 && y > 0)
+	{
+		m_TileMap[x-1][y-1] = m_TileMap[x-1][y-1] | 2;//0010
+	}
+	// Top Right
+	if(y > 0)
+	{
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] | 4;//0100
+	}
+	// Bottom Right
+	{
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] | 8;//1000
+	}
 }
-short ofxTerrain::GetTile(int x, int y)
+void ofxTerrain::SetLayer(int x, int y, char layer)
+{
+	m_LayerMap[x][y] = layer;
+}
+void ofxTerrain::EraseTile(int x, int y)
+{
+	// Bottom Left
+	if(x > 0)
+	{
+		m_TileMap[x-1][y] = m_TileMap[x-1][y] & 14;//1110
+	}
+	// Top Left
+	if(x > 0 && y > 0)
+	{
+		m_TileMap[x-1][y-1] = m_TileMap[x-1][y-1] & 13;//1101
+	}
+	// Top Right
+	if(y > 0)
+	{
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 11;//0100
+	}
+	// Bottom Right
+	{
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 7;//1000
+	}
+}
+short ofxTerrain::GetTileID(int x, int y)
 {
 	return m_TileMap[x][y];
 }
@@ -121,9 +165,9 @@ void ofxTerrain::BuildTileMap()
 		for(int j=0;j<m_Height;j++)
 		{
 			if(m_TileMap[i][j] == INF) continue;
-			int layer = m_TileMap[i][j] / NUMBER_OF_DIFFERENT_TILE;
+			char layer = m_LayerMap[i][j];
 			if(layer >= NUMBER_OF_LAYERS) continue;
-			int id = m_TileMap[i][j] % NUMBER_OF_DIFFERENT_TILE;
+			char id = m_TileMap[i][j];
 
 			ofxTile vertex_a,
 				vertex_b,
@@ -151,12 +195,12 @@ void ofxTerrain::BuildTileMap()
 			vertex_d.x = vertex_a.x;
 			vertex_d.y = vertex_c.y;
 			vertex_d.z = vertex_c.z;
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+0);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+1);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+2);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+0);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+2);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size()+3);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 0);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 1);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 2);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 0);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 2);
+			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 3);
 			m_GroundVetices[layer].push_back(vertex_a);
 			m_GroundVetices[layer].push_back(vertex_b);
 			m_GroundVetices[layer].push_back(vertex_c);
