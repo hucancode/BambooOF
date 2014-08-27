@@ -119,7 +119,7 @@ void ofxTerrain::EraseTile(int x, int y)
 		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 7;//0111
 	}
 }
-short ofxTerrain::GetTileID(int x, int y)
+char ofxTerrain::GetTileID(int x, int y)
 {
 	return m_TileMap[x][y];
 }

@@ -27,7 +27,7 @@ void main()														\
 /*----------------------------------
 note: 
 - terrain layer doesn't like layer in photoshop
-- it's kind of group, 2 tiles in the same layer draw at the same time, using same texture
+- it's kind of group, tiles in the same layer draw at the same time, using same texture
 ------------------------------------*/
 class ofxTerrain
 {
@@ -68,7 +68,7 @@ public:
 	void					PaintTile(int x, int y);
 	void					EraseTile(int x, int y);
 	void					SetLayer(int x, int y, char layer);
-	short					GetTileID(int x, int y);
+	char					GetTileID(int x, int y);
 	void					SetHeight(int x, int y, float height);
 	float					GetHeight(int x, int y);
 	void					BuildTileMap();
