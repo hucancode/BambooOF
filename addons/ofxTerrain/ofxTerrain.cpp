@@ -116,7 +116,7 @@ void ofxTerrain::EraseTile(int x, int y)
 	}
 	// Bottom Right
 	{
-		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 7;//1000
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 7;//0111
 	}
 }
 short ofxTerrain::GetTileID(int x, int y)
@@ -283,7 +283,7 @@ bool ofxTerrain::LoadBaseTexture(string path)
 	delete image_data;*/
 	return true;
 }
-bool ofxTerrain::LoadGroundTexture(string path, short layer)
+bool ofxTerrain::LoadGroundTexture(string path, char layer)
 {
 	m_GroundImage[layer] = FreeImage_Load(FIF_PNG, path.c_str(), PNG_DEFAULT);
 	FreeImage_FlipVertical(m_GroundImage[layer]);

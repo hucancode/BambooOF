@@ -75,5 +75,5 @@ public:
 	void					RenderTiles();
 public:
 	bool					LoadBaseTexture(string path);
-	bool					LoadGroundTexture(string path, short layer);
+	bool					LoadGroundTexture(string path, char layer);
 };
