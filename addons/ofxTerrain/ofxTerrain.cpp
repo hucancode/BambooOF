@@ -3,12 +3,10 @@ ofxTerrain::ofxTerrain()
 {
 	{
 		glGenBuffers(1, &m_BaseVBOId);
-		//glGenBuffers(1, &m_BaseIBOId);
 		glGenTextures(1, &m_BaseTextureId);
 		for(int i=0;i<NUMBER_OF_LAYERS;i++)
 		{
 			glGenBuffers(1, &m_GroundVBOId[i]);
-			glGenBuffers(1, &m_GroundIBOId[i]);
 			glGenTextures(1, &m_GroundTextureId[i]);
 		}
 	}
@@ -76,12 +74,10 @@ ofxTerrain::ofxTerrain()
 ofxTerrain::~ofxTerrain()
 {
 	glDeleteBuffers(1, &m_BaseVBOId);
-	glDeleteBuffers(1, &m_BaseIBOId);
 	glDeleteTextures(1, &m_BaseTextureId);
 	for(int i=0;i<NUMBER_OF_LAYERS;i++)
 	{
 		glDeleteBuffers(1, &m_GroundVBOId[i]);
-		glDeleteBuffers(1, &m_GroundIBOId[i]);
 		glDeleteTextures(1, &m_GroundTextureId[i]);
 	}
 	{
@@ -95,14 +91,6 @@ void ofxTerrain::Initialize(int width, int height)
 {
 	m_Width = width;
 	m_Height = height;
-	for(int i=0; i<NUMBER_OF_LAYERS; i++)
-	{
-		m_GroundVetices[i].clear();
-		m_GroundIndices[i].clear();
-		int tile = (width-1)*(height-1);
-		m_GroundVetices[i].resize(tile*4);
-		m_GroundIndices[i].resize(tile*6);
-	}
 	m_TileMap.resize(width);
 	m_LayerMap.resize(width);
 	m_HeightMap.resize(width);
@@ -132,7 +120,7 @@ void ofxTerrain::PaintTile(int x, int y)
 	}
 	// Bottom Right
 	{
-		m_TileMap[x][y-1] = m_TileMap[x][y-1] | 8;//1000
+		m_TileMap[x][y] = m_TileMap[x][y] | 8;//1000
 	}
 }
 void ofxTerrain::SetLayer(int x, int y, char layer)
@@ -158,7 +146,7 @@ void ofxTerrain::EraseTile(int x, int y)
 	}
 	// Bottom Right
 	{
-		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 7;//0111
+		m_TileMap[x][y] = m_TileMap[x][y] & 7;//0111
 	}
 }
 char ofxTerrain::GetTileID(int x, int y)
@@ -190,27 +178,25 @@ void ofxTerrain::BuildTileMap()
 		m_BaseVertices[3].z = m_BaseVertices[2].z;
 		m_BaseVertices[0].u = 0.0f;
 		m_BaseVertices[0].v = 0.0f;
-		m_BaseVertices[1].u = m_BaseVertices[0].u + (m_Width+1);
+		m_BaseVertices[1].u = m_BaseVertices[0].u + (m_Width+1)*0.25;
 		m_BaseVertices[1].v = m_BaseVertices[0].v;
 		m_BaseVertices[2].u = m_BaseVertices[1].u;
-		m_BaseVertices[2].v = m_BaseVertices[1].v + (m_Height+1);
+		m_BaseVertices[2].v = m_BaseVertices[1].v + (m_Height+1)*0.25;
 		m_BaseVertices[3].u = m_BaseVertices[0].u;
 		m_BaseVertices[3].v = m_BaseVertices[2].v;
 	}
 	for(int i=0; i<NUMBER_OF_LAYERS; i++)
 	{
-		m_GroundIndices[i].clear();
 		m_GroundVetices[i].clear();
 	}
 	for(int i=0; i<m_Width; i++)
 	{
 		for(int j=0; j<m_Height; j++)
 		{
-			if(m_TileMap[i][j] == INF) continue;
+			if(m_TileMap[i][j] == 0) continue;
 			char layer = m_LayerMap[i][j];
 			if(layer >= NUMBER_OF_LAYERS) continue;
 			char id = m_TileMap[i][j];
-
 			ofxTile vertex_a,
 				vertex_b,
 				vertex_c,
@@ -237,12 +223,6 @@ void ofxTerrain::BuildTileMap()
 			vertex_d.x = vertex_a.x;
 			vertex_d.y = vertex_c.y;
 			vertex_d.z = vertex_c.z;
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 0);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 1);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 2);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 0);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 2);
-			m_GroundIndices[layer].push_back(m_GroundVetices[layer].size() + 3);
 			m_GroundVetices[layer].push_back(vertex_a);
 			m_GroundVetices[layer].push_back(vertex_b);
 			m_GroundVetices[layer].push_back(vertex_c);
@@ -271,25 +251,22 @@ void ofxTerrain::RenderTiles()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	/*
+	
 	for(int i=0; i<NUMBER_OF_LAYERS; i++)
 	{
 		if(m_GroundVetices[i].size() == 0) continue;
 		glBindBuffer(GL_ARRAY_BUFFER, m_GroundVBOId[i]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_GroundIBOId[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxTile)*m_GroundVetices[i].size(), &m_GroundVetices[i][0], GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*m_GroundIndices[i].size(), &m_GroundIndices[i][0], GL_STATIC_DRAW);
 		glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, x));
 		glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, u));
 		glBindTexture(GL_TEXTURE_2D, m_GroundTextureId[i]);
 
-		glDrawElements(GL_TRIANGLES, m_GroundIndices[i].size(), GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_QUADS, 0, m_GroundVetices[i].size());
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	*/
+	
 	glUseProgram(0);
 	glDepthMask(GL_TRUE);
 }
@@ -342,18 +319,18 @@ bool ofxTerrain::LoadGroundTexture(string path, char layer)
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,param);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, param);
 	}
 	{
-		GLint param = GL_CLAMP_TO_EDGE;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,param);
+		GLint param = GL_LINEAR;
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)
 		{
 			glGenerateMipmap(GL_TEXTURE_2D);
 			param = GL_LINEAR;
 		}
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 	}
 	/*delete pixel_data;
 	delete image_data;*/

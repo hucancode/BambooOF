@@ -22,8 +22,8 @@ uniform sampler2D u_texture;									\
 varying vec2 v_uv;												\
 void main()														\
 {																\
-	vec4 color = vec4(1,0,0,1);//texture2D(u_texture,v_uv);						\
-    gl_FragColor = color;										\
+	vec4 color = texture2D(u_texture,v_uv);						\
+    gl_FragColor = color.bgra;										\
 }"
 
 
@@ -52,13 +52,8 @@ private:
 private:
 	ofxTile					m_BaseVertices[4];
 	GLuint					m_BaseVBOId;
-	GLuint					m_BaseIndices[6];
-	GLuint					m_BaseIBOId;
-	
 	vector<ofxTile>			m_GroundVetices[NUMBER_OF_LAYERS];
 	GLuint					m_GroundVBOId[NUMBER_OF_LAYERS];
-	vector<GLuint>			m_GroundIndices[NUMBER_OF_LAYERS];
-	GLuint					m_GroundIBOId[NUMBER_OF_LAYERS];
 private:
 	FIBITMAP*				m_BaseImage;
 	GLuint					m_BaseTextureId;

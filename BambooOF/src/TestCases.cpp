@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new TerrainTest();
+Test* current_test = new TerrainSpriteTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -169,8 +169,8 @@ void TerrainTest::Setup()
 {
 	terrain = new ofxTerrain();
 	terrain->Initialize(100,100);
-	terrain->LoadBaseTexture("data/base.png");
-	terrain->LoadGroundTexture("tile_with_code.png",0);
+	terrain->LoadBaseTexture("data/base24.png");
+	terrain->LoadGroundTexture("data/tile_with_code.png",0);
 	terrain->PaintTile(10,10);
 	terrain->BuildTileMap();
 }
@@ -180,6 +180,34 @@ void TerrainTest::Update()
 void TerrainTest::Render()
 {
 	terrain->RenderTiles();
+}
+void TerrainSpriteTest::Setup()
+{
+	terrain = new ofxTerrain();
+	terrain->Initialize(100,100);
+	terrain->LoadBaseTexture("data/base24.png");
+	terrain->LoadGroundTexture("data/tile_with_code.png",0);
+	terrain->PaintTile(10,10);
+	terrain->BuildTileMap();
+	for(int i=-20;i<20;i++)
+	{
+		for(int j=-20;j<20;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetTexture("data/sprint0001.png");
+			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
+}
+void TerrainSpriteTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TerrainSpriteTest::Render()
+{
+	terrain->RenderTiles();
+	ofxRENDERER->Render();
 }
 
 void SpriteBenchmarkTest::Setup()
