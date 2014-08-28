@@ -13,7 +13,6 @@ void ofxSpriteRenderer::DestroyInstance()
 ofxSpriteRenderer::ofxSpriteRenderer()
 {
 	if(s_Instance) return;
-	ofxSpriteCommand::GenerateSharedIndices();
 	m_Camera = new ofxOrthoCamera();
 	s_Instance = this;
 	m_CameraMove = true;
@@ -21,7 +20,6 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 }
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
-	ofxSpriteCommand::DeleteSharedIndices();
 	{
 		ofxSpriteCommands::iterator it = m_Commands.begin();
 		for(;it != m_Commands.end();it++)

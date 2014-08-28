@@ -168,10 +168,10 @@ void AnimationTest::Render()
 void TerrainTest::Setup()
 {
 	terrain = new ofxTerrain();
-	terrain->Initialize(100,100);
+	terrain->Initialize(100, 100);
 	terrain->LoadBaseTexture("data/base24.png");
 	terrain->LoadGroundTexture("data/tile_with_code.png",0);
-	terrain->PaintTile(10,10);
+	terrain->PaintTile(10, 10);
 	terrain->BuildTileMap();
 }
 void TerrainTest::Update()
@@ -184,10 +184,15 @@ void TerrainTest::Render()
 void TerrainSpriteTest::Setup()
 {
 	terrain = new ofxTerrain();
-	terrain->Initialize(100,100);
+	terrain->Initialize(100, 100);
 	terrain->LoadBaseTexture("data/base24.png");
-	terrain->LoadGroundTexture("data/tile_with_code.png",0);
-	terrain->PaintTile(10,10);
+	terrain->LoadGroundTexture("data/tile_with_code.png", 0);
+	for(int i=0;i<1000;i++)
+	{
+		int x = ofRandom(0, 99);
+		int y = ofRandom(0, 99);
+		terrain->PaintTile(x, y);
+	}
 	terrain->BuildTileMap();
 	for(int i=-20;i<20;i++)
 	{
