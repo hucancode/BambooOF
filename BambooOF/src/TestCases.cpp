@@ -183,16 +183,49 @@ void TerrainTest::Render()
 }
 void TerrainSpriteTest::Setup()
 {
+	const int TERRAIN_WIDTH = 100;
+	const int TERRAIN_HEIGHT = 100;
+	const int SEED_MAX_WIDTH = 10;
+	const int SEED_MAX_HEIGHT = 10;
+	const int SEED_MAX_TRACE_X = 10;
+	const int SEED_MAX_TRACE_Y = 10;
 	terrain = new ofxTerrain();
-	terrain->Initialize(100, 100);
+	terrain->Initialize(TERRAIN_WIDTH, TERRAIN_HEIGHT);
 	terrain->LoadBaseTexture("data/base24.png");
-	terrain->LoadGroundTexture("data/tile_with_code.png", 0);
-	for(int i=0;i<1000;i++)
+	terrain->LoadGroundTexture("data/tile.png", 0);
+
+	// --------- this is a stupid terrain generating algorithm, you don't need to check
+	for(int i=0;i<50;i++)
 	{
-		int x = ofRandom(0, 99);
-		int y = ofRandom(0, 99);
-		terrain->PaintTile(x, y);
+		int x = ofRandom(0, TERRAIN_WIDTH - max(SEED_MAX_WIDTH,SEED_MAX_TRACE_X) - 1);
+		int y = ofRandom(0, TERRAIN_HEIGHT - max(SEED_MAX_HEIGHT,SEED_MAX_TRACE_Y) - 1);
+		int spread_x = ofRandom(0, SEED_MAX_WIDTH);
+		int spread_y = ofRandom(0, SEED_MAX_HEIGHT);
+		for(int j=0;j<spread_x;j++)
+		{
+			for(int k=0;k<spread_y;k++)
+			{
+				terrain->PaintTile(x+j, y+k);
+			}
+		}
+		int trace_x = ofRandom(0, SEED_MAX_TRACE_X);
+		int trace_y = ofRandom(0, SEED_MAX_TRACE_Y);
+		for(int j=0;j<trace_x;j++)
+		{
+			terrain->PaintTile(x+j, y);
+			terrain->PaintTile(x+j+1, y);
+			terrain->PaintTile(x+j+1, y+1);
+			terrain->PaintTile(x+j, y+1);
+		}
+		for(int j=0;j<trace_y;j++)
+		{
+			terrain->PaintTile(x, y+j);
+			terrain->PaintTile(x+1, y+j);
+			terrain->PaintTile(x+1, y+j+1);
+			terrain->PaintTile(x, y+j+1);
+		}
 	}
+	//--------------
 	terrain->BuildTileMap();
 	for(int i=-20;i<20;i++)
 	{

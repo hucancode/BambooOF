@@ -13,6 +13,7 @@
 /*
 TODO: 
 - particle effect support
+- text render support
 */
 class ofxSpriteRenderer
 {
