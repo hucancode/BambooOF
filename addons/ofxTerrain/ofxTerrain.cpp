@@ -3,7 +3,7 @@ ofxTerrain::ofxTerrain()
 {
 	{
 		glGenBuffers(1, &m_BaseVBOId);
-		glGenBuffers(1, &m_BaseIBOId);
+		//glGenBuffers(1, &m_BaseIBOId);
 		glGenTextures(1, &m_BaseTextureId);
 		for(int i=0;i<NUMBER_OF_LAYERS;i++)
 		{
@@ -18,6 +18,23 @@ ofxTerrain::ofxTerrain()
 		int shader_source_length = strlen(shader_source_raw)+1;
 		glShaderSource(m_VertexShaderId, 1, &shader_source_raw, &shader_source_length);
 		glCompileShader(m_VertexShaderId);
+		GLint compile_status;
+		glGetShaderiv(m_VertexShaderId, GL_COMPILE_STATUS, &compile_status);
+		if(!compile_status)
+		{
+#ifdef _DEBUG
+			GLint len = 0;
+			glGetShaderiv(m_VertexShaderId, GL_INFO_LOG_LENGTH, &len);
+			if(len > 1)
+			{
+				char* info = new char[len];
+				glGetShaderInfoLog(m_VertexShaderId, len, NULL, info);
+				printf("Error compiling terrain shader:\n%s\n", info);
+				delete[] info;
+			}
+#endif
+			glDeleteShader(m_VertexShaderId);
+		}
 	}
 	{
 		m_FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
@@ -25,12 +42,35 @@ ofxTerrain::ofxTerrain()
 		int shader_source_length = strlen(shader_source_raw)+1;
 		glShaderSource(m_FragmentShaderId, 1, &shader_source_raw, &shader_source_length);
 		glCompileShader(m_FragmentShaderId);
+		GLint compile_status;
+		glGetShaderiv(m_FragmentShaderId, GL_COMPILE_STATUS, &compile_status);
+		if(!compile_status)
+		{
+#ifdef _DEBUG
+			GLint len = 0;
+			glGetShaderiv(m_FragmentShaderId, GL_INFO_LOG_LENGTH, &len);
+			if(len > 1)
+			{
+				char* info = new char[len];
+				glGetShaderInfoLog(m_FragmentShaderId, len, NULL, info);
+				printf("Error compiling terrain shader:\n%s\n", info);
+				delete[] info;
+			}
+#endif
+			glDeleteShader(m_FragmentShaderId);
+		}
 	}
 	{
 		m_ShaderProgramId = glCreateProgram();
 		glAttachShader(m_ShaderProgramId, m_VertexShaderId);
 		glAttachShader(m_ShaderProgramId, m_FragmentShaderId);
 		glLinkProgram(m_ShaderProgramId);
+	}
+	{
+		m_ShaderLocationXYZ = glGetAttribLocation(m_ShaderProgramId, "a_position");
+		m_ShaderLocationTransform = glGetUniformLocation(m_ShaderProgramId, "u_transform_matrix");
+		m_ShaderLocationUV = glGetAttribLocation(m_ShaderProgramId, string("a_uv").c_str());
+		m_ShaderLocationTexture = glGetUniformLocation(m_ShaderProgramId, string("u_texture").c_str());
 	}
 }
 ofxTerrain::~ofxTerrain()
@@ -55,7 +95,7 @@ void ofxTerrain::Initialize(int width, int height)
 {
 	m_Width = width;
 	m_Height = height;
-	for(int i=0;i<NUMBER_OF_LAYERS;i++)
+	for(int i=0; i<NUMBER_OF_LAYERS; i++)
 	{
 		m_GroundVetices[i].clear();
 		m_GroundIndices[i].clear();
@@ -64,10 +104,12 @@ void ofxTerrain::Initialize(int width, int height)
 		m_GroundIndices[i].resize(tile*6);
 	}
 	m_TileMap.resize(width);
+	m_LayerMap.resize(width);
 	m_HeightMap.resize(width);
 	for(int i=0;i<width;i++)
 	{
 		m_TileMap[i].resize(height);
+		m_LayerMap[i].resize(height);
 		m_HeightMap[i].resize(height);
 	}
 }
@@ -155,14 +197,14 @@ void ofxTerrain::BuildTileMap()
 		m_BaseVertices[3].u = m_BaseVertices[0].u;
 		m_BaseVertices[3].v = m_BaseVertices[2].v;
 	}
-	for(int i=0;i<NUMBER_OF_LAYERS;i++)
+	for(int i=0; i<NUMBER_OF_LAYERS; i++)
 	{
 		m_GroundIndices[i].clear();
 		m_GroundVetices[i].clear();
 	}
-	for(int i=0;i<m_Width;i++)
+	for(int i=0; i<m_Width; i++)
 	{
-		for(int j=0;j<m_Height;j++)
+		for(int j=0; j<m_Height; j++)
 		{
 			if(m_TileMap[i][j] == INF) continue;
 			char layer = m_LayerMap[i][j];
@@ -213,32 +255,32 @@ void ofxTerrain::RenderTiles()
 	m_TransformMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
 	glDepthMask(GL_FALSE);
 	glUseProgram(m_ShaderProgramId);
-	glUniform1i(m_ShaderLocationTexture,0);
-	glEnableVertexAttribArray(m_ShaderLocationXYZ);
-	glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, x));
-	glEnableVertexAttribArray(m_ShaderLocationUV);
-	glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, u));
+	glUniform1i(m_ShaderLocationTexture, 0);
 	glUniformMatrix4fv(m_ShaderLocationTransform, 1, GL_FALSE, m_TransformMatrix.getPtr());
+	glEnableVertexAttribArray(m_ShaderLocationXYZ);
+	glEnableVertexAttribArray(m_ShaderLocationUV);
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_BaseVBOId);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BaseIBOId);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxTile)*4, &m_BaseVertices[0], GL_STATIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, &m_BaseIndices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxTile)*4, m_BaseVertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, x));
+		glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, u));
 		glBindTexture(GL_TEXTURE_2D, m_BaseTextureId);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_QUADS, 0, 4);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glUseProgram(0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	for(int i=0;i<NUMBER_OF_LAYERS;i++)
+	/*
+	for(int i=0; i<NUMBER_OF_LAYERS; i++)
 	{
+		if(m_GroundVetices[i].size() == 0) continue;
 		glBindBuffer(GL_ARRAY_BUFFER, m_GroundVBOId[i]);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_GroundIBOId[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(ofxTile)*m_GroundVetices[i].size(), &m_GroundVetices[i][0], GL_DYNAMIC_DRAW);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*m_GroundIndices[i].size(), &m_GroundIndices[i][0], GL_STATIC_DRAW);
+		glVertexAttribPointer(m_ShaderLocationXYZ, 3, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, x));
+		glVertexAttribPointer(m_ShaderLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ofxTile), (GLvoid*) offsetof( ofxTile, u));
 		glBindTexture(GL_TEXTURE_2D, m_GroundTextureId[i]);
 
 		glDrawElements(GL_TRIANGLES, m_GroundIndices[i].size(), GL_UNSIGNED_INT, 0);
@@ -247,6 +289,7 @@ void ofxTerrain::RenderTiles()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+	*/
 	glUseProgram(0);
 	glDepthMask(GL_TRUE);
 }

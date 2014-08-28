@@ -1,5 +1,6 @@
 #pragma once
 #include "ofxSpriteRenderer.h"
+#include "ofxTerrain.h"
 class Test
 {
 public:
@@ -54,6 +55,15 @@ public:
 // NOTE: try to draw animation.
 class AnimationTest: public Test
 {
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
+class TerrainTest: public Test
+{
+private:
+	ofxTerrain* terrain;
 public:
 	virtual void Setup();
 	virtual void Update();

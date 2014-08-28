@@ -6,7 +6,8 @@
 #define NUMBER_OF_LAYERS 3
 #define TILE_SIZE 64
 #define VERTEX_SHADER											\
-"uniform mat4 u_transform_matrix;								\
+"precision highp float;											\
+uniform mat4 u_transform_matrix;								\
 attribute vec3 a_position;										\
 attribute vec2 a_uv;											\
 varying vec2 v_uv;												\
@@ -16,13 +17,15 @@ void main()														\
 	gl_Position = u_transform_matrix*vec4(a_position,1.0);		\
 }"
 #define FRAGMENT_SHADER											\
-"uniform sampler2D u_texture;									\
+"precision highp float;											\
+uniform sampler2D u_texture;									\
 varying vec2 v_uv;												\
 void main()														\
 {																\
-	vec4 color = texture2D(u_texture,v_uv);						\
+	vec4 color = vec4(1,0,0,1);//texture2D(u_texture,v_uv);						\
     gl_FragColor = color;										\
 }"
+
 
 /*----------------------------------
 note: 
@@ -49,7 +52,7 @@ private:
 private:
 	ofxTile					m_BaseVertices[4];
 	GLuint					m_BaseVBOId;
-	GLuint					m_BaseIndices[4];
+	GLuint					m_BaseIndices[6];
 	GLuint					m_BaseIBOId;
 	
 	vector<ofxTile>			m_GroundVetices[NUMBER_OF_LAYERS];

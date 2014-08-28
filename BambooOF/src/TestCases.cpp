@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new AnimationBenchmarkTest();
+Test* current_test = new TerrainTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -163,6 +163,23 @@ void AnimationTest::Update()
 void AnimationTest::Render()
 {
 	ofxRENDERER->Render();
+}
+
+void TerrainTest::Setup()
+{
+	terrain = new ofxTerrain();
+	terrain->Initialize(100,100);
+	terrain->LoadBaseTexture("data/base.png");
+	terrain->LoadGroundTexture("tile_with_code.png",0);
+	terrain->PaintTile(10,10);
+	terrain->BuildTileMap();
+}
+void TerrainTest::Update()
+{
+}
+void TerrainTest::Render()
+{
+	terrain->RenderTiles();
 }
 
 void SpriteBenchmarkTest::Setup()
