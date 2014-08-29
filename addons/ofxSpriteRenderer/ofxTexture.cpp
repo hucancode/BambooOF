@@ -31,14 +31,13 @@ bool ofxTexture::Load(string texture_file)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,param);
 	}
 	{
-		GLint param = GL_CLAMP_TO_EDGE;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,param);
+		GLint param = GL_LINEAR;
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)
 		{
 			glGenerateMipmap(GL_TEXTURE_2D);
-			param = GL_LINEAR;
 		}
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,param);
 	}
 	/*delete pixel_data;
 	delete image_data;*/

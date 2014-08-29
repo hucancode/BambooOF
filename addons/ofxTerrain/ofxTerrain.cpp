@@ -142,7 +142,7 @@ void ofxTerrain::EraseTile(int x, int y)
 	// Top Right
 	if(y > 0)
 	{
-		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 11;//0100
+		m_TileMap[x][y-1] = m_TileMap[x][y-1] & 11;//1011
 	}
 	// Bottom Right
 	{
@@ -201,13 +201,13 @@ void ofxTerrain::BuildTileMap()
 				vertex_b,
 				vertex_c,
 				vertex_d;
-
-			vertex_a.u = (id%4)*0.25f;
-			vertex_a.v = (id/4)*0.25f;// this calculation is not optimized to improve readability
-			vertex_b.u = vertex_a.u + 0.25f;
+			static const float border = 0.004f;// this will fix texture interpolation bug
+			vertex_a.u = (id%4)*0.25f+border;
+			vertex_a.v = (id/4)*0.25f+border;// this calculation is not optimized to improve readability
+			vertex_b.u = vertex_a.u + 0.25f-border*2;
 			vertex_b.v = vertex_a.v;
 			vertex_c.u = vertex_b.u;
-			vertex_c.v = vertex_b.v + 0.25f;
+			vertex_c.v = vertex_b.v + 0.25f-border*2;
 			vertex_d.u = vertex_a.u;
 			vertex_d.v = vertex_c.v;
 
@@ -290,14 +290,13 @@ bool ofxTerrain::LoadBaseTexture(string path)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, param);
 	}
 	{
-		GLint param = GL_REPEAT;
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, param);
+		GLint param = GL_LINEAR;
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)
 		{
 			glGenerateMipmap(GL_TEXTURE_2D);
-			param = GL_LINEAR;
 		}
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, param);
 	}
 	/*delete pixel_data;
 	delete image_data;*/
@@ -325,12 +324,12 @@ bool ofxTerrain::LoadGroundTexture(string path, char layer)
 	{
 		GLint param = GL_LINEAR;
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)
 		{
 			glGenerateMipmap(GL_TEXTURE_2D);
-			param = GL_LINEAR;
 		}
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
+		
 	}
 	/*delete pixel_data;
 	delete image_data;*/
