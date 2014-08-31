@@ -2,7 +2,7 @@ BambooOF
 ========
 this is my jx clone project. all these graphics & audio are extracted from the original game.
 
-TASK LIST
+GAME ENGINE TASK LIST
 ---------
 * build recast wrapper [OK]
   * develop wrapper [OK]
