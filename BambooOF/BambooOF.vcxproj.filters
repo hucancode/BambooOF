@@ -454,6 +454,9 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteParticleEffect.cpp">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.cpp">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -1173,6 +1176,9 @@
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteParticleEffect.h">
+      <Filter>addons\ofxSpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.h">
       <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>

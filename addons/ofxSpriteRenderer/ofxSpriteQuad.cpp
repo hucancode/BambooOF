@@ -20,14 +20,6 @@ ofxSpriteQuad::~ofxSpriteQuad()
 	if(m_Shader) m_Shader->DecreaseReference();
 	ofxRENDERER->EraseSprite(this);
 }
-void ofxSpriteQuad::SetVisible(bool value)
-{
-	m_Visible = value;
-}
-bool ofxSpriteQuad::IsVisible()
-{
-	return m_Visible;
-}
 ofxShaderProgram* ofxSpriteQuad::GetShader()
 {
 	return m_Shader;
@@ -55,33 +47,6 @@ void ofxSpriteQuad::SetTexture(string texture_path)
 ofxTexture* ofxSpriteQuad::GetTexture()
 {
 	return m_Texture;
-}
-void ofxSpriteQuad::MoveTo(const float x, const float y, const float z)
-{
-	MoveTo(ofVec3f(x,y,z));
-}
-void ofxSpriteQuad::MoveTo(const ofVec3f position)
-{
-	m_WorldPosition = position;
-	m_PositionChange = true;
-	m_Visibility = QUAD_VISIBILITY_UNKNOWN;
-}
-void ofxSpriteQuad::MoveBy(const float x, const float y, const float z)
-{
-	MoveBy(ofVec3f(x,y,z));
-}
-void ofxSpriteQuad::MoveBy(const ofVec3f accelerator)
-{
-	m_WorldPosition += accelerator;
-	m_PositionChange = true;
-	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD)
-	{
-		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
-	}
-	else if(accelerator.y > FAR_SCREEN_SPEED_THRESHOLD)
-	{
-		m_Visibility = QUAD_VISIBILITY_IN_SCREEN;
-	}
 }
 void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 {
@@ -144,15 +109,6 @@ void ofxSpriteQuad::UpdateVisibility(bool force_update, bool camera_move)
 	{
 		m_VisibilityChange = true;
 	}
-}
-
-ofVec3f ofxSpriteQuad::GetWorldPosition()
-{
-	return m_WorldPosition;
-}
-QUAD_VISIBILITY ofxSpriteQuad::GetVisibility()
-{
-	return m_Visibility;
 }
 ofVec4f ofxSpriteQuad::GetTextureRect()
 {
@@ -235,12 +191,4 @@ void ofxSpriteQuad::SubmitChanges()
 		m_Vertices[3].v = uv_max_y;
 	}
 	m_PositionChange = m_DimensionChange = m_UVChange = m_VisibilityChange = false;
-}
-bool ofxSpriteQuad::IsBehind(ofxSpriteQuad* other)
-{
-	return this->GetWorldPosition().z < other->GetWorldPosition().z;
-}
-bool ofxSpriteQuad::IsInFront(ofxSpriteQuad* other)
-{
-	return this->GetWorldPosition().z > other->GetWorldPosition().z;
 }
