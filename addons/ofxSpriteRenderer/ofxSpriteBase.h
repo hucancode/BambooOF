@@ -36,3 +36,4 @@ public:
 	bool				IsBehind(ofxSpriteBase* other);
 	bool				IsInFront(ofxSpriteBase* other);
 };
+typedef vector<ofxSpriteBase*> ofxSpriteBases;
