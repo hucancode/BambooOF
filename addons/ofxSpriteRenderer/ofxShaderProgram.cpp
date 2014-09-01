@@ -20,8 +20,8 @@ bool ofxShaderProgram::Load(string vs_path, string fs_path)
 	m_VertexShader = ofxSHADERCACHE->GetResource(vs_path);
 	m_FragmentShader = ofxSHADERCACHE->GetResource(fs_path);
 	// link program
-	glAttachShader(m_ShaderProgramId, m_VertexShader->m_ShaderId);
-	glAttachShader(m_ShaderProgramId, m_FragmentShader->m_ShaderId);
+	glAttachShader(m_ShaderProgramId, m_VertexShader->GetShaderId());
+	glAttachShader(m_ShaderProgramId, m_FragmentShader->GetShaderId());
 	glLinkProgram(m_ShaderProgramId);
 	GLint link_status;
 	glGetProgramiv(m_ShaderProgramId, GL_LINK_STATUS, &link_status);

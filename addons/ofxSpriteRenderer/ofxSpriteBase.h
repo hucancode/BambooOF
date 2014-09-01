@@ -28,7 +28,7 @@ protected:
 	ofxTexture*			m_Texture;
 	ofxShaderProgram*	m_Shader;
 	ofxVertex*			m_Vertices;
-	unsigned int		m_VerticesSize;
+	GLsizei				m_VerticesSize;
 	int					m_ID;
 public:
 	ofxSpriteBase();
@@ -51,7 +51,7 @@ private:
 	int					GetID();
 	SPRITE_VISIBILITY	GetVisibility();
 	ofxVertex*			GetVertices();
-	unsigned int		GetVerticesSize();
+	GLsizei				GetVerticesSize();
 	void				SetPositionChange(bool value);
 	bool				GetPositionChange();
 	void				SetDimensionChange(bool value);

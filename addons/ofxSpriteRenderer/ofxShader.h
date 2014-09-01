@@ -15,4 +15,6 @@ public:
 	virtual void	DecreaseReference();
 	virtual bool	IsUnused();
 	bool			Load(string shader_file, GLenum type);
+private:
+	GLuint			GetShaderId();
 };

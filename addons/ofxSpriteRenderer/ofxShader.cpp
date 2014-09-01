@@ -59,6 +59,10 @@ bool ofxShader::Load(string shader_path, GLenum type)
 	}
 	return true;
 }
+GLuint ofxShader::GetShaderId()
+{
+	return m_ShaderId;
+}
 void ofxShader::IncreaseReference()
 {
 	ofxResource::IncreaseReference();

@@ -6,8 +6,9 @@
 
 class ofxSpriteCommand
 {
-	friend class ofxSpriteQuad;
+#ifdef _DEBUG
 	friend class ofxSpriteRenderer;
+#endif
 private:
 	ofxTexture*				m_Texture;
 	ofxShaderProgram*		m_Shader;
@@ -17,12 +18,15 @@ private:
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
-private:
+public:
 	void					Render();
 	void					PushSprite(ofxSpriteBase* sprite);
 	ofxTexture*				GetTexture();
 	ofxShaderProgram*		GetShader();
 	void					SetTexture(ofxTexture* texture);
 	void					SetShader(ofxShaderProgram* shader);
+private:
+	ofxVertex*				GetVertices();
+	GLsizei					GetVerticesSize();
 };
 typedef vector<ofxSpriteCommand*> ofxSpriteCommands;

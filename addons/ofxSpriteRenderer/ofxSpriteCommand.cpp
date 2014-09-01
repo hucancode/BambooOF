@@ -48,3 +48,11 @@ void ofxSpriteCommand::SetShader(ofxShaderProgram* shader)
 {
 	m_Shader = shader;
 }
+ofxVertex* ofxSpriteCommand::GetVertices()
+{
+	return m_Vertices;
+}
+GLsizei ofxSpriteCommand::GetVerticesSize()
+{
+	return m_VerticesSize;
+}

@@ -116,7 +116,7 @@ void ofxSpriteRenderer::Render()
 			cmd->Render();
 #ifdef _DEBUG
 			m_DrawnBatches++;
-			m_DrawnVertices += cmd->m_VerticesSize;
+			m_DrawnVertices += cmd->GetVerticesSize();
 #endif
 		}
 		//glEnable(GL_DEPTH_TEST);

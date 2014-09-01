@@ -123,7 +123,7 @@ ofxVertex* ofxSpriteBase::GetVertices()
 {
 	return m_Vertices;
 }
-unsigned int ofxSpriteBase::GetVerticesSize()
+GLsizei ofxSpriteBase::GetVerticesSize()
 {
 	return m_VerticesSize;
 }
