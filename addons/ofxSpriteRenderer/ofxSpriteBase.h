@@ -1,39 +1,60 @@
 #pragma once
 #include "ofMain.h"
+#include "ofxShaderProgram.h"
+#include "ofxTexture.h"
 struct ofxVertex
 {
-	float x,y,z;// position
-	float u,v;// texture uv
+	float x,y,z;	// position
+	float u,v;		// texture uv
 };
-// --------------------------------
-// note:
-// programmatically, QUAD_VISIBILITY_IN_SCREEN and QUAD_VISIBILITY_UNKNOWN define same state
-// both needs to update position information. but we split it to improve code readability
-// ---------------------------------
-enum QUAD_VISIBILITY
+enum SPRITE_VISIBILITY
 {
-	QUAD_VISIBILITY_IN_SCREEN,
-	QUAD_VISIBILITY_OFF_SCREEN,
-	QUAD_VISIBILITY_FAR_SCREEN,
-	QUAD_VISIBILITY_UNKNOWN,
+	SPRITE_VISIBILITY_IN_SCREEN,	// need to update visibility, but not too fast
+	SPRITE_VISIBILITY_OFF_SCREEN,	// need to update visibility, now
+	SPRITE_VISIBILITY_FAR_SCREEN,	// need to update visibility, but not today
+	SPRITE_VISIBILITY_UNKNOWN,		// need to update visibility, now
 };
 class ofxSpriteBase
 {
+	friend class ofxSpriteRenderer;
+	friend class ofxSpriteCommand;
 protected:
-	QUAD_VISIBILITY		m_Visibility;
-	ofVec3f				m_WorldPosition;
+	SPRITE_VISIBILITY	m_Visibility;
+	ofVec3f				m_Position;
+	ofRectangle			m_Dimension;
 	bool				m_Visible;
 	bool				m_PositionChange;
+	bool				m_DimensionChange;
+	ofxTexture*			m_Texture;
+	ofxShaderProgram*	m_Shader;
+	ofxVertex*			m_Vertices;
+	unsigned int		m_VerticesSize;
+	int					m_ID;
 public:
-	QUAD_VISIBILITY		GetVisibility();
-	ofVec3f				GetWorldPosition();
+	ofxSpriteBase();
+	~ofxSpriteBase();
+	virtual void		Update(const float delta_time);
+	virtual void		SubmitChanges();
+	ofVec3f				GetPosition();
 	void				SetVisible(bool value);
 	bool				IsVisible();
 	void				MoveTo(const float x, const float y, const float z);
 	void				MoveTo(const ofVec3f position);
 	void				MoveBy(const float x, const float y, const float z);
 	void				MoveBy(const ofVec3f accelerator);
-	bool				IsBehind(ofxSpriteBase* other);
-	bool				IsInFront(ofxSpriteBase* other);
+	ofxShaderProgram*	GetShader();
+	virtual void		LoadShader(string shader_path);
+	virtual void		SetTexture(string texture_path);
+	ofxTexture*			GetTexture();
+private:
+	void				SetID(int id);
+	int					GetID();
+	SPRITE_VISIBILITY	GetVisibility();
+	ofxVertex*			GetVertices();
+	unsigned int		GetVerticesSize();
+	void				SetPositionChange(bool value);
+	bool				GetPositionChange();
+	void				SetDimensionChange(bool value);
+	bool				GetDimensionChange();
 };
 typedef vector<ofxSpriteBase*> ofxSpriteBases;

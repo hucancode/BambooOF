@@ -27,10 +27,10 @@ void ofxSpriteCommand::Render()
 	m_Shader->Unbind();
 	m_Texture->Unbind();
 }
-void ofxSpriteCommand::PushSprite(ofxSpriteQuad* sprite)
+void ofxSpriteCommand::PushSprite(ofxSpriteBase* sprite)
 {
-	memcpy(&m_Vertices[m_VerticesSize], &sprite->m_Vertices[0], sizeof(ofxVertex)*4);
-	m_VerticesSize += 4;
+	memcpy(&m_Vertices[m_VerticesSize], sprite->GetVertices(), sizeof(ofxVertex)*sprite->GetVerticesSize());
+	m_VerticesSize += sprite->GetVerticesSize();
 }
 ofxTexture* ofxSpriteCommand::GetTexture()
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxSpriteQuad.h"
+#include "ofxSpriteBase.h"
 
 #define COMMAND_CAPACITY 5000
 
@@ -19,7 +19,7 @@ public:
 	~ofxSpriteCommand();
 private:
 	void					Render();
-	void					PushSprite(ofxSpriteQuad* sprite);
+	void					PushSprite(ofxSpriteBase* sprite);
 	ofxTexture*				GetTexture();
 	ofxShaderProgram*		GetShader();
 	void					SetTexture(ofxTexture* texture);

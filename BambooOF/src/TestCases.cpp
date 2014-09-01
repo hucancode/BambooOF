@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new TerrainSpriteTest();
+Test* current_test = new SpriteBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -70,7 +70,7 @@ void SortingTest::Setup()
 void SortingTest::Update()
 {
 	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 0.2f)
+	if(spriteA->GetPosition().z < 0.2f)
 	{
 		spriteA->MoveBy(0.0f,0.0f,0.0001f);
 	}
@@ -78,7 +78,7 @@ void SortingTest::Update()
 	{
 		spriteA->MoveBy(0.0f,0.0f,-0.4f);
 	}
-	if(spriteB->GetWorldPosition().z > -0.2f)
+	if(spriteB->GetPosition().z > -0.2f)
 	{
 		spriteB->MoveBy(0.0f,0.0f,-0.0001f);
 	}
@@ -291,7 +291,7 @@ void SortBenchmarkTest::Setup()
 void SortBenchmarkTest::Update()
 {
 	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 1000.0f)
+	if(spriteA->GetPosition().z < 1000.0f)
 	{
 		spriteA->MoveBy(0.0f,0.0f,15.0f);
 	}
@@ -363,7 +363,7 @@ void AnimationBenchmarkTest::Setup()
 void AnimationBenchmarkTest::Update()
 {
 	ofxRENDERER->Update();
-	if(spriteA->GetWorldPosition().z < 1000.0f)
+	if(spriteA->GetPosition().z < 1000.0f)
 	{
 		spriteA->MoveBy(0.0f,0.0f,15.0f);
 	}

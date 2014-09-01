@@ -1,25 +1,8 @@
 #include "ofxSpriteText.h"
-ofxShaderProgram* ofxSpriteText::GetShader()
-{
-	return 0;
-}
-void ofxSpriteText::LoadShader(string shader_path)
+ofxSpriteText::ofxSpriteText()
 {
 }
-void ofxSpriteText::SetTexture(string texture_path)
-{
-}
-ofxTexture* ofxSpriteText::GetTexture()
-{
-	return 0;
-}
-void ofxSpriteText::UpdateVisibility(bool force_update=false, bool camera_move=false)
-{
-}
-void ofxSpriteText::SetID(int id)
-{
-}
-int	ofxSpriteText::GetID()
+ofxSpriteText::~ofxSpriteText()
 {
 }
 void ofxSpriteText::SetText(string text)

@@ -30,18 +30,18 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 		m_Commands.clear();
 	}
 	{
-		ofxSpriteQuads::iterator it = m_Quads.begin();
-		for(;it != m_Quads.end();it++)
+		ofxSpriteBases::iterator it = m_Sprites.begin();
+		for(;it != m_Sprites.end();it++)
 		{
-			ofxSpriteQuad* quad = *it;
+			ofxSpriteBase* quad = *it;
 			delete quad;
 		}
-		m_Quads.clear();
+		m_Sprites.clear();
 	}
 }
-static bool QuadCompare(ofxSpriteQuad* quadA, ofxSpriteQuad* quadB)
+static bool QuadCompare(ofxSpriteBase* quadA, ofxSpriteBase* quadB)
 {
-	return quadA->IsBehind(quadB);
+	return quadA->GetPosition().z < quadB->GetPosition().z;
 }
 void ofxSpriteRenderer::Render()
 {
@@ -54,18 +54,18 @@ void ofxSpriteRenderer::Render()
 	m_Commands.clear();
 	
 	//unsigned long long time_start_build = ofGetSystemTime();
-	sort(m_Quads.begin(), m_Quads.end(), QuadCompare);
-	for(int i=0;i<m_Quads.size();i++)
+	sort(m_Sprites.begin(), m_Sprites.end(), QuadCompare);
+	for(int i=0;i<m_Sprites.size();i++)
 	{
-		m_Quads[i]->SetID(i);
+		m_Sprites[i]->SetID(i);
 	}
 	//unsigned long long time_finish_sort = ofGetSystemTime();
 	//printf("sort time =  %llu\n", time_finish_sort - time_start_build);
 	int sprite_count = 0;
-	for(ofxSpriteQuads::iterator it = m_Quads.begin();it != m_Quads.end();it++)
+	for(ofxSpriteBases::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
 	{
-		ofxSpriteQuad* sprite = *it;
-		if(sprite->GetVisibility() != QUAD_VISIBILITY_IN_SCREEN && sprite->GetVisibility() != QUAD_VISIBILITY_UNKNOWN ||
+		ofxSpriteBase* sprite = *it;
+		if(!(sprite->GetVisibility() == SPRITE_VISIBILITY_IN_SCREEN || sprite->GetVisibility() == SPRITE_VISIBILITY_UNKNOWN) ||
 			!sprite->IsVisible())
 		{
 			continue;
@@ -129,14 +129,14 @@ void ofxSpriteRenderer::Render()
 	m_RenderTimeMilisecond = time_finish_render - time_start_render;
 #endif
 }
-void ofxSpriteRenderer::PushSprite(ofxSpriteQuad* sprite)
+void ofxSpriteRenderer::PushSprite(ofxSpriteBase* sprite)
 {
-	sprite->SetID(m_Quads.size());
-	m_Quads.push_back(sprite);
+	sprite->SetID(m_Sprites.size());
+	m_Sprites.push_back(sprite);
 }
-void ofxSpriteRenderer::EraseSprite(ofxSpriteQuad* sprite)
+void ofxSpriteRenderer::EraseSprite(ofxSpriteBase* sprite)
 {
-	m_Quads.erase(m_Quads.begin() + sprite->GetID());
+	m_Sprites.erase(m_Sprites.begin() + sprite->GetID());
 	sprite->SetID(-1);
 }
 
@@ -145,22 +145,23 @@ void ofxSpriteRenderer::Update()
 #ifdef _DEBUG
 	unsigned long long time_start_update = ofGetSystemTime();
 #endif
-	m_WorldRect.x = m_Camera->getPosition().x;
-	m_WorldRect.y = m_Camera->getPosition().z;
-	float width = m_RenderRect.z;
-	float height = m_RenderRect.w*2.0;
-	m_WorldRect.x -= width;
-	m_WorldRect.y -= height;
-	m_WorldRect.z = m_WorldRect.x + width*2;
-	m_WorldRect.w = m_WorldRect.y + height*2;
+	float width = m_RenderRect.width;
+	float height = m_RenderRect.height*2.0;
+	m_WorldRect.x = m_Camera->getPosition().x - width*0.5;
+	m_WorldRect.y = m_Camera->getPosition().z - height*0.5;
+	m_WorldRect.width = width;
+	m_WorldRect.height = height;
+	m_ExpandedWorldRect = ofRectangle(
+		m_WorldRect.x - FAR_SCREEN_DISTANCE_THRESHOLD, 
+		m_WorldRect.y - FAR_SCREEN_DISTANCE_THRESHOLD, 
+		m_WorldRect.width + FAR_SCREEN_DISTANCE_THRESHOLD*2, 
+		m_WorldRect.height + FAR_SCREEN_DISTANCE_THRESHOLD*2);
+	ofxSpriteBases::iterator it = m_Sprites.begin();
+	for(;it != m_Sprites.end();it++)
 	{
-		ofxSpriteQuads::iterator it = m_Quads.begin();
-		for(;it != m_Quads.end();it++)
-		{
-			ofxSpriteQuad* item = *it;
-			item->Update(0.030f);
-			item->SubmitChanges();
-		}
+		ofxSpriteBase* item = *it;
+		item->Update(0.030f);
+		item->SubmitChanges();
 	}
 	m_CameraMove = false;
 	m_CameraForce = false;
@@ -173,23 +174,94 @@ void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 {
 	m_CameraMove = true;
 	m_CameraForce = true;
-	for(int i=0;i<m_Quads.size();i++)
+	for(int i=0;i<m_Sprites.size();i++)
 	{
-		m_Quads[i]->m_DimensionChange = true;
+		m_Sprites[i]->SetDimensionChange(true);
 	}
-	m_Camera->SetScale(min(width,height)*0.5);
-	m_RenderRect.z = width*0.5;
-	m_RenderRect.w = height*0.5;
-	m_RenderRect.x = -m_RenderRect.z;
-	m_RenderRect.y = -m_RenderRect.w;
+	m_Camera->SetScale(min(width, height)*0.5);
+	m_RenderRect.width = width;
+	m_RenderRect.height = height;
+	m_RenderRect.x = -(width*0.5f);
+	m_RenderRect.y = -(height*0.5f);
 }
 void ofxSpriteRenderer::MoveCamera(float x, float y, float z)
 {
-	m_Camera->setPosition(
-		m_Camera->getPosition().x + x,
-		m_Camera->getPosition().y + y,
-		m_Camera->getPosition().z + z);
+	MoveCamera(ofVec3f(x, y, z));
+}
+void ofxSpriteRenderer::MoveCamera(ofVec3f accelerator)
+{
+	m_Camera->move(accelerator);
 	m_CameraMove = true;
-	if(abs(x) > FAR_SCREEN_SPEED_THRESHOLD || abs(y) > FAR_SCREEN_SPEED_THRESHOLD)
+	if(abs(accelerator.x) > FAR_SCREEN_SPEED_THRESHOLD || abs(accelerator.z) > FAR_SCREEN_SPEED_THRESHOLD)
 		m_CameraForce = true;
 }
+ofxOrthoCamera* ofxSpriteRenderer::GetCamera()
+{
+	return m_Camera;
+}
+bool ofxSpriteRenderer::IsCameraMove()
+{
+	return m_CameraMove;
+}
+bool ofxSpriteRenderer::IsCameraForce()
+{
+	return m_CameraForce;
+}
+ofMatrix4x4 ofxSpriteRenderer::GetProjectionMatrix()
+{
+	return m_Camera->GetProjectionMatrix();
+}
+ofMatrix4x4 ofxSpriteRenderer::GetModelViewMatrix()
+{
+	return m_Camera->GetModelViewMatrix();
+}
+ofMatrix4x4 ofxSpriteRenderer::GetModelViewProjectionMatrix()
+{
+	return m_Camera->GetModelViewProjectionMatrix();
+}
+ofMatrix4x4 ofxSpriteRenderer::GetInverseCameraMatrix()
+{
+	return m_Camera->GetInverseCameraMatrix();
+}
+ofMatrix4x4 ofxSpriteRenderer::GetTransformation()
+{
+	return m_TransformMatrix;
+}
+ofMatrix4x4 ofxSpriteRenderer::GetInverseModelViewMatrix()
+{
+	return m_Camera->GetInverseModelViewMatrix();
+}
+ofRectangle ofxSpriteRenderer::GetRenderRect()
+{
+	return m_RenderRect;
+}
+ofRectangle ofxSpriteRenderer::GetWorldRect()
+{
+	return m_WorldRect;
+}
+ofRectangle ofxSpriteRenderer::GetExpandedWorldRect()
+{
+	return m_ExpandedWorldRect;
+}
+#ifdef _DEBUG
+unsigned int ofxSpriteRenderer::GetSpriteNumber()
+{
+	return m_Sprites.size();
+}
+int	ofxSpriteRenderer::GetDrawCall()
+{
+	return m_DrawnBatches;
+}
+int	ofxSpriteRenderer::GetDrawVertices()
+{
+	return m_DrawnVertices;
+}
+unsigned int ofxSpriteRenderer::GetUpdateTimeMilisecond()
+{
+	return m_UpdateTimeMilisecond;
+}
+unsigned int ofxSpriteRenderer::GetRenderTimeMilisecond()
+{
+	return m_RenderTimeMilisecond;
+}
+#endif
