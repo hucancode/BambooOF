@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new SpriteBenchmarkTest();
+Test* current_test = new TerrainBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -379,4 +379,70 @@ void AnimationBenchmarkTest::Render()
 	printf("update time = %u\nrender time = %u\n",
 		ofxRENDERER->GetUpdateTimeMilisecond(),
 		ofxRENDERER->GetRenderTimeMilisecond());
+}
+void TerrainBenchmarkTest::Setup()
+{
+	const int TERRAIN_WIDTH = 1000;
+	const int TERRAIN_HEIGHT = 1000;
+	const int SEED_MAX_WIDTH = 10;
+	const int SEED_MAX_HEIGHT = 10;
+	const int SEED_MAX_TRACE_X = 10;
+	const int SEED_MAX_TRACE_Y = 10;
+	terrain = new ofxTerrain();
+	terrain->Initialize(TERRAIN_WIDTH, TERRAIN_HEIGHT);
+	terrain->LoadBaseTexture("data/base24.png");
+	terrain->LoadGroundTexture("data/tile.png", 0);
+
+	// --------- this is a stupid terrain generating algorithm, you don't need to check
+	for(int i=0;i<50;i++)
+	{
+		int x = ofRandom(0, TERRAIN_WIDTH - max(SEED_MAX_WIDTH,SEED_MAX_TRACE_X) - 1);
+		int y = ofRandom(0, TERRAIN_HEIGHT - max(SEED_MAX_HEIGHT,SEED_MAX_TRACE_Y) - 1);
+		int spread_x = ofRandom(0, SEED_MAX_WIDTH);
+		int spread_y = ofRandom(0, SEED_MAX_HEIGHT);
+		for(int j=0;j<spread_x;j++)
+		{
+			for(int k=0;k<spread_y;k++)
+			{
+				terrain->PaintTile(x+j, y+k);
+			}
+		}
+		int trace_x = ofRandom(0, SEED_MAX_TRACE_X);
+		int trace_y = ofRandom(0, SEED_MAX_TRACE_Y);
+		for(int j=0;j<trace_x;j++)
+		{
+			terrain->PaintTile(x+j, y);
+			terrain->PaintTile(x+j+1, y);
+			terrain->PaintTile(x+j+1, y+1);
+			terrain->PaintTile(x+j, y+1);
+		}
+		for(int j=0;j<trace_y;j++)
+		{
+			terrain->PaintTile(x, y+j);
+			terrain->PaintTile(x+1, y+j);
+			terrain->PaintTile(x+1, y+j+1);
+			terrain->PaintTile(x, y+j+1);
+		}
+	}
+	//--------------
+	terrain->BuildTileMap();
+	for(int i=-40;i<40;i++)
+	{
+		for(int j=-40;j<40;j++)
+		{
+			ofxSpriteQuad* sprite = new ofxSpriteQuad();
+			sprite->SetTexture("data/sprint0001.png");
+			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
+			if(i==0 && j==0) spriteObstacle = sprite;
+		}
+	}
+}
+void TerrainBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TerrainBenchmarkTest::Render()
+{
+	terrain->RenderTiles();
+	ofxRENDERER->Render();
 }

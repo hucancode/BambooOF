@@ -64,19 +64,27 @@ void ofApp::keyPressed(int key){
 	}
 	if(key == OF_KEY_UP) 
 	{
-		ofxRENDERER->MoveCamera(0, 0, -MOVE_SPEED);
+		ofxRENDERER->MoveCamera(0, -MOVE_SPEED);
 	}
 	if(key == OF_KEY_DOWN) 
 	{
-		ofxRENDERER->MoveCamera(0, 0, MOVE_SPEED);
+		ofxRENDERER->MoveCamera(0, MOVE_SPEED);
 	}
 	if(key == OF_KEY_LEFT) 
 	{
-		ofxRENDERER->MoveCamera(-MOVE_SPEED, 0, 0);
+		ofxRENDERER->MoveCamera(-MOVE_SPEED, 0);
 	}
 	if(key == OF_KEY_RIGHT) 
 	{
-		ofxRENDERER->MoveCamera(MOVE_SPEED, 0, 0);
+		ofxRENDERER->MoveCamera(MOVE_SPEED, 0);
+	}
+	if(key == OF_KEY_F1)
+	{
+		ofxRENDERER->FocusCamera(ofVec2f(0.0f,0.0f));
+	}
+	if(key == OF_KEY_F2)
+	{
+		ofxRENDERER->Make2DCamera();
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();

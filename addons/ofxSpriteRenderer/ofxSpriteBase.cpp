@@ -62,7 +62,7 @@ void ofxSpriteBase::Update(const float delta_time)
 }
 void ofxSpriteBase::SubmitChanges()
 {
-	if(!(ofxRENDERER->IsCameraMove() || m_PositionChange))
+	if(!(ofxRENDERER->IsCameraMove() || ofxRENDERER->IsCameraForce() || m_PositionChange))
 		return;
 	if(!ofxRENDERER->IsCameraForce() && 
 		(m_Visibility == SPRITE_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0))

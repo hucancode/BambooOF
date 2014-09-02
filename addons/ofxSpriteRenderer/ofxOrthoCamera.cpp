@@ -13,7 +13,7 @@ ofxOrthoCamera::ofxOrthoCamera()
 	m_InverseCameraUpdated = false;
 	m_InverseModelViewUpdated = false;
 	viewport = ofRectangle(0,0,0,0);
-	lookAt(ofVec3f(0.0,0.0,0.0));
+	setAutoDistance(false);
 }
 ofxOrthoCamera::~ofxOrthoCamera()
 {
@@ -128,7 +128,7 @@ void ofxOrthoCamera::SetScale(float scale)
 		m_ScaleX = m_Scale;
 		m_ScaleY = ar==0?0:(m_Scale / ar);
 	}
-	this->setDistance(this->viewport.height*0.5,true);
+	//this->setDistance(this->viewport.height*0.5,true);
 	m_ProjectionUpdated = false;
 }
 float ofxOrthoCamera::GetScale()

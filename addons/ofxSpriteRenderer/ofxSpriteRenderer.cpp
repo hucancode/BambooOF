@@ -14,6 +14,8 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 {
 	if(s_Instance) return;
 	m_Camera = new ofxOrthoCamera();
+	m_Camera->setGlobalPosition(ofVec3f(0.0f, 1.0f, 1.0f));
+	m_Camera->lookAt(ofVec3f(0.0f, 0.0f, 0.0f));
 	s_Instance = this;
 	m_CameraMove = true;
 	m_CameraForce = true;
@@ -184,16 +186,29 @@ void ofxSpriteRenderer::SetRenderSize(unsigned int width, unsigned int height)
 	m_RenderRect.x = -(width*0.5f);
 	m_RenderRect.y = -(height*0.5f);
 }
-void ofxSpriteRenderer::MoveCamera(float x, float y, float z)
+void ofxSpriteRenderer::MoveCamera(float x, float z)
 {
-	MoveCamera(ofVec3f(x, y, z));
+	MoveCamera(ofVec2f(x, z));
 }
-void ofxSpriteRenderer::MoveCamera(ofVec3f accelerator)
+void ofxSpriteRenderer::MoveCamera(ofVec2f accelerator)
 {
-	m_Camera->move(accelerator);
+	m_Camera->move(ofVec3f(accelerator.x, 0.0f, accelerator.y));
+	m_Camera->lookAt(m_Camera->getPosition() - ofVec3f(0.0f, 1.0f, 1.0f));
 	m_CameraMove = true;
-	if(abs(accelerator.x) > FAR_SCREEN_SPEED_THRESHOLD || abs(accelerator.z) > FAR_SCREEN_SPEED_THRESHOLD)
+	if(abs(accelerator.x) > FAR_SCREEN_SPEED_THRESHOLD || abs(accelerator.y) > FAR_SCREEN_SPEED_THRESHOLD)
 		m_CameraForce = true;
+}
+void ofxSpriteRenderer::FocusCamera(ofVec2f position)
+{
+	ofVec3f position3d(position.x, 0.0f, position.y);
+	m_Camera->setGlobalPosition(position3d + ofVec3f(0.0f, 1.0f, 1.0f));
+	m_Camera->lookAt(position3d);
+	m_CameraForce = true;
+}
+void ofxSpriteRenderer::Make2DCamera()
+{
+	ofVec2f position(m_Camera->getPosition().x, m_Camera->getPosition().z - 1.0f);
+	FocusCamera(position);
 }
 ofxOrthoCamera* ofxSpriteRenderer::GetCamera()
 {

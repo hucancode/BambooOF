@@ -1,5 +1,5 @@
 #pragma once
-class ofxParticleEffect
+class ofxParticleEffect3D
 {
 private:
 public:

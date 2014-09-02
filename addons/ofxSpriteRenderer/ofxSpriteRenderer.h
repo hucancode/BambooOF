@@ -49,8 +49,10 @@ public:
 private:
 	void					BuildCommands();
 public:
-	void					MoveCamera(float x, float y, float z);
-	void					MoveCamera(ofVec3f accelerator);
+	void					MoveCamera(float x, float z);
+	void					MoveCamera(ofVec2f accelerator);
+	void					FocusCamera(ofVec2f position);
+	void					Make2DCamera();
 	ofxOrthoCamera*			GetCamera();
 	bool					IsCameraMove();
 	bool					IsCameraForce();

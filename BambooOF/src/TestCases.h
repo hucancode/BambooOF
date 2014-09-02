@@ -112,3 +112,12 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+class TerrainBenchmarkTest: public Test
+{
+private:
+	ofxTerrain* terrain;
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};

@@ -50,7 +50,7 @@ void ofxSpriteQuad::SetSpriteRect(const ofRectangle rect)
 	m_DimensionChange = true;
 }
 // in order to make the quad skew 30 degree, we must put some adjust on Y and Z
-#define SKEW30
+#define SKEW45
 #if defined(SKEW30)
 #define QUAD_GRADIENT_Z 0.4472135954999579// sqrt(0.2)
 #define QUAD_GRADIENT_Y 0.8944271909999159// sqrt(0.8)
