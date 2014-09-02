@@ -110,7 +110,6 @@ ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewpo
 	CameraXYZ.x = 2.0f * (ScreenXYZ.x - viewport.x) / viewport.width - 1.0f;
 	CameraXYZ.y = 1.0f - 2.0f *(ScreenXYZ.y - viewport.y) / viewport.height;
 	CameraXYZ.z = ScreenXYZ.z;
-
 	//convert camera to world
 	return CameraXYZ * GetInverseCameraMatrix();
 }
@@ -128,7 +127,6 @@ void ofxOrthoCamera::SetScale(float scale)
 		m_ScaleX = m_Scale;
 		m_ScaleY = ar==0?0:(m_Scale / ar);
 	}
-	//this->setDistance(this->viewport.height*0.5,true);
 	m_ProjectionUpdated = false;
 }
 float ofxOrthoCamera::GetScale()

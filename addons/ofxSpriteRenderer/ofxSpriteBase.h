@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "ofxShaderProgram.h"
 #include "ofxTexture.h"
+
 struct ofxVertex
 {
 	float x,y,z;	// position
@@ -14,6 +15,7 @@ enum SPRITE_OCCLUSION
 	SPRITE_OCCLUSION_FAR_SCREEN,	// need to update occlusion, but not today
 	SPRITE_OCCLUSION_UNKNOWN,		// need to update occlusion, now
 };
+
 class ofxSpriteBase
 {
 	friend class ofxSpriteRenderer;
