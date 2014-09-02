@@ -7,19 +7,19 @@ struct ofxVertex
 	float x,y,z;	// position
 	float u,v;		// texture uv
 };
-enum SPRITE_VISIBILITY
+enum SPRITE_OCCLUSION
 {
-	SPRITE_VISIBILITY_IN_SCREEN,	// need to update visibility, but not too fast
-	SPRITE_VISIBILITY_OFF_SCREEN,	// need to update visibility, now
-	SPRITE_VISIBILITY_FAR_SCREEN,	// need to update visibility, but not today
-	SPRITE_VISIBILITY_UNKNOWN,		// need to update visibility, now
+	SPRITE_OCCLUSION_IN_SCREEN,		// need to update occlusion, but not too fast
+	SPRITE_OCCLUSION_OFF_SCREEN,	// need to update occlusion, now
+	SPRITE_OCCLUSION_FAR_SCREEN,	// need to update occlusion, but not today
+	SPRITE_OCCLUSION_UNKNOWN,		// need to update occlusion, now
 };
 class ofxSpriteBase
 {
 	friend class ofxSpriteRenderer;
 	friend class ofxSpriteCommand;
 protected:
-	SPRITE_VISIBILITY	m_Visibility;
+	SPRITE_OCCLUSION	m_Occlusion;
 	ofVec3f				m_Position;
 	ofRectangle			m_Dimension;
 	bool				m_Visible;
@@ -49,7 +49,7 @@ public:
 private:
 	void				SetID(int id);
 	int					GetID();
-	SPRITE_VISIBILITY	GetVisibility();
+	SPRITE_OCCLUSION	GetOcclusion();
 	ofxVertex*			GetVertices();
 	GLsizei				GetVerticesSize();
 	void				SetPositionChange(bool value);

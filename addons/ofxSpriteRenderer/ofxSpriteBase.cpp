@@ -7,7 +7,7 @@ ofxSpriteBase::ofxSpriteBase()
 	m_VerticesSize = 0;
 	m_Vertices = 0;
 	m_Shader = 0;
-	m_Visibility = SPRITE_VISIBILITY_UNKNOWN;
+	m_Occlusion = SPRITE_OCCLUSION_UNKNOWN;
 	m_Texture = 0;
 	m_PositionChange = true;
 	m_DimensionChange = true;
@@ -25,7 +25,7 @@ void ofxSpriteBase::MoveTo(const ofVec3f position)
 {
 	m_Position = position;
 	m_PositionChange = true;
-	m_Visibility = SPRITE_VISIBILITY_UNKNOWN;
+	m_Occlusion = SPRITE_OCCLUSION_UNKNOWN;
 }
 void ofxSpriteBase::MoveBy(const float x, const float y, const float z)
 {
@@ -38,7 +38,7 @@ void ofxSpriteBase::MoveBy(const ofVec3f accelerator)
 	if(accelerator.x > FAR_SCREEN_SPEED_THRESHOLD || 
 		accelerator.y > FAR_SCREEN_SPEED_THRESHOLD)
 	{
-		m_Visibility = SPRITE_VISIBILITY_UNKNOWN;
+		m_Occlusion = SPRITE_OCCLUSION_UNKNOWN;
 	}
 }
 void ofxSpriteBase::SetVisible(bool value)
@@ -49,9 +49,9 @@ bool ofxSpriteBase::IsVisible()
 {
 	return m_Visible;
 }
-SPRITE_VISIBILITY ofxSpriteBase::GetVisibility()
+SPRITE_OCCLUSION ofxSpriteBase::GetOcclusion()
 {
-	return m_Visibility;
+	return m_Occlusion;
 }
 ofVec3f ofxSpriteBase::GetPosition()
 {
@@ -65,22 +65,22 @@ void ofxSpriteBase::SubmitChanges()
 	if(!(ofxRENDERER->IsCameraMove() || ofxRENDERER->IsCameraForce() || m_PositionChange))
 		return;
 	if(!ofxRENDERER->IsCameraForce() && 
-		(m_Visibility == SPRITE_VISIBILITY_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0))
+		(m_Occlusion == SPRITE_OCCLUSION_FAR_SCREEN && ofGetFrameNum() % FAR_SCREEN_UPDATE_SEQUENCE != 0))
 		return;
 	if(!ofxRENDERER->IsCameraForce() && 
-		(m_Visibility == SPRITE_VISIBILITY_IN_SCREEN && ofGetFrameNum() % IN_SCREEN_UPDATE_SEQUENCE != 0))
+		(m_Occlusion == SPRITE_OCCLUSION_IN_SCREEN && ofGetFrameNum() % IN_SCREEN_UPDATE_SEQUENCE != 0))
 		return;
 
 	ofRectangle sprite_dimension(m_Dimension); sprite_dimension.translate(m_Position.x, m_Position.z);
 	ofRectangle screen_dimension(ofxRENDERER->GetWorldRect());
 	ofRectangle screen_expanded_dimension(ofxRENDERER->GetExpandedWorldRect());
-	m_Visibility = SPRITE_VISIBILITY_FAR_SCREEN;
+	m_Occlusion = SPRITE_OCCLUSION_FAR_SCREEN;
 	if(sprite_dimension.intersects(screen_expanded_dimension))
 	{
-		m_Visibility = SPRITE_VISIBILITY_OFF_SCREEN;
+		m_Occlusion = SPRITE_OCCLUSION_OFF_SCREEN;
 		if(sprite_dimension.intersects(screen_dimension))
 		{
-			m_Visibility = SPRITE_VISIBILITY_IN_SCREEN;
+			m_Occlusion = SPRITE_OCCLUSION_IN_SCREEN;
 		}
 	}
 }

@@ -67,7 +67,7 @@ void ofxSpriteRenderer::Render()
 	for(ofxSpriteBases::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
 	{
 		ofxSpriteBase* sprite = *it;
-		if(!(sprite->GetVisibility() == SPRITE_VISIBILITY_IN_SCREEN || sprite->GetVisibility() == SPRITE_VISIBILITY_UNKNOWN) ||
+		if(!(sprite->GetOcclusion() == SPRITE_OCCLUSION_IN_SCREEN || sprite->GetOcclusion() == SPRITE_OCCLUSION_UNKNOWN) ||
 			!sprite->IsVisible())
 		{
 			continue;
