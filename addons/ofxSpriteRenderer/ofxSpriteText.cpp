@@ -45,6 +45,15 @@ float ofxSpriteText::GetScale()
 {
 	return m_Scale;
 }
+void ofxSpriteText::SetDimension(ofRectangle rect)
+{
+	m_Dimension = rect;
+	m_DimensionChange = true;
+}
+ofRectangle ofxSpriteText::GetDimension()
+{
+	return m_Dimension;
+}
 void ofxSpriteText::SetAutoEndLine(bool value)
 {
 	m_AutoEndLine = value;
@@ -52,4 +61,12 @@ void ofxSpriteText::SetAutoEndLine(bool value)
 bool ofxSpriteText::IsAutoEndLine()
 {
 	return m_AutoEndLine;
+}
+void ofxSpriteText::SetAutoWidthHeight(bool value)
+{
+	m_AutoWidthHeight = value;
+}
+bool ofxSpriteText::IsAutoWidthHeight()
+{
+	return m_AutoWidthHeight;
 }

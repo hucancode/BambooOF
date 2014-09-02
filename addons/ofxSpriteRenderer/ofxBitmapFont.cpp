@@ -2,6 +2,7 @@
 ofxBitmapFont::ofxBitmapFont()
 	:ofxResource()
 {
+	m_Texture = 0;
 }
 ofxBitmapFont::~ofxBitmapFont()
 {

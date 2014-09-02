@@ -106,21 +106,6 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Detour\Source\DetourNode.cpp">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxPostProcessing\src\BleachBypassPass.cpp">
       <Filter>addons\ofxPostProcessing\src</Filter>
     </ClCompile>
@@ -421,44 +406,62 @@
     <ClCompile Include="src\TestCases.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderCache.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxTerrain\ofxTerrain.cpp">
       <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\addons\ofxTerrain\ofxTile.cpp">
       <Filter>addons\ofxTerrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteText.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderCache.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxParticleEffect2D.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.cpp">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteText.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -567,6 +570,15 @@
     <Filter Include="addons\ofxTerrain">
       <UniqueIdentifier>{c2bb230e-4074-4e89-ab8d-3caf2261db64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxSpriteRenderer\Resource Management">
+      <UniqueIdentifier>{2d6392d2-70da-4a41-9775-4d6b056de62c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxSpriteRenderer\Sprite">
+      <UniqueIdentifier>{df9e9740-c4b7-4691-b6ca-db83a39f2ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxSpriteRenderer\Scene Management">
+      <UniqueIdentifier>{507ea949-7e80-49b6-83c6-7339bc509a26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -658,21 +670,6 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Detour\Include\DetourStatus.h">
       <Filter>addons\ofxRecast\recastnavigation\Detour</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxPostProcessing\src\BleachBypassPass.h">
       <Filter>addons\ofxPostProcessing\src</Filter>
@@ -1148,44 +1145,62 @@
     <ClInclude Include="src\TestCases.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderCache.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\addons\ofxTerrain\ofxTerrain.h">
       <Filter>addons\ofxTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxTerrain\ofxTile.h">
       <Filter>addons\ofxTerrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteText.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderCache.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h">
+      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxParticleEffect2D.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.h">
-      <Filter>addons\ofxSpriteRenderer</Filter>
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteText.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

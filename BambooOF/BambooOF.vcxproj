@@ -177,6 +177,7 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastMeshDetail.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRasterization.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp" />
     <ClCompile Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp" />
@@ -382,6 +383,7 @@
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\Recast.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAlloc.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h" />
     <ClInclude Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h" />
