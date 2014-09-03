@@ -463,6 +463,9 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp">
       <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\pugixml.cpp">
+      <Filter>addons\ofxSpriteRenderer\pugixml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -578,6 +581,9 @@
     </Filter>
     <Filter Include="addons\ofxSpriteRenderer\Scene Management">
       <UniqueIdentifier>{507ea949-7e80-49b6-83c6-7339bc509a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxSpriteRenderer\pugixml">
+      <UniqueIdentifier>{4e574e24-6f29-46bd-9331-4ef8274c0630}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1201,6 +1207,12 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
       <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\pugiconfig.hpp">
+      <Filter>addons\ofxSpriteRenderer\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\pugixml.hpp">
+      <Filter>addons\ofxSpriteRenderer\pugixml</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

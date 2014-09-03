@@ -2,7 +2,7 @@
 #include "ofMain.h"
 #include "ofxResource.h"
 #include "ofxTexture.h"
-#include "ofxXmlSettings.h"
+
 class ofxBitmapFont
 	: public ofxResource
 {
