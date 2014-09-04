@@ -2,6 +2,9 @@
 #include "ofMain.h"
 #include "ofxResource.h"
 #include "FreeImage.h"
+
+class ofxBitmapFont;
+
 class ofxTexture
 	: public ofxResource
 {
@@ -20,5 +23,15 @@ public:
 	void				Bind(GLuint slot=0);
 	void				Unbind(GLuint slot=0);
 	ofVec2f				GetTextureSize();
+public:
+	void				Allocate(unsigned int width, unsigned int height);
+	ofColor				GetPixel(unsigned int x, unsigned int y);
+	void				SetPixel(unsigned int x, unsigned int y, ofColor color);
+	void				BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos);
+	void				StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect);
+	void				Fill(ofColor color, ofRectangle dest_rect);
+	void				Clear(ofRectangle dest_rect);
+	void				DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 
+									float font_size = 10.0f, ofVec2f bound = ofVec2f::zero());
 };
 typedef vector<ofxTexture*> ofxTextures;
