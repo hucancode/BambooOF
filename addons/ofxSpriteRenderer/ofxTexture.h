@@ -10,7 +10,6 @@ class ofxTexture
 {
 private:
 	FIBITMAP*			m_ImageData;
-private:
 	GLuint				m_TextureId;
 	ofVec2f				m_TextureSize;
 public:
@@ -25,10 +24,12 @@ public:
 	ofVec2f				GetTextureSize();
 public:
 	void				Allocate(unsigned int width, unsigned int height);
-	ofColor				GetPixel(unsigned int x, unsigned int y);
-	void				SetPixel(unsigned int x, unsigned int y, ofColor color);
-	void				BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos);
-	void				StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect);
+	ofColor				GetPixel(ofVec2f position);
+	void				SetPixel(ofVec2f position, ofColor color);
+	void				FlipX();
+	void				FlipY();
+	void				BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos, int alpha = 255);
+	void				StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha = 255);
 	void				Fill(ofColor color, ofRectangle dest_rect);
 	void				Clear(ofRectangle dest_rect);
 	void				DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 

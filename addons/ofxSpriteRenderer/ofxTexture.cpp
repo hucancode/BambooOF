@@ -75,21 +75,63 @@ texture operation
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
 }
-ofColor ofxTexture::GetPixel(unsigned int x, unsigned int y)
+ofColor ofxTexture::GetPixel(ofVec2f position)
 {
-	return ofColor::aliceBlue;
+	RGBQUAD fi_color;
+	ofColor color;
+	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
+	color.r = fi_color.rgbRed;
+	color.g = fi_color.rgbGreen;
+	color.b = fi_color.rgbBlue;
+	if(!success)
+	{
+		printf("SOMETHING WRONG!!!!!!!!!!!!!");
+	}
+	return color;
 }
-void ofxTexture::SetPixel(unsigned int x, unsigned int y, ofColor color)
+void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 {
+	RGBQUAD fi_color;
+	fi_color.rgbRed = color.r;
+	fi_color.rgbGreen = color.g;
+	fi_color.rgbBlue = color.b;
+	fi_color.rgbReserved = 0;
+	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
+	if(!success)
+	{
+		printf("SOMETHING WRONG!!!!!!!!!!!!!");
+	}
 }
-void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos)
+void ofxTexture::FlipX()
 {
+	FreeImage_FlipVertical(m_ImageData);
 }
-void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect)
+void ofxTexture::FlipY()
 {
+	FreeImage_FlipHorizontal(m_ImageData);
+}
+void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos, int alpha)
+{
+	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
+		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
+	FreeImage_Paste(m_ImageData, image_piece, dest_pos.x, dest_pos.y, alpha);
+	delete image_piece;
+}
+void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha)
+{
+	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
+		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
+	FIBITMAP* image_piece_rescale = FreeImage_Rescale(image_piece, dest_rect.width, dest_rect.height, FILTER_BILINEAR);
+	delete image_piece;
+	FreeImage_Paste(m_ImageData, image_piece_rescale, dest_rect.x, dest_rect.y, alpha);
+	delete image_piece_rescale;
 }
 void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
 {
+	FIBITMAP* image_piece = FreeImage_Allocate(dest_rect.width, dest_rect.height, 
+		FreeImage_GetBPP(m_ImageData), color.r, color.g, color.b);
+	FreeImage_Paste(m_ImageData, image_piece, dest_rect.x, dest_rect.y, color.a);
+	delete image_piece;
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
 {
