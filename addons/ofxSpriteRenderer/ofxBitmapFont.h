@@ -9,6 +9,7 @@ class ofxBitmapFont
 private:
 	ofxTexture*			m_Texture;
 	map<char, ofVec4f>	m_CharacterMap;
+	unsigned char		m_FontSize;
 public:
 	ofxBitmapFont();
 	virtual ~ofxBitmapFont();
@@ -18,5 +19,6 @@ public:
 	virtual bool		IsUnused();
 	ofxTexture*			GetTexture();
 	ofVec4f				GetCharacterRect(char character);
+	unsigned char		GetFontSize();
 };
 typedef vector<ofxBitmapFont*> ofxBitmapFonts;

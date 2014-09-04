@@ -32,7 +32,8 @@ public:
 	void				StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha = 255);
 	void				Fill(ofColor color, ofRectangle dest_rect);
 	void				Clear(ofRectangle dest_rect);
+	void				Clear();
 	void				DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 
-									float font_size = 10.0f, ofVec2f bound = ofVec2f::zero());
+									unsigned char font_size = 10, ofVec2f bound = ofVec2f::zero());
 };
 typedef vector<ofxTexture*> ofxTextures;

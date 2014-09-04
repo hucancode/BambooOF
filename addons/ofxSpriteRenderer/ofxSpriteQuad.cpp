@@ -123,6 +123,7 @@ void ofxSpriteQuad::SetMirrorX(bool value)
 }
 bool ofxSpriteQuad::IsMirrorX()
 {
+	return m_MirrorX;
 }
 void ofxSpriteQuad::SetMirrorY(bool value)
 {

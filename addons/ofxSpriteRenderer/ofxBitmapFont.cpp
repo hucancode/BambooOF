@@ -28,6 +28,7 @@ bool ofxBitmapFont::Load(string xml_file)
 		m_Texture = ofxTEXTURECACHE->GetResource(texture_path);
 		m_Texture->IncreaseReference();
 	}
+	m_FontSize = root.attribute("font_size").as_int();
 	xml_node character_node = root.first_child();
 	for(;character_node;character_node = character_node.next_sibling())
 	{
@@ -61,4 +62,8 @@ ofxTexture* ofxBitmapFont::GetTexture()
 ofVec4f ofxBitmapFont::GetCharacterRect(char character)
 {
 	return m_CharacterMap[character];
+}
+unsigned char ofxBitmapFont::GetFontSize()
+{
+	return m_FontSize;
 }

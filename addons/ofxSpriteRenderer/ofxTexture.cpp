@@ -1,4 +1,5 @@
 #include "ofxTexture.h"
+#include "ofxBitmapFont.h"
 ofxTexture::ofxTexture()
 	:ofxResource()
 {
@@ -19,7 +20,7 @@ bool ofxTexture::Load(string texture_file)
 	BYTE* pixel_data = FreeImage_GetBits(m_ImageData);
 	{
 		GLenum format = bpp==24?GL_RGB:GL_RGBA;
-		//glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 		m_TextureSize.x = width;
@@ -39,8 +40,7 @@ bool ofxTexture::Load(string texture_file)
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 	}
-	/*delete pixel_data;
-	delete image_data;*/
+	// delete pixel_data;
 	return true;
 }
 void ofxTexture::IncreaseReference()
@@ -135,7 +135,25 @@ void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
 {
+	RGBQUAD fi_color;
+	fi_color.rgbRed = 0;
+	fi_color.rgbGreen = 0;
+	fi_color.rgbBlue = 0;
+	fi_color.rgbReserved = 0;
+	FIBITMAP* dummy = FreeImage_AllocateEx(dest_rect.width, dest_rect.height, FreeImage_GetBPP(m_ImageData), &fi_color);
+	FreeImage_Paste(m_ImageData, dummy, dest_rect.x, dest_rect.y, 255);
 }
-void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, float font_size, ofVec2f bound)
+void ofxTexture::Clear()
 {
+	Clear(ofRectangle(0, 0, m_TextureSize.x, m_TextureSize.y));
+}
+void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, unsigned char font_size, ofVec2f bound)
+{
+	FIBITMAP* font_image = font->GetTexture()->m_ImageData;
+	float scale = (float)font_size/font->GetFontSize();
+	for (int i = 0; i < text.size(); i++)
+	{
+		// using stretch transfer
+	}
+	
 }

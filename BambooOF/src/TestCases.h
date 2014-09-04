@@ -2,7 +2,6 @@
 #include "ofxSpriteRenderer.h"
 #include "ofxSpriteQuad.h"
 #include "ofxSpriteAnimation.h"
-#include "ofxSpriteText.h"
 #include "ofxTerrain.h"
 class Test
 {
