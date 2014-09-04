@@ -13,6 +13,14 @@ protected:
 	bool				m_UVChange;
 	ofRectangle			m_TextureRect;
 	ofRectangle			m_SpriteRect;
+protected:
+	float				m_ScaleX;
+	float				m_ScaleY;
+	bool				m_MirrorX;
+	bool				m_MirrorY;
+	unsigned char		m_Opacity;
+	ofColor				m_Color;
+	unsigned char		m_ColorIntensity;
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
@@ -25,6 +33,22 @@ public:
 	ofRectangle			GetTextureRect();
 	ofRectangle			GetSpriteRect();
 	virtual void		SubmitChanges();
+public:
+	void				SetScale(float value);
+	void				SetScaleX(float value);
+	float				GetScaleX();
+	void				SetScaleY(float value);
+	float				GetScaleY();
+	void				SetMirrorX(bool value);
+	bool				IsMirrorX();
+	void				SetMirrorY(bool value);
+	bool				IsMirrorY();
+	void				SetOpacity(unsigned char value);
+	unsigned char		GetOpacity();
+	void				SetColor(ofColor value);
+	ofColor				GetColor();
+	void				SetColorIntensity(unsigned char value);
+	unsigned char		GetColorIntensity();
 private:
 	void				SetUVChange();
 	bool				GetUVChange();

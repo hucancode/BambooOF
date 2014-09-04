@@ -7,7 +7,7 @@ ofxTexture::ofxTexture()
 ofxTexture::~ofxTexture()
 {
 	FreeImage_Unload(m_ImageData);
-	//glDeleteTextures
+	glDeleteTextures(1, &m_TextureId);
 }
 bool ofxTexture::Load(string texture_file)
 {
@@ -68,4 +68,32 @@ void ofxTexture::Unbind(GLuint slot)
 ofVec2f ofxTexture::GetTextureSize()
 {
 	return m_TextureSize; 
+}
+/* ----------------------------------
+texture operation
+---------------------------------- */
+void ofxTexture::Allocate(unsigned int width, unsigned int height)
+{
+}
+ofColor ofxTexture::GetPixel(unsigned int x, unsigned int y)
+{
+	return ofColor::aliceBlue;
+}
+void ofxTexture::SetPixel(unsigned int x, unsigned int y, ofColor color)
+{
+}
+void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos)
+{
+}
+void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect)
+{
+}
+void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
+{
+}
+void ofxTexture::Clear(ofRectangle dest_rect)
+{
+}
+void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, float font_size, ofVec2f bound)
+{
 }

@@ -94,6 +94,68 @@ void ofxSpriteQuad::SubmitChanges()
 	}
 	m_PositionChange = m_DimensionChange = m_UVChange = false;
 }
+/* ----------------------------------
+sprite operation
+---------------------------------- */
+void ofxSpriteQuad::SetScale(float value)
+{
+	m_ScaleX = m_ScaleY = value;
+}
+void ofxSpriteQuad::SetScaleX(float value)
+{
+	m_ScaleX = value;
+}
+float ofxSpriteQuad::GetScaleX()
+{
+	return m_ScaleX;
+}
+void ofxSpriteQuad::SetScaleY(float value)
+{
+	m_ScaleY = value;
+}
+float ofxSpriteQuad::GetScaleY()
+{
+	return m_ScaleY;
+}
+void ofxSpriteQuad::SetMirrorX(bool value)
+{
+	m_MirrorX = value;
+}
+bool ofxSpriteQuad::IsMirrorX()
+{
+}
+void ofxSpriteQuad::SetMirrorY(bool value)
+{
+	m_MirrorY = value;
+}
+bool ofxSpriteQuad::IsMirrorY()
+{
+	return m_MirrorY;
+}
+void ofxSpriteQuad::SetOpacity(unsigned char value)
+{
+	m_Opacity = value;
+}
+unsigned char ofxSpriteQuad::GetOpacity()
+{
+	return m_Opacity;
+}
+void ofxSpriteQuad::SetColor(ofColor value)
+{
+	m_Color = value;
+}
+ofColor ofxSpriteQuad::GetColor()
+{
+	return m_Color;
+}
+void ofxSpriteQuad::SetColorIntensity(unsigned char value)
+{
+	m_ColorIntensity = value;
+}
+unsigned char ofxSpriteQuad::GetColorIntensity()
+{
+	return m_ColorIntensity;
+}
 void ofxSpriteQuad::SetUVChange()
 {
 	m_UVChange = true;
