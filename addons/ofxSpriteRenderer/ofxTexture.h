@@ -8,6 +8,7 @@ class ofxBitmapFont;
 class ofxTexture
 	: public ofxResource
 {
+	friend class ofxBitmapFont;
 private:
 	FIBITMAP*			m_ImageData;
 	GLuint				m_TextureId;
@@ -35,5 +36,7 @@ public:
 	void				Clear();
 	void				DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 
 									unsigned char font_size = 10, ofVec2f bound = ofVec2f::zero());
+private:
+	FIBITMAP*			GetImageData();
 };
 typedef vector<ofxTexture*> ofxTextures;

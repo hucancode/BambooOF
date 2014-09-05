@@ -11,6 +11,12 @@ ofxBitmapFont::ofxBitmapFont()
 ofxBitmapFont::~ofxBitmapFont()
 {
 	if(m_Texture) m_Texture->DecreaseReference();
+	map<char, FIBITMAP*>::iterator it;
+	for (it = m_BitmapCache.begin(); it != m_BitmapCache.end(); it++)
+	{
+		FIBITMAP* bmp = it->second;
+		delete bmp;
+	}
 }
 bool ofxBitmapFont::Load(string xml_file)
 {
@@ -41,6 +47,13 @@ bool ofxBitmapFont::Load(string xml_file)
 		char c = key;
 		m_CharacterMap[c] = ofVec4f(x, y, x + width, y + height);
 	}
+	map<char, ofVec4f>::iterator it;
+	for (it = m_CharacterMap.begin(); it != m_CharacterMap.end(); it++)
+	{
+		char key = it->first;
+		ofVec4f rect = it->second;
+		m_BitmapCache[key] = FreeImage_Copy(m_Texture->GetImageData(), rect.x, rect.y, rect.z, rect.w);
+	}
 	return true;
 }
 void ofxBitmapFont::IncreaseReference()
@@ -55,6 +68,10 @@ bool ofxBitmapFont::IsUnused()
 {
 	return ofxResource::IsUnused();
 }
+unsigned char ofxBitmapFont::GetFontSize()
+{
+	return m_FontSize;
+}
 ofxTexture* ofxBitmapFont::GetTexture()
 {
 	return m_Texture; 
@@ -63,7 +80,7 @@ ofVec4f ofxBitmapFont::GetCharacterRect(char character)
 {
 	return m_CharacterMap[character];
 }
-unsigned char ofxBitmapFont::GetFontSize()
+FIBITMAP* ofxBitmapFont::GetCharacterBitmap(char character)
 {
-	return m_FontSize;
+	return m_BitmapCache[character];
 }

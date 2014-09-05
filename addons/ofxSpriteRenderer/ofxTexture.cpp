@@ -149,11 +149,22 @@ void ofxTexture::Clear()
 }
 void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, unsigned char font_size, ofVec2f bound)
 {
-	FIBITMAP* font_image = font->GetTexture()->m_ImageData;
+	FIBITMAP* font_texture = font->GetTexture()->m_ImageData;
 	float scale = (float)font_size/font->GetFontSize();
+	ofVec2f cursor(dest_pos);
 	for (int i = 0; i < text.size(); i++)
 	{
-		// using stretch transfer
+		ofVec4f draw_region = font->GetCharacterRect(text[i]);
+		int width = (draw_region.z - draw_region.x)*scale;
+		int height = (draw_region.w - draw_region.y)*scale;
+		FIBITMAP* character_bitmap = font->GetCharacterBitmap(text[i]);
+		FIBITMAP* character_bitmap_rescale = FreeImage_Rescale(character_bitmap, width, height, FILTER_BILINEAR);
+		FreeImage_Paste(m_ImageData, character_bitmap_rescale, cursor.x, cursor.y, 255);
+		delete character_bitmap_rescale;
+		cursor.x += width;
 	}
-	
+}
+FIBITMAP* ofxTexture::GetImageData()
+{
+	return m_ImageData;
 }
