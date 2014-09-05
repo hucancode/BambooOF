@@ -74,6 +74,7 @@ texture operation
 ---------------------------------- */
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
+	m_ImageData = FreeImage_Allocate(width, height, 32);
 }
 ofColor ofxTexture::GetPixel(ofVec2f position)
 {
@@ -85,7 +86,7 @@ ofColor ofxTexture::GetPixel(ofVec2f position)
 	color.b = fi_color.rgbBlue;
 	if(!success)
 	{
-		printf("SOMETHING WRONG!!!!!!!!!!!!!");
+		ofLog(OF_LOG_WARNING, "ofxTexture::GetPixel failed, position = (%d, %d)", position.x, position.y);
 	}
 	return color;
 }
@@ -99,7 +100,7 @@ void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
 	if(!success)
 	{
-		printf("SOMETHING WRONG!!!!!!!!!!!!!");
+		ofLog(OF_LOG_WARNING, "ofxTexture::SetPixel failed, position = (%d, %d)", position.x, position.y);
 	}
 }
 void ofxTexture::FlipX()
