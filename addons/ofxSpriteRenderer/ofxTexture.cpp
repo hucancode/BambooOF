@@ -149,7 +149,6 @@ void ofxTexture::Clear()
 }
 void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, unsigned char font_size, ofVec2f bound)
 {
-	FIBITMAP* font_texture = font->GetTexture()->m_ImageData;
 	float scale = (float)font_size/font->GetFontSize();
 	ofVec2f cursor(dest_pos);
 	for (int i = 0; i < text.size(); i++)
