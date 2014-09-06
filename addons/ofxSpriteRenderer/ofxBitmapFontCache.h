@@ -11,6 +11,7 @@ public :
 	static void					DestroyInstance();
 private:
 	map<string, ofxBitmapFont*>	m_ResourceMap;
+	ofxBitmapFont*				m_DefaultResource;
 public:
 	ofxBitmapFontCache();
 	~ofxBitmapFontCache();

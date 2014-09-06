@@ -7,6 +7,7 @@
 note: this class is used internally in ofxSpriteRenderer, it's not really useful for end users
 
 */
+
 #define COMMAND_CAPACITY 5000
 
 class ofxSpriteCommand

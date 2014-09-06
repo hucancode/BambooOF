@@ -11,6 +11,7 @@ public :
 	static void						DestroyInstance();
 private:
 	map<string, ofxShaderProgram*>	m_ResourceMap;
+	ofxShaderProgram*				m_DefaultResource;
 public:
 	ofxShaderProgramCache();
 	~ofxShaderProgramCache();

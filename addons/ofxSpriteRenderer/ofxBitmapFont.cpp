@@ -47,6 +47,10 @@ bool ofxBitmapFont::Load(string xml_file)
 		char c = key;
 		m_CharacterMap[c] = ofVec4f(x, y, x + width, y + height);
 	}
+	if(m_CharacterMap['?'].z == 0)
+	{
+		m_CharacterMap['?'] = ofVec4f(0, 0, 1, 1);
+	}
 	map<char, ofVec4f>::iterator it;
 	for (it = m_CharacterMap.begin(); it != m_CharacterMap.end(); it++)
 	{
@@ -78,9 +82,23 @@ ofxTexture* ofxBitmapFont::GetTexture()
 }
 ofVec4f ofxBitmapFont::GetCharacterRect(char character)
 {
-	return m_CharacterMap[character];
+	if(m_CharacterMap[character].z != 0)
+	{
+		return m_CharacterMap[character];
+	}
+	else
+	{
+		return m_CharacterMap['?'];
+	}
 }
 FIBITMAP* ofxBitmapFont::GetCharacterBitmap(char character)
 {
-	return m_BitmapCache[character];
+	if(m_BitmapCache[character])
+	{
+		return m_BitmapCache[character];
+	}
+	else
+	{
+		return m_BitmapCache['?'];
+	}
 }

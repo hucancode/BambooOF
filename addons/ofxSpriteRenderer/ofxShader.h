@@ -1,6 +1,13 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxResource.h"
+
+/*
+
+note: this class is used internally in ofxSpriteRenderer, it's not really useful for end users
+
+*/
+
 class ofxShader
 	:public ofxResource
 {

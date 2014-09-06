@@ -11,6 +11,7 @@ public :
 	static void					DestroyInstance();
 private:
 	map<string, ofxTexture*>	m_ResourceMap;
+	ofxTexture*					m_DefaultResource;
 public:
 	ofxTextureCache();
 	~ofxTextureCache();

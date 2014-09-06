@@ -15,6 +15,8 @@ ofxShaderProgramCache::ofxShaderProgramCache()
 {
 	if(s_Instance) return;
 	s_Instance = this;
+	m_DefaultResource = new ofxShaderProgram();
+	m_DefaultResource->Load("default_shader");
 }
 ofxShaderProgramCache::~ofxShaderProgramCache()
 {
@@ -24,14 +26,19 @@ ofxShaderProgramCache::~ofxShaderProgramCache()
 		ofxShaderProgram* material = (*it).second;
 		delete material;
 	}
+	delete m_DefaultResource;
 }
 ofxShaderProgram* ofxShaderProgramCache::GetResource(string resource_file)
 {
 	if(m_ResourceMap[resource_file] == 0)
 	{
-		ofxShaderProgram* resource = new ofxShaderProgram;
+		ofxShaderProgram* resource = new ofxShaderProgram();
 		resource->Load(resource_file);
 		m_ResourceMap[resource_file] = resource;
+	}
+	if(m_ResourceMap[resource_file] == 0)
+	{
+		return m_DefaultResource;
 	}
 	return m_ResourceMap[resource_file];
 }

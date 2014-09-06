@@ -15,6 +15,8 @@ ofxBitmapFontCache::ofxBitmapFontCache()
 {
 	if(s_Instance) return;
 	s_Instance = this;
+	m_DefaultResource = new ofxBitmapFont();
+	m_DefaultResource->Load("data/default_font.xml");
 }
 ofxBitmapFontCache::~ofxBitmapFontCache()
 {
@@ -24,14 +26,19 @@ ofxBitmapFontCache::~ofxBitmapFontCache()
 		ofxBitmapFont* material = (*it).second;
 		delete material;
 	}
+	delete m_DefaultResource;
 }
 ofxBitmapFont* ofxBitmapFontCache::GetResource(string resource_file)
 {
 	if(m_ResourceMap[resource_file] == 0)
 	{
-		ofxBitmapFont* resource = new ofxBitmapFont;
+		ofxBitmapFont* resource = new ofxBitmapFont();
 		resource->Load(resource_file);
 		m_ResourceMap[resource_file] = resource;
+	}
+	if(m_ResourceMap[resource_file] == 0)
+	{
+		return m_DefaultResource;
 	}
 	return m_ResourceMap[resource_file];
 }

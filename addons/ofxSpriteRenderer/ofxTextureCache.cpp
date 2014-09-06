@@ -15,6 +15,8 @@ ofxTextureCache::ofxTextureCache()
 {
 	if(s_Instance) return;
 	s_Instance = this;
+	m_DefaultResource = new ofxTexture();
+	m_DefaultResource->Load("data/default_texture.png");
 }
 ofxTextureCache::~ofxTextureCache()
 {
@@ -24,14 +26,21 @@ ofxTextureCache::~ofxTextureCache()
 		ofxTexture* material = (*it).second;
 		delete material;
 	}
+	delete m_DefaultResource;
 }
 ofxTexture* ofxTextureCache::GetResource(string resource_file)
 {
 	if(m_ResourceMap[resource_file] == 0)
 	{
-		ofxTexture* resource = new ofxTexture;
-		resource->Load(resource_file);
-		m_ResourceMap[resource_file] = resource;
+		ofxTexture* resource = new ofxTexture();
+		if(resource->Load(resource_file))
+		{
+			m_ResourceMap[resource_file] = resource;
+		}
+	}
+	if(m_ResourceMap[resource_file] == 0)
+	{
+		return m_DefaultResource;
 	}
 	return m_ResourceMap[resource_file];
 }

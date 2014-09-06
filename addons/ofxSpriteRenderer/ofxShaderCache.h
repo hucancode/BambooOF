@@ -1,7 +1,12 @@
 #pragma once
-
 #include "ofMain.h"
 #include "ofxShader.h"
+
+/*
+
+note: this class is used internally in ofxSpriteRenderer, it's not really useful for end users
+
+*/
 
 class ofxShaderCache
 {
