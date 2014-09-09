@@ -5,9 +5,11 @@
 
 struct ofxVertex
 {
-	float x,y,z;	// position
-	float u,v;		// texture uv
-	unsigned char opacity;
+	float x,y,z;			// position
+	float u,v;				// texture uv
+	float r, g, b;			// color
+	float intensity;		// color intensity
+	float opacity;			// vertex opacity
 };
 enum SPRITE_OCCLUSION
 {

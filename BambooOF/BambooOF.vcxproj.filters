@@ -415,22 +415,10 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxResource.cpp">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderCache.cpp">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.cpp">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.cpp">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp">
@@ -465,6 +453,18 @@
     </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFontCache.cpp">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShader.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1160,22 +1160,10 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxResource.h">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderCache.h">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.h">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.h">
-      <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h">
@@ -1213,6 +1201,18 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFontCache.h">
       <Filter>addons\ofxSpriteRenderer\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShader.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgram.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
