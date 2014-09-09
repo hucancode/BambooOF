@@ -6,6 +6,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 {
 	ofxSpriteBase::ofxSpriteBase();
 	m_VerticesSize = 4;
+	m_Angle = 0;
 	m_Vertices = new ofxVertex[m_VerticesSize];
 	m_UVChange = true;
 	LoadShader(DEFAULT_SHADER);
@@ -48,6 +49,14 @@ void ofxSpriteQuad::SetSpriteRect(const ofRectangle rect)
 	m_SpriteRect = rect;
 	m_Dimension = m_SpriteRect;
 	m_DimensionChange = true;
+	m_VertexAngle[0] = rect.getTopLeft().angleRad(ofVec2f::zero());
+	m_VertexAngle[1] = rect.getTopRight().angleRad(ofVec2f::zero());
+	m_VertexAngle[2] = rect.getBottomRight().angleRad(ofVec2f::zero());
+	m_VertexAngle[3] = rect.getTopRight().angleRad(ofVec2f::zero());
+	m_VertexDistance[0] = rect.getTopLeft().length();
+	m_VertexDistance[1] = rect.getTopRight().length();
+	m_VertexDistance[2] = rect.getBottomRight().length();
+	m_VertexDistance[3] = rect.getTopRight().length();
 }
 // in order to make the quad skew 30 degree, we must put some adjust on Y and Z
 #define SKEW45
@@ -75,6 +84,18 @@ void ofxSpriteQuad::SubmitChanges()
 		m_Vertices[3].x = m_Vertices[0].x;
 		m_Vertices[3].y = m_Vertices[2].y;
 		m_Vertices[3].z = m_Vertices[2].z;
+		if(m_Angle != 0)
+		{
+			m_Vertices[0].x += m_VertexDistance[0]*(cos(m_VertexAngle[0]) - cos(m_VertexAngle[0] + m_Angle));
+			m_Vertices[0].y += m_VertexDistance[0]*(sin(m_VertexAngle[0]) - sin(m_VertexAngle[0] + m_Angle));
+			m_Vertices[1].x += m_VertexDistance[1]*(cos(m_VertexAngle[1]) - cos(m_VertexAngle[1] + m_Angle));
+			m_Vertices[1].y += m_VertexDistance[1]*(sin(m_VertexAngle[1]) - sin(m_VertexAngle[1] + m_Angle));
+			m_Vertices[2].x += m_VertexDistance[2]*(cos(m_VertexAngle[2]) - cos(m_VertexAngle[2] + m_Angle));
+			m_Vertices[2].y += m_VertexDistance[2]*(sin(m_VertexAngle[2]) - sin(m_VertexAngle[2] + m_Angle));
+			m_Vertices[3].x += m_VertexDistance[3]*(cos(m_VertexAngle[3]) - cos(m_VertexAngle[3] + m_Angle));
+			m_Vertices[3].y += m_VertexDistance[3]*(sin(m_VertexAngle[3]) - sin(m_VertexAngle[3] + m_Angle));
+		}
+		
 	}
 	if(m_UVChange)
 	{
@@ -116,6 +137,14 @@ void ofxSpriteQuad::SetScaleY(float value)
 float ofxSpriteQuad::GetScaleY()
 {
 	return m_ScaleY;
+}
+void ofxSpriteQuad::SetAngle(float value)
+{
+	m_Angle = value;
+}
+float ofxSpriteQuad::GetAngle()
+{
+	return m_Angle;
 }
 void ofxSpriteQuad::SetMirrorX(bool value)
 {

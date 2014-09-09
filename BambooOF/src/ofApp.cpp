@@ -7,9 +7,14 @@
 extern Test* current_test;
 //--------------------------------------------------------------
 void ofApp::setup() {
+	{
+		char c = '?';
+		int a = c;
+		cout<<c;
+	}
 	new ofxSpriteRenderer;
-	new ofxShaderProgramCache;
 	new ofxShaderCache;
+	new ofxShaderProgramCache;
 	new ofxTextureCache;
 	ofxRENDERER->SetRenderSize(ofGetWindowWidth(), ofGetWindowHeight());
 	current_test->Setup();

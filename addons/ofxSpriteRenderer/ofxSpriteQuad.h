@@ -16,11 +16,15 @@ protected:
 protected:
 	float				m_ScaleX;
 	float				m_ScaleY;
+	float				m_Angle;
 	bool				m_MirrorX;
 	bool				m_MirrorY;
 	unsigned char		m_Opacity;
 	ofColor				m_Color;
 	unsigned char		m_ColorIntensity;
+private:
+	float				m_VertexAngle[4];
+	float				m_VertexDistance[4];
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
@@ -39,6 +43,8 @@ public:
 	float				GetScaleX();
 	void				SetScaleY(float value);
 	float				GetScaleY();
+	void				SetAngle(float value);
+	float				GetAngle();
 	void				SetMirrorX(bool value);
 	bool				IsMirrorX();
 	void				SetMirrorY(bool value);
