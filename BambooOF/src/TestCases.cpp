@@ -2,7 +2,8 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new AnimationBenchmarkTest();
+#include "ofxBitmapFontCache.h"
+Test* current_test = new TextSpriteTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -245,6 +246,32 @@ void TerrainSpriteTest::Update()
 void TerrainSpriteTest::Render()
 {
 	terrain->RenderTiles();
+	ofxRENDERER->Render();
+}
+void TextSpriteTest::Setup()
+{
+	string header = "this is a header, so i draw it big";
+	string text = "hello world, this is a long long long text.";
+	ofxBitmapFont* font = ofxBITMAPFONTCACHE->GetResource("data/verdana.xml");
+	ofxTexture* texture = new ofxTexture();
+	ofVec2f dimension_header = font->GetTextDimension(header, 44);
+	ofVec2f dimension_text = font->GetTextDimension(text);
+	texture->Allocate(max(dimension_header.x, dimension_text.x), dimension_header.y+dimension_text.y);
+	texture->DrawString(header, font, ofVec2f(0,0), 44);
+	texture->DrawString(text, font, ofVec2f(0,dimension_header.y));
+	texture->FlipY();
+	texture->SubmitChanges();
+	ofxTEXTURECACHE->PushResource(texture, "txt_verdana"+text);
+	ofxSpriteQuad* sprite = new ofxSpriteQuad();
+	sprite->SetTexture("txt_verdana"+text);
+	spriteObstacle = sprite;
+}
+void TextSpriteTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TextSpriteTest::Render()
+{
 	ofxRENDERER->Render();
 }
 

@@ -6,16 +6,14 @@ using namespace pugi;
 ofxBitmapFont::ofxBitmapFont()
 	:ofxResource()
 {
-	m_Texture = 0;
 }
 ofxBitmapFont::~ofxBitmapFont()
 {
-	if(m_Texture) m_Texture->DecreaseReference();
 	map<char, FIBITMAP*>::iterator it;
 	for (it = m_BitmapCache.begin(); it != m_BitmapCache.end(); it++)
 	{
 		FIBITMAP* bmp = it->second;
-		delete bmp;
+		FreeImage_Unload(bmp);
 	}
 }
 bool ofxBitmapFont::Load(string xml_file)
@@ -25,15 +23,8 @@ bool ofxBitmapFont::Load(string xml_file)
 	if(!result) return false;
 	xml_node root = doc.child("fontMetrics");
 	if(!root) return false;
-	string texture_path = root.attribute("file").as_string();
-	{
-		if(m_Texture)
-		{
-			m_Texture->DecreaseReference();
-		}
-		m_Texture = ofxTEXTURECACHE->GetResource(texture_path);
-		m_Texture->IncreaseReference();
-	}
+	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, root.attribute("file").as_string(), PNG_DEFAULT);
+	//FreeImage_FlipVertical(image_data);
 	m_FontSize = root.attribute("font_size").as_int();
 	xml_node character_node = root.first_child();
 	for(;character_node;character_node = character_node.next_sibling())
@@ -56,29 +47,15 @@ bool ofxBitmapFont::Load(string xml_file)
 	{
 		char key = it->first;
 		ofVec4f rect = it->second;
-		m_BitmapCache[key] = FreeImage_Copy(m_Texture->GetImageData(), rect.x, rect.y, rect.z, rect.w);
+		m_BitmapCache[key] = FreeImage_Copy(image_data, rect.x, rect.y, rect.z, rect.w);
+		//FreeImage_FlipVertical(m_BitmapCache[key]);
 	}
+	FreeImage_Unload(image_data);
 	return true;
-}
-void ofxBitmapFont::IncreaseReference()
-{
-	ofxResource::IncreaseReference();
-}
-void ofxBitmapFont::DecreaseReference()
-{
-	ofxResource::DecreaseReference();
-}
-bool ofxBitmapFont::IsUnused()
-{
-	return ofxResource::IsUnused();
 }
 unsigned char ofxBitmapFont::GetFontSize()
 {
 	return m_FontSize;
-}
-ofxTexture* ofxBitmapFont::GetTexture()
-{
-	return m_Texture; 
 }
 ofVec4f ofxBitmapFont::GetCharacterRect(char character)
 {
@@ -101,4 +78,27 @@ FIBITMAP* ofxBitmapFont::GetCharacterBitmap(char character)
 	{
 		return m_BitmapCache['?'];
 	}
+}
+ofVec2f	ofxBitmapFont::GetTextDimension(string text, unsigned char font_size)
+{
+	
+	ofVec2f ret(0,0);
+	float scale;
+	if(font_size == 0)
+	{
+		scale = 1.0f;
+	}
+	else
+	{
+		scale = (float)font_size/m_FontSize;
+	}
+	for (int i = 0; i < text.size(); i++)
+	{
+		ofVec4f draw_region = GetCharacterRect(text[i]);
+		int width = (draw_region.z - draw_region.x)*scale;
+		int height = (draw_region.w - draw_region.y)*scale;
+		ret.x += width;
+		ret.y = max((int)ret.y, height);
+	}
+	return ret;
 }

@@ -26,8 +26,8 @@ ofxSpriteQuad::~ofxSpriteQuad()
 void ofxSpriteQuad::SetTexture(string texture_path)
 {
 	ofxSpriteBase::SetTexture(texture_path);
-	SetSpriteRect(-m_Texture->GetTextureSize().x*0.5, 0, m_Texture->GetTextureSize().x, m_Texture->GetTextureSize().y);
-	SetTextureRect(0, 0, m_Texture->GetTextureSize().x, m_Texture->GetTextureSize().y);
+	SetSpriteRect(-m_Texture->GetDimension().x*0.5, 0, m_Texture->GetDimension().x, m_Texture->GetDimension().y);
+	SetTextureRect(0, 0, m_Texture->GetDimension().x, m_Texture->GetDimension().y);
 }
 ofRectangle ofxSpriteQuad::GetTextureRect()
 {
@@ -90,10 +90,10 @@ void ofxSpriteQuad::SubmitChanges()
 	}
 	if(m_UVChange)
 	{
-		float uv_min_x = m_TextureRect.x/m_Texture->GetTextureSize().x;
-		float uv_min_y = m_TextureRect.y/m_Texture->GetTextureSize().y;
-		float uv_max_x = uv_min_x + m_TextureRect.width/m_Texture->GetTextureSize().x;
-		float uv_max_y = uv_min_y + m_TextureRect.height/m_Texture->GetTextureSize().y;
+		float uv_min_x = m_TextureRect.x/m_Texture->GetDimension().x;
+		float uv_min_y = m_TextureRect.y/m_Texture->GetDimension().y;
+		float uv_max_x = uv_min_x + m_TextureRect.width/m_Texture->GetDimension().x;
+		float uv_max_y = uv_min_y + m_TextureRect.height/m_Texture->GetDimension().y;
 		swap(uv_min_y, uv_max_y);
 
 		if(m_MirrorX)

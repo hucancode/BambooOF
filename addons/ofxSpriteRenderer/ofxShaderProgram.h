@@ -22,7 +22,6 @@ public:
 	virtual bool		Load(string program_file);
 	virtual void		IncreaseReference();
 	virtual void		DecreaseReference();
-	virtual bool		IsUnused();
 	bool				Load(string vs_file, string fs_file);
 	void				Bind();
 	void				Unbind();

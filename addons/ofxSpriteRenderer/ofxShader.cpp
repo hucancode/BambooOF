@@ -64,15 +64,3 @@ GLuint ofxShader::GetShaderId()
 {
 	return m_ShaderId;
 }
-void ofxShader::IncreaseReference()
-{
-	ofxResource::IncreaseReference();
-}
-void ofxShader::DecreaseReference()
-{
-	ofxResource::DecreaseReference();
-}
-bool ofxShader::IsUnused()
-{
-	return ofxResource::IsUnused();
-}

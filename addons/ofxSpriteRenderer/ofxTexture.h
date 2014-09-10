@@ -12,17 +12,15 @@ class ofxTexture
 private:
 	FIBITMAP*			m_ImageData;
 	GLuint				m_TextureId;
-	ofVec2f				m_TextureSize;
+	ofVec2f				m_Dimension;
 public:
 	ofxTexture();
 	virtual ~ofxTexture();
 	virtual bool		Load(string texture_file);
-	virtual void		IncreaseReference();
-	virtual void		DecreaseReference();
-	virtual bool		IsUnused();
+	void				SubmitChanges();
 	void				Bind(GLuint slot=0);
 	void				Unbind(GLuint slot=0);
-	ofVec2f				GetTextureSize();
+	ofVec2f				GetDimension();
 public:
 	void				Allocate(unsigned int width, unsigned int height);
 	ofColor				GetPixel(ofVec2f position);
@@ -34,8 +32,8 @@ public:
 	void				Fill(ofColor color, ofRectangle dest_rect);
 	void				Clear(ofRectangle dest_rect);
 	void				Clear();
-	void				DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 
-									unsigned char font_size = 10, ofVec2f bound = ofVec2f::zero());
+	void				DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, unsigned char font_size = 0);
+	void				DrawString(string text, ofxBitmapFont* font, ofRectangle dest_rect, unsigned char font_size = 0);
 private:
 	FIBITMAP*			GetImageData();
 };

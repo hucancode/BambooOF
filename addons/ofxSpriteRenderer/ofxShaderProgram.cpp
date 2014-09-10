@@ -95,7 +95,3 @@ void ofxShaderProgram::DecreaseReference()
 	m_VertexShader->DecreaseReference();
 	m_FragmentShader->DecreaseReference();
 }
-bool ofxShaderProgram::IsUnused()
-{
-	return ofxResource::IsUnused();
-}

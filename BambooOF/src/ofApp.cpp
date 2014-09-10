@@ -3,6 +3,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
+#include "ofxBitmapFontCache.h"
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
@@ -16,6 +17,7 @@ void ofApp::setup() {
 	new ofxShaderCache;
 	new ofxShaderProgramCache;
 	new ofxTextureCache;
+	new ofxBitmapFontCache;
 	ofxRENDERER->SetRenderSize(ofGetWindowWidth(), ofGetWindowHeight());
 	current_test->Setup();
 	//ofSetFrameRate(60);

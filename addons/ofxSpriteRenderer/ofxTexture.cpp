@@ -9,11 +9,17 @@ ofxTexture::~ofxTexture()
 {
 	FreeImage_Unload(m_ImageData);
 	glDeleteTextures(1, &m_TextureId);
+	FreeImage_Unload(m_ImageData);
 }
 bool ofxTexture::Load(string texture_file)
 {
 	m_ImageData = FreeImage_Load(FIF_PNG, texture_file.c_str(), PNG_DEFAULT);
 	FreeImage_FlipVertical(m_ImageData);
+	SubmitChanges();
+	return true;
+}
+void ofxTexture::SubmitChanges()
+{
 	unsigned int bpp = FreeImage_GetBPP(m_ImageData);
 	unsigned int width = FreeImage_GetWidth(m_ImageData);
 	unsigned int height = FreeImage_GetHeight(m_ImageData);
@@ -23,8 +29,8 @@ bool ofxTexture::Load(string texture_file)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
-		m_TextureSize.x = width;
-		m_TextureSize.y = height;
+		m_Dimension.x = width;
+		m_Dimension.y = height;
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
@@ -40,20 +46,6 @@ bool ofxTexture::Load(string texture_file)
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 	}
-	// delete pixel_data;
-	return true;
-}
-void ofxTexture::IncreaseReference()
-{
-	ofxResource::IncreaseReference();
-}
-void ofxTexture::DecreaseReference()
-{
-	ofxResource::DecreaseReference();
-}
-bool ofxTexture::IsUnused()
-{
-	return ofxResource::IsUnused();
 }
 void ofxTexture::Bind(GLuint slot)
 {
@@ -65,9 +57,9 @@ void ofxTexture::Unbind(GLuint slot)
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
-ofVec2f ofxTexture::GetTextureSize()
+ofVec2f ofxTexture::GetDimension()
 {
-	return m_TextureSize; 
+	return m_Dimension; 
 }
 /* ----------------------------------
 texture operation
@@ -75,6 +67,8 @@ texture operation
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
 	m_ImageData = FreeImage_Allocate(width, height, 32);
+	m_Dimension.x = width;
+	m_Dimension.y = height;
 }
 ofColor ofxTexture::GetPixel(ofVec2f position)
 {
@@ -105,34 +99,34 @@ void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 }
 void ofxTexture::FlipX()
 {
-	FreeImage_FlipVertical(m_ImageData);
+	FreeImage_FlipHorizontal(m_ImageData);
 }
 void ofxTexture::FlipY()
 {
-	FreeImage_FlipHorizontal(m_ImageData);
+	FreeImage_FlipVertical(m_ImageData);
 }
 void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos, int alpha)
 {
 	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
 		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
 	FreeImage_Paste(m_ImageData, image_piece, dest_pos.x, dest_pos.y, alpha);
-	delete image_piece;
+	FreeImage_Unload(image_piece);
 }
 void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha)
 {
 	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
 		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
 	FIBITMAP* image_piece_rescale = FreeImage_Rescale(image_piece, dest_rect.width, dest_rect.height, FILTER_BILINEAR);
-	delete image_piece;
+	FreeImage_Unload(image_piece);
 	FreeImage_Paste(m_ImageData, image_piece_rescale, dest_rect.x, dest_rect.y, alpha);
-	delete image_piece_rescale;
+	FreeImage_Unload(image_piece_rescale);
 }
 void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
 {
 	FIBITMAP* image_piece = FreeImage_Allocate(dest_rect.width, dest_rect.height, 
 		FreeImage_GetBPP(m_ImageData), color.r, color.g, color.b);
 	FreeImage_Paste(m_ImageData, image_piece, dest_rect.x, dest_rect.y, color.a);
-	delete image_piece;
+	FreeImage_Unload(image_piece);
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
 {
@@ -143,14 +137,23 @@ void ofxTexture::Clear(ofRectangle dest_rect)
 	fi_color.rgbReserved = 0;
 	FIBITMAP* dummy = FreeImage_AllocateEx(dest_rect.width, dest_rect.height, FreeImage_GetBPP(m_ImageData), &fi_color);
 	FreeImage_Paste(m_ImageData, dummy, dest_rect.x, dest_rect.y, 255);
+	FreeImage_Unload(dummy);
 }
 void ofxTexture::Clear()
 {
-	Clear(ofRectangle(0, 0, m_TextureSize.x, m_TextureSize.y));
+	Clear(ofRectangle(0, 0, m_Dimension.x, m_Dimension.y));
 }
-void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, unsigned char font_size, ofVec2f bound)
+void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, unsigned char font_size)
 {
-	float scale = (float)font_size/font->GetFontSize();
+	float scale;
+	if(font_size == 0)
+	{
+		scale = 1.0f;
+	}
+	else
+	{
+		scale = (float)font_size/font->GetFontSize();
+	}
 	ofVec2f cursor(dest_pos);
 	for (int i = 0; i < text.size(); i++)
 	{
@@ -160,7 +163,32 @@ void ofxTexture::DrawString(ofxBitmapFont* font, string text, ofVec2f dest_pos, 
 		FIBITMAP* character_bitmap = font->GetCharacterBitmap(text[i]);
 		FIBITMAP* character_bitmap_rescale = FreeImage_Rescale(character_bitmap, width, height, FILTER_BILINEAR);
 		FreeImage_Paste(m_ImageData, character_bitmap_rescale, cursor.x, cursor.y, 255);
-		delete character_bitmap_rescale;
+		FreeImage_Unload(character_bitmap_rescale);
+		cursor.x += width;
+	}
+}
+void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_rect, unsigned char font_size)
+{
+	// TODO: implement draw text with boundary
+	float scale;
+	if(font_size == 0)
+	{
+		scale = 1.0f;
+	}
+	else
+	{
+		scale = (float)font_size/font->GetFontSize();
+	}
+	ofVec2f cursor(dest_rect.x, dest_rect.y);
+	for (int i = 0; i < text.size(); i++)
+	{
+		ofVec4f draw_region = font->GetCharacterRect(text[i]);
+		int width = (draw_region.z - draw_region.x)*scale;
+		int height = (draw_region.w - draw_region.y)*scale;
+		FIBITMAP* character_bitmap = font->GetCharacterBitmap(text[i]);
+		FIBITMAP* character_bitmap_rescale = FreeImage_Rescale(character_bitmap, width, height, FILTER_BILINEAR);
+		FreeImage_Paste(m_ImageData, character_bitmap_rescale, cursor.x, cursor.y, 255);
+		FreeImage_Unload(character_bitmap_rescale);
 		cursor.x += width;
 	}
 }
