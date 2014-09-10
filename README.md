@@ -10,7 +10,7 @@ GAME ENGINE TASK LIST
 * port bamboo from cc to of [DEV]
   * develop 2d sprite renderer/3d plane renderer [OK]
   * terrain rendering [OK]
-  * text rendering [DEV]
+  * text rendering [OK]
   * particle rendering [DEV]
   * render character using sprite renderer[DEV]
   * redesign data
