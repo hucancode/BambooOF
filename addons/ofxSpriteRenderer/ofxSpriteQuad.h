@@ -11,22 +11,15 @@ class ofxSpriteQuad : public ofxSpriteBase
 	friend ofxSpriteRenderer;
 protected:
 	bool				m_UVChange;
-	bool				m_AngleChange;
+	bool				m_OpacityChange;
 	ofRectangle			m_TextureRect;
 	ofRectangle			m_SpriteRect;
 protected:
 	float				m_ScaleX;
 	float				m_ScaleY;
-	int					m_Angle;
-	ofVec2f				m_RotationEffect[4];
 	bool				m_MirrorX;
 	bool				m_MirrorY;
 	unsigned char		m_Opacity;
-protected:
-	int					m_VertexAngle[4];
-	int					m_VertexDistance[4];
-	static float		m_CosTable[360];
-	static float		m_SinTable[360];
 public:
 	ofxSpriteQuad();
 	~ofxSpriteQuad();
@@ -45,18 +38,12 @@ public:
 	float				GetScaleX();
 	void				SetScaleY(float value);
 	float				GetScaleY();
-	void				SetAngle(int value);
-	int					GetAngle();
 	void				SetMirrorX(bool value);
 	bool				IsMirrorX();
 	void				SetMirrorY(bool value);
 	bool				IsMirrorY();
 	void				SetOpacity(unsigned char value);
 	unsigned char		GetOpacity();
-private:
-	static void			BuildSinCosTable();
-	static float		GetCos(int &degree);
-	static float		GetSin(int &degree);
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;
 #define DEFAULT_SHADER "sprite2d"

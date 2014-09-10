@@ -2,7 +2,7 @@
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
-Test* current_test = new TerrainBenchmarkTest();
+Test* current_test = new AnimationBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {

@@ -13,7 +13,7 @@ private:
 	ofxShader*			m_VertexShader;
 	ofxShader*			m_FragmentShader;
 private:
-	GLuint				m_ShaderProgramId;
+	GLuint				m_ProgramId;
 	map<string, GLint>	m_AttributeMap;
 	map<string, GLint>	m_UniformMap;
 public:

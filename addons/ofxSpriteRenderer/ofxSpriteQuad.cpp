@@ -9,9 +9,11 @@ ofxSpriteQuad::ofxSpriteQuad()
 	
 	m_Vertices = new ofxVertex[m_VerticesSize];
 	m_UVChange = true;
-	m_MirrorX = m_MirrorY = false;
-	m_ScaleX = m_ScaleY = 1.0;
-	m_Angle = 0;
+	m_OpacityChange = true;
+	m_MirrorX = false;
+	m_MirrorY = false;
+	m_ScaleX = 1.0;
+	m_ScaleY = 1.0;
 	m_Opacity = 255;
 	LoadShader(DEFAULT_SHADER);
 	ofxRENDERER->PushSprite(this);
@@ -53,14 +55,6 @@ void ofxSpriteQuad::SetSpriteRect(const ofRectangle rect)
 	m_SpriteRect = rect;
 	m_Dimension = m_SpriteRect;
 	m_DimensionChange = true;
-	m_VertexAngle[0] = rect.getTopLeft().angle(ofVec2f::zero());
-	m_VertexAngle[1] = rect.getTopRight().angle(ofVec2f::zero());
-	m_VertexAngle[2] = rect.getBottomRight().angle(ofVec2f::zero());
-	m_VertexAngle[3] = rect.getTopRight().angle(ofVec2f::zero());
-	m_VertexDistance[0] = rect.getTopLeft().length();
-	m_VertexDistance[1] = rect.getTopRight().length();
-	m_VertexDistance[2] = rect.getBottomRight().length();
-	m_VertexDistance[3] = rect.getTopRight().length();
 }
 // in order to make the quad skew 30 degree, we must put some adjust on Y and Z
 #define SKEW45
@@ -93,17 +87,6 @@ void ofxSpriteQuad::SubmitChanges()
 		m_Vertices[3].x = m_Vertices[0].x;
 		m_Vertices[3].y = m_Vertices[2].y;
 		m_Vertices[3].z = m_Vertices[2].z;
-		if(m_Angle != 0)
-		{
-			m_Vertices[0].x += m_RotationEffect[0].x;
-			m_Vertices[0].y += m_RotationEffect[0].y;
-			m_Vertices[1].x += m_RotationEffect[1].x;
-			m_Vertices[1].y += m_RotationEffect[1].y;
-			m_Vertices[2].x += m_RotationEffect[2].x;
-			m_Vertices[2].y += m_RotationEffect[2].y;
-			m_Vertices[3].x += m_RotationEffect[3].x;
-			m_Vertices[3].y += m_RotationEffect[3].y;
-		}
 	}
 	if(m_UVChange)
 	{
@@ -131,18 +114,15 @@ void ofxSpriteQuad::SubmitChanges()
 		m_Vertices[3].u = uv_min_x;
 		m_Vertices[3].v = uv_max_y;
 	}
-	if((m_AngleChange || m_DimensionChange) && m_Angle != 0)
+	if(m_OpacityChange)
 	{
-		m_RotationEffect[0].x = m_VertexDistance[0] * m_ScaleX * (GetCos(m_VertexAngle[0]) - GetCos(m_VertexAngle[0] + m_Angle));
-		m_RotationEffect[0].y = m_VertexDistance[0] * m_ScaleY * (GetSin(m_VertexAngle[0]) - GetSin(m_VertexAngle[0] + m_Angle));
-		m_RotationEffect[1].x = m_VertexDistance[1] * m_ScaleX * (GetCos(m_VertexAngle[1]) - GetCos(m_VertexAngle[1] + m_Angle));
-		m_RotationEffect[1].y = m_VertexDistance[1] * m_ScaleY * (GetSin(m_VertexAngle[1]) - GetSin(m_VertexAngle[1] + m_Angle));
-		m_RotationEffect[2].x = m_VertexDistance[2] * m_ScaleX * (GetCos(m_VertexAngle[2]) - GetCos(m_VertexAngle[2] + m_Angle));
-		m_RotationEffect[2].y = m_VertexDistance[2] * m_ScaleY * (GetSin(m_VertexAngle[2]) - GetSin(m_VertexAngle[2] + m_Angle));
-		m_RotationEffect[3].x = m_VertexDistance[3] * m_ScaleX * (GetCos(m_VertexAngle[3]) - GetCos(m_VertexAngle[3] + m_Angle));
-		m_RotationEffect[3].y = m_VertexDistance[3] * m_ScaleY * (GetSin(m_VertexAngle[3]) - GetSin(m_VertexAngle[3] + m_Angle));
+		float opacity_normalized = m_Opacity/255;
+		m_Vertices[0].opacity = opacity_normalized;
+		m_Vertices[1].opacity = opacity_normalized;
+		m_Vertices[2].opacity = opacity_normalized;
+		m_Vertices[3].opacity = opacity_normalized;
 	}
-	m_PositionChange = m_DimensionChange = m_UVChange = m_AngleChange = false;
+	m_PositionChange = m_DimensionChange = m_UVChange = m_OpacityChange = false;
 }
 /* ----------------------------------
 sprite operation
@@ -172,18 +152,6 @@ float ofxSpriteQuad::GetScaleY()
 {
 	return m_ScaleY;
 }
-void ofxSpriteQuad::SetAngle(int value)
-{
-	while(value >= 360) value -= 360;
-	while(value < 0) value += 360;
-	if(value == m_Angle) return;
-	m_Angle = value;
-	m_AngleChange = true;
-}
-int ofxSpriteQuad::GetAngle()
-{
-	return m_Angle;
-}
 void ofxSpriteQuad::SetMirrorX(bool value)
 {
 	m_MirrorX = value;
@@ -205,28 +173,9 @@ bool ofxSpriteQuad::IsMirrorY()
 void ofxSpriteQuad::SetOpacity(unsigned char value)
 {
 	m_Opacity = value;
+	m_OpacityChange = true;
 }
 unsigned char ofxSpriteQuad::GetOpacity()
 {
 	return m_Opacity;
-}
-float ofxSpriteQuad::m_CosTable[360];
-float ofxSpriteQuad::m_SinTable[360];
-void ofxSpriteQuad::BuildSinCosTable()
-{
-	float deg_to_rad = PI/180.0;
-	for(int i=0;i<360;i++)
-	{
-		float rad = i*deg_to_rad;
-		m_CosTable[i] = cos(rad);
-		m_SinTable[i] = sin(rad);
-	}
-}
-float ofxSpriteQuad::GetCos(int degree)
-{
-	return m_CosTable[degree];
-}
-float ofxSpriteQuad::GetSin(int degree)
-{
-	return m_SinTable[degree];
 }
