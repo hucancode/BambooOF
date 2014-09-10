@@ -1,4 +1,4 @@
-BambooOF
+BambooOF ![travis build status](https://travis-ci.org/ngoaho91/BambooOF.svg)
 ========
 this is my jx clone project. all these graphics & audio are extracted from the original game.
 
