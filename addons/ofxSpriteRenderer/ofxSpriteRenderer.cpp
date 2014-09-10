@@ -1,4 +1,5 @@
 #include "ofxSpriteRenderer.h"
+#include "ofxSpriteQuad.h"
 ofxSpriteRenderer* ofxSpriteRenderer::s_Instance = 0;
 ofxSpriteRenderer* ofxSpriteRenderer::GetInstance()
 {
@@ -13,6 +14,7 @@ void ofxSpriteRenderer::DestroyInstance()
 ofxSpriteRenderer::ofxSpriteRenderer()
 {
 	if(s_Instance) return;
+	ofxSpriteQuad::BuildSinCosTable();
 	m_Camera = new ofxOrthoCamera();
 	m_Camera->setGlobalPosition(ofVec3f(0.0f, 1.0f, 1.0f));
 	m_Camera->lookAt(ofVec3f(0.0f, 0.0f, 0.0f));

@@ -8,8 +8,9 @@ ofxShaderProgram::ofxShaderProgram()
 }
 ofxShaderProgram::~ofxShaderProgram()
 {
-	//glDetachShader(program, id);
-	//glDeleteShader(id);
+	glDetachShader(m_ShaderProgramId, m_VertexShader->GetShaderId());
+	glDetachShader(m_ShaderProgramId, m_FragmentShader->GetShaderId());
+	glDeleteProgram(m_ShaderProgramId);
 }
 bool ofxShaderProgram::Load(string path)
 {
@@ -44,8 +45,6 @@ bool ofxShaderProgram::Load(string vs_path, string fs_path)
 	{
 		m_AttributeMap["a_position"]			= glGetAttribLocation(m_ShaderProgramId, "a_position");
 		m_AttributeMap["a_uv"]					= glGetAttribLocation(m_ShaderProgramId, "a_uv");
-		m_AttributeMap["a_color"]				= glGetAttribLocation(m_ShaderProgramId, "a_color");
-		m_AttributeMap["a_intensity"]			= glGetAttribLocation(m_ShaderProgramId, "a_intensity");
 		m_AttributeMap["a_opacity"]				= glGetAttribLocation(m_ShaderProgramId, "a_opacity");
 		m_UniformMap["u_texture"]				= glGetUniformLocation(m_ShaderProgramId, "u_texture");
 		m_UniformMap["u_modelview_matrix"]		= glGetUniformLocation(m_ShaderProgramId, "u_modelview_matrix");
@@ -65,12 +64,6 @@ void ofxShaderProgram::Bind()
 		glEnableVertexAttribArray	(m_AttributeMap["a_uv"]);
 		glVertexAttribPointer		(m_AttributeMap["a_uv"],				2, GL_FLOAT, GL_FALSE, 
 																				sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, u));
-		glEnableVertexAttribArray	(m_AttributeMap["a_color"]);
-		glVertexAttribPointer		(m_AttributeMap["a_color"],				3, GL_FLOAT, GL_FALSE, 
-																				sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, r));
-		glEnableVertexAttribArray	(m_AttributeMap["a_intensity"]);
-		glVertexAttribPointer		(m_AttributeMap["a_intensity"],			1, GL_FLOAT, GL_FALSE, 
-																				sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, intensity));
 		glEnableVertexAttribArray	(m_AttributeMap["a_opacity"]);
 		glVertexAttribPointer		(m_AttributeMap["a_opacity"],			1, GL_FLOAT, GL_FALSE, 
 																				sizeof(ofxVertex), (GLvoid*) offsetof( ofxVertex, opacity));

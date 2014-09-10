@@ -13,7 +13,6 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_ScaleX = m_ScaleY = 1.0;
 	m_Angle = 0;
 	m_Opacity = 255;
-	m_ColorIntensity = 0;
 	LoadShader(DEFAULT_SHADER);
 	ofxRENDERER->PushSprite(this);
 }
@@ -210,30 +209,6 @@ void ofxSpriteQuad::SetOpacity(unsigned char value)
 unsigned char ofxSpriteQuad::GetOpacity()
 {
 	return m_Opacity;
-}
-void ofxSpriteQuad::SetColor(ofColor value)
-{
-	m_Color = value;
-}
-ofColor ofxSpriteQuad::GetColor()
-{
-	return m_Color;
-}
-void ofxSpriteQuad::SetColorIntensity(unsigned char value)
-{
-	m_ColorIntensity = value;
-}
-unsigned char ofxSpriteQuad::GetColorIntensity()
-{
-	return m_ColorIntensity;
-}
-void ofxSpriteQuad::SetUVChange()
-{
-	m_UVChange = true;
-}
-bool ofxSpriteQuad::GetUVChange()
-{
-	return m_UVChange;
 }
 float ofxSpriteQuad::m_CosTable[360];
 float ofxSpriteQuad::m_SinTable[360];

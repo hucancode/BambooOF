@@ -9,6 +9,7 @@ ofxShader::ofxShader()
 }
 ofxShader::~ofxShader()
 {
+	glDeleteShader(m_ShaderId);
 }
 bool ofxShader::Load(string shader_path)
 {

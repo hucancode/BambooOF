@@ -22,8 +22,6 @@ protected:
 	bool				m_MirrorX;
 	bool				m_MirrorY;
 	unsigned char		m_Opacity;
-	ofColor				m_Color;
-	unsigned char		m_ColorIntensity;
 protected:
 	int					m_VertexAngle[4];
 	int					m_VertexDistance[4];
@@ -55,18 +53,10 @@ public:
 	bool				IsMirrorY();
 	void				SetOpacity(unsigned char value);
 	unsigned char		GetOpacity();
-	void				SetColor(ofColor value);
-	ofColor				GetColor();
-	void				SetColorIntensity(unsigned char value);
-	unsigned char		GetColorIntensity();
-private:
-	// note: this 2 method is internally used in ofxSpriteRenderer, it's not really useful for end users
-	void				SetUVChange();
-	bool				GetUVChange();
 private:
 	static void			BuildSinCosTable();
-	static float		GetCos(int degree);
-	static float		GetSin(int degree);
+	static float		GetCos(int &degree);
+	static float		GetSin(int &degree);
 };
 typedef vector<ofxSpriteQuad*> ofxSpriteQuads;
 #define DEFAULT_SHADER "sprite2d"
