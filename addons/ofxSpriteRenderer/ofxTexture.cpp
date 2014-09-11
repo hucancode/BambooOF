@@ -166,6 +166,7 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, 
 		FreeImage_Unload(character_bitmap_rescale);
 		cursor.x += width;
 	}
+	FreeImage_Save(FIF_PNG, m_ImageData, "text.png");
 }
 void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_rect, unsigned char font_size)
 {
@@ -191,6 +192,7 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_r
 		FreeImage_Unload(character_bitmap_rescale);
 		cursor.x += width;
 	}
+	
 }
 FIBITMAP* ofxTexture::GetImageData()
 {

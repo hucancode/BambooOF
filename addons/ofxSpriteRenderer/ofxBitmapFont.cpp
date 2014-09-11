@@ -24,7 +24,6 @@ bool ofxBitmapFont::Load(string xml_file)
 	xml_node root = doc.child("fontMetrics");
 	if(!root) return false;
 	FIBITMAP* image_data = FreeImage_Load(FIF_PNG, root.attribute("file").as_string(), PNG_DEFAULT);
-	//FreeImage_FlipVertical(image_data);
 	m_FontSize = root.attribute("font_size").as_int();
 	xml_node character_node = root.first_child();
 	for(;character_node;character_node = character_node.next_sibling())

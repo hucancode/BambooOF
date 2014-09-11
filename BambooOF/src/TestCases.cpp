@@ -264,6 +264,7 @@ void TextSpriteTest::Setup()
 	ofxTEXTURECACHE->PushResource(texture, "txt_verdana"+text);
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->SetTexture("txt_verdana"+text);
+	//sprite->SetOpacity(100);
 	spriteObstacle = sprite;
 }
 void TextSpriteTest::Update()

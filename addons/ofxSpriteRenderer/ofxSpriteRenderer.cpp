@@ -108,7 +108,7 @@ void ofxSpriteRenderer::Render()
 	m_TransformMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW)*ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
 	//m_Camera->begin();
 	{
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 		//glDisable(GL_DEPTH_TEST);// transparent isn't work well with depth test
 		glDepthMask(GL_FALSE);
