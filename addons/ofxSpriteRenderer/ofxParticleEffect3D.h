@@ -51,7 +51,7 @@ class ofxParticleEffect3D
 {
 private:
 	ofxEmitter3Ds m_Emitters;
-	ofxParticle3D m_ParticlePool[MAX_PARTICLE2D_COUNT];
+	ofxParticle3D m_ParticlePool[MAX_PARTICLE3D_COUNT];
 	unsigned short m_ParticleCount;
 public:
 	ofxParticleEffect3D();

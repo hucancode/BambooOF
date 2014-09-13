@@ -17,7 +17,7 @@ void Test::Render()
 void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->SetTexture("data/sprint0001.png");
+	sprite->SetTexture("data/psk_actor_idle.png");
 	spriteObstacle = sprite;
 }
 void SpriteTest::Update()
@@ -35,7 +35,7 @@ void RendererTest::Setup()
 		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture("data/sprint0001.png");
+			sprite->SetTexture("data/psk_actor_idle.png");
 			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
@@ -59,7 +59,7 @@ void SortingTest::Setup()
 		for(int j=-40;j<40;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture("data/sprint0001.png");
+			sprite->SetTexture("data/psk_actor_idle.png");
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteA = sprite;
 			if(i==1 && j==1) spriteB = sprite;
@@ -101,7 +101,7 @@ void TextureTest::Setup()
 		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
+			sprite->SetTexture(("data/sprite"+ofToString(abs(j)%5+1)+".png").c_str());
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
@@ -119,7 +119,7 @@ void TextureTest::Render()
 void AnimationTest::Setup()
 {
 	ofxSpriteAnimation* animation = new ofxSpriteAnimation();
-	animation->SetTexture("data/animal_tiger1_attack.png");
+	animation->SetTexture("data/psk_actor.png");
 	animation->MoveTo(0.0f,0.0f,0.0f);
 	animation->SetFrameCount(24);
 	animation->SetSequenceCount(2);
@@ -127,31 +127,23 @@ void AnimationTest::Setup()
 	animation->SetFrameTime(1,0.1f);
 	{
 		int i=0;
-		animation->SetFrameData(i++,1,1,27,72,147,134,27,72);
-		animation->SetFrameData(i++,1,76,27,72,147,134,27,72);
-		animation->SetFrameData(i++,31,1,28,73,146,133,28,73);
-		animation->SetFrameData(i++,62,1,28,72,146,134,28,72);
-		animation->SetFrameData(i++,31,77,28,75,147,136,28,75);
-		animation->SetFrameData(i++,62,76,27,71,147,133,27,71);
-		animation->SetFrameData(i++,93,1,27,67,147,126,27,67);
-		animation->SetFrameData(i++,123,1,28,78,146,131,28,78);
-		animation->SetFrameData(i++,93,71,27,78,147,135,27,78);
-		animation->SetFrameData(i++,1,151,27,75,147,140,27,75);
-		animation->SetFrameData(i++,31,155,28,68,146,146,28,68);
-		animation->SetFrameData(i++,62,150,28,72,146,140,28,72);
+		// run
+		for(int x=0;x<3;x++)
+		{
+			for(int y=0;y<4;y++)
+			{
+				animation->SetFrameData(i++,x*170,y*170,170,170,0,0,170,170);
+			}
+		}
 		animation->SetSequenceData(0,0,11);
-		animation->SetFrameData(i++,154,1,93,67,113,139,93,67);
-		animation->SetFrameData(i++,123,82,94,62,114,140,94,62);
-		animation->SetFrameData(i++,93,152,93,62,118,140,93,62);
-		animation->SetFrameData(i++,250,1,94,62,120,140,94,62);
-		animation->SetFrameData(i++,220,82,97,60,119,143,97,60);
-		animation->SetFrameData(i++,189,152,118,55,99,144,118,55);
-		animation->SetFrameData(i++,347,1,117,55,85,134,117,55);
-		animation->SetFrameData(i++,320,82,115,56,84,138,115,56);
-		animation->SetFrameData(i++,310,152,112,55,88,143,112,55);
-		animation->SetFrameData(i++,467,1,109,52,94,149,109,52);
-		animation->SetFrameData(i++,438,82,106,54,99,149,106,54);
-		animation->SetFrameData(i++,425,152,101,62,105,144,101,62);
+		// respawn
+		for(int x=3;x<6;x++)
+		{
+			for(int y=0;y<4;y++)
+			{
+				animation->SetFrameData(i++,x*170,y*170,170,170,0,0,170,170);
+			}
+		}
 		animation->SetSequenceData(1,12,23);
 	}
 	animation->SetSequence(0);
@@ -233,7 +225,7 @@ void TerrainSpriteTest::Setup()
 		for(int j=-20;j<20;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture("data/sprint0001.png");
+			sprite->SetTexture("data/psk_actor_idle.png");
 			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
@@ -285,7 +277,7 @@ void SpriteBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture("data/sprint0001.png");
+			sprite->SetTexture("data/psk_actor_idle.png");
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}
@@ -308,7 +300,7 @@ void SortBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture(("data/sprint000"+ofToString(abs(j)%9+1)+".png").c_str());
+			sprite->SetTexture(("data/sprite"+ofToString(abs(j)%5+1)+".png").c_str());
 			sprite->MoveTo(i*space_x,0.0f,j*space_y);
 			if(i==0 && j==0) spriteObstacle = sprite;
 			if(i==0 && j==0) spriteA = sprite;
@@ -346,7 +338,7 @@ void AnimationBenchmarkTest::Setup()
 		for(int j=-50;j<50;j++)
 		{
 			ofxSpriteAnimation* animation = new ofxSpriteAnimation();
-			animation->SetTexture("data/animal_tiger1_attack.png");
+			animation->SetTexture("data/psk_actor.png");
 			animation->MoveTo(i*space_x,0.0f,j*space_y);
 			animation->SetFrameCount(24);
 			animation->SetSequenceCount(2);
@@ -354,31 +346,23 @@ void AnimationBenchmarkTest::Setup()
 			animation->SetFrameTime(1,0.1f);
 			{
 				int i=0;
-				animation->SetFrameData(i++,1,1,27,72,147,134,27,72);
-				animation->SetFrameData(i++,1,76,27,72,147,134,27,72);
-				animation->SetFrameData(i++,31,1,28,73,146,133,28,73);
-				animation->SetFrameData(i++,62,1,28,72,146,134,28,72);
-				animation->SetFrameData(i++,31,77,28,75,147,136,28,75);
-				animation->SetFrameData(i++,62,76,27,71,147,133,27,71);
-				animation->SetFrameData(i++,93,1,27,67,147,126,27,67);
-				animation->SetFrameData(i++,123,1,28,78,146,131,28,78);
-				animation->SetFrameData(i++,93,71,27,78,147,135,27,78);
-				animation->SetFrameData(i++,1,151,27,75,147,140,27,75);
-				animation->SetFrameData(i++,31,155,28,68,146,146,28,68);
-				animation->SetFrameData(i++,62,150,28,72,146,140,28,72);
+				// run
+				for(int x=0;x<3;x++)
+				{
+					for(int y=0;y<4;y++)
+					{
+						animation->SetFrameData(i++,x*170,y*170,170,170,0,0,170,170);
+					}
+				}
 				animation->SetSequenceData(0,0,11);
-				animation->SetFrameData(i++,154,1,93,67,113,139,93,67);
-				animation->SetFrameData(i++,123,82,94,62,114,140,94,62);
-				animation->SetFrameData(i++,93,152,93,62,118,140,93,62);
-				animation->SetFrameData(i++,250,1,94,62,120,140,94,62);
-				animation->SetFrameData(i++,220,82,97,60,119,143,97,60);
-				animation->SetFrameData(i++,189,152,118,55,99,144,118,55);
-				animation->SetFrameData(i++,347,1,117,55,85,134,117,55);
-				animation->SetFrameData(i++,320,82,115,56,84,138,115,56);
-				animation->SetFrameData(i++,310,152,112,55,88,143,112,55);
-				animation->SetFrameData(i++,467,1,109,52,94,149,109,52);
-				animation->SetFrameData(i++,438,82,106,54,99,149,106,54);
-				animation->SetFrameData(i++,425,152,101,62,105,144,101,62);
+				// respawn
+				for(int x=3;x<6;x++)
+				{
+					for(int y=0;y<4;y++)
+					{
+						animation->SetFrameData(i++,x*170,y*170,170,170,0,0,170,170);
+					}
+				}
 				animation->SetSequenceData(1,12,23);
 			}
 			animation->SetSequence(0);
@@ -459,7 +443,7 @@ void TerrainBenchmarkTest::Setup()
 		for(int j=-40;j<40;j++)
 		{
 			ofxSpriteQuad* sprite = new ofxSpriteQuad();
-			sprite->SetTexture("data/sprint0001.png");
+			sprite->SetTexture("data/psk_actor_idle.png");
 			sprite->MoveTo(i*192.0f,0.0f,j*192.0f);
 			if(i==0 && j==0) spriteObstacle = sprite;
 		}

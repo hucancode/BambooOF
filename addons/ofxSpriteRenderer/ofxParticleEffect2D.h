@@ -63,6 +63,7 @@ public:
 	void					Load(string xml_file);
 	void					AddEmitter(ofxEmitter2D* emitter);
 	virtual void			Update(float delta_time);
+	virtual void			SubmitChanges();
 	void					PauseResume();
 	bool					IsPaused();
 };

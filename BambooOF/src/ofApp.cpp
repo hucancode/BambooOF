@@ -8,11 +8,6 @@
 extern Test* current_test;
 //--------------------------------------------------------------
 void ofApp::setup() {
-	{
-		char c = '?';
-		int a = c;
-		cout<<c;
-	}
 	new ofxSpriteRenderer;
 	new ofxShaderCache;
 	new ofxShaderProgramCache;
