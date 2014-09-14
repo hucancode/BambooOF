@@ -1,6 +1,7 @@
 #include "ofxParticleEffect2D.h"
 ofxParticleEffect2D::ofxParticleEffect2D()
 {
+	m_ParticleCount = 0;
 }
 ofxParticleEffect2D::~ofxParticleEffect2D()
 {
@@ -58,15 +59,15 @@ void ofxParticleEffect2D::Update(float delta_time)
 		{// force
 			ofVec2f radial_force, tangental_force;
 #if defined READABILITY
-			// this code isn't optimized for readability, 8 calculation
+			// this code isn't optimized for readability, 10 calculation
 			float radial = item.emitter->position.angleRad(item.position);
 			float tangental = radial + HALF_PI;
-			radial_force = item.radial_accel*item.speed*ofVec2f(1,1).rotateRad(radial);
-			tangental_force = item.tangental_accel*item.speed*ofVec2f(1,1).rotateRad(tangental);
+			radial_force = delta_time*item.radial_accel*item.speed*ofVec2f(1,1).rotateRad(radial);
+			tangental_force = delta_time*item.tangental_accel*item.speed*ofVec2f(1,1).rotateRad(tangental);
 #else
-			// this code has same function as above, 6 calculation
+			// this code has same function as above, 7 calculation
 			float radial = item.emitter->position.angleRad(item.position);
-			ofVec2f radial_force_normalized = item.speed*ofVec2f(1,1).rotateRad(radial);
+			ofVec2f radial_force_normalized = delta_time*item.speed*ofVec2f(1,1).rotateRad(radial);
 			ofVec2f tangental_force_normalized = radial_force_normalized.rotateRad(HALF_PI);
 			radial_force = item.radial_accel*radial_force_normalized;
 			tangental_force = item.tangental_accel*tangental_force_normalized;
@@ -81,6 +82,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 }
 void ofxParticleEffect2D::SubmitChanges()
 {
+	// TODO: build vertex data
 }
 void ofxParticleEffect2D::PauseResume()
 {

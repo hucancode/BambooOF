@@ -144,6 +144,10 @@ void ofxSpriteRenderer::EraseSprite(ofxSpriteBase* sprite)
 
 void ofxSpriteRenderer::Update()
 {
+	float delta_time = 0.0f;
+	
+	if(ofGetFrameRate() > 1)
+		delta_time = 1.0/ofGetFrameRate();
 #ifdef _DEBUG
 	unsigned long long time_start_update = ofGetSystemTime();
 #endif
@@ -162,7 +166,7 @@ void ofxSpriteRenderer::Update()
 	for(;it != m_Sprites.end();it++)
 	{
 		ofxSpriteBase* item = *it;
-		item->Update(0.030f);
+		item->Update(delta_time);
 		item->SubmitChanges();
 	}
 	m_CameraMove = false;

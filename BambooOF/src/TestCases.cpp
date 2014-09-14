@@ -3,7 +3,7 @@
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
-Test* current_test = new TextSpriteTest();
+Test* current_test = new AnimationBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
