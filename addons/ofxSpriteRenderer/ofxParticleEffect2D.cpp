@@ -45,10 +45,16 @@ void ofxParticleEffect2D::Update(float delta_time)
 	{
 		ofxParticle2D& item = m_ParticlePool[i];
 		item.life -= delta_time;
-		if(item.life <= 0 || item.vertices[0].opacity <= 0)// life
+		while(item.life <= 0 || item.vertices[0].opacity <= 0)// life
 		{
-			// TODO: do kill particle
+			m_ParticleCount--;
+			if(m_ParticleCount == 0) break;
+			ofxParticle2D p = m_ParticlePool[m_ParticleCount];
+			m_ParticlePool[m_ParticleCount] = m_ParticlePool[i];
+			m_ParticlePool[i] = p;
+			item = m_ParticlePool[i];
 		}
+		if(m_ParticleCount == 0) break;
 		{// force
 			ofVec2f radial_force, tangental_force;
 #if defined READABILITY
