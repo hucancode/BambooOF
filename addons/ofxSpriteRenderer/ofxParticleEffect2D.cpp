@@ -29,8 +29,10 @@ void ofxParticleEffect2D::Update(float delta_time)
 				m_ParticlePool[j].speed = e->speed + ofRandom(e->speed_var);
 				m_ParticlePool[j].radial_accel = e->radial_accel + ofRandom(e->radial_accel_var);
 				m_ParticlePool[j].tangental_accel = e->tangental_accel + ofRandom(e->tangental_accel_var);
-				// TODO: calculate these below
-				m_ParticlePool[j].position;
+				float radius = e->radius + ofRandom(e->radius_var);
+				float angle = e->angle + ofRandom(e->angle_var);
+				m_ParticlePool[j].position = radius*ofVec2f(1,1).rotateRad(angle);
+				// TODO: calculate these, you know, color
 				m_ParticlePool[j].vertices[0];
 				m_ParticlePool[j].vertices[1];
 				m_ParticlePool[j].vertices[2];
@@ -48,10 +50,21 @@ void ofxParticleEffect2D::Update(float delta_time)
 			// TODO: do kill particle
 		}
 		{// force
-			float radial = item.position.angleRad(item.emitter->position);
+			ofVec2f radial_force, tangental_force;
+#if defined READABILITY
+			// this code isn't optimized for readability, 8 calculation
+			float radial = item.emitter->position.angleRad(item.position);
 			float tangental = radial + HALF_PI;
-			ofVec2f radial_force = item.speed*ofVec2f(1,1).rotateRad(radial);
-			ofVec2f tangental_force = item.speed*ofVec2f(1,1).rotateRad(tangental);
+			radial_force = item.radial_accel*item.speed*ofVec2f(1,1).rotateRad(radial);
+			tangental_force = item.tangental_accel*item.speed*ofVec2f(1,1).rotateRad(tangental);
+#else
+			// this code has same function as above, 6 calculation
+			float radial = item.emitter->position.angleRad(item.position);
+			ofVec2f radial_force_normalized = item.speed*ofVec2f(1,1).rotateRad(radial);
+			ofVec2f tangental_force_normalized = radial_force_normalized.rotateRad(HALF_PI);
+			radial_force = item.radial_accel*radial_force_normalized;
+			tangental_force = item.tangental_accel*tangental_force_normalized;
+#endif
 			item.position += radial_force;
 			item.position += tangental_force;
 		}
@@ -68,4 +81,5 @@ void ofxParticleEffect2D::PauseResume()
 }
 bool ofxParticleEffect2D::IsPaused()
 {
+	return true;
 }

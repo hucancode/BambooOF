@@ -69,6 +69,4 @@ public:
 	virtual void			SubmitChanges();
 	void					PauseResume();
 	bool					IsPaused();
-private:
-	void					KillParticle(int index);
 };

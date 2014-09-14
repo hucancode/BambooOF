@@ -8,6 +8,9 @@
 extern Test* current_test;
 //--------------------------------------------------------------
 void ofApp::setup() {
+	ofVec2f OA(4, 0);
+	ofVec2f OB(4, 4);
+	float deg = OA.angle(OB);
 	new ofxSpriteRenderer;
 	new ofxShaderCache;
 	new ofxShaderProgramCache;
