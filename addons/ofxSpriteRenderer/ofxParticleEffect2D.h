@@ -57,16 +57,22 @@ class ofxParticleEffect2D
 	:public ofxSpriteBase
 {
 private:
-	ofxEmitter2Ds			m_Emitters;
-	ofxParticle2D			m_ParticlePool[MAX_PARTICLE2D_COUNT];
-	unsigned short			m_ParticleCount;
+	static ofxTexture*			m_SharedParticleTexture;
+	static vector<ofRectangle>	m_SharedParticleUVs;
+private:
+	ofxEmitter2Ds				m_Emitters;
+	ofxParticle2D				m_ParticlePool[MAX_PARTICLE2D_COUNT];
+	unsigned short				m_ParticleCount;
+	bool						m_Paused;
+public:
+	static void					LoadSharedParticleTexture();
 public:
 	ofxParticleEffect2D();
 	~ofxParticleEffect2D();
-	void					Load(string xml_file);
-	void					AddEmitter(ofxEmitter2D* emitter);
-	virtual void			Update(float delta_time);
-	virtual void			SubmitChanges();
-	void					PauseResume();
-	bool					IsPaused();
+	void						Load(string xml_file);
+	void						AddEmitter(ofxEmitter2D* emitter);
+	virtual void				Update(float delta_time);
+	virtual void				SubmitChanges();
+	void						PauseResume();
+	bool						IsPaused();
 };

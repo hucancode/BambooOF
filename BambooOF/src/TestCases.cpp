@@ -3,6 +3,7 @@
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
+#include "ofxParticleEffect2D.h"
 Test* current_test = new AnimationBenchmarkTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
@@ -264,6 +265,19 @@ void TextSpriteTest::Update()
 	ofxRENDERER->Update();
 }
 void TextSpriteTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void Particle2DTest::Setup()
+{
+	ofxParticleEffect2D* sprite = new ofxParticleEffect2D();
+	spriteObstacle = sprite;
+}
+void Particle2DTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void Particle2DTest::Render()
 {
 	ofxRENDERER->Render();
 }

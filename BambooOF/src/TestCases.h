@@ -87,6 +87,13 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+class Particle2DTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};
 //-----------------------------------------------------------
 // STRESS TEST
 // engine runs under strictly environemt, and it must works well

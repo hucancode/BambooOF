@@ -2,6 +2,7 @@
 ofxParticleEffect2D::ofxParticleEffect2D()
 {
 	m_ParticleCount = 0;
+	m_Paused = false;
 }
 ofxParticleEffect2D::~ofxParticleEffect2D()
 {
@@ -14,6 +15,7 @@ void ofxParticleEffect2D::AddEmitter(ofxEmitter2D* emitter)
 }
 void ofxParticleEffect2D::Update(float delta_time)
 {
+	if(m_Paused) return true;
 	for(int i = 0;i < m_Emitters.size();i++)
 	{
 		ofxEmitter2D* e = m_Emitters[i];
@@ -33,7 +35,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 				float radius = e->radius + ofRandom(e->radius_var);
 				float angle = e->angle + ofRandom(e->angle_var);
 				m_ParticlePool[j].position = radius*ofVec2f(1,1).rotateRad(angle);
-				// TODO: calculate these, you know, color
+				// TODO: calculate these, you know, color, UV
 				m_ParticlePool[j].vertices[0];
 				m_ParticlePool[j].vertices[1];
 				m_ParticlePool[j].vertices[2];
@@ -76,18 +78,38 @@ void ofxParticleEffect2D::Update(float delta_time)
 			item.position += tangental_force;
 		}
 		{// TODO: appearance
-
+			m_ParticlePool[i].vertices[0];
+			m_ParticlePool[i].vertices[1];
+			m_ParticlePool[i].vertices[2];
+			m_ParticlePool[i].vertices[3];
 		}
 	}
 }
 void ofxParticleEffect2D::SubmitChanges()
 {
 	// TODO: build vertex data
+	m_VerticesSize;
+	m_Vertices;
+	for(int i=0;i<m_ParticleCount;i++)
+	{
+		m_ParticlePool[i].vertices[0];
+		m_ParticlePool[i].vertices[1];
+		m_ParticlePool[i].vertices[2];
+		m_ParticlePool[i].vertices[3];
+		m_Vertices;
+		
+	}
 }
 void ofxParticleEffect2D::PauseResume()
 {
+	m_Paused = !m_Paused;
 }
 bool ofxParticleEffect2D::IsPaused()
 {
-	return true;
+	return m_Paused;
+}
+vector<ofRectangle>	ofxParticleEffect2D::m_SharedParticleUVs;
+ofxTexture* ofxParticleEffect2D::m_SharedParticleTexture = 0;
+void ofxParticleEffect2D::LoadSharedParticleTexture()
+{
 }
