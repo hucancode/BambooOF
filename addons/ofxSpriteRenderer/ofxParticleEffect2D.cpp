@@ -15,7 +15,7 @@ void ofxParticleEffect2D::AddEmitter(ofxEmitter2D* emitter)
 }
 void ofxParticleEffect2D::Update(float delta_time)
 {
-	if(m_Paused) return true;
+	if(m_Paused) return;
 	for(int i = 0;i < m_Emitters.size();i++)
 	{
 		ofxEmitter2D* e = m_Emitters[i];
