@@ -1,11 +1,16 @@
 #include "ofxParticleEffect2D.h"
 #include "ofxTextureCache.h"
+#include "ofxSpriteRenderer.h"
 
 ofxParticleEffect2D::ofxParticleEffect2D()
 {
+	ofxSpriteBase::ofxSpriteBase();
 	m_Vertices = new ofxVertex[MAX_PARTICLE2D_COUNT];
 	m_ParticleCount = 0;
 	m_Paused = false;
+	m_Texture = m_SharedParticleTexture;
+	LoadShader(DEFAULT_PARTICLE_SHADER);
+	ofxRENDERER->PushSprite(this);
 }
 ofxParticleEffect2D::~ofxParticleEffect2D()
 {
@@ -15,6 +20,7 @@ void ofxParticleEffect2D::Load(string xml_file)
 }
 void ofxParticleEffect2D::AddEmitter(ofxEmitter2D* emitter)
 {
+	m_Emitters.push_back(emitter);
 }
 void ofxParticleEffect2D::Update(float delta_time)
 {
@@ -30,22 +36,24 @@ void ofxParticleEffect2D::Update(float delta_time)
 			m_ParticleCount += particle_to_emit;
 			for(;j<m_ParticleCount;j++)
 			{
+				ofxParticle2D& item = m_ParticlePool[j];
+				ofxVertex& v0 = item.vertices[0];
+				ofxVertex& v1 = item.vertices[1];
+				ofxVertex& v2 = item.vertices[2];
+				ofxVertex& v3 = item.vertices[3];
 				// speed
-				m_ParticlePool[j].emitter = e;
-				m_ParticlePool[j].life = e->life + ofRandom(e->life_var);
-				m_ParticlePool[j].speed = e->speed + ofRandom(e->speed_var);
-				m_ParticlePool[j].radial_accel = e->radial_accel + ofRandom(e->radial_accel_var);
-				m_ParticlePool[j].tangental_accel = e->tangental_accel + ofRandom(e->tangental_accel_var);
+				item.emitter = e;
+				item.life = e->life + ofRandom(e->life_var);
+				item.speed = e->speed + ofRandom(e->speed_var);
+				item.radial_accel = e->radial_accel + ofRandom(e->radial_accel_var);
+				item.tangental_accel = e->tangental_accel + ofRandom(e->tangental_accel_var);
 				// position
 				float radius = e->radius + ofRandom(e->radius_var);
 				float angle = e->angle + ofRandom(e->angle_var);
-				m_ParticlePool[j].position = radius*ofVec2f(1,1).rotateRad(angle);
+				item.position = radius*ofVec2f(1,1).rotateRad(angle);
+				item.size = e->begin_size;
 				// uv
 				ofRectangle texture_rect = m_SharedParticleUVs[(int)ofRandom(m_SharedParticleUVs.size()-1)];
-				ofxVertex& v0 = m_ParticlePool[j].vertices[0];
-				ofxVertex& v1 = m_ParticlePool[j].vertices[1];
-				ofxVertex& v2 = m_ParticlePool[j].vertices[2];
-				ofxVertex& v3 = m_ParticlePool[j].vertices[3];
 				v0.u = texture_rect.getMinX();
 				v0.v = texture_rect.getMinY();
 				v1.u = texture_rect.getMaxX();
@@ -55,10 +63,10 @@ void ofxParticleEffect2D::Update(float delta_time)
 				v3.u = texture_rect.getMinX();
 				v3.v = texture_rect.getMaxY();
 				// TODO: color
-				v0.r = 0; v0.g = 0; v0.b = 0; v0.color_intensity = 0; v0.opacity = 0;
-				v1.r = 0; v1.g = 0; v1.b = 0; v1.color_intensity = 0; v1.opacity = 0;
-				v2.r = 0; v2.g = 0; v2.b = 0; v2.color_intensity = 0; v2.opacity = 0;
-				v3.r = 0; v3.g = 0; v3.b = 0; v3.color_intensity = 0; v3.opacity = 0;
+				v0.r = 0; v0.g = 0; v0.b = 0; v0.color_intensity = 0; v0.opacity = 1.0f;
+				v1.r = 0; v1.g = 0; v1.b = 0; v1.color_intensity = 0; v1.opacity = 1.0f;
+				v2.r = 0; v2.g = 0; v2.b = 0; v2.color_intensity = 0; v2.opacity = 1.0f;
+				v3.r = 0; v3.g = 0; v3.b = 0; v3.color_intensity = 0; v3.opacity = 1.0f;
 			}
 			e->cooldown = e->emission_time + ofRandom(e->emission_time_var);
 		}
@@ -66,6 +74,10 @@ void ofxParticleEffect2D::Update(float delta_time)
 	for(int i=0;i<m_ParticleCount;i++)
 	{
 		ofxParticle2D& item = m_ParticlePool[i];
+		ofxVertex& v0 = item.vertices[0];
+		ofxVertex& v1 = item.vertices[1];
+		ofxVertex& v2 = item.vertices[2];
+		ofxVertex& v3 = item.vertices[3];
 		item.life -= delta_time;
 		while(item.life <= 0 || item.vertices[0].opacity <= 0)// life
 		{
@@ -95,16 +107,25 @@ void ofxParticleEffect2D::Update(float delta_time)
 #endif
 			item.position += radial_force;
 			item.position += tangental_force;
+			float half_size = item.size*0.5f;
+			v0.x = item.position.x - half_size;
+			v0.y = item.position.y - half_size;
+			v0.z = m_Position.z;
+			v1.x = v0.x + item.size;
+			v1.y = v0.y;
+			v1.z = v0.z;
+			v2.x = v1.x;
+			v2.y = v1.y + item.size;
+			v2.z = v1.z;
+			v3.x = v0.x;
+			v3.y = v2.y;
+			v3.z = v2.z;
 		}
 		{// TODO: color
-			ofxVertex& v0 = m_ParticlePool[i].vertices[0];
-			ofxVertex& v1 = m_ParticlePool[i].vertices[1];
-			ofxVertex& v2 = m_ParticlePool[i].vertices[2];
-			ofxVertex& v3 = m_ParticlePool[i].vertices[3];
-			v0.r = 0; v0.g = 0; v0.b = 0; v0.color_intensity = 0; v0.opacity = 0;
-			v1.r = 0; v1.g = 0; v1.b = 0; v1.color_intensity = 0; v1.opacity = 0;
-			v2.r = 0; v2.g = 0; v2.b = 0; v2.color_intensity = 0; v2.opacity = 0;
-			v3.r = 0; v3.g = 0; v3.b = 0; v3.color_intensity = 0; v3.opacity = 0;
+			v0.r = 0; v0.g = 0; v0.b = 0; v0.color_intensity = 0; v0.opacity = 1.0f;
+			v1.r = 0; v1.g = 0; v1.b = 0; v1.color_intensity = 0; v1.opacity = 1.0f;
+			v2.r = 0; v2.g = 0; v2.b = 0; v2.color_intensity = 0; v2.opacity = 1.0f;
+			v3.r = 0; v3.g = 0; v3.b = 0; v3.color_intensity = 0; v3.opacity = 1.0f;
 		}
 	}
 }

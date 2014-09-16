@@ -27,12 +27,14 @@ struct ofxEmitter2D
 	float		radial_accel_var;
 	float		tangental_accel;
 	float		tangental_accel_var;
+	float		begin_size;
 	float		begin_opacity;
 	float		begin_opacity_var;
 	float		begin_color_intensity;
 	float		begin_color_intensity_var;
 	ofColor		begin_color;
 	ofColor		begin_color_var;
+	float		end_size;
 	float		end_opacity;
 	float		end_opacity_var;
 	float		end_color_intensity;
@@ -45,6 +47,7 @@ struct ofxParticle2D
 {
 	ofxEmitter2D*	emitter;
 	ofVec2f			position;
+	float			size;
 	float			life;
 	float			speed;
 	float			radial_accel;
@@ -76,3 +79,4 @@ public:
 	void						PauseResume();
 	bool						IsPaused();
 };
+#define DEFAULT_PARTICLE_SHADER "sprite2d"
