@@ -4,7 +4,7 @@
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
-Test* current_test = new AnimationBenchmarkTest();
+Test* current_test = new Particle2DTest();
 ofxSpriteQuad* spriteObstacle;
 void Test::Setup()
 {
@@ -271,7 +271,38 @@ void TextSpriteTest::Render()
 void Particle2DTest::Setup()
 {
 	ofxParticleEffect2D* sprite = new ofxParticleEffect2D();
-	spriteObstacle = sprite;
+	ofxEmitter2D emitter;
+	emitter.position = ofVec2f(0,0);
+	emitter.angle = 0;
+	emitter.angle_var = TWO_PI;
+	emitter.emission_rate = 0;
+	emitter.emission_rate_var = 10;
+	emitter.emission_time = 0.3f;
+	emitter.emission_time_var = 0.0f;
+	emitter.life = 2.0f;
+	emitter.life_var = 0.0f;
+	emitter.radial_accel = -2.0f;
+	emitter.radial_accel_var = 1.0f;
+	emitter.tangental_accel = -2.0f;
+	emitter.tangental_accel_var = 1.0f;
+	emitter.speed = 15.0f;
+	emitter.speed_var = 10.0f;
+	emitter.radius = 0.0f;
+	emitter.radius_var = 10.0f;
+	// TODO: color
+	emitter.begin_opacity;
+	emitter.begin_opacity_var;
+	emitter.begin_color_intensity;
+	emitter.begin_color_intensity_var;
+	emitter.begin_color;
+	emitter.begin_color_var;
+	emitter.end_opacity;
+	emitter.end_opacity_var;
+	emitter.end_color_intensity;
+	emitter.end_color_intensity_var;
+	emitter.end_color;
+	emitter.end_color_var;
+	//spriteObstacle = sprite;
 }
 void Particle2DTest::Update()
 {
