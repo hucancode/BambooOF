@@ -277,11 +277,11 @@ void Particle2DTest::Setup()
 	emitter->position = ofVec2f(0,0);
 	emitter->angle = 0;
 	emitter->angle_var = TWO_PI;
-	emitter->emission_rate = 10;
+	emitter->emission_rate = 5;
 	emitter->emission_rate_var = 0;
 	emitter->emission_time = 0.1f;
 	emitter->emission_time_var = 0.0f;
-	emitter->life = 4.0f;
+	emitter->life = 2.0f;
 	emitter->life_var = 0.0f;
 	emitter->radial_accel = 1.0f;
 	emitter->radial_accel_var = 1.0f;
@@ -289,23 +289,23 @@ void Particle2DTest::Setup()
 	emitter->tangental_accel_var = 1.0f;
 	emitter->speed = 15.0f;
 	emitter->speed_var = 20.0f;
+	emitter->accel = 10.0f;
+	emitter->accel_var = 15.0f;
 	emitter->radius = 0.0f;
 	emitter->radius_var = 20.0f;
 	// TODO: color
-	emitter->begin_size = 15.0f;
-	emitter->begin_opacity;
-	emitter->begin_opacity_var;
-	emitter->begin_color_intensity;
-	emitter->begin_color_intensity_var;
-	emitter->begin_color;
-	emitter->begin_color_var;
-	emitter->end_size = 5.0f;
-	emitter->end_opacity;
-	emitter->end_opacity_var;
-	emitter->end_color_intensity;
-	emitter->end_color_intensity_var;
-	emitter->end_color;
-	emitter->end_color_var;
+	emitter->size = 15.0f;
+	emitter->size_var = 35.0f;
+	emitter->opacity;
+	emitter->opacity_var;
+	emitter->opacity_accel;
+	emitter->color_intensity = 0.0f;
+	emitter->color_intensity_var = 1.0f;
+	emitter->color_intensity_accel;
+	emitter->color = ofColor(0,0,0);
+	emitter->color_var = ofColor(1,1,1);
+	emitter->color_accel;
+
 
 	sprite->AddEmitter(emitter);
 	spriteObstacle = sprite;

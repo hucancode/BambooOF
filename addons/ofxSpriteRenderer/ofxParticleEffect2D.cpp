@@ -39,7 +39,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			{
 				m_ParticleCount = MAX_PARTICLE2D_COUNT - 1;
 			}
-			ofLogNotice() << "emitting "<<m_ParticleCount<<endl;
+			//ofLogNotice() << "emitting "<<m_ParticleCount<<endl;
 			for(;j<m_ParticleCount;j++)
 			{
 				ofxParticle2D& item = m_ParticlePool[j];
@@ -47,13 +47,14 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.emitter = e;
 				item.life = e->life + ofRandom(e->life_var);
 				item.speed = e->speed + ofRandom(e->speed_var);
+				item.accel = e->accel + ofRandom(e->accel_var);
 				item.radial_accel = e->radial_accel + ofRandom(e->radial_accel_var);
 				item.tangental_accel = e->tangental_accel + ofRandom(e->tangental_accel_var);
 				// position
 				float radius = e->radius + ofRandom(e->radius_var);
 				float angle = e->angle + ofRandom(e->angle_var);
 				item.position = radius*ofVec2f(1,1).rotateRad(angle);
-				item.size = e->begin_size;
+				item.size = e->size + ofRandom(e->size_var);
 				// uv
 				ofRectangle texture_rect = m_SharedParticleUVs[(int)ofRandom(m_SharedParticleUVs.size()-1)];
 				item.vertices[0].u = texture_rect.getMinX();
@@ -65,18 +66,26 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[3].u = texture_rect.getMinX();
 				item.vertices[3].v = texture_rect.getMaxY();
 				// TODO: color
-				item.vertices[0].r = 0.0f;
-				item.vertices[1].r = 0.0f;
-				item.vertices[2].r = 0.0f;
-				item.vertices[3].r = 0.0f;
-				item.vertices[0].g = 0.0f;
-				item.vertices[1].g = 0.0f;
-				item.vertices[2].g = 0.0f;
-				item.vertices[3].g = 0.0f;
-				item.vertices[0].b = 0.0f;
-				item.vertices[1].b = 0.0f;
-				item.vertices[2].b = 0.0f;
-				item.vertices[3].b = 0.0f;
+				float r = (e->color.r + e->color_var.r)/255.0;
+				float g = (e->color.g + e->color_var.g)/255.0;
+				float b = (e->color.b + e->color_var.b)/255.0;
+				item.vertices[0].r = r;
+				item.vertices[1].r = r;
+				item.vertices[2].r = r;
+				item.vertices[3].r = r;
+				item.vertices[0].g = g;
+				item.vertices[1].g = g;
+				item.vertices[2].g = g;
+				item.vertices[3].g = g;
+				item.vertices[0].b = b;
+				item.vertices[1].b = b;
+				item.vertices[2].b = b;
+				item.vertices[3].b = b;
+				float intensity = e->color_intensity + ofRandom(e->color_intensity_var);
+				item.vertices[0].color_intensity = intensity;
+				item.vertices[1].color_intensity = intensity;
+				item.vertices[2].color_intensity = intensity;
+				item.vertices[3].color_intensity = intensity;
 				item.vertices[0].opacity = 1.0f;
 				item.vertices[1].opacity = 1.0f;
 				item.vertices[2].opacity = 1.0f;
@@ -104,6 +113,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			if(radial < 0) radial += 360;
 			int tangental = radial + 90;
 			if(tangental >= 360) tangental -= 360;
+			item.speed += delta_time*item.accel;
 			float distance = delta_time*item.speed;
 			ofVec2f radial_force = distance*item.radial_accel*GetForceFromAngle(radial);
 			ofVec2f tangental_force = distance*item.tangental_accel*GetForceFromAngle(tangental);
@@ -125,7 +135,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			item.vertices[3].z = item.vertices[2].z;
 		}
 		{// TODO: color
-			item.vertices[0].r = 0.0f;
+			/*item.vertices[0].r = 0.0f;
 			item.vertices[1].r = 0.0f;
 			item.vertices[2].r = 0.0f;
 			item.vertices[3].r = 0.0f;
@@ -136,7 +146,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			item.vertices[0].b = 0.0f;
 			item.vertices[1].b = 0.0f;
 			item.vertices[2].b = 0.0f;
-			item.vertices[3].b = 0.0f;
+			item.vertices[3].b = 0.0f;*/
 			item.vertices[0].opacity = 1.0f;
 			item.vertices[1].opacity = 1.0f;
 			item.vertices[2].opacity = 1.0f;

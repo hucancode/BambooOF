@@ -23,26 +23,27 @@ struct ofxEmitter2D
 	float		radius_var;
 	float		speed;
 	float		speed_var;
+	float		accel;
+	float		accel_var;
 	float		angle;
 	float		angle_var;
 	float		radial_accel;
 	float		radial_accel_var;
 	float		tangental_accel;
 	float		tangental_accel_var;
-	float		begin_size;
-	float		begin_opacity;
-	float		begin_opacity_var;
-	float		begin_color_intensity;
-	float		begin_color_intensity_var;
-	ofColor		begin_color;
-	ofColor		begin_color_var;
-	float		end_size;
-	float		end_opacity;
-	float		end_opacity_var;
-	float		end_color_intensity;
-	float		end_color_intensity_var;
-	ofColor		end_color;
-	ofColor		end_color_var;
+	float		size;
+	float		size_var;
+	float		size_accel;
+	float		opacity;
+	float		opacity_var;
+	float		opacity_accel;
+	float		color_intensity;
+	float		color_intensity_var;
+	float		color_intensity_accel;
+	ofColor		color;
+	ofColor		color_var;
+	ofColor		color_accel;
+
 };
 
 struct ofxParticle2D
@@ -52,6 +53,7 @@ struct ofxParticle2D
 	float			size;
 	float			life;
 	float			speed;
+	float			accel;
 	float			radial_accel;
 	float			tangental_accel;
 	ofxVertex		vertices[4];
@@ -93,4 +95,4 @@ public:
 	void						ForceStop();
 	bool						IsStopped();
 };
-#define DEFAULT_PARTICLE_SHADER "sprite2d"
+#define DEFAULT_PARTICLE_SHADER "particle2d"
