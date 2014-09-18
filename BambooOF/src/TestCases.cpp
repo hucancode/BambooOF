@@ -5,7 +5,7 @@
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
 Test* current_test = new Particle2DTest();
-ofxSpriteQuad* spriteObstacle;
+ofxSpriteBase* spriteObstacle;
 void Test::Setup()
 {
 }
@@ -271,27 +271,28 @@ void TextSpriteTest::Render()
 void Particle2DTest::Setup()
 {
 	ofxParticleEffect2D::LoadSharedParticleTexture();
+	ofxParticleEffect2D::BuildSinCosTable();
 	ofxParticleEffect2D* sprite = new ofxParticleEffect2D();
 	ofxEmitter2D* emitter = new ofxEmitter2D();
 	emitter->position = ofVec2f(0,0);
 	emitter->angle = 0;
 	emitter->angle_var = TWO_PI;
-	emitter->emission_rate = 0;
-	emitter->emission_rate_var = 10;
-	emitter->emission_time = 0.3f;
+	emitter->emission_rate = 10;
+	emitter->emission_rate_var = 0;
+	emitter->emission_time = 0.1f;
 	emitter->emission_time_var = 0.0f;
 	emitter->life = 2.0f;
 	emitter->life_var = 0.0f;
-	emitter->radial_accel = -2.0f;
+	emitter->radial_accel = 1.0f;
 	emitter->radial_accel_var = 1.0f;
 	emitter->tangental_accel = -2.0f;
 	emitter->tangental_accel_var = 1.0f;
 	emitter->speed = 15.0f;
-	emitter->speed_var = 10.0f;
+	emitter->speed_var = 20.0f;
 	emitter->radius = 0.0f;
-	emitter->radius_var = 10.0f;
+	emitter->radius_var = 20.0f;
 	// TODO: color
-	emitter->begin_size = 5.0f;
+	emitter->begin_size = 15.0f;
 	emitter->begin_opacity;
 	emitter->begin_opacity_var;
 	emitter->begin_color_intensity;
@@ -307,7 +308,7 @@ void Particle2DTest::Setup()
 	emitter->end_color_var;
 
 	sprite->AddEmitter(emitter);
-	//spriteObstacle = sprite;
+	spriteObstacle = sprite;
 }
 void Particle2DTest::Update()
 {

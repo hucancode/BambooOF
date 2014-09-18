@@ -5,6 +5,8 @@
 note: this effect has all of it's particle stick to a plane
 */
 
+// TODO: if i have time, i would like to implement some affector, such as gravity, wind, magnet ....
+
 const int MAX_PARTICLE2D_COUNT = 200;
 
 struct ofxEmitter2D
@@ -62,6 +64,10 @@ class ofxParticleEffect2D
 private:
 	static ofxTexture*			m_SharedParticleTexture;
 	static vector<ofRectangle>	m_SharedParticleUVs;
+	static const float			DEGREE_TO_RADIAL;
+	static const float			RADIAL_TO_DEGREE;
+	static float				m_SinTable[360];
+	static float				m_CosTable[360];
 private:
 	ofxEmitter2Ds				m_Emitters;
 	ofxParticle2D				m_ParticlePool[MAX_PARTICLE2D_COUNT];
@@ -69,6 +75,10 @@ private:
 	bool						m_Paused;
 public:
 	static void					LoadSharedParticleTexture();
+	static void					BuildSinCosTable();
+	static ofVec2f				GetForceFromAngle(int angle);
+	static float				GetAngleFromForceRadial(ofVec2f force);
+	static int					GetAngleFromForce(ofVec2f force);
 public:
 	ofxParticleEffect2D();
 	~ofxParticleEffect2D();

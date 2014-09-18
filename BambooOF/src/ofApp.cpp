@@ -109,7 +109,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-extern ofxSpriteQuad* spriteObstacle;
+extern ofxSpriteBase* spriteObstacle;
 void ofApp::mousePressed(int x, int y, int button){
 	//return;
 	if(button != 0 && button != 2) return;
