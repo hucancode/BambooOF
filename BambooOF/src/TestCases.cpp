@@ -281,7 +281,7 @@ void Particle2DTest::Setup()
 	emitter->emission_rate_var = 0;
 	emitter->emission_time = 0.1f;
 	emitter->emission_time_var = 0.0f;
-	emitter->life = 2.0f;
+	emitter->life = 4.0f;
 	emitter->life_var = 0.0f;
 	emitter->radial_accel = 1.0f;
 	emitter->radial_accel_var = 1.0f;

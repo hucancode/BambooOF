@@ -73,6 +73,7 @@ private:
 	ofxParticle2D				m_ParticlePool[MAX_PARTICLE2D_COUNT];
 	unsigned short				m_ParticleCount;
 	bool						m_Paused;
+	bool						m_Stopped;
 public:
 	static void					LoadSharedParticleTexture();
 	static void					BuildSinCosTable();
@@ -88,5 +89,8 @@ public:
 	virtual void				SubmitChanges();
 	void						PauseResume();
 	bool						IsPaused();
+	void						Stop();
+	void						ForceStop();
+	bool						IsStopped();
 };
 #define DEFAULT_PARTICLE_SHADER "sprite2d"

@@ -103,7 +103,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			int radial = ofVec2f(1,0).angle(item.position - item.emitter->position);
 			if(radial < 0) radial += 360;
 			int tangental = radial + 90;
-			if(tangental > 360) tangental -= 360;
+			if(tangental >= 360) tangental -= 360;
 			float distance = delta_time*item.speed;
 			ofVec2f radial_force = distance*item.radial_accel*GetForceFromAngle(radial);
 			ofVec2f tangental_force = distance*item.tangental_accel*GetForceFromAngle(tangental);
@@ -187,6 +187,10 @@ void ofxParticleEffect2D::BuildSinCosTable()
 }
 ofVec2f ofxParticleEffect2D::GetForceFromAngle(int angle)
 {
+	if(angle < 0 || angle >= 360)
+	{
+		int a = 10;
+	}
 	return ofVec2f(m_CosTable[angle], m_SinTable[angle]);
 }
 float ofxParticleEffect2D::GetAngleFromForceRadial(ofVec2f force)
