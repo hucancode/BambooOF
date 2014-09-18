@@ -39,7 +39,6 @@ struct ofxEmitter2D
 	float		opacity_accel;
 	float		color_intensity;
 	float		color_intensity_var;
-	float		color_intensity_accel;
 	ofColor		color;
 	ofColor		color_var;
 	ofColor		color_accel;

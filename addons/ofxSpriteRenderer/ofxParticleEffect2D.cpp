@@ -66,9 +66,12 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[3].u = texture_rect.getMinX();
 				item.vertices[3].v = texture_rect.getMaxY();
 				// TODO: color
-				float r = (e->color.r + e->color_var.r)/255.0;
-				float g = (e->color.g + e->color_var.g)/255.0;
-				float b = (e->color.b + e->color_var.b)/255.0;
+				static const float CHAR_TO_FLOAT = 0.00392156862745098039;// 1/255 = 0.0039215686274509803921568627451
+				float r = (e->color.r + e->color_var.r)*CHAR_TO_FLOAT;
+				float g = (e->color.g + e->color_var.g)*CHAR_TO_FLOAT;
+				float b = (e->color.b + e->color_var.b)*CHAR_TO_FLOAT;
+				float opacity = e->opacity + ofRandom(e->opacity_var);
+				float intensity = e->color_intensity + ofRandom(e->color_intensity_var);
 				item.vertices[0].r = r;
 				item.vertices[1].r = r;
 				item.vertices[2].r = r;
@@ -81,15 +84,14 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[1].b = b;
 				item.vertices[2].b = b;
 				item.vertices[3].b = b;
-				float intensity = e->color_intensity + ofRandom(e->color_intensity_var);
 				item.vertices[0].color_intensity = intensity;
 				item.vertices[1].color_intensity = intensity;
 				item.vertices[2].color_intensity = intensity;
 				item.vertices[3].color_intensity = intensity;
-				item.vertices[0].opacity = 1.0f;
-				item.vertices[1].opacity = 1.0f;
-				item.vertices[2].opacity = 1.0f;
-				item.vertices[3].opacity = 1.0f;
+				item.vertices[0].opacity = opacity;
+				item.vertices[1].opacity = opacity;
+				item.vertices[2].opacity = opacity;
+				item.vertices[3].opacity = opacity;
 			}
 			e->cooldown = e->emission_time + ofRandom(e->emission_time_var);
 		}
@@ -114,6 +116,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 			int tangental = radial + 90;
 			if(tangental >= 360) tangental -= 360;
 			item.speed += delta_time*item.accel;
+			item.size += delta_time*item.emitter->size_accel;
 			float distance = delta_time*item.speed;
 			ofVec2f radial_force = distance*item.radial_accel*GetForceFromAngle(radial);
 			ofVec2f tangental_force = distance*item.tangental_accel*GetForceFromAngle(tangental);
@@ -135,22 +138,26 @@ void ofxParticleEffect2D::Update(float delta_time)
 			item.vertices[3].z = item.vertices[2].z;
 		}
 		{// TODO: color
-			/*item.vertices[0].r = 0.0f;
-			item.vertices[1].r = 0.0f;
-			item.vertices[2].r = 0.0f;
-			item.vertices[3].r = 0.0f;
-			item.vertices[0].g = 0.0f;
-			item.vertices[1].g = 0.0f;
-			item.vertices[2].g = 0.0f;
-			item.vertices[3].g = 0.0f;
-			item.vertices[0].b = 0.0f;
-			item.vertices[1].b = 0.0f;
-			item.vertices[2].b = 0.0f;
-			item.vertices[3].b = 0.0f;*/
-			item.vertices[0].opacity = 1.0f;
-			item.vertices[1].opacity = 1.0f;
-			item.vertices[2].opacity = 1.0f;
-			item.vertices[3].opacity = 1.0f;
+			float opa_accel = item.emitter->opacity_accel*delta_time;
+			float r_accel = item.emitter->color_accel.r*delta_time;
+			float g_accel = item.emitter->color_accel.r*delta_time;
+			float b_accel = item.emitter->color_accel.r*delta_time;
+			item.vertices[0].r += r_accel;
+			item.vertices[1].r += r_accel;
+			item.vertices[2].r += r_accel;
+			item.vertices[3].r += r_accel;
+			item.vertices[0].g += g_accel;
+			item.vertices[1].g += g_accel;
+			item.vertices[2].g += g_accel;
+			item.vertices[3].g += g_accel;
+			item.vertices[0].b += b_accel;
+			item.vertices[1].b += b_accel;
+			item.vertices[2].b += b_accel;
+			item.vertices[3].b += b_accel;
+			item.vertices[0].opacity += opa_accel;
+			item.vertices[1].opacity += opa_accel;
+			item.vertices[2].opacity += opa_accel;
+			item.vertices[3].opacity += opa_accel;
 		}
 	}
 }

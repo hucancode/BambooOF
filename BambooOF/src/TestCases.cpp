@@ -281,7 +281,7 @@ void Particle2DTest::Setup()
 	emitter->emission_rate_var = 0;
 	emitter->emission_time = 0.1f;
 	emitter->emission_time_var = 0.0f;
-	emitter->life = 2.0f;
+	emitter->life = 3.0f;
 	emitter->life_var = 0.0f;
 	emitter->radial_accel = 1.0f;
 	emitter->radial_accel_var = 1.0f;
@@ -296,15 +296,15 @@ void Particle2DTest::Setup()
 	// TODO: color
 	emitter->size = 15.0f;
 	emitter->size_var = 35.0f;
-	emitter->opacity;
-	emitter->opacity_var;
-	emitter->opacity_accel;
+	emitter->size_accel = 10.0f;
+	emitter->opacity = 0.5f;
+	emitter->opacity_var = 0.5f;
+	emitter->opacity_accel = -0.2f;
 	emitter->color_intensity = 0.0f;
 	emitter->color_intensity_var = 1.0f;
-	emitter->color_intensity_accel;
-	emitter->color = ofColor(0,0,0);
-	emitter->color_var = ofColor(1,1,1);
-	emitter->color_accel;
+	emitter->color = ofColor(0.0f,0.0f,0.0f);
+	emitter->color_var = ofColor(1.0f,1.0f,1.0f);
+	emitter->color_accel = ofColor(0.1f,0.1f,0.1f);
 
 
 	sprite->AddEmitter(emitter);
