@@ -69,8 +69,7 @@ private:
 	static vector<ofRectangle>	m_SharedParticleUVs;
 	static const float			DEGREE_TO_RADIAL;
 	static const float			RADIAL_TO_DEGREE;
-	static float				m_SinTable[360];
-	static float				m_CosTable[360];
+	static ofVec2f				m_ForceTable[360];
 private:
 	ofxEmitter2Ds				m_Emitters;
 	ofxParticle2D				m_ParticlePool[MAX_PARTICLE2D_COUNT];
@@ -79,7 +78,7 @@ private:
 	bool						m_Stopped;
 public:
 	static void					LoadSharedParticleTexture();
-	static void					BuildSinCosTable();
+	static void					BuildForceTable();
 	static ofVec2f				GetForceFromAngle(int angle);
 	static float				GetAngleFromForceRadial(ofVec2f force);
 	static int					GetAngleFromForce(ofVec2f force);

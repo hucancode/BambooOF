@@ -193,21 +193,19 @@ void ofxParticleEffect2D::LoadSharedParticleTexture()
 // shared math utilities
 const float ofxParticleEffect2D::DEGREE_TO_RADIAL = 0.01745329251994329577;
 const float ofxParticleEffect2D::RADIAL_TO_DEGREE = 57.295779513082320877;
-float ofxParticleEffect2D::m_SinTable[360];
-float ofxParticleEffect2D::m_CosTable[360];
+ofVec2f ofxParticleEffect2D::m_ForceTable[360];
 
-void ofxParticleEffect2D::BuildSinCosTable()
+void ofxParticleEffect2D::BuildForceTable()
 {
 	for(int i=0;i<360;i++)
 	{
 		float i_rad = i*DEGREE_TO_RADIAL;
-		m_SinTable[i] = sin(i_rad);
-		m_CosTable[i] = cos(i_rad);
+		m_ForceTable[i] = ofVec2f(cos(i_rad),sin(i_rad));
 	}
 }
 ofVec2f ofxParticleEffect2D::GetForceFromAngle(int angle)
 {
-	return ofVec2f(m_CosTable[angle], m_SinTable[angle]);
+	return m_ForceTable[angle];
 }
 float ofxParticleEffect2D::GetAngleFromForceRadial(ofVec2f force)
 {
