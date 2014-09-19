@@ -69,9 +69,9 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[3].v = texture_rect.getMaxY();
 				// TODO: color
 				static const float CHAR_TO_FLOAT = 0.00392156862745098039;// 1/255 = 0.0039215686274509803921568627451
-				float r = (e->color.r + e->color_var.r)*CHAR_TO_FLOAT;
-				float g = (e->color.g + e->color_var.g)*CHAR_TO_FLOAT;
-				float b = (e->color.b + e->color_var.b)*CHAR_TO_FLOAT;
+				float r = (e->color.r + ofRandom(e->color_var.r))*CHAR_TO_FLOAT;
+				float g = (e->color.g + ofRandom(e->color_var.g))*CHAR_TO_FLOAT;
+				float b = (e->color.b + ofRandom(e->color_var.b))*CHAR_TO_FLOAT;
 				float opacity = e->opacity + ofRandom(e->opacity_var);
 				float intensity = e->color_intensity + ofRandom(e->color_intensity_var);
 				item.vertices[0].r = r;
