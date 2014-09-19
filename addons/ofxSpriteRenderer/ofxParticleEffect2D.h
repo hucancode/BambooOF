@@ -8,7 +8,10 @@ note: this effect has all of it's particle stick to a plane
 // TODO: if i have time, i would like to implement some affector, such as gravity, wind, magnet ....
 
 const int MAX_PARTICLE2D_COUNT = 200;
-
+/*
+max particle per particle effect instance are 5000(COMMAND_CAPACITY) refer from here ofxSpriteCommand.h
+so be careful modify this above value
+*/
 struct ofxEmitter2D
 {
 	ofVec2f		position;
@@ -42,7 +45,6 @@ struct ofxEmitter2D
 	ofColor		color;
 	ofColor		color_var;
 	ofColor		color_accel;
-
 };
 
 struct ofxParticle2D

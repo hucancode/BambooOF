@@ -134,3 +134,10 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+class Particle2DBenchmarkTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};

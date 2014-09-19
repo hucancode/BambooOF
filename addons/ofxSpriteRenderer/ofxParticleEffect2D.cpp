@@ -15,6 +15,8 @@ ofxParticleEffect2D::ofxParticleEffect2D()
 }
 ofxParticleEffect2D::~ofxParticleEffect2D()
 {
+	delete[] m_Vertices;
+
 }
 void ofxParticleEffect2D::Load(string xml_file)
 {
@@ -35,9 +37,9 @@ void ofxParticleEffect2D::Update(float delta_time)
 			int particle_to_emit = e->emission_rate + ofRandom(e->emission_rate_var);
 			int j = m_ParticleCount;
 			m_ParticleCount += particle_to_emit;
-			if(m_ParticleCount >= MAX_PARTICLE2D_COUNT)
+			if(m_ParticleCount > MAX_PARTICLE2D_COUNT)
 			{
-				m_ParticleCount = MAX_PARTICLE2D_COUNT - 1;
+				m_ParticleCount = MAX_PARTICLE2D_COUNT;
 			}
 			//ofLogNotice() << "emitting "<<m_ParticleCount<<endl;
 			for(;j<m_ParticleCount;j++)
@@ -164,7 +166,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 void ofxParticleEffect2D::SubmitChanges()
 {
 	m_VerticesSize = m_ParticleCount*4;
-	int size = sizeof(ofxVertex)*4;
+	size_t size = sizeof(ofxVertex)*4;
 	for(int i=0;i<m_ParticleCount;i++)
 	{
 		memcpy(m_Vertices+i*4, m_ParticlePool[i].vertices, size);
@@ -183,7 +185,8 @@ vector<ofRectangle>	ofxParticleEffect2D::m_SharedParticleUVs;
 ofxTexture* ofxParticleEffect2D::m_SharedParticleTexture = 0;
 void ofxParticleEffect2D::LoadSharedParticleTexture()
 {
-	m_SharedParticleTexture = ofxTEXTURECACHE->GetResource("data/particle_sheet.png");
+	m_SharedParticleTexture = new ofxTexture();
+	m_SharedParticleTexture->Load("data/particle_sheet.png");
 	m_SharedParticleUVs.push_back(ofRectangle(0,0,1,1));
 }
 
@@ -204,10 +207,6 @@ void ofxParticleEffect2D::BuildSinCosTable()
 }
 ofVec2f ofxParticleEffect2D::GetForceFromAngle(int angle)
 {
-	if(angle < 0 || angle >= 360)
-	{
-		int a = 10;
-	}
 	return ofVec2f(m_CosTable[angle], m_SinTable[angle]);
 }
 float ofxParticleEffect2D::GetAngleFromForceRadial(ofVec2f force)
