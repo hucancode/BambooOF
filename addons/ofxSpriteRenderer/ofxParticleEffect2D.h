@@ -14,37 +14,37 @@ so be careful modify this above value
 */
 struct ofxEmitter2D
 {
-	ofVec2f		position;
-	int			emission_rate;
-	int			emission_rate_var;
-	float		emission_time;
-	float		emission_time_var;
-	float		cooldown;
-	float		life;
-	float		life_var;
-	float		radius;
-	float		radius_var;
-	float		speed;
-	float		speed_var;
-	float		accel;
-	float		accel_var;
-	float		angle;
-	float		angle_var;
-	float		radial_accel;
-	float		radial_accel_var;
-	float		tangental_accel;
-	float		tangental_accel_var;
-	float		size;
-	float		size_var;
-	float		size_accel;
-	float		opacity;
-	float		opacity_var;
-	float		opacity_accel;
-	float		color_intensity;
-	float		color_intensity_var;
-	ofColor		color;
-	ofColor		color_var;
-	ofColor		color_accel;
+	ofVec2f			position;
+	int				emission_rate;
+	int				emission_rate_var;
+	float			emission_time;
+	float			emission_time_var;
+	float			cooldown;
+	float			life;
+	float			life_var;
+	float			radius;
+	float			radius_var;
+	float			speed;
+	float			speed_var;
+	float			accel;
+	float			accel_var;
+	float			angle;
+	float			angle_var;
+	float			radial_accel;
+	float			radial_accel_var;
+	float			tangental_accel;
+	float			tangental_accel_var;
+	float			size;
+	float			size_var;
+	float			size_accel;
+	float			opacity;
+	float			opacity_var;
+	float			opacity_accel;
+	float			color_intensity;
+	float			color_intensity_var;
+	ofFloatColor	color;
+	ofFloatColor	color_var;
+	ofFloatColor	color_accel;
 };
 
 struct ofxParticle2D

@@ -20,6 +20,7 @@ void SpriteTest::Setup()
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->SetTexture("data/psk_actor_idle.png");
 	spriteObstacle = sprite;
+	sprite->SetOpacity(0.5f);
 }
 void SpriteTest::Update()
 {
@@ -271,7 +272,7 @@ void TextSpriteTest::Render()
 void Particle2DTest::Setup()
 {
 	ofxParticleEffect2D::LoadSharedParticleTexture();
-	ofxParticleEffect2D::BuildSinCosTable();
+	ofxParticleEffect2D::BuildForceTable();
 	ofxParticleEffect2D* sprite = new ofxParticleEffect2D();
 	ofxEmitter2D* emitter = new ofxEmitter2D();
 	emitter->position = ofVec2f(0,0);
@@ -512,7 +513,7 @@ void TerrainBenchmarkTest::Render()
 void Particle2DBenchmarkTest::Setup()
 {
 	ofxParticleEffect2D::LoadSharedParticleTexture();
-	ofxParticleEffect2D::BuildSinCosTable();
+	ofxParticleEffect2D::BuildForceTable();
 	for(int i=0;i<40;i++)
 	{
 		ofxParticleEffect2D* sprite = new ofxParticleEffect2D();
