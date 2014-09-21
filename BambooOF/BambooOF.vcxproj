@@ -247,6 +247,8 @@
     <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\RigEngine\RigCollectionJX.cpp" />
+    <ClCompile Include="src\RigEngine\RigPart.cpp" />
     <ClCompile Include="src\TestCases.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -458,6 +460,9 @@
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\RigEngine\ActionCollectionJX.h" />
+    <ClInclude Include="src\RigEngine\RigCollectionJX.h" />
+    <ClInclude Include="src\RigEngine\RigPart.h" />
     <ClInclude Include="src\TestCases.h" />
   </ItemGroup>
   <ItemGroup>
