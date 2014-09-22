@@ -594,6 +594,9 @@
     <Filter Include="Game\RigEngine">
       <UniqueIdentifier>{b2bcfe21-d60b-40a9-a7ff-8e2a4fb2951b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\CrowdEngine">
+      <UniqueIdentifier>{95a3741b-2549-4918-b72a-b55da8eb5d9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">

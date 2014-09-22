@@ -76,6 +76,7 @@ private:
 	unsigned short				m_ParticleCount;
 	bool						m_Paused;
 	bool						m_Stopped;
+	bool						m_Grounded;
 public:
 	static void					LoadSharedParticleTexture();
 	static void					BuildForceTable();
@@ -89,6 +90,9 @@ public:
 	void						AddEmitter(ofxEmitter2D* emitter);
 	virtual void				Update(float delta_time);
 	virtual void				SubmitChanges();
+public:
+	void						SetGrounded(bool value);
+	bool						IsGrounded();
 	void						PauseResume();
 	bool						IsPaused();
 	void						Stop();

@@ -550,6 +550,7 @@ void Particle2DBenchmarkTest::Setup()
 		emitter->color_var = ofColor(1.0f,1.0f,1.0f);
 		emitter->color_accel = ofColor(0.1f,0.1f,0.1f);
 		sprite->AddEmitter(emitter);
+		sprite->SetGrounded(true);
 		spriteObstacle = sprite;
 	}
 	
