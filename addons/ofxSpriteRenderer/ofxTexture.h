@@ -13,6 +13,7 @@ private:
 	FIBITMAP*			m_ImageData;
 	GLuint				m_TextureId;
 	ofVec2f				m_Dimension;
+	bool				m_Locked;
 public:
 	ofxTexture();
 	virtual ~ofxTexture();
@@ -21,6 +22,9 @@ public:
 	void				Bind(GLuint slot=0);
 	void				Unbind(GLuint slot=0);
 	ofVec2f				GetDimension();
+public:
+	void				Lock();
+	bool				IsLocked();
 public:
 	void				Allocate(unsigned int width, unsigned int height);
 	ofColor				GetPixel(ofVec2f position);

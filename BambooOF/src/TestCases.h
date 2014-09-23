@@ -141,3 +141,10 @@ public:
 	virtual void Update();
 	virtual void Render();
 };
+class TextureBenchmarkTest: public Test
+{
+public:
+	virtual void Setup();
+	virtual void Update();
+	virtual void Render();
+};

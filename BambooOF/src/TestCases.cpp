@@ -4,7 +4,7 @@
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
-Test* current_test = new Particle2DBenchmarkTest();
+Test* current_test = new TextureBenchmarkTest();
 ofxSpriteBase* spriteObstacle;
 void Test::Setup()
 {
@@ -560,6 +560,65 @@ void Particle2DBenchmarkTest::Update()
 	ofxRENDERER->Update();
 }
 void Particle2DBenchmarkTest::Render()
+{
+	ofxRENDERER->Render();
+}
+void TextureBenchmarkTest::Setup()
+{
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_dual_weapon_crit.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_flying_dagger.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_horse_no_weapon_crit.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_one_hand_weapon_crit.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_two_hand_weapon_crit.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_fall_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_fall_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_fall_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_fall_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_fall_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_hurt_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_hurt_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_hurt_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_hurt_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_hurt_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_idle_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_idle_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_idle_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_jump.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_magic_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_magic_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_magic_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_magic_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_magic_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_ready_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_ready_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_ready_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_ready_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_run_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_run_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_run_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_run_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_run_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_walk_dual_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_walk_horse_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_walk_no_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_walk_one_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_walk_two_hand_weapon.png"); sprite->GetTexture()->Lock();}
+	{ofxSpriteQuad* sprite = new ofxSpriteQuad();sprite->SetTexture("data/tianwang_cloth/tianwang3_zen.png"); sprite->GetTexture()->Lock();}
+	{
+		ofxSpriteQuad* sprite = new ofxSpriteQuad();
+		sprite->SetTexture("data/tianwang_cloth/tianwang3_attack_dual_weapon.png");
+		spriteObstacle = sprite;
+	}
+}
+void TextureBenchmarkTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TextureBenchmarkTest::Render()
 {
 	ofxRENDERER->Render();
 }

@@ -4,6 +4,7 @@ ofxTexture::ofxTexture()
 	:ofxResource()
 {
 	glGenTextures(1, &m_TextureId);
+	m_Locked = false;
 }
 ofxTexture::~ofxTexture()
 {
@@ -14,12 +15,18 @@ ofxTexture::~ofxTexture()
 bool ofxTexture::Load(string texture_file)
 {
 	m_ImageData = FreeImage_Load(FIF_PNG, texture_file.c_str(), PNG_DEFAULT);
-	FreeImage_FlipVertical(m_ImageData);
-	SubmitChanges();
-	return true;
+	if(m_ImageData)
+	{
+		m_Locked = false;
+		FreeImage_FlipVertical(m_ImageData);
+		SubmitChanges();
+		return true;
+	}
+	return false;
 }
 void ofxTexture::SubmitChanges()
 {
+	if(m_Locked) return;
 	unsigned int bpp = FreeImage_GetBPP(m_ImageData);
 	unsigned int width = FreeImage_GetWidth(m_ImageData);
 	unsigned int height = FreeImage_GetHeight(m_ImageData);
@@ -47,6 +54,24 @@ void ofxTexture::SubmitChanges()
 		}
 	}
 }
+/*----------------------------------
+ofxTexture::Lock()
+------------------------------------
+- store texture data at GPU
+- save alot of RAM
+- a texture locked can't be manipulated or used as material to manipulate other textures
+- only used for render
+----------------------------------*/
+void ofxTexture::Lock()
+{
+	m_Locked = true;
+	FreeImage_Unload(m_ImageData);
+	m_ImageData = 0;
+}
+bool ofxTexture::IsLocked()
+{
+	return m_Locked;
+}
 void ofxTexture::Bind(GLuint slot)
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
@@ -66,12 +91,18 @@ texture operation
 ---------------------------------- */
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
+	if(m_ImageData)
+	{
+		FreeImage_Unload(m_ImageData);
+	}
 	m_ImageData = FreeImage_Allocate(width, height, 32);
 	m_Dimension.x = width;
 	m_Dimension.y = height;
+	m_Locked = false;
 }
 ofColor ofxTexture::GetPixel(ofVec2f position)
 {
+	if(m_Locked) return ofColor(0.0f, 0.0f, 0.0f);
 	RGBQUAD fi_color;
 	ofColor color;
 	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
@@ -86,6 +117,7 @@ ofColor ofxTexture::GetPixel(ofVec2f position)
 }
 void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 {
+	if(m_Locked) return;
 	RGBQUAD fi_color;
 	fi_color.rgbRed = color.r;
 	fi_color.rgbGreen = color.g;
@@ -99,14 +131,17 @@ void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 }
 void ofxTexture::FlipX()
 {
+	if(m_Locked) return;
 	FreeImage_FlipHorizontal(m_ImageData);
 }
 void ofxTexture::FlipY()
 {
+	if(m_Locked) return;
 	FreeImage_FlipVertical(m_ImageData);
 }
 void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos, int alpha)
 {
+	if(m_Locked || source->IsLocked()) return;
 	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
 		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
 	FreeImage_Paste(m_ImageData, image_piece, dest_pos.x, dest_pos.y, alpha);
@@ -114,6 +149,7 @@ void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVe
 }
 void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha)
 {
+	if(m_Locked || source->IsLocked()) return;
 	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
 		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
 	FIBITMAP* image_piece_rescale = FreeImage_Rescale(image_piece, dest_rect.width, dest_rect.height, FILTER_BILINEAR);
@@ -123,6 +159,7 @@ void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, of
 }
 void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
 {
+	if(m_Locked) return;
 	FIBITMAP* image_piece = FreeImage_Allocate(dest_rect.width, dest_rect.height, 
 		FreeImage_GetBPP(m_ImageData), color.r, color.g, color.b);
 	FreeImage_Paste(m_ImageData, image_piece, dest_rect.x, dest_rect.y, color.a);
@@ -130,6 +167,7 @@ void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
 {
+	if(m_Locked) return;
 	RGBQUAD fi_color;
 	fi_color.rgbRed = 0;
 	fi_color.rgbGreen = 0;
@@ -141,10 +179,12 @@ void ofxTexture::Clear(ofRectangle dest_rect)
 }
 void ofxTexture::Clear()
 {
+	if(m_Locked) return;
 	Clear(ofRectangle(0, 0, m_Dimension.x, m_Dimension.y));
 }
 void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, unsigned char font_size)
 {
+	if(m_Locked) return;
 	float scale;
 	if(font_size == 0)
 	{
@@ -169,6 +209,7 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, 
 }
 void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_rect, unsigned char font_size)
 {
+	if(m_Locked) return;
 	// TODO: implement draw text with boundary
 	float scale;
 	if(font_size == 0)
