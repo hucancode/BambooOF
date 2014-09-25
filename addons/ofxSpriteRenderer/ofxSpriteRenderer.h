@@ -24,7 +24,7 @@ public:
 	static void					DestroyInstance();
 private:
 	ofxBaseSprites			m_Sprites;
-	ofxSpriteCommands		m_Commands;
+	ofxBaseCommands			m_Commands;
 #ifdef _DEBUG
 	int						m_DrawnBatches;
 	int						m_DrawnVertices;

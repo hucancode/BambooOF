@@ -35,6 +35,7 @@ protected:
 	ofxVertex*			m_Vertices;
 	GLsizei				m_VerticesSize;
 	int					m_ID;
+	bool				m_CustomRendered;
 public:
 	ofxBaseSprite();
 	~ofxBaseSprite();
@@ -51,6 +52,7 @@ public:
 	virtual void		LoadShader(string shader_path);
 	virtual void		SetTexture(string texture_path);
 	ofxTexture*			GetTexture();
+	bool				IsCustomRendered();
 private:
 	void				SetID(int id);
 	int					GetID();

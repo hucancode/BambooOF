@@ -24,10 +24,10 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
 	{
-		ofxSpriteCommands::iterator it = m_Commands.begin();
+		ofxBaseCommands::iterator it = m_Commands.begin();
 		for(;it != m_Commands.end();it++)
 		{
-			ofxSpriteCommand* cmd = *it;
+			ofxBaseCommand* cmd = *it;
 			delete cmd;
 		}
 		m_Commands.clear();
@@ -49,9 +49,9 @@ static bool QuadCompare(ofxBaseSprite* quadA, ofxBaseSprite* quadB)
 void ofxSpriteRenderer::Render()
 {
 	//printf("--------------RENDER--------------\n");
-	for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
+	for(ofxBaseCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 	{
-		ofxSpriteCommand* item = *it;
+		ofxBaseCommand* item = *it;
 		delete item;
 	}
 	m_Commands.clear();
@@ -64,6 +64,7 @@ void ofxSpriteRenderer::Render()
 	}
 	//unsigned long long time_finish_sort = ofGetSystemTime();
 	//printf("sort time =  %llu\n", time_finish_sort - time_start_build);
+	bool is_custom_command = false;
 	for(ofxBaseSprites::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
 	{
 		ofxBaseSprite* sprite = *it;
@@ -72,8 +73,15 @@ void ofxSpriteRenderer::Render()
 		{
 			continue;
 		}
+		if(sprite->IsCustomRendered())
+		{
+			ofxBaseCommand* command = (ofxBaseCommand*)sprite;
+			m_Commands.push_back(command);
+			is_custom_command = true;
+			continue;
+		}
 		ofxSpriteCommand* command;
-		if(m_Commands.size() == 0)
+		if(m_Commands.size() == 0 || is_custom_command)
 		{
 			command = new ofxSpriteCommand();
 			command->SetShader(sprite->GetShader());
@@ -81,10 +89,11 @@ void ofxSpriteRenderer::Render()
 			bool push_success = command->PushSprite(sprite);
 			assert(push_success);
 			m_Commands.push_back(command);
+			is_custom_command = false;
 		}
 		else
 		{
-			command = m_Commands.back();
+			command = (ofxSpriteCommand*)m_Commands.back();
 			bool push_success = command->PushSprite(sprite);
 			if(command->GetShader() != sprite->GetShader() 
 				|| command->GetTexture() != sprite->GetTexture() 
@@ -113,13 +122,13 @@ void ofxSpriteRenderer::Render()
 		glEnable(GL_BLEND);
 		//glDisable(GL_DEPTH_TEST);// transparent isn't work well with depth test
 		glDepthMask(GL_FALSE);
-		for(ofxSpriteCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
+		for(ofxBaseCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 		{
-			ofxSpriteCommand* cmd = *it;
+			ofxBaseCommand* cmd = *it;
 			cmd->Render();
 #ifdef _DEBUG
 			m_DrawnBatches++;
-			m_DrawnVertices += cmd->GetVerticesSize();
+			m_DrawnVertices += cmd->GetRenderedVertices();
 #endif
 		}
 		//glEnable(GL_DEPTH_TEST);

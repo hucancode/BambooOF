@@ -36,6 +36,7 @@ bool ofxSpriteCommand::PushSprite(ofxBaseSprite* sprite)
 	}
 	memcpy(&m_Vertices[m_VerticesSize], sprite->GetVertices(), sizeof(ofxVertex)*sprite->GetVerticesSize());
 	m_VerticesSize = new_size;
+	m_RenderedVertices = m_VerticesSize;
 	return true;
 }
 ofxTexture* ofxSpriteCommand::GetTexture()

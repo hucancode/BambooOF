@@ -1,7 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxBaseSprite.h"
-#include "ofxCommandBase.h"
+#include "ofxBaseCommand.h"
 /*
 
 note: this class is used internally in ofxSpriteRenderer, it's not really useful for end users
@@ -10,7 +10,7 @@ note: this class is used internally in ofxSpriteRenderer, it's not really useful
 
 #define COMMAND_VERTEX_CAPACITY 20000
 class ofxSpriteCommand
-	:public ofxCommandBase
+	:public ofxBaseCommand
 {
 private:
 	ofxTexture*				m_Texture;
