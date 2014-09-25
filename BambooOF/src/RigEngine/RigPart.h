@@ -33,7 +33,7 @@ public:
 	RigPartRenderer();
 	~RigPartRenderer();
 	void				SetObject(RigPart* object);
-	void				Update(float delta_time);
+	virtual void		Update(const float delta_time);
 	void				ApplyChanges();
 	virtual void		Render();
 };

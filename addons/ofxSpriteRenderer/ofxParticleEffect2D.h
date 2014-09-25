@@ -88,7 +88,7 @@ public:
 	~ofxParticleEffect2D();
 	void						Load(string xml_file);
 	void						AddEmitter(ofxEmitter2D* emitter);
-	virtual void				Update(float delta_time);
+	virtual void				Update(const float delta_time);
 	virtual void				SubmitChanges();
 public:
 	void						SetGrounded(bool value);
