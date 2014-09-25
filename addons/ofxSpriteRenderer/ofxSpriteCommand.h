@@ -1,7 +1,7 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxSpriteBase.h"
-
+#include "ofxBaseSprite.h"
+#include "ofxCommandBase.h"
 /*
 
 note: this class is used internally in ofxSpriteRenderer, it's not really useful for end users
@@ -10,10 +10,8 @@ note: this class is used internally in ofxSpriteRenderer, it's not really useful
 
 #define COMMAND_VERTEX_CAPACITY 20000
 class ofxSpriteCommand
+	:public ofxCommandBase
 {
-#ifdef _DEBUG
-	friend class ofxSpriteRenderer;
-#endif
 private:
 	ofxTexture*				m_Texture;
 	ofxShaderProgram*		m_Shader;
@@ -23,15 +21,11 @@ private:
 public:
 	ofxSpriteCommand();
 	~ofxSpriteCommand();
-public:
-	void					Render();
-	bool					PushSprite(ofxSpriteBase* sprite);
+	virtual void			Render();
+	bool					PushSprite(ofxBaseSprite* sprite);
 	ofxTexture*				GetTexture();
 	ofxShaderProgram*		GetShader();
 	void					SetTexture(ofxTexture* texture);
 	void					SetShader(ofxShaderProgram* shader);
-private:
-	ofxVertex*				GetVertices();
-	GLsizei					GetVerticesSize();
 };
 typedef vector<ofxSpriteCommand*> ofxSpriteCommands;

@@ -179,6 +179,7 @@
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\Recast\Source\RecastRegion.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBitmapFontCache.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBaseCommand.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.cpp" />
     <ClCompile Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.cpp" />
@@ -193,7 +194,7 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTexture.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxTextureCache.cpp" />
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.cpp" />
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.cpp" />
     <ClCompile Include="..\addons\ofxSpriteRenderer\pugixml.cpp" />
     <ClCompile Include="..\addons\ofxTerrain\ofxTerrain.cpp" />
     <ClCompile Include="..\addons\ofxTerrain\ofxTile.cpp" />
@@ -388,6 +389,7 @@
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\Recast\Include\RecastAssert.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFont.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBitmapFontCache.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBaseCommand.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h" />
     <ClInclude Include="..\Addons\ofxSpriteRenderer\ofxParticleEffect3D.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxShaderProgramCache.h" />
@@ -402,7 +404,7 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTexture.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxTextureCache.h" />
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.h" />
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.h" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\pugiconfig.hpp" />
     <ClInclude Include="..\addons\ofxSpriteRenderer\pugixml.hpp" />
     <ClInclude Include="..\addons\ofxTerrain\ofxTerrain.h" />
@@ -460,7 +462,7 @@
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
     <ClInclude Include="src\ofApp.h" />
-    <ClInclude Include="src\RigEngine\ActionCollectionJX.h" />
+    <ClInclude Include="src\RigEngine\StateCollectionJX.h" />
     <ClInclude Include="src\RigEngine\RigCollectionJX.h" />
     <ClInclude Include="src\RigEngine\RigPart.h" />
     <ClInclude Include="src\TestCases.h" />

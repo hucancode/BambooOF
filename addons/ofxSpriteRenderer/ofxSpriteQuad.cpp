@@ -4,7 +4,7 @@
 
 ofxSpriteQuad::ofxSpriteQuad()
 {
-	ofxSpriteBase::ofxSpriteBase();
+	ofxBaseSprite::ofxBaseSprite();
 	m_VerticesSize = 4;
 	
 	m_Vertices = new ofxVertex[m_VerticesSize];
@@ -20,12 +20,12 @@ ofxSpriteQuad::ofxSpriteQuad()
 }
 ofxSpriteQuad::~ofxSpriteQuad()
 {
-	ofxSpriteBase::~ofxSpriteBase();
+	ofxBaseSprite::~ofxBaseSprite();
 	ofxRENDERER->EraseSprite(this);
 }
 void ofxSpriteQuad::SetTexture(string texture_path)
 {
-	ofxSpriteBase::SetTexture(texture_path);
+	ofxBaseSprite::SetTexture(texture_path);
 	SetSpriteRect(-m_Texture->GetDimension().x*0.5, 0, m_Texture->GetDimension().x, m_Texture->GetDimension().y);
 	SetTextureRect(0, 0, m_Texture->GetDimension().x, m_Texture->GetDimension().y);
 }
@@ -67,7 +67,7 @@ void ofxSpriteQuad::SetSpriteRect(const ofRectangle rect)
 #endif
 void ofxSpriteQuad::SubmitChanges()
 {
-	ofxSpriteBase::SubmitChanges();
+	ofxBaseSprite::SubmitChanges();
 	if(m_PositionChange || m_DimensionChange)
 	{
 		ofRectangle rect(m_SpriteRect);

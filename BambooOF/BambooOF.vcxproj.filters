@@ -433,14 +433,8 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.cpp">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.cpp">
-      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.cpp">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
-      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClCompile>
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteRenderer.cpp">
       <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
@@ -471,6 +465,15 @@
     </ClCompile>
     <ClCompile Include="src\RigEngine\RigCollectionJX.cpp">
       <Filter>Game\RigEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBaseCommand.cpp">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.cpp">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.cpp">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1190,9 +1193,6 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteAnimation.h">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteBase.h">
-      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteQuad.h">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
@@ -1200,9 +1200,6 @@
       <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxOrthoCamera.h">
-      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
       <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxSpriteRenderer\pugiconfig.hpp">
@@ -1232,8 +1229,17 @@
     <ClInclude Include="src\RigEngine\RigCollectionJX.h">
       <Filter>Game\RigEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\RigEngine\ActionCollectionJX.h">
+    <ClInclude Include="src\RigEngine\StateCollectionJX.h">
       <Filter>Game\RigEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBaseCommand.h">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxSpriteCommand.h">
+      <Filter>addons\ofxSpriteRenderer\Scene Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.h">
+      <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
 Test* current_test = new TextureBenchmarkTest();
-ofxSpriteBase* spriteObstacle;
+ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {
 }

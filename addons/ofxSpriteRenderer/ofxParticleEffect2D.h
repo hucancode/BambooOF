@@ -1,5 +1,5 @@
 #pragma once
-#include "ofxSpriteBase.h"
+#include "ofxBaseSprite.h"
 
 /*
 note: this effect has all of it's particle stick to a plane
@@ -62,7 +62,7 @@ struct ofxParticle2D
 
 typedef vector<ofxEmitter2D*> ofxEmitter2Ds;
 class ofxParticleEffect2D
-	:public ofxSpriteBase
+	:public ofxBaseSprite
 {
 private:
 	static ofxTexture*			m_SharedParticleTexture;

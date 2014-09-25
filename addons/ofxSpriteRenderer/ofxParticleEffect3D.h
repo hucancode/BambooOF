@@ -1,5 +1,5 @@
 #pragma once
-#include "ofxSpriteBase.h"
+#include "ofxBaseSprite.h"
 #include "ofxSpriteQuad.h"
 /*
 note: this effect has all of it's particle moving around 3d space
@@ -47,7 +47,7 @@ struct ofxEmitter3D
 };
 typedef vector<ofxEmitter3D*> ofxEmitter3Ds;
 class ofxParticleEffect3D
-	:public ofxSpriteBase
+	:public ofxBaseSprite
 {
 private:
 	ofxEmitter3Ds m_Emitters;

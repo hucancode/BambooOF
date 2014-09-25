@@ -33,16 +33,16 @@ ofxSpriteRenderer::~ofxSpriteRenderer()
 		m_Commands.clear();
 	}
 	{
-		ofxSpriteBases::iterator it = m_Sprites.begin();
+		ofxBaseSprites::iterator it = m_Sprites.begin();
 		for(;it != m_Sprites.end();it++)
 		{
-			ofxSpriteBase* quad = *it;
+			ofxBaseSprite* quad = *it;
 			delete quad;
 		}
 		m_Sprites.clear();
 	}
 }
-static bool QuadCompare(ofxSpriteBase* quadA, ofxSpriteBase* quadB)
+static bool QuadCompare(ofxBaseSprite* quadA, ofxBaseSprite* quadB)
 {
 	return quadA->GetPosition().z < quadB->GetPosition().z;
 }
@@ -64,9 +64,9 @@ void ofxSpriteRenderer::Render()
 	}
 	//unsigned long long time_finish_sort = ofGetSystemTime();
 	//printf("sort time =  %llu\n", time_finish_sort - time_start_build);
-	for(ofxSpriteBases::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
+	for(ofxBaseSprites::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
 	{
-		ofxSpriteBase* sprite = *it;
+		ofxBaseSprite* sprite = *it;
 		if(!(sprite->GetOcclusion() == SPRITE_OCCLUSION_IN_SCREEN || sprite->GetOcclusion() == SPRITE_OCCLUSION_UNKNOWN) ||
 			!sprite->IsVisible())
 		{
@@ -132,12 +132,12 @@ void ofxSpriteRenderer::Render()
 	m_RenderTimeMilisecond = time_finish_render - time_start_render;
 #endif
 }
-void ofxSpriteRenderer::PushSprite(ofxSpriteBase* sprite)
+void ofxSpriteRenderer::PushSprite(ofxBaseSprite* sprite)
 {
 	sprite->SetID(m_Sprites.size());
 	m_Sprites.push_back(sprite);
 }
-void ofxSpriteRenderer::EraseSprite(ofxSpriteBase* sprite)
+void ofxSpriteRenderer::EraseSprite(ofxBaseSprite* sprite)
 {
 	m_Sprites.erase(m_Sprites.begin() + sprite->GetID());
 	sprite->SetID(-1);
@@ -163,10 +163,10 @@ void ofxSpriteRenderer::Update()
 		m_WorldRect.y - FAR_SCREEN_DISTANCE_THRESHOLD, 
 		m_WorldRect.width + FAR_SCREEN_DISTANCE_THRESHOLD*2, 
 		m_WorldRect.height + FAR_SCREEN_DISTANCE_THRESHOLD*2);
-	ofxSpriteBases::iterator it = m_Sprites.begin();
+	ofxBaseSprites::iterator it = m_Sprites.begin();
 	for(;it != m_Sprites.end();it++)
 	{
-		ofxSpriteBase* item = *it;
+		ofxBaseSprite* item = *it;
 		item->Update(delta_time);
 		item->SubmitChanges();
 	}

@@ -5,7 +5,7 @@
 
 ofxParticleEffect2D::ofxParticleEffect2D()
 {
-	ofxSpriteBase::ofxSpriteBase();
+	ofxBaseSprite::ofxBaseSprite();
 	m_Vertices = new ofxVertex[MAX_PARTICLE2D_COUNT*4];
 	m_ParticleCount = 0;
 	m_Paused = false;
