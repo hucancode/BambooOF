@@ -45,42 +45,48 @@ struct ofxEmitter3D
 };
 
 // TODO: ofxParticle3D inherrit from ofxBaseSprite
-struct ofxParticle3D
+class ofxParticle3D
+	: public ofxBaseSprite
 {
-	ofxEmitter3D*	emitter;
-	ofVec3f			position;
-	float			size;
-	float			life;
-	float			speed;
-	float			accel;
-	float			radial_accel;
-	float			tangental_x_accel;
-	float			tangental_y_accel;
-	ofxVertex		vertices[4];
+	friend class ofxParticleEffect3D;
+private:
+	static ofxTexture*			m_SharedParticleTexture;
+	static vector<ofRectangle>	m_SharedParticleUVs;
+public:
+	static void					LoadSharedParticleTexture();
+private:
+	ofxEmitter3D*	m_Emitter;
+	float			m_Size;
+	float			m_Life;
+	float			m_Speed;
+	float			m_Accel;
+	float			m_RadialAccel;
+	float			m_TangentalXAccel;
+	float			m_TangentalYAccel;
+public:
+	ofxParticle3D();
+	~ofxParticle3D();
+	void Initialize(ofxEmitter3D* emitter);
+	virtual void Update(float delta_time);
+	virtual void SubmitChanges();
 };
 
 typedef vector<ofxEmitter3D*> ofxEmitter3Ds;
 class ofxParticleEffect3D
-	:public ofxBaseSprite
 {
 private:
-	static ofxTexture*			m_SharedParticleTexture;
-	static vector<ofRectangle>	m_SharedParticleUVs;
-private:
+	ofVec3f						m_Position;
 	ofxEmitter3Ds				m_Emitters;
-	ofxParticle3D				m_ParticlePool[MAX_PARTICLE3D_COUNT];
+	ofxParticle3D*				m_ParticlePool[MAX_PARTICLE3D_COUNT];
 	unsigned short				m_ParticleCount;
 	bool						m_Paused;
 	bool						m_Stopped;
-public:
-	static void					LoadSharedParticleTexture();
 public:
 	ofxParticleEffect3D();
 	~ofxParticleEffect3D();
 	void						Load(string xml_file);
 	void						AddEmitter(ofxEmitter3D* emitter);
-	virtual void				Update(float delta_time);
-	virtual void				SubmitChanges();
+	void						Update(float delta_time);
 public:
 	void						PauseResume();
 	bool						IsPaused();
@@ -88,4 +94,4 @@ public:
 	void						ForceStop();
 	bool						IsStopped();
 };
-#define DEFAULT_PARTICLE_SHADER "particle3D"
+#define DEFAULT_PARTICLE3D_SHADER "sprite2d"

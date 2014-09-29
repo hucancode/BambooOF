@@ -99,4 +99,4 @@ public:
 	void						ForceStop();
 	bool						IsStopped();
 };
-#define DEFAULT_PARTICLE_SHADER "particle2d"
+#define DEFAULT_PARTICLE2D_SHADER "particle2d"

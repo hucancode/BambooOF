@@ -12,7 +12,7 @@ ofxParticleEffect2D::ofxParticleEffect2D()
 	m_Stopped = false;
 	m_Grounded = false;
 	m_Texture = m_SharedParticleTexture;
-	LoadShader(DEFAULT_PARTICLE_SHADER);
+	LoadShader(DEFAULT_PARTICLE2D_SHADER);
 	ofxRENDERER->PushSprite(this);
 }
 ofxParticleEffect2D::~ofxParticleEffect2D()
@@ -77,7 +77,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[2].v = texture_rect.getMaxY();
 				item.vertices[3].u = texture_rect.getMinX();
 				item.vertices[3].v = texture_rect.getMaxY();
-				// TODO: color
+				// color
 				float r = e->color.r + ofRandom(e->color_var.r);
 				float g = e->color.g + ofRandom(e->color_var.g);
 				float b = e->color.b + ofRandom(e->color_var.b);
@@ -165,7 +165,7 @@ void ofxParticleEffect2D::Update(float delta_time)
 				item.vertices[3].z = item.vertices[2].z;
 			}
 		}
-		{// TODO: color
+		{// color
 			float opa_accel = item.emitter->opacity_accel*delta_time;
 			float r_accel = item.emitter->color_accel.r*delta_time;
 			float g_accel = item.emitter->color_accel.r*delta_time;
