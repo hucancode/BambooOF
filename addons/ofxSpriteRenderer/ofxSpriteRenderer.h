@@ -9,11 +9,6 @@
 #define FAR_SCREEN_UPDATE_SEQUENCE 100
 #define IN_SCREEN_UPDATE_SEQUENCE 20
 
-/*
-TODO: 
-- particle effect support
-- text render support
-*/
 class ofxSpriteRenderer
 {
 	friend ofxSpriteCommand;

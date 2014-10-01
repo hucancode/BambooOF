@@ -61,4 +61,6 @@ public:
 	virtual void		Update					(const float delta_time);
 	void				ApplyChanges			();
 	virtual void		Render					();
+private:
+	static string		getTexturePath			(RigPart part);
 };
