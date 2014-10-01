@@ -1,5 +1,10 @@
 #pragma once
 #include "ofMain.h"
+
+/* ----------------------------
+// WIP
+---------------------------- */
+
 enum RIG_ENGINE_PART
 {
 	RIG_ENGINE_PART_CHARACTER_CLOTH,
@@ -120,7 +125,7 @@ enum RIG_ENGINE_STATE
 	RIG_ENGINE_STATE_HORSE_IDLE_D
 };
 
-const short RIG_ENGINE_MALE_STATE_TABLE[70][6] = {
+const unsigned char RIG_ENGINE_MALE_STATE_TABLE[70][6] = {
 	// FRAME, CLOTH, ONEHAND_WEAPON, TWOHAND_WEAPON, DUAL_WEAPON, HORSE
 	{18, 1, 0, 0, 0, 0},
 	{18, 1, 0, 0, 0, 0},
@@ -146,7 +151,7 @@ const short RIG_ENGINE_MALE_STATE_TABLE[70][6] = {
 	{18, 1, 0, 0, 0, 0},
 	{18, 1, 0, 0, 0, 0}
 };
-const short RIG_ENGINE_FEMALE_STATE_TABLE[70][5] = {
+const unsigned char RIG_ENGINE_FEMALE_STATE_TABLE[70][5] = {
 
 };
 // TODO: need to design a new state system, NEED!

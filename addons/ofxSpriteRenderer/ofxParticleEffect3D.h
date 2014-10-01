@@ -4,6 +4,9 @@
 /*
 note: this effect has all of it's particle moving freely in 3d space
 */
+/* ----------------------------------
+// WIP
+---------------------------------- */
 
 const int MAX_PARTICLE3D_COUNT = 200;
 

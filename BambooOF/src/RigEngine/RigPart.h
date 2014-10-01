@@ -1,39 +1,16 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxBaseSprite.h"
-#include "ofxBaseCommand.h"
-class RigPart
+#include "StateCollectionJX.h"
+
+struct RigPart
 {
-	friend class RigPartRender;
-private:
-	string				m_Name;
-	unsigned char		m_Part;
-	unsigned char		m_Action;
-	bool				m_Gender;
-	unsigned char		m_State;
-	bool				m_UVChange;
-	bool				m_TextureChange;
-public:
-	RigPart();
-	~RigPart();
-	void				Update(float delta_time);
-	void				SetAction(unsigned char action);
-	void				SetPart(unsigned char part);
-	void				SetGender(bool gender);
-	void				SetState(unsigned char state);
-	void				SetName(string name);
+	string				name;
+	RIG_ENGINE_PART		part;
+	bool				gender;
+	unsigned char		state;
 };
 
-class RigPartRenderer
-	:public ofxBaseSprite, public ofxBaseCommand
+string getTexturePath(RigPart part)
 {
-private:
-	RigPart*			m_RigPartObject;
-public:
-	RigPartRenderer();
-	~RigPartRenderer();
-	void				SetObject(RigPart* object);
-	virtual void		Update(const float delta_time);
-	void				ApplyChanges();
-	virtual void		Render();
-};
+	return "";
+}

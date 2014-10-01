@@ -6,7 +6,6 @@ ofxSpriteQuad::ofxSpriteQuad()
 {
 	ofxBaseSprite::ofxBaseSprite();
 	m_VerticesSize = 4;
-	
 	m_Vertices = new ofxVertex[m_VerticesSize];
 	m_UVChange = true;
 	m_OpacityChange = true;
