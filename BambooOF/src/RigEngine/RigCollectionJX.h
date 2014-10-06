@@ -8,12 +8,6 @@
 // WIP
 ---------------------------- */
 
-struct RigVertex
-{
-	float x, y, z;
-	float u, v;
-	int texture;
-};
 class RigCollectionJX
 	:public ofxBaseSprite, public ofxBaseCommand
 {
@@ -47,20 +41,20 @@ public:
 	void				SetColor				(ofFloatColor color);
 	void				SetColorIntensity		(float color_intensity);
 	void				SetOpacity				(float opacity);
-	void				SetHelm					(RigPart* object);
-	void				SetCloth				(RigPart* object);
-	void				SetHandL				(RigPart* object);
-	void				SetHandR				(RigPart* object);
-	void				SetWeaponO				(RigPart* object);
-	void				SetWeaponT				(RigPart* object);
-	void				SetWeaponDL				(RigPart* object);
-	void				SetWeaponDR				(RigPart* object);
-	void				SetHorseHead			(RigPart* object);
-	void				SetHorseBack			(RigPart* object);
-	void				SetHorseTail			(RigPart* object);
+	void				SetHelm					(string name);
+	void				SetCloth				(string name);
+	void				SetHandL				(string name);
+	void				SetHandR				(string name);
+	void				SetWeaponO				(string name);
+	void				SetWeaponT				(string name);
+	void				SetWeaponDL				(string name);
+	void				SetWeaponDR				(string name);
+	void				SetHorseHead			(string name);
+	void				SetHorseBack			(string name);
+	void				SetHorseTail			(string name);
 	virtual void		Update					(const float delta_time);
-	void				ApplyChanges			();
+	virtual void		SubmitChanges			();
 	virtual void		Render					();
 private:
-	static string		getTexturePath			(RigPart part);
+	static string		GetTexturePath			(RigPart* part);
 };
