@@ -16,7 +16,7 @@ protected:
 	unsigned int m_RenderedVertices;
 public:
 	ofxBaseCommand();
-	~ofxBaseCommand();
+	virtual ~ofxBaseCommand();
 	virtual void Render();
 	unsigned int GetRenderedVertices();
 };

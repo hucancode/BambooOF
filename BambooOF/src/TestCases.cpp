@@ -4,7 +4,7 @@
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
-Test* current_test = new TextureBenchmarkTest();
+Test* current_test = new SpriteTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {
@@ -19,8 +19,8 @@ void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
 	sprite->SetTexture("data/psk_actor_idle.png");
-	spriteObstacle = sprite;
-	sprite->SetOpacity(0.5f);
+	//spriteObstacle = sprite;
+	//sprite->SetOpacity(0.5f);
 }
 void SpriteTest::Update()
 {

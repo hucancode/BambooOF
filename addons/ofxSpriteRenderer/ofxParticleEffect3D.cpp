@@ -16,6 +16,10 @@ ofxParticle3D::~ofxParticle3D()
 {
 	delete[] m_Vertices;
 }
+void ofxParticle3D::SubmitChanges()
+{
+	//TODO: implement
+}
 void ofxParticle3D::Update(float delta_time)
 {
 	{// force
@@ -25,12 +29,12 @@ void ofxParticle3D::Update(float delta_time)
 		if(u_radial != ofVec3f::zero())
 		{
 			u_radial = u_radial.normalized();
-			if(r.z != 0)
+			if(u_radial.z != 0)
 			{
 				u_tangental_y = ofVec3f(0, 1, u_radial.y/u_radial.z);
 				u_tangental_y = u_tangental_y.normalized();
 			}
-			else if(r.y != 0)
+			else if(u_radial.y != 0)
 			{
 				u_tangental_y = ofVec3f(0, u_radial.z/u_radial.y, 1);
 				u_tangental_y = u_tangental_y.normalized();
@@ -39,12 +43,12 @@ void ofxParticle3D::Update(float delta_time)
 			{
 				u_tangental_y = ofVec3f::zero();
 			}
-			if(r.z != 0)
+			if(u_radial.z != 0)
 			{
 				u_tangental_x = ofVec3f(1, 0, u_radial.x/u_radial.z);
 				u_tangental_x = u_tangental_x.normalized();
 			}
-			else if(r.x != 0)
+			else if(u_radial.x != 0)
 			{
 				u_tangental_x = ofVec3f(1, 0, u_radial.z/u_radial.x);
 				u_tangental_x = u_tangental_x.normalized();
@@ -214,7 +218,7 @@ void ofxParticleEffect3D::Update(float delta_time)
 			m_ParticleCount--;
 			//ofLogNotice() << "destroying "<<m_ParticleCount<<endl;
 			if(m_ParticleCount == 0) break;
-			ofxParticle3D p = m_ParticlePool[m_ParticleCount];
+			ofxParticle3D* p = m_ParticlePool[m_ParticleCount];
 			m_ParticlePool[m_ParticleCount] = m_ParticlePool[i];
 			m_ParticlePool[i] = p;
 		}
@@ -222,6 +226,7 @@ void ofxParticleEffect3D::Update(float delta_time)
 		item->Update(delta_time);
 	}
 }
+
 void ofxParticleEffect3D::PauseResume()
 {
 	m_Paused = !m_Paused;

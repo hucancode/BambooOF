@@ -23,24 +23,18 @@ ofxSpriteRenderer::ofxSpriteRenderer()
 }
 ofxSpriteRenderer::~ofxSpriteRenderer()
 {
+	for(ofxBaseCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 	{
-		ofxBaseCommands::iterator it = m_Commands.begin();
-		for(;it != m_Commands.end();it++)
-		{
-			ofxBaseCommand* cmd = *it;
-			delete cmd;
-		}
-		m_Commands.clear();
+		ofxBaseCommand* cmd = *it;
+		delete cmd;
 	}
+	m_Commands.clear();
+	for(ofxBaseSprites::iterator it = m_Sprites.begin();it != m_Sprites.end();it++)
 	{
-		ofxBaseSprites::iterator it = m_Sprites.begin();
-		for(;it != m_Sprites.end();it++)
-		{
-			ofxBaseSprite* quad = *it;
-			delete quad;
-		}
-		m_Sprites.clear();
+		ofxBaseSprite* quad = *it;
+		delete quad;
 	}
+	m_Sprites.clear();
 }
 static bool QuadCompare(ofxBaseSprite* quadA, ofxBaseSprite* quadB)
 {

@@ -20,7 +20,7 @@ private:
 	GLsizei					m_VerticesSize;
 public:
 	ofxSpriteCommand();
-	~ofxSpriteCommand();
+	virtual ~ofxSpriteCommand();
 	virtual void			Render();
 	bool					PushSprite(ofxBaseSprite* sprite);
 	ofxTexture*				GetTexture();

@@ -4,6 +4,7 @@
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
+#include "vld.h"
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
@@ -90,6 +91,8 @@ void ofApp::keyPressed(int key){
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
+	if(key == OF_KEY_F5)
+		VLDReportLeaks();
 }
 
 

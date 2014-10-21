@@ -51,12 +51,9 @@ void RigCollectionJX::SetHorseTail(string name)
 void RigCollectionJX::Update(const float delta_time)
 {
 }
-void RigCollectionJX::ReloadRigPartTextures()
-{
-}
 void RigCollectionJX::Render()
 {
 }
-string RigCollectionJX::GetTexturePath(RigPart part)
+void RigCollectionJX::SubmitChanges()
 {
 }
