@@ -132,6 +132,7 @@ texture operation
 ---------------------------------- */
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
+	ilBindImage(m_ImageId);
 	ilTexImage(width, height, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL); 
 	m_Width = width;
 	m_Height = height;

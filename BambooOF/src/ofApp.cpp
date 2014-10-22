@@ -4,7 +4,6 @@
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
-//#include "vld.h"
 #include "IL/il.h"
 #include "IL/ilu.h"
 #include "IL/ilut.h"

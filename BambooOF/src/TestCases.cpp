@@ -6,7 +6,7 @@
 #include "ofxParticleEffect2D.h"
 #include "IL/il.h"
 
-Test* current_test = new TextureCompressionTest();
+Test* current_test = new TextSpriteTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {
