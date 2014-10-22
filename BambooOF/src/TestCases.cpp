@@ -4,10 +4,13 @@
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
 #include "ofxParticleEffect2D.h"
-Test* current_test = new SpriteTest();
+#include "IL/il.h"
+
+Test* current_test = new TextureCompressionTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {
+
 }
 void Test::Update()
 {
@@ -18,9 +21,9 @@ void Test::Render()
 void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->SetTexture("data/psk_actor_idle.png");
-	//spriteObstacle = sprite;
-	//sprite->SetOpacity(0.5f);
+	sprite->SetTexture("data/sprite1.png");
+	spriteObstacle = sprite;
+	sprite->SetOpacity(1.0f);
 }
 void SpriteTest::Update()
 {
@@ -319,7 +322,25 @@ void Particle2DTest::Render()
 {
 	ofxRENDERER->Render();
 }
-
+void TextureCompressionTest::Setup()
+{
+	//ofxSpriteQuad* sprite1 = new ofxSpriteQuad();
+	//sprite1->SetTexture("data/sprite1.png");
+	ofxSpriteQuad* sprite2 = new ofxSpriteQuad();
+	sprite2->MoveBy(200.0f,0.0f,0.0f);
+	sprite2->SetTexture("data/tianwang3_0.png");
+	sprite2->GetTexture()->SetCompressed(false);
+	sprite2->GetTexture()->SubmitChanges();
+	spriteObstacle = sprite2;
+}
+void TextureCompressionTest::Update()
+{
+	ofxRENDERER->Update();
+}
+void TextureCompressionTest::Render()
+{
+	ofxRENDERER->Render();
+}
 void SpriteBenchmarkTest::Setup()
 {
 	float space_x = 192.0f;

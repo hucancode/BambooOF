@@ -4,11 +4,21 @@
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
 #include "ofxBitmapFontCache.h"
-#include "vld.h"
+//#include "vld.h"
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include "IL/ilut.h"
 //--------------------------------------------------------------
 extern Test* current_test;
 //--------------------------------------------------------------
 void ofApp::setup() {
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilEnable(IL_ORIGIN_SET);
+	ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT); 
+	ilEnable(IL_SQUISH_COMPRESS);
+	ilEnable(IL_NVIDIA_COMPRESS);
 	new ofxSpriteRenderer;
 	new ofxShaderCache;
 	new ofxShaderProgramCache;
@@ -37,8 +47,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	
+	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	cam->begin();
 	ofEnableDepthTest();
 	render->Render();
@@ -91,8 +101,6 @@ void ofApp::keyPressed(int key){
 	}
 	if(key == OF_KEY_F4) 
 		render->SwitchDrawMesh();
-	if(key == OF_KEY_F5)
-		VLDReportLeaks();
 }
 
 

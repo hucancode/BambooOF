@@ -4,10 +4,12 @@ ofxTerrain::ofxTerrain()
 	{
 		glGenBuffers(1, &m_BaseVBOId);
 		glGenTextures(1, &m_BaseTextureId);
+		ilGenImages(1, &m_BaseImageId);
 		for(int i=0;i<NUMBER_OF_LAYERS;i++)
 		{
 			glGenBuffers(1, &m_GroundVBOId[i]);
 			glGenTextures(1, &m_GroundTextureId[i]);
+			ilGenImages(1, &m_GroundImageId[i]);
 		}
 	}
 	{
@@ -75,10 +77,12 @@ ofxTerrain::~ofxTerrain()
 {
 	glDeleteBuffers(1, &m_BaseVBOId);
 	glDeleteTextures(1, &m_BaseTextureId);
+	ilDeleteImages(1, &m_BaseImageId); 
 	for(int i=0;i<NUMBER_OF_LAYERS;i++)
 	{
 		glDeleteBuffers(1, &m_GroundVBOId[i]);
 		glDeleteTextures(1, &m_GroundTextureId[i]);
+		ilDeleteImages(1, &m_GroundImageId[i]); 
 	}
 	{
 		glDetachShader(m_ShaderProgramId, m_FragmentShaderId);
@@ -272,16 +276,24 @@ void ofxTerrain::RenderTiles()
 }
 bool ofxTerrain::LoadBaseTexture(string path)
 {
-	m_BaseImage = FreeImage_Load(FIF_PNG, path.c_str(), PNG_DEFAULT);
-	FreeImage_FlipVertical(m_BaseImage);
-	unsigned int bpp = FreeImage_GetBPP(m_BaseImage);
-	unsigned int width = FreeImage_GetWidth(m_BaseImage);
-	unsigned int height = FreeImage_GetHeight(m_BaseImage);
-	BYTE* pixel_data = FreeImage_GetBits(m_BaseImage);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_BaseTextureId);
+	ilBindImage(m_BaseImageId);
+	ILboolean loaded = ilLoadImage(path.c_str());
+	if (loaded == IL_FALSE)
 	{
-		GLenum format = bpp==24?GL_RGB:GL_RGBA;
-		//glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_BaseTextureId);
+		ILenum error = ilGetError();
+		ofLogError() <<"DevIL failed to load image "<<path.c_str()<<endl<<"error code "<<error;
+		return false; 
+	}
+	{
+		ILinfo info;
+		iluGetImageInfo(&info);
+		ILuint width = info.Width;
+		ILuint height = info.Height;
+		GLubyte byte_per_pixel = info.Bpp;
+		ILubyte* pixel_data = ilGetData();
+		GLenum format = byte_per_pixel==3?GL_RGB:GL_RGBA;
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 	}
 	{
@@ -298,22 +310,28 @@ bool ofxTerrain::LoadBaseTexture(string path)
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 	}
-	/*delete pixel_data;
-	delete image_data;*/
 	return true;
 }
 bool ofxTerrain::LoadGroundTexture(string path, char layer)
 {
-	m_GroundImage[layer] = FreeImage_Load(FIF_PNG, path.c_str(), PNG_DEFAULT);
-	FreeImage_FlipVertical(m_GroundImage[layer]);
-	unsigned int bpp = FreeImage_GetBPP(m_GroundImage[layer]);
-	unsigned int width = FreeImage_GetWidth(m_GroundImage[layer]);
-	unsigned int height = FreeImage_GetHeight(m_GroundImage[layer]);
-	BYTE* pixel_data = FreeImage_GetBits(m_GroundImage[layer]);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_BaseTextureId);
+	ilBindImage(m_GroundImageId[layer]);
+	ILboolean loaded = ilLoadImage(path.c_str());
+	if (loaded == IL_FALSE)
 	{
-		GLenum format = bpp==24?GL_RGB:GL_RGBA;
-		//glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_GroundTextureId[layer]);
+		ILenum error = ilGetError();
+		ofLogError() <<"DevIL failed to load image "<<path.c_str()<<endl<<"error code "<<error;
+		return false; 
+	}
+	{
+		ILinfo info;
+		iluGetImageInfo(&info);
+		ILuint width = info.Width;
+		ILuint height = info.Height;
+		GLubyte byte_per_pixel = info.Bpp;
+		ILubyte* pixel_data = ilGetData();
+		GLenum format = byte_per_pixel==3?GL_RGB:GL_RGBA;
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 	}
 	{

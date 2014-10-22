@@ -7,5 +7,5 @@ void main()
 {
 	vec4 color = texture2D(u_texture,v_uv);
 	color = vec4(mix(v_color, color.rgb, v_color_intensity), color.a*v_opacity);
-    gl_FragColor = color.bgra;
+    gl_FragColor = color;
 }

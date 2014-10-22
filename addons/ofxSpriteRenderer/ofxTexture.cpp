@@ -1,43 +1,81 @@
 #include "ofxTexture.h"
 #include "ofxBitmapFont.h"
+#include "IL/il.h"
+#include "IL/ilu.h"
+
 ofxTexture::ofxTexture()
 	:ofxResource()
 {
 	glGenTextures(1, &m_TextureId);
+	ilGenImages(1, &m_ImageId);
+	m_Width = 0;
+	m_Height = 0;
+	m_BytePerPixel = 0;
+	m_Compressed = false;
 	m_Locked = false;
 }
 ofxTexture::~ofxTexture()
 {
-	FreeImage_Unload(m_ImageData);
 	glDeleteTextures(1, &m_TextureId);
-	FreeImage_Unload(m_ImageData);
+	ilDeleteImages(1, &m_ImageId); 
+}
+void ofxTexture::SetCompressed(bool value)
+{
+	m_Compressed = value;
+}
+bool ofxTexture::IsCompressed()
+{
+	return m_Compressed;
 }
 bool ofxTexture::Load(string texture_file)
 {
-	m_ImageData = FreeImage_Load(FIF_PNG, texture_file.c_str(), PNG_DEFAULT);
-	if(m_ImageData)
+	ilBindImage(m_ImageId);
+	ILboolean loaded = ilLoadImage(texture_file.c_str());
+	if (loaded == IL_FALSE)
 	{
-		m_Locked = false;
-		FreeImage_FlipVertical(m_ImageData);
-		SubmitChanges();
-		return true;
+		ILenum error = ilGetError();
+		ofLogError() <<"DevIL failed to load image "<<texture_file.c_str()<<endl<<"error code "<<error;
+		return false; 
 	}
-	return false;
+	m_Locked = false;
+	SubmitChanges();
+	return true;
 }
 void ofxTexture::SubmitChanges()
 {
 	if(m_Locked) return;
-	unsigned int bpp = FreeImage_GetBPP(m_ImageData);
-	unsigned int width = FreeImage_GetWidth(m_ImageData);
-	unsigned int height = FreeImage_GetHeight(m_ImageData);
-	BYTE* pixel_data = FreeImage_GetBits(m_ImageData);
+	ilBindImage(m_ImageId);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_TextureId);
 	{
-		GLenum format = bpp==24?GL_RGB:GL_RGBA;
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_TextureId);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
-		m_Dimension.x = width;
-		m_Dimension.y = height;
+		ILinfo info;
+		iluGetImageInfo(&info);
+		m_BytePerPixel = info.Bpp;
+		m_Width = info.Width;
+		m_Height = info.Height;
+	}
+	{
+		GLenum format = m_BytePerPixel==3?GL_RGB:GL_RGBA;
+		ILubyte* pixel_data = ilGetData();
+		if(m_Compressed)
+		{
+			ILuint compressed_size;
+			ILubyte* compressed_data;
+			compressed_data = ilCompressDXT(pixel_data, m_Width, m_Height, 1, IL_DXT3, &compressed_size);
+			glCompressedTexImage2DARB(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_S3TC_DXT3_EXT, 
+				m_Width, m_Height, 0, compressed_size, compressed_data);
+#ifdef _DEBUG
+			ILuint uncompressed_size = m_Width*m_Height*m_BytePerPixel;
+			float ratio = (float)compressed_size/uncompressed_size*100;
+			ofLogNotice() <<"compressed texture, m_TextureId = "<<m_TextureId
+				<<endl<<"before "<<uncompressed_size/1024.0<<" Kbytes, after "<<compressed_size/1024.0<<" Kbytes, ratio = "<<ratio<<"%";
+#endif
+			//delete[] compressed_data;
+		}
+		else
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, format, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
+		}
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
@@ -65,8 +103,7 @@ ofxTexture::Lock()
 void ofxTexture::Lock()
 {
 	m_Locked = true;
-	FreeImage_Unload(m_ImageData);
-	m_ImageData = 0;
+	ilDeleteImages(1, & m_ImageId);
 }
 bool ofxTexture::IsLocked()
 {
@@ -82,105 +119,126 @@ void ofxTexture::Unbind(GLuint slot)
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
-ofVec2f ofxTexture::GetDimension()
+GLuint ofxTexture::GetWidth()
 {
-	return m_Dimension; 
+	return m_Width;
+}
+GLuint ofxTexture::GetHeight()
+{
+	return m_Height;
 }
 /* ----------------------------------
 texture operation
 ---------------------------------- */
 void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
-	if(m_ImageData)
-	{
-		FreeImage_Unload(m_ImageData);
-	}
-	m_ImageData = FreeImage_Allocate(width, height, 32);
-	m_Dimension.x = width;
-	m_Dimension.y = height;
+	ilTexImage(width, height, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL); 
+	m_Width = width;
+	m_Height = height;
 	m_Locked = false;
 }
 ofColor ofxTexture::GetPixel(ofVec2f position)
 {
 	if(m_Locked) return ofColor(0.0f, 0.0f, 0.0f);
-	RGBQUAD fi_color;
+	ilBindImage(m_ImageId);
+	ILubyte* data;
 	ofColor color;
-	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
-	color.r = fi_color.rgbRed;
-	color.g = fi_color.rgbGreen;
-	color.b = fi_color.rgbBlue;
-	if(!success)
+	data = new ILubyte[m_BytePerPixel];
+	ilCopyPixels(position.x, position.y, 0, 1, 1, 1, m_BytePerPixel==3?IL_RGB:IL_RGBA, IL_UNSIGNED_BYTE, data);
+	color.r = data[0];
+	color.g = data[1];
+	color.b = data[2];
+	if(m_BytePerPixel == 3)
 	{
-		ofLog(OF_LOG_WARNING, "ofxTexture::GetPixel failed, position = (%d, %d)", position.x, position.y);
+		color.a = 255;
 	}
+	else
+	{
+		color.a = data[3];
+	}
+	delete[] data;
 	return color;
 }
 void ofxTexture::SetPixel(ofVec2f position, ofColor color)
 {
 	if(m_Locked) return;
-	RGBQUAD fi_color;
-	fi_color.rgbRed = color.r;
-	fi_color.rgbGreen = color.g;
-	fi_color.rgbBlue = color.b;
-	fi_color.rgbReserved = 0;
-	bool success = FreeImage_SetPixelColor(m_ImageData, position.x, position.y, &fi_color);
-	if(!success)
+	ilBindImage(m_ImageId);
+	ILubyte* data;
+	data = new ILubyte[m_BytePerPixel];
+	data[0] = color.r;
+	data[1] = color.g;
+	data[2] = color.b;
+	if(m_BytePerPixel == 4)
 	{
-		ofLog(OF_LOG_WARNING, "ofxTexture::SetPixel failed, position = (%d, %d)", position.x, position.y);
+		data[3] = color.a;
 	}
+	ilSetPixels(position.x, position.y, 0, 1, 1, 1, m_BytePerPixel==3?IL_RGB:IL_RGBA, IL_UNSIGNED_BYTE, data);
+	delete[] data;
 }
 void ofxTexture::FlipX()
 {
 	if(m_Locked) return;
-	FreeImage_FlipHorizontal(m_ImageData);
+	ilBindImage(m_ImageId);
+	ILboolean success = iluRotate(PI);
+	if(success != IL_TRUE)
+	{
+		ofLogNotice() <<"ofxTexture::FlipX() failed, image id = "<<m_ImageId;
+	}
 }
 void ofxTexture::FlipY()
 {
 	if(m_Locked) return;
-	FreeImage_FlipVertical(m_ImageData);
+	ilBindImage(m_ImageId);
+	ILboolean success = iluFlipImage();
+	if(success != IL_TRUE)
+	{
+		ofLogNotice() <<"ofxTexture::FlipY() failed, image id = "<<m_ImageId;
+	}
 }
 void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVec2f dest_pos, int alpha)
 {
 	if(m_Locked || source->IsLocked()) return;
-	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
-		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
-	FreeImage_Paste(m_ImageData, image_piece, dest_pos.x, dest_pos.y, alpha);
-	FreeImage_Unload(image_piece);
+	ilBindImage(m_ImageId);
+	ilBlit(source->GetDevilId(), dest_pos.x, dest_pos.y, 0, 
+		source_rect.x, source_rect.y, 0, source_rect.width, source_rect.height, 1);
 }
 void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha)
 {
 	if(m_Locked || source->IsLocked()) return;
-	FIBITMAP* image_piece = FreeImage_Copy(source->m_ImageData, source_rect.x, source_rect.y, 
-		source_rect.x + source_rect.width, source_rect.y + source_rect.height);
-	FIBITMAP* image_piece_rescale = FreeImage_Rescale(image_piece, dest_rect.width, dest_rect.height, FILTER_BILINEAR);
-	FreeImage_Unload(image_piece);
-	FreeImage_Paste(m_ImageData, image_piece_rescale, dest_rect.x, dest_rect.y, alpha);
-	FreeImage_Unload(image_piece_rescale);
+	ILuint dummy;
+	ilGenImages(1, &dummy);
+	ilBindImage(dummy);
+	ilCopyImage(source->GetDevilId());
+	iluScale(dest_rect.width, dest_rect.height, 1);
+	ilBindImage(m_ImageId);
+	ilBlit(dummy, dest_rect.x, dest_rect.y, 0, 
+		source_rect.x, source_rect.y, 0, source_rect.width, source_rect.height, 1);
+	ilDeleteImages(1, &dummy);
 }
-void ofxTexture::Fill(ofColor color, ofRectangle dest_rect)
+void ofxTexture::Fill(ofFloatColor color, ofRectangle dest_rect)
 {
 	if(m_Locked) return;
-	FIBITMAP* image_piece = FreeImage_Allocate(dest_rect.width, dest_rect.height, 
-		FreeImage_GetBPP(m_ImageData), color.r, color.g, color.b);
-	FreeImage_Paste(m_ImageData, image_piece, dest_rect.x, dest_rect.y, color.a);
-	FreeImage_Unload(image_piece);
+	ILuint dummy;
+	ilGenImages(1, &dummy);
+	ilBindImage(dummy);
+	ilTexImage(dest_rect.width, dest_rect.height, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL); 
+	ilClearColour(color.r, color.g, color.b, color.a);
+	ilClearImage();
+	ilBindImage(m_ImageId);
+	ilBlit(dummy, dest_rect.x, dest_rect.y, 0, 0, 0, 0, dest_rect.width, dest_rect.height, 1);
+	ilDeleteImages(1, &dummy);
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
 {
 	if(m_Locked) return;
-	RGBQUAD fi_color;
-	fi_color.rgbRed = 0;
-	fi_color.rgbGreen = 0;
-	fi_color.rgbBlue = 0;
-	fi_color.rgbReserved = 0;
-	FIBITMAP* dummy = FreeImage_AllocateEx(dest_rect.width, dest_rect.height, FreeImage_GetBPP(m_ImageData), &fi_color);
-	FreeImage_Paste(m_ImageData, dummy, dest_rect.x, dest_rect.y, 255);
-	FreeImage_Unload(dummy);
+	Fill(ofFloatColor(0.0f, 0.0f, 0.0f, 0.0f), dest_rect);
 }
 void ofxTexture::Clear()
 {
 	if(m_Locked) return;
-	Clear(ofRectangle(0, 0, m_Dimension.x, m_Dimension.y));
+	ilBindImage(m_ImageId);
+	ilClearColour(0.0f, 0.0f, 0.0f, 0.0f);
+	ilClearImage();
 }
 void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, unsigned char font_size)
 {
@@ -197,13 +255,18 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, 
 	ofVec2f cursor(dest_pos);
 	for (int i = 0; i < text.size(); i++)
 	{
-		ofVec4f draw_region = font->GetCharacterRect(text[i]);
+		ofVec4f draw_region = font->GetRect(text[i]);
 		int width = (draw_region.z - draw_region.x)*scale;
 		int height = (draw_region.w - draw_region.y)*scale;
-		FIBITMAP* character_bitmap = font->GetCharacterBitmap(text[i]);
-		FIBITMAP* character_bitmap_rescale = FreeImage_Rescale(character_bitmap, width, height, FILTER_BILINEAR);
-		FreeImage_Paste(m_ImageData, character_bitmap_rescale, cursor.x, cursor.y, 255);
-		FreeImage_Unload(character_bitmap_rescale);
+		ILuint character_image = font->GetImageId(text[i]);
+		ILuint dummy;
+		ilGenImages(1, &dummy);
+		ilBindImage(dummy);
+		ilCopyImage(character_image);
+		iluScale(width, height, 1);
+		ilBindImage(m_ImageId);
+		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, width, height, 1);
+		ilDeleteImages(1, &dummy);
 		cursor.x += width;
 	}
 }
@@ -223,18 +286,23 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_r
 	ofVec2f cursor(dest_rect.x, dest_rect.y);
 	for (int i = 0; i < text.size(); i++)
 	{
-		ofVec4f draw_region = font->GetCharacterRect(text[i]);
+		ofVec4f draw_region = font->GetRect(text[i]);
 		int width = (draw_region.z - draw_region.x)*scale;
 		int height = (draw_region.w - draw_region.y)*scale;
-		FIBITMAP* character_bitmap = font->GetCharacterBitmap(text[i]);
-		FIBITMAP* character_bitmap_rescale = FreeImage_Rescale(character_bitmap, width, height, FILTER_BILINEAR);
-		FreeImage_Paste(m_ImageData, character_bitmap_rescale, cursor.x, cursor.y, 255);
-		FreeImage_Unload(character_bitmap_rescale);
+		ILuint character_image = font->GetImageId(text[i]);
+		ILuint dummy;
+		ilGenImages(1, &dummy);
+		ilBindImage(dummy);
+		ilCopyImage(character_image);
+		iluScale(width, height, 1);
+		ilBindImage(m_ImageId);
+		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, width, height, 1);
+		ilDeleteImages(1, &dummy);
 		cursor.x += width;
 	}
 	
 }
-FIBITMAP* ofxTexture::GetImageData()
+ILuint ofxTexture::GetDevilId()
 {
-	return m_ImageData;
+	return m_ImageId;
 }

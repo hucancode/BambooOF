@@ -5,5 +5,5 @@ void main()
 {
 	vec4 color = texture2D(u_texture,v_uv);
 	color.a *= v_opacity;
-    gl_FragColor = color.bgra;
+    gl_FragColor = color;
 }

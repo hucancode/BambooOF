@@ -1,7 +1,9 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxTile.h"
-#include "FreeImage.h"
+#include "IL/il.h"
+#include "IL/ilu.h"
+
 #define INF 255
 #define NUMBER_OF_LAYERS 3
 #define TILE_SIZE 64
@@ -44,8 +46,8 @@ private:
 	GLint					m_ShaderLocationTexture;
 	GLint					m_ShaderLocationTransform;
 private:
-	int						m_Width;
-	int						m_Height;
+	GLuint					m_Width;
+	GLuint					m_Height;
 	vector<vector<char> >	m_TileMap;
 	vector<vector<char> >	m_LayerMap;
 	vector<vector<float> >	m_HeightMap;
@@ -55,9 +57,9 @@ private:
 	vector<ofxTile>			m_GroundVetices[NUMBER_OF_LAYERS];
 	GLuint					m_GroundVBOId[NUMBER_OF_LAYERS];
 private:
-	FIBITMAP*				m_BaseImage;
+	ILuint					m_BaseImageId;
 	GLuint					m_BaseTextureId;
-	FIBITMAP*				m_GroundImage[NUMBER_OF_LAYERS];
+	ILuint					m_GroundImageId[NUMBER_OF_LAYERS];
 	GLuint					m_GroundTextureId[NUMBER_OF_LAYERS];
 public:
 	ofxTerrain();
