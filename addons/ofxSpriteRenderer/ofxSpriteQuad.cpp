@@ -13,7 +13,7 @@ ofxSpriteQuad::ofxSpriteQuad()
 	m_MirrorY = false;
 	m_ScaleX = 1.0;
 	m_ScaleY = 1.0;
-	m_Opacity = 255;
+	m_Opacity = 1.0f;
 	LoadShader(DEFAULT_SHADER);
 	ofxRENDERER->PushSprite(this);
 }
@@ -26,8 +26,8 @@ void ofxSpriteQuad::SetTexture(string texture_path)
 {
 	ofxBaseSprite::SetTexture(texture_path);
 	float width = m_Texture->GetWidth();
-	float height = m_Texture->GetWidth();
-	SetSpriteRect(-width*0.5, 0, width, height);
+	float height = m_Texture->GetHeight();
+	SetSpriteRect(width*-0.5, 0, width, height);
 	SetTextureRect(0, 0, width, height);
 }
 ofRectangle ofxSpriteQuad::GetTextureRect()
@@ -92,7 +92,7 @@ void ofxSpriteQuad::SubmitChanges()
 	if(m_UVChange)
 	{
 		float width = m_Texture->GetWidth();
-		float height = m_Texture->GetWidth();
+		float height = m_Texture->GetHeight();
 		float uv_min_x = m_TextureRect.x/width;
 		float uv_min_y = m_TextureRect.y/height;
 		float uv_max_x = uv_min_x + m_TextureRect.width/width;
