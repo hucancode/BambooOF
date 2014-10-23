@@ -9,7 +9,7 @@ class ofxBitmapFont
 	: public ofxResource
 {
 private:
-	map<char, ofVec4f>		m_CharacterMap;
+	map<char, ofVec2f>		m_CharacterMap;
 	map<char, ILuint>		m_BitmapCache;
 	unsigned char			m_FontSize;
 public:
@@ -18,8 +18,9 @@ public:
 	virtual bool			Load(string xml_file);
 	unsigned char			GetFontSize();
 public:
-	ofVec4f					GetRect(char character);
+	bool					HaveCharacter(char c);
+	ofVec2f					GetRect(char c);
 	ofVec2f					GetTextDimension(string text, unsigned char font_size = 0);
-	ILuint					GetImageId(char character);
+	ILuint					GetImageId(char c);
 };
 typedef vector<ofxBitmapFont*> ofxBitmapFonts;

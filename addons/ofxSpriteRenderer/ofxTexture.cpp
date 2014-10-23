@@ -134,6 +134,8 @@ void ofxTexture::Allocate(unsigned int width, unsigned int height)
 {
 	ilBindImage(m_ImageId);
 	ilTexImage(width, height, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL); 
+	ilClearColour(0.0f, 0.0f, 0.0f, 0.0f);
+	ilClearImage();
 	m_Width = width;
 	m_Height = height;
 	m_Locked = false;
@@ -200,8 +202,10 @@ void ofxTexture::BlockTransfer(ofxTexture* source, ofRectangle source_rect, ofVe
 {
 	if(m_Locked || source->IsLocked()) return;
 	ilBindImage(m_ImageId);
+	ilDisable(IL_BLIT_BLEND);
 	ilBlit(source->GetDevilId(), dest_pos.x, dest_pos.y, 0, 
 		source_rect.x, source_rect.y, 0, source_rect.width, source_rect.height, 1);
+	ilEnable(IL_BLIT_BLEND);
 }
 void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, ofRectangle dest_rect, int alpha)
 {
@@ -212,8 +216,10 @@ void ofxTexture::StretchTransfer(ofxTexture* source, ofRectangle source_rect, of
 	ilCopyImage(source->GetDevilId());
 	iluScale(dest_rect.width, dest_rect.height, 1);
 	ilBindImage(m_ImageId);
+	ilDisable(IL_BLIT_BLEND);
 	ilBlit(dummy, dest_rect.x, dest_rect.y, 0, 
 		source_rect.x, source_rect.y, 0, source_rect.width, source_rect.height, 1);
+	ilEnable(IL_BLIT_BLEND);
 	ilDeleteImages(1, &dummy);
 }
 void ofxTexture::Fill(ofFloatColor color, ofRectangle dest_rect)
@@ -226,7 +232,9 @@ void ofxTexture::Fill(ofFloatColor color, ofRectangle dest_rect)
 	ilClearColour(color.r, color.g, color.b, color.a);
 	ilClearImage();
 	ilBindImage(m_ImageId);
+	ilDisable(IL_BLIT_BLEND);
 	ilBlit(dummy, dest_rect.x, dest_rect.y, 0, 0, 0, 0, dest_rect.width, dest_rect.height, 1);
+	ilEnable(IL_BLIT_BLEND);
 	ilDeleteImages(1, &dummy);
 }
 void ofxTexture::Clear(ofRectangle dest_rect)
@@ -254,22 +262,22 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofVec2f dest_pos, 
 		scale = (float)font_size/font->GetFontSize();
 	}
 	ofVec2f cursor(dest_pos);
+	ilDisable(IL_BLIT_BLEND);
 	for (int i = 0; i < text.size(); i++)
 	{
-		ofVec4f draw_region = font->GetRect(text[i]);
-		int width = (draw_region.z - draw_region.x)*scale;
-		int height = (draw_region.w - draw_region.y)*scale;
+		ofVec2f draw_region = scale*font->GetRect(text[i]);
 		ILuint character_image = font->GetImageId(text[i]);
 		ILuint dummy;
 		ilGenImages(1, &dummy);
 		ilBindImage(dummy);
 		ilCopyImage(character_image);
-		iluScale(width, height, 1);
+		iluScale(draw_region.x, draw_region.y, 1);
 		ilBindImage(m_ImageId);
-		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, width, height, 1);
+		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, draw_region.x, draw_region.y, 1);
 		ilDeleteImages(1, &dummy);
-		cursor.x += width;
+		cursor.x += draw_region.x;
 	}
+	ilEnable(IL_BLIT_BLEND);
 }
 void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_rect, unsigned char font_size)
 {
@@ -285,22 +293,22 @@ void ofxTexture::DrawString(string text, ofxBitmapFont* font, ofRectangle dest_r
 		scale = (float)font_size/font->GetFontSize();
 	}
 	ofVec2f cursor(dest_rect.x, dest_rect.y);
+	ilDisable(IL_BLIT_BLEND);
 	for (int i = 0; i < text.size(); i++)
 	{
-		ofVec4f draw_region = font->GetRect(text[i]);
-		int width = (draw_region.z - draw_region.x)*scale;
-		int height = (draw_region.w - draw_region.y)*scale;
+		ofVec2f draw_region = scale*font->GetRect(text[i]);
 		ILuint character_image = font->GetImageId(text[i]);
 		ILuint dummy;
 		ilGenImages(1, &dummy);
 		ilBindImage(dummy);
 		ilCopyImage(character_image);
-		iluScale(width, height, 1);
+		iluScale(draw_region.x, draw_region.y, 1);
 		ilBindImage(m_ImageId);
-		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, width, height, 1);
+		ilBlit(dummy, cursor.x, cursor.y, 0, 0, 0, 0, draw_region.x, draw_region.y, 1);
 		ilDeleteImages(1, &dummy);
-		cursor.x += width;
+		cursor.x += draw_region.x;
 	}
+	ilEnable(IL_BLIT_BLEND);
 	
 }
 ILuint ofxTexture::GetDevilId()

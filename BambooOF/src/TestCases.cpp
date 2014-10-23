@@ -21,9 +21,8 @@ void Test::Render()
 void SpriteTest::Setup()
 {
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->SetTexture("data/sprite1.png");
+	sprite->SetTexture("data/psk_actor_idle.png");
 	spriteObstacle = sprite;
-	sprite->SetOpacity(1.0f);
 }
 void SpriteTest::Update()
 {
@@ -251,16 +250,16 @@ void TextSpriteTest::Setup()
 	string text = "hello world, this is a long long long text.";
 	ofxBitmapFont* font = ofxBITMAPFONTCACHE->GetResource("data/verdana.xml");
 	ofxTexture* texture = new ofxTexture();
-	ofVec2f dimension_header = font->GetTextDimension(header, 44);
+	ofVec2f dimension_header = font->GetTextDimension(header, 22);
 	ofVec2f dimension_text = font->GetTextDimension(text);
 	texture->Allocate(max(dimension_header.x, dimension_text.x), dimension_header.y+dimension_text.y);
-	texture->DrawString(header, font, ofVec2f(0,0), 44);
+	texture->DrawString(header, font, ofVec2f(0,0), 22);
 	texture->DrawString(text, font, ofVec2f(0,dimension_header.y));
-	texture->FlipY();
 	texture->SubmitChanges();
-	ofxTEXTURECACHE->PushResource(texture, "txt_verdana"+text);
+	std::string texture_name = "txt_verdana"+text;
+	ofxTEXTURECACHE->PushResource(texture, texture_name);
 	ofxSpriteQuad* sprite = new ofxSpriteQuad();
-	sprite->SetTexture("txt_verdana"+text);
+	sprite->SetTexture(texture_name);
 	//sprite->SetOpacity(100);
 	spriteObstacle = sprite;
 }
@@ -329,7 +328,7 @@ void TextureCompressionTest::Setup()
 	ofxSpriteQuad* sprite2 = new ofxSpriteQuad();
 	sprite2->MoveBy(200.0f,0.0f,0.0f);
 	sprite2->SetTexture("data/tianwang3_0.png");
-	sprite2->GetTexture()->SetCompressed(false);
+	sprite2->GetTexture()->SetCompressed(true);
 	sprite2->GetTexture()->SubmitChanges();
 	spriteObstacle = sprite2;
 }
