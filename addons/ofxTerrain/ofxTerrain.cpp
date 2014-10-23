@@ -167,6 +167,9 @@ float ofxTerrain::GetHeight(int x, int y)
 }
 void ofxTerrain::BuildTileMap()
 {
+	const float noise_proof = 0.004f;// this will fix texture interpolation bug
+	const float uv_width = 0.25f - noise_proof*2;
+	const float uv_height = uv_width;
 	{
 		m_BaseVertices[0].x = 0.0f;
 		m_BaseVertices[0].y = 0.0f;
@@ -206,17 +209,15 @@ void ofxTerrain::BuildTileMap()
 				vertex_c,
 				vertex_d;
 			{
-				static const float noise_proof = 0.004f;// this will fix texture interpolation bug
-				static const float width = 0.25f - noise_proof*2;
-				static const float height = width;
+				
 				char x = id & 3;
 				char y = id >> 2;
 				vertex_a.u = x*0.25f + noise_proof;
 				vertex_a.v = y*0.25f + noise_proof;
-				vertex_b.u = vertex_a.u + width;
+				vertex_b.u = vertex_a.u + uv_width;
 				vertex_b.v = vertex_a.v;
 				vertex_c.u = vertex_b.u;
-				vertex_c.v = vertex_b.v + height;
+				vertex_c.v = vertex_b.v + uv_height;
 				vertex_d.u = vertex_a.u;
 				vertex_d.v = vertex_c.v;
 			}
