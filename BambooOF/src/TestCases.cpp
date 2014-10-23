@@ -6,7 +6,7 @@
 #include "ofxParticleEffect2D.h"
 #include "IL/il.h"
 
-Test* current_test = new TextSpriteTest();
+Test* current_test = new TerrainSpriteTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {

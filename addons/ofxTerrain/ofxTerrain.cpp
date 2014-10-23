@@ -205,28 +205,35 @@ void ofxTerrain::BuildTileMap()
 				vertex_b,
 				vertex_c,
 				vertex_d;
-			static const float border = 0.004f;// this will fix texture interpolation bug
-			vertex_a.u = (id%4)*0.25f+border;
-			vertex_a.v = (id/4)*0.25f+border;// this calculation is not optimized to improve readability
-			vertex_b.u = vertex_a.u + 0.25f-border*2;
-			vertex_b.v = vertex_a.v;
-			vertex_c.u = vertex_b.u;
-			vertex_c.v = vertex_b.v + 0.25f-border*2;
-			vertex_d.u = vertex_a.u;
-			vertex_d.v = vertex_c.v;
-
-			vertex_a.x = i*TILE_SIZE;
-			vertex_a.y = m_HeightMap[i][j];
-			vertex_a.z = j*TILE_SIZE;
-			vertex_b.x = vertex_a.x + TILE_SIZE;
-			vertex_b.y = vertex_a.y;
-			vertex_b.z = vertex_a.z;
-			vertex_c.x = vertex_b.x;
-			vertex_c.y = vertex_b.y;
-			vertex_c.z = vertex_b.z + TILE_SIZE;
-			vertex_d.x = vertex_a.x;
-			vertex_d.y = vertex_c.y;
-			vertex_d.z = vertex_c.z;
+			{
+				static const float noise_proof = 0.004f;// this will fix texture interpolation bug
+				static const float width = 0.25f - noise_proof*2;
+				static const float height = width;
+				char x = id & 3;
+				char y = id >> 2;
+				vertex_a.u = x*0.25f + noise_proof;
+				vertex_a.v = y*0.25f + noise_proof;
+				vertex_b.u = vertex_a.u + width;
+				vertex_b.v = vertex_a.v;
+				vertex_c.u = vertex_b.u;
+				vertex_c.v = vertex_b.v + height;
+				vertex_d.u = vertex_a.u;
+				vertex_d.v = vertex_c.v;
+			}
+			{
+				vertex_a.x = i*TILE_SIZE;
+				vertex_a.y = m_HeightMap[i][j];
+				vertex_a.z = j*TILE_SIZE;
+				vertex_b.x = vertex_a.x + TILE_SIZE;
+				vertex_b.y = vertex_a.y;
+				vertex_b.z = vertex_a.z;
+				vertex_c.x = vertex_b.x;
+				vertex_c.y = vertex_b.y;
+				vertex_c.z = vertex_b.z + TILE_SIZE;
+				vertex_d.x = vertex_a.x;
+				vertex_d.y = vertex_c.y;
+				vertex_d.z = vertex_c.z;
+			}
 			m_GroundVetices[layer].push_back(vertex_a);
 			m_GroundVetices[layer].push_back(vertex_b);
 			m_GroundVetices[layer].push_back(vertex_c);
@@ -289,12 +296,9 @@ bool ofxTerrain::LoadBaseTexture(string path)
 	{
 		ILinfo info;
 		iluGetImageInfo(&info);
-		ILuint width = info.Width;
-		ILuint height = info.Height;
-		GLubyte byte_per_pixel = info.Bpp;
 		ILubyte* pixel_data = ilGetData();
-		GLenum format = byte_per_pixel==3?GL_RGB:GL_RGBA;
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
+		GLenum format = info.Bpp==3?GL_RGB:GL_RGBA;
+		glTexImage2D(GL_TEXTURE_2D, 0, format, info.Width, info.Height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 	}
 	{
 		GLint param = GL_REPEAT;
@@ -315,7 +319,7 @@ bool ofxTerrain::LoadBaseTexture(string path)
 bool ofxTerrain::LoadGroundTexture(string path, char layer)
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_BaseTextureId);
+	glBindTexture(GL_TEXTURE_2D, m_GroundTextureId[layer]);
 	ilBindImage(m_GroundImageId[layer]);
 	ILboolean loaded = ilLoadImage(path.c_str());
 	if (loaded == IL_FALSE)
@@ -327,12 +331,9 @@ bool ofxTerrain::LoadGroundTexture(string path, char layer)
 	{
 		ILinfo info;
 		iluGetImageInfo(&info);
-		ILuint width = info.Width;
-		ILuint height = info.Height;
-		GLubyte byte_per_pixel = info.Bpp;
 		ILubyte* pixel_data = ilGetData();
-		GLenum format = byte_per_pixel==3?GL_RGB:GL_RGBA;
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
+		GLenum format = info.Bpp==3?GL_RGB:GL_RGBA;
+		glTexImage2D(GL_TEXTURE_2D, 0, format, info.Width, info.Height, 0, format, GL_UNSIGNED_BYTE, pixel_data);
 	}
 	{
 		GLint param = GL_CLAMP_TO_EDGE;
