@@ -7,14 +7,14 @@ GAME ENGINE TASK LIST
 * build recast wrapper [OK]
   * develop wrapper [OK]
   * render using of [OK]
-* port bamboo from cc to of [DEV]
+* port bamboo from cc to of [WIP]
   * develop 2d sprite renderer/3d plane renderer [OK]
   * terrain rendering [OK]
   * text rendering [OK]
-  * particle rendering [DEV]
-  * render character using sprite renderer[DEV]
-  * redesign data
-  * memory management
+  * particle rendering [WIP]
+  * render character using sprite renderer [WIP]
+  * redesign data [OK]
+  * memory management [OK]
 * develop rts engine
   * fog of war calculation
   * multi-agent pathfinding
