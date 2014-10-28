@@ -24,7 +24,7 @@ bool ofxBitmapFont::Load(string xml_file)
 	xml_node root = doc.child("fontMetrics");
 	if(!root) return false;
 	ILuint atlas_id;
-	ilGenImages(1, &atlas_id);
+	atlas_id = ilGenImage();
 	ilBindImage(atlas_id);
 	
 	ILboolean loaded = ilLoadImage(root.attribute("file").as_string());
@@ -48,8 +48,7 @@ bool ofxBitmapFont::Load(string xml_file)
 		ilBindImage(atlas_id);
 		ILubyte* data = new ILubyte[width*height*4];
 		ilCopyPixels(x, y, 0, width, height, 1, IL_RGBA, IL_UNSIGNED_BYTE, data);
-		ILuint id;
-		ilGenImages(1, &id);
+		ILuint id = ilGenImage();
 		ilBindImage(id);
 		ilTexImage(width, height, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL);
 		ilSetData(data);
@@ -57,9 +56,8 @@ bool ofxBitmapFont::Load(string xml_file)
 	}
 	if(!HaveCharacter('?'))
 	{
-		m_CharacterMap['?'] = ofVec4f(0, 0, 1, 1);
-		ILuint id;
-		ilGenImages(1, &id);
+		m_CharacterMap['?'] = ofVec2f(1, 1);
+		ILuint id = ilGenImage();
 		ilBindImage(id);
 		ilTexImage(1, 1, 0, 4, IL_RGBA , IL_UNSIGNED_BYTE, NULL); 
 		ilClearColour(0.0f, 0.0f, 0.0f, 0.0f);

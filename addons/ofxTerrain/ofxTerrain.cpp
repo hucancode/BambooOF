@@ -4,12 +4,12 @@ ofxTerrain::ofxTerrain()
 	{
 		glGenBuffers(1, &m_BaseVBOId);
 		glGenTextures(1, &m_BaseTextureId);
-		ilGenImages(1, &m_BaseImageId);
+		m_BaseImageId = ilGenImage();
+		ilGenImages(NUMBER_OF_LAYERS, m_GroundImageId);
 		for(int i=0;i<NUMBER_OF_LAYERS;i++)
 		{
 			glGenBuffers(1, &m_GroundVBOId[i]);
 			glGenTextures(1, &m_GroundTextureId[i]);
-			ilGenImages(1, &m_GroundImageId[i]);
 		}
 	}
 	{
@@ -77,12 +77,12 @@ ofxTerrain::~ofxTerrain()
 {
 	glDeleteBuffers(1, &m_BaseVBOId);
 	glDeleteTextures(1, &m_BaseTextureId);
-	ilDeleteImages(1, &m_BaseImageId); 
+	ilDeleteImage(m_BaseImageId); 
 	for(int i=0;i<NUMBER_OF_LAYERS;i++)
 	{
 		glDeleteBuffers(1, &m_GroundVBOId[i]);
 		glDeleteTextures(1, &m_GroundTextureId[i]);
-		ilDeleteImages(1, &m_GroundImageId[i]); 
+		ilDeleteImage(m_GroundImageId[i]); 
 	}
 	{
 		glDetachShader(m_ShaderProgramId, m_FragmentShaderId);
@@ -209,7 +209,6 @@ void ofxTerrain::BuildTileMap()
 				vertex_c,
 				vertex_d;
 			{
-				
 				char x = id & 3;
 				char y = id >> 2;
 				vertex_a.u = x*0.25f + noise_proof;
