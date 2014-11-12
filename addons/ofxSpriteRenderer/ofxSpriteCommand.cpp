@@ -17,7 +17,7 @@ ofxSpriteCommand::~ofxSpriteCommand()
 void ofxSpriteCommand::Render()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_VerticesSize, &m_Vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*m_VerticesSize, &m_Vertices[0], GL_DYNAMIC_DRAW);
 	m_Shader->Bind();
 	m_Texture->Bind();
 

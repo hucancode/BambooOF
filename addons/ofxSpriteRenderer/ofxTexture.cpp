@@ -53,6 +53,8 @@ void ofxTexture::SubmitChanges()
 		m_BytePerPixel = info.Bpp;
 		m_Width = info.Width;
 		m_Height = info.Height;
+		m_UnitWidth = m_Width>0?1.0f/m_Width:0.0f;
+		m_UnitHeight = m_Height>0?1.0f/m_Height:0.0f;
 	}
 	{
 		GLenum format = m_BytePerPixel==3?GL_RGB:GL_RGBA;
@@ -126,6 +128,14 @@ GLuint ofxTexture::GetWidth()
 GLuint ofxTexture::GetHeight()
 {
 	return m_Height;
+}
+GLfloat ofxTexture::GetUnitWidth()
+{
+	return m_UnitWidth;
+}
+GLfloat ofxTexture::GetUnitHeight()
+{
+	return m_UnitHeight;
 }
 /* ----------------------------------
 texture operation

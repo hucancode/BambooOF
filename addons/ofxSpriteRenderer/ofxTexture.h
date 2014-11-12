@@ -13,6 +13,8 @@ class ofxTexture
 private:
 	ILuint				m_ImageId;
 	GLuint				m_TextureId;
+	GLfloat				m_UnitWidth;
+	GLfloat				m_UnitHeight;
 	GLuint				m_Width;
 	GLuint				m_Height;
 	ILubyte				m_BytePerPixel; 
@@ -29,6 +31,8 @@ public:
 	void				Unbind(GLuint slot=0);
 	GLuint				GetWidth();
 	GLuint				GetHeight();
+	GLfloat				GetUnitWidth();
+	GLfloat				GetUnitHeight();
 public:
 	void				Lock();
 	bool				IsLocked();
