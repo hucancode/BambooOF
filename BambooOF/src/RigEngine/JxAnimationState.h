@@ -22,8 +22,6 @@
 #define JX_ANIMATION_PATH_RIDE_BACK				"horse_back"
 #define JX_ANIMATION_PATH_RIDE_TAIL				"horse_tail"
 
-// F = free hand, O = one hand, T = two hand, D = dual hand
-// C = critical
 enum JX_ANIMATION_STATE
 {
 	JX_ANIMATION_STATE_ZEN				= 0 | (0<<4) | (0<<6),

@@ -12,49 +12,51 @@ class JxAnimationCombo
 	:public ofxBaseSprite, public ofxBaseCommand
 {
 private:
-	JxAnimation*			m_Helm;
-	JxAnimation*			m_Cloth;
-	JxAnimation*			m_HandL;
-	JxAnimation*			m_HandR;
-	JxAnimation*			m_WeaponO;
-	JxAnimation*			m_WeaponT;
-	JxAnimation*			m_WeaponDL;
-	JxAnimation*			m_WeaponDR;
-	JxAnimation*			m_HorseHead;
-	JxAnimation*			m_HorseBack;
-	JxAnimation*			m_HorseTail;
+	JxAnimation*		m_Helm;
+	JxAnimation*		m_Cloth;
+	JxAnimation*		m_HandL;
+	JxAnimation*		m_HandR;
+	JxAnimation*		m_WeaponLight;
+	JxAnimation*		m_WeaponHeavy;
+	JxAnimation*		m_WeaponDualL;
+	JxAnimation*		m_WeaponDualR;
+	JxAnimation*		m_HorseHead;
+	JxAnimation*		m_HorseBack;
+	JxAnimation*		m_HorseTail;
+	JxAnimations		m_Effects;
 
 	ofFloatColor		m_Color;
 	float				m_ColorIntensity;
 	float				m_Opacity;
 	ofxTextures			m_Textures;
-	JxVertex*			m_RigVertices;
-
+	JxVertices			m_JxVertices;
+	float				m_FrameTimer;
 	float				m_FrameTime;
-	unsigned char		m_FrameCount;
+	unsigned char		m_FrameMax;
+	unsigned char		m_FrameMin;
 	unsigned char		m_CurrentFrame;
+	JX_ANIMATION_STATE	m_CurrentState;
 public:
 	JxAnimationCombo();
 	~JxAnimationCombo();
-	void				SetGender				(bool gender);
-	void				SetState				(JX_ANIMATION_STATE state);
-	void				SetColor				(ofFloatColor color);
-	void				SetColorIntensity		(float color_intensity);
-	void				SetOpacity				(float opacity);
-	void				SetHelm					(string name);
-	void				SetCloth				(string name);
-	void				SetHandL				(string name);
-	void				SetHandR				(string name);
-	void				SetWeaponO				(string name);
-	void				SetWeaponT				(string name);
-	void				SetWeaponDL				(string name);
-	void				SetWeaponDR				(string name);
-	void				SetHorseHead			(string name);
-	void				SetHorseBack			(string name);
-	void				SetHorseTail			(string name);
+	void				SetGender				(const bool gender);
+	void				SetState				(const JX_ANIMATION_STATE state);
+	void				SetColor				(const ofFloatColor color);
+	void				SetColorIntensity		(const float color_intensity);
+	void				SetOpacity				(const float opacity);
+	void				SetHelm					(const string name);
+	void				SetCloth				(const string name);
+	void				SetHandL				(const string name);
+	void				SetHandR				(const string name);
+	void				SetWeaponFree			();
+	void				SetWeaponLight			(const string name);
+	void				SetWeaponHeavy			(const string name);
+	void				SetWeaponDualL			(const string name);
+	void				SetWeaponDualR			(const string name);
+	void				SetHorseHead			(const string name);
+	void				SetHorseBack			(const string name);
+	void				SetHorseTail			(const string name);
 	virtual void		Update					(const float delta_time);
 	virtual void		SubmitChanges			();
 	virtual void		Render					();
-private:
-	static string		GetTexturePath			(JxAnimation* part);
 };
