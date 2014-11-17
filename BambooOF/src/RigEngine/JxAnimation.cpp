@@ -62,6 +62,14 @@ void JxAnimation::Load(string xml_file)
 		}
 	}
 }
+void JxAnimation::SetTextureSlot(unsigned char slot)
+{
+	m_TextureSlot = slot;
+}
+unsigned char JxAnimation::GetTextureSlot()
+{
+	return m_TextureSlot;
+}
 void JxAnimation::SetState(unsigned char state)
 {
 	m_CurrentState = state;

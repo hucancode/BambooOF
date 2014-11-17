@@ -145,10 +145,12 @@ void JxAnimationCombo::Update(const float delta_time)
 		{
 			m_HorseTail->SetFrame(m_CurrentFrame);
 		}
+		
 	}
 }
 void JxAnimationCombo::Render()
 {
+	SubmitChanges();
 	{
 		ofxTexture* texture = m_Helm->QueryTexture();
 		texture->Bind(0);
@@ -168,38 +170,46 @@ void JxAnimationCombo::Render()
 	if(m_WeaponLight)
 	{
 		ofxTexture* texture = m_WeaponLight->QueryTexture();
+		m_WeaponLight->SetTextureSlot(4);
 		texture->Bind(4);
 	}
 	if(m_WeaponHeavy)
 	{
 		ofxTexture* texture = m_WeaponHeavy->QueryTexture();
+		m_WeaponHeavy->SetTextureSlot(4);
 		texture->Bind(4);
 	}
 	if(m_WeaponDualL)
 	{
 		ofxTexture* texture = m_WeaponDualL->QueryTexture();
+		m_WeaponDualL->SetTextureSlot(4);
 		texture->Bind(4);
 	}
 	if(m_WeaponDualR)
 	{
 		ofxTexture* texture = m_WeaponDualR->QueryTexture();
+		m_WeaponDualR->SetTextureSlot(5);
 		texture->Bind(5);
 	}
 	if(m_HorseHead)
 	{
 		ofxTexture* texture = m_HorseHead->QueryTexture();
+		m_HorseHead->SetTextureSlot(6);
 		texture->Bind(6);
 	}
 	if(m_HorseBack)
 	{
 		ofxTexture* texture = m_HorseBack->QueryTexture();
+		m_HorseBack->SetTextureSlot(7);
 		texture->Bind(7);
 	}
 	if(m_HorseTail)
 	{
 		ofxTexture* texture = m_HorseTail->QueryTexture();
+		m_HorseTail->SetTextureSlot(8);
 		texture->Bind(8);
 	}
+	// render using m_JxVertices
 }
 void JxAnimationCombo::SubmitChanges()
 {
@@ -241,6 +251,7 @@ void JxAnimationCombo::SubmitChanges()
 		m_JxVertices.push_back(a);
 		m_JxVertices.push_back(b);
 		m_JxVertices.push_back(c);
+		m_JxVertices.push_back(d);
 		m_JxVertices.push_back(d);
 	}
 }
