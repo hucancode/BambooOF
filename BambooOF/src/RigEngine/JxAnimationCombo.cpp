@@ -361,6 +361,5 @@ void JxAnimationCombo::SubmitChanges()
 		m_JxVertices.push_back(b);
 		m_JxVertices.push_back(c);
 		m_JxVertices.push_back(d);
-		m_JxVertices.push_back(d);
 	}
 }
