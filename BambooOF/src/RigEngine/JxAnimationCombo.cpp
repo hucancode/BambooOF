@@ -68,6 +68,8 @@ void JxAnimationCombo::SetHorseTail(string name)
 }
 void JxAnimationCombo::SetState(const JX_ANIMATION_STATE state)
 {
+	static const unsigned char void_weapon_flag = 243;// 11110011
+	static const unsigned char void_horse_flag = 252;// 11111100
 	m_CurrentState = state;
 	m_Helm->SetState(state);
 	m_Cloth->SetState(state);
@@ -75,31 +77,31 @@ void JxAnimationCombo::SetState(const JX_ANIMATION_STATE state)
 	m_HandR->SetState(state);
 	if(m_WeaponLight)
 	{
-		m_WeaponLight->SetState(state);
+		m_WeaponLight->SetState(state & void_weapon_flag);
 	}
 	if(m_WeaponHeavy)
 	{
-		m_WeaponHeavy->SetState(state);
+		m_WeaponHeavy->SetState(state & void_weapon_flag);
 	}
 	if(m_WeaponDualL)
 	{
-		m_WeaponDualL->SetState(state);
+		m_WeaponDualL->SetState(state & void_weapon_flag);
 	}
 	if(m_WeaponDualL)
 	{
-		m_WeaponDualR->SetState(state);
+		m_WeaponDualR->SetState(state & void_weapon_flag);
 	}
 	if(m_HorseHead)
 	{
-		m_HorseHead->SetState(state);
+		m_HorseHead->SetState(state & void_weapon_flag & void_horse_flag);
 	}
 	if(m_HorseBack)
 	{
-		m_HorseBack->SetState(state);
+		m_HorseBack->SetState(state & void_weapon_flag & void_horse_flag);
 	}
 	if(m_HorseTail)
 	{
-		m_HorseTail->SetState(state);
+		m_HorseTail->SetState(state & void_weapon_flag & void_horse_flag);
 	}
 }
 void JxAnimationCombo::Update(const float delta_time)
