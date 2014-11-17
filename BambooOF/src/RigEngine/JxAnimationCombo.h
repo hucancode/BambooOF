@@ -60,6 +60,7 @@ public:
 	void				SetHorseHeadAnimation	(const string name);
 	void				SetHorseBackAnimation	(const string name);
 	void				SetHorseTailAnimation	(const string name);
+	void				LoadAnimation			(JxAnimation* animation, string path, const string name);
 public:
 	virtual void		Update					(const float delta_time);
 	virtual void		SubmitChanges			();

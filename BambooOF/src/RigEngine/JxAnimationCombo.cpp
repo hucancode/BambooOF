@@ -100,149 +100,91 @@ void JxAnimationCombo::SetHorse(const JX_HORSE_STATE horse_state)
 }
 void JxAnimationCombo::SetHelmAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
-	m_Helm->Load(path);
+	LoadAnimation(m_Helm, m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F, name);
 }
 void JxAnimationCombo::SetClothAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
-	m_Cloth->Load(path);
+	LoadAnimation(m_Cloth, m_Gender?JX_ANIMATION_PATH_CHARACTER_CLOTH_M:JX_ANIMATION_PATH_CHARACTER_CLOTH_F, name);
 }
 void JxAnimationCombo::SetHandLAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
-	m_HandL->Load(path);
+	LoadAnimation(m_HandL, m_Gender?JX_ANIMATION_PATH_CHARACTER_HANDL_M:JX_ANIMATION_PATH_CHARACTER_HANDL_F, name);
 }
 void JxAnimationCombo::SetHandRAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
-	m_HandR->Load(path);
+	LoadAnimation(m_HandR, m_Gender?JX_ANIMATION_PATH_CHARACTER_HANDR_M:JX_ANIMATION_PATH_CHARACTER_HANDR_F, name);
 }
 void JxAnimationCombo::SetWeaponLightAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_LIGHT_M:JX_ANIMATION_PATH_WEAPON_LIGHT_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_WeaponLight)
 	{
 		m_WeaponLight = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
+		m_WeaponLight->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
-	m_WeaponLight->Load(path);
-
+	LoadAnimation(m_WeaponLight, m_Gender?JX_ANIMATION_PATH_WEAPON_LIGHT_M:JX_ANIMATION_PATH_WEAPON_LIGHT_F, name);
 }
 void JxAnimationCombo::SetWeaponHeavyAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_HEAVY_M:JX_ANIMATION_PATH_WEAPON_HEAVY_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_WeaponHeavy)
 	{
 		m_WeaponHeavy = new JxAnimation();
 		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
-	m_WeaponHeavy->Load(path);
+	LoadAnimation(m_WeaponHeavy, m_Gender?JX_ANIMATION_PATH_WEAPON_HEAVY_M:JX_ANIMATION_PATH_WEAPON_HEAVY_F, name);
 }
 void JxAnimationCombo::SetWeaponDualLAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALL_M:JX_ANIMATION_PATH_WEAPON_DUALL_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_WeaponDualL)
 	{
 		m_WeaponDualL = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
+		m_WeaponDualL->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
-	m_WeaponDualL->Load(path);
+	LoadAnimation(m_WeaponDualL, m_Gender?JX_ANIMATION_PATH_WEAPON_DUALL_M:JX_ANIMATION_PATH_WEAPON_DUALL_F, name);
 }
 void JxAnimationCombo::SetWeaponDualRAnimation(string name)
 {
-	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALR_M:JX_ANIMATION_PATH_WEAPON_DUALR_F);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_WeaponDualR)
 	{
 		m_WeaponDualR = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_SECONDARY_TEXTURE_SLOT);
+		m_WeaponDualR->SetTextureSlot(JX_ANIMATION_WEAPON_SECONDARY_TEXTURE_SLOT);
 	}
-	m_WeaponDualR->Load(path);
+	LoadAnimation(m_WeaponDualR, m_Gender?JX_ANIMATION_PATH_WEAPON_DUALR_M:JX_ANIMATION_PATH_WEAPON_DUALR_F, name);
 }
 void JxAnimationCombo::SetHorseHeadAnimation(string name)
 {
-	string path(JX_ANIMATION_PATH_RIDE_HEAD);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_HorseHead)
 	{
 		m_HorseHead = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_HEAD_TEXTURE_SLOT);
+		m_HorseHead->SetTextureSlot(JX_ANIMATION_HORSE_HEAD_TEXTURE_SLOT);
 	}
-	m_HorseHead->Load(path);
+	LoadAnimation(m_HorseHead, JX_ANIMATION_PATH_RIDE_HEAD, name);
 }
-void JxAnimationCombo::SetHorseBackAnimation(string name)
+void JxAnimationCombo::SetHorseBackAnimation(const string name)
 {
-	string path(JX_ANIMATION_PATH_RIDE_BACK);
-	path += "/";
-	path += name;
-	path += "/";
-	path += name;
-	path += ".xml";
 	if(!m_HorseBack)
 	{
 		m_HorseBack = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_BACK_TEXTURE_SLOT);
+		m_HorseBack->SetTextureSlot(JX_ANIMATION_HORSE_BACK_TEXTURE_SLOT);
 	}
-	m_HorseBack->Load(path);
+	LoadAnimation(m_HorseBack, JX_ANIMATION_PATH_RIDE_BACK, name);
 }
-void JxAnimationCombo::SetHorseTailAnimation(string name)
+void JxAnimationCombo::SetHorseTailAnimation(const string name)
 {
-	string path(JX_ANIMATION_PATH_RIDE_TAIL);
+	if(!m_HorseTail)
+	{
+		m_HorseTail = new JxAnimation();
+		m_HorseTail->SetTextureSlot(JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT);
+	}
+	LoadAnimation(m_HorseTail, JX_ANIMATION_PATH_RIDE_TAIL, name);
+}
+void JxAnimationCombo::LoadAnimation(JxAnimation* animation, string path, const string name)
+{
 	path += "/";
 	path += name;
 	path += "/";
 	path += name;
 	path += ".xml";
-	if(!m_HorseTail)
-	{
-		m_HorseTail = new JxAnimation();
-		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT);
-	}
-	m_HorseTail->Load(path);
+	animation->Load(path);
 }
 void JxAnimationCombo::Update(const float delta_time)
 {
