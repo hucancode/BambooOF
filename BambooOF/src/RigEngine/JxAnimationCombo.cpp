@@ -2,107 +2,247 @@
 
 JxAnimationCombo::JxAnimationCombo()
 {
+	m_CurrentState = JX_ANIMATION_STATE_ZEN;
 	m_Helm = new JxAnimation();
-	m_Helm->SetTextureSlot(0);
+	m_Helm->SetTextureSlot(JX_ANIMATION_HELM_TEXTURE_SLOT);
 	m_Cloth = new JxAnimation();
-	m_Cloth->SetTextureSlot(1);
+	m_Cloth->SetTextureSlot(JX_ANIMATION_CLOTH_TEXTURE_SLOT);
 	m_HandL = new JxAnimation();
-	m_HandL->SetTextureSlot(2);
+	m_HandL->SetTextureSlot(JX_ANIMATION_HANDL_TEXTURE_SLOT);
 	m_HandR = new JxAnimation();
-	m_HandR->SetTextureSlot(3);
-	m_WeaponLight = 0;//4
-	m_WeaponHeavy = 0;//4
-	m_WeaponDualL = 0;//4
-	m_WeaponDualR = 0;//5
-	m_HorseHead = 0;//6
-	m_HorseBack = 0;//7
-	m_HorseTail = 0;//8
+	m_HandR->SetTextureSlot(JX_ANIMATION_HANDR_TEXTURE_SLOT);
+	m_WeaponLight = 0;
+	m_WeaponHeavy = 0;
+	m_WeaponDualL = 0;
+	m_WeaponDualR = 0;
+	m_HorseHead = 0;
+	m_HorseBack = 0;
+	m_HorseTail = 0;
 }
 JxAnimationCombo::~JxAnimationCombo()
 {
 }
-void JxAnimationCombo::SetColor(ofFloatColor color)
+void JxAnimationCombo::SetColor(const ofFloatColor color)
 {
 }
-void JxAnimationCombo::SetColorIntensity(float color_intensity)
+void JxAnimationCombo::SetColorIntensity(const float color_intensity)
 {
 }
-void JxAnimationCombo::SetOpacity(float opacity)
+void JxAnimationCombo::SetOpacity(const float opacity)
 {
 }
-void JxAnimationCombo::SetHelm(string name)
+void JxAnimationCombo::SetGender(const JX_GENDER gender)
 {
+	m_Gender = gender;
 }
-void JxAnimationCombo::SetCloth(string name)
+void JxAnimationCombo::SetAction(const JX_ACTION_STATE action_state)
 {
+	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_ACTION_FLAG | action_state<<JX_ACTION_BIT_OFFSET);
 }
-void JxAnimationCombo::SetHandL(string name)
+void JxAnimationCombo::SetWeapon(const JX_WEAPON_STATE weapon_state)
 {
-}
-void JxAnimationCombo::SetHandR(string name)
-{
-}
-void JxAnimationCombo::SetWeaponFree()
-{
-}
-void JxAnimationCombo::SetWeaponLight(string name)
-{
-}
-void JxAnimationCombo::SetWeaponHeavy(string name)
-{
-}
-void JxAnimationCombo::SetWeaponDualL(string name)
-{
-}
-void JxAnimationCombo::SetWeaponDualR(string name)
-{
-}
-void JxAnimationCombo::SetHorseHead(string name)
-{
-}
-void JxAnimationCombo::SetHorseBack(string name)
-{
-}
-void JxAnimationCombo::SetHorseTail(string name)
-{
-}
-void JxAnimationCombo::SetState(const JX_ANIMATION_STATE state)
-{
-	static const unsigned char void_weapon_flag = 243;// 11110011
-	static const unsigned char void_horse_flag = 252;// 11111100
-	m_CurrentState = state;
-	m_Helm->SetState(state);
-	m_Cloth->SetState(state);
-	m_HandL->SetState(state);
-	m_HandR->SetState(state);
-	if(m_WeaponLight)
+	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_WEAPON_FLAG | weapon_state<<JX_WEAPON_BIT_OFFSET);
+
+	// TODO: not delete these object so fast, but cache them to avoid load/reload
+	if(weapon_state != JX_WEAPON_STATE_LIGHT && m_WeaponLight)
 	{
-		m_WeaponLight->SetState(state & void_weapon_flag);
+		delete m_WeaponLight;
+		m_WeaponLight = 0;
 	}
-	if(m_WeaponHeavy)
+	if(weapon_state != JX_WEAPON_STATE_HEAVY && m_WeaponHeavy)
 	{
-		m_WeaponHeavy->SetState(state & void_weapon_flag);
+		delete m_WeaponHeavy;
+		m_WeaponHeavy = 0;
 	}
-	if(m_WeaponDualL)
+	if(weapon_state != JX_WEAPON_STATE_DUAL && m_WeaponDualL)
 	{
-		m_WeaponDualL->SetState(state & void_weapon_flag);
+		if(m_WeaponDualL)
+		{
+			delete m_WeaponDualL;
+			m_WeaponDualL = 0;
+		}
+		if(m_WeaponDualR)
+		{
+			delete m_WeaponDualR;
+			m_WeaponDualR = 0;
+		}
 	}
-	if(m_WeaponDualL)
+	if(weapon_state != JX_WEAPON_STATE_DUAL && m_WeaponDualR)
 	{
-		m_WeaponDualR->SetState(state & void_weapon_flag);
+		delete m_WeaponDualR;
+		m_WeaponDualR = 0;
 	}
-	if(m_HorseHead)
+}
+void JxAnimationCombo::SetHorse(const JX_HORSE_STATE horse_state)
+{
+	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_HORSE_FLAG | horse_state<<JX_HORSE_BIT_OFFSET);
+
+	// TODO: not delete these object so fast, but cache them to avoid load/reload
+	if(horse_state != JX_HORSE_STATE_ENABLE)
 	{
-		m_HorseHead->SetState(state & void_weapon_flag & void_horse_flag);
+		
+		if(m_HorseHead)
+		{
+			delete m_HorseHead;
+			m_HorseHead = 0;
+		}
+		if(m_HorseBack)
+		{
+			delete m_HorseBack;
+			m_HorseBack = 0;
+		}
+		if(m_HorseTail)
+		{
+			delete m_HorseTail;
+			m_HorseTail = 0;
+		}
 	}
-	if(m_HorseBack)
+}
+void JxAnimationCombo::SetHelmAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	m_Helm->Load(path);
+}
+void JxAnimationCombo::SetClothAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	m_Cloth->Load(path);
+}
+void JxAnimationCombo::SetHandLAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	m_HandL->Load(path);
+}
+void JxAnimationCombo::SetHandRAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_CHARACTER_HEAD_M:JX_ANIMATION_PATH_CHARACTER_HEAD_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	m_HandR->Load(path);
+}
+void JxAnimationCombo::SetWeaponLightAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_LIGHT_M:JX_ANIMATION_PATH_WEAPON_LIGHT_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_WeaponLight)
 	{
-		m_HorseBack->SetState(state & void_weapon_flag & void_horse_flag);
+		m_WeaponLight = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
-	if(m_HorseTail)
+	m_WeaponLight->Load(path);
+
+}
+void JxAnimationCombo::SetWeaponHeavyAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_HEAVY_M:JX_ANIMATION_PATH_WEAPON_HEAVY_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_WeaponHeavy)
 	{
-		m_HorseTail->SetState(state & void_weapon_flag & void_horse_flag);
+		m_WeaponHeavy = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
+	m_WeaponHeavy->Load(path);
+}
+void JxAnimationCombo::SetWeaponDualLAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALL_M:JX_ANIMATION_PATH_WEAPON_DUALL_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_WeaponDualL)
+	{
+		m_WeaponDualL = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
+	}
+	m_WeaponDualL->Load(path);
+}
+void JxAnimationCombo::SetWeaponDualRAnimation(string name)
+{
+	string path(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALR_M:JX_ANIMATION_PATH_WEAPON_DUALR_F);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_WeaponDualR)
+	{
+		m_WeaponDualR = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_WEAPON_SECONDARY_TEXTURE_SLOT);
+	}
+	m_WeaponDualR->Load(path);
+}
+void JxAnimationCombo::SetHorseHeadAnimation(string name)
+{
+	string path(JX_ANIMATION_PATH_RIDE_HEAD);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_HorseHead)
+	{
+		m_HorseHead = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_HEAD_TEXTURE_SLOT);
+	}
+	m_HorseHead->Load(path);
+}
+void JxAnimationCombo::SetHorseBackAnimation(string name)
+{
+	string path(JX_ANIMATION_PATH_RIDE_BACK);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_HorseBack)
+	{
+		m_HorseBack = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_BACK_TEXTURE_SLOT);
+	}
+	m_HorseBack->Load(path);
+}
+void JxAnimationCombo::SetHorseTailAnimation(string name)
+{
+	string path(JX_ANIMATION_PATH_RIDE_TAIL);
+	path += "/";
+	path += name;
+	path += "/";
+	path += name;
+	path += ".xml";
+	if(!m_HorseTail)
+	{
+		m_HorseTail = new JxAnimation();
+		m_WeaponHeavy->SetTextureSlot(JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT);
+	}
+	m_HorseTail->Load(path);
 }
 void JxAnimationCombo::Update(const float delta_time)
 {
@@ -155,66 +295,91 @@ void JxAnimationCombo::Render()
 	SubmitChanges();
 	{
 		ofxTexture* texture = m_Helm->QueryTexture();
-		texture->Bind(0);
+		texture->Bind(JX_ANIMATION_HELM_TEXTURE_SLOT);
 	}
 	{
 		ofxTexture* texture = m_Cloth->QueryTexture();
-		texture->Bind(1);
+		texture->Bind(JX_ANIMATION_CLOTH_TEXTURE_SLOT);
 	}
 	{
 		ofxTexture* texture = m_HandL->QueryTexture();
-		texture->Bind(2);
+		texture->Bind(JX_ANIMATION_HANDL_TEXTURE_SLOT);
 	}
 	{
 		ofxTexture* texture = m_HandR->QueryTexture();
-		texture->Bind(3);
+		texture->Bind(JX_ANIMATION_HANDR_TEXTURE_SLOT);
 	}
 	if(m_WeaponLight)
 	{
 		ofxTexture* texture = m_WeaponLight->QueryTexture();
-		m_WeaponLight->SetTextureSlot(4);
-		texture->Bind(4);
+		texture->Bind(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
 	if(m_WeaponHeavy)
 	{
 		ofxTexture* texture = m_WeaponHeavy->QueryTexture();
-		m_WeaponHeavy->SetTextureSlot(4);
-		texture->Bind(4);
+		texture->Bind(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
 	if(m_WeaponDualL)
 	{
 		ofxTexture* texture = m_WeaponDualL->QueryTexture();
-		m_WeaponDualL->SetTextureSlot(4);
-		texture->Bind(4);
+		texture->Bind(JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT);
 	}
 	if(m_WeaponDualR)
 	{
 		ofxTexture* texture = m_WeaponDualR->QueryTexture();
-		m_WeaponDualR->SetTextureSlot(5);
-		texture->Bind(5);
+		texture->Bind(JX_ANIMATION_WEAPON_SECONDARY_TEXTURE_SLOT);
 	}
 	if(m_HorseHead)
 	{
 		ofxTexture* texture = m_HorseHead->QueryTexture();
-		m_HorseHead->SetTextureSlot(6);
-		texture->Bind(6);
+		texture->Bind(JX_ANIMATION_HORSE_HEAD_TEXTURE_SLOT);
 	}
 	if(m_HorseBack)
 	{
 		ofxTexture* texture = m_HorseBack->QueryTexture();
-		m_HorseBack->SetTextureSlot(7);
-		texture->Bind(7);
+		texture->Bind(JX_ANIMATION_HORSE_BACK_TEXTURE_SLOT);
 	}
 	if(m_HorseTail)
 	{
 		ofxTexture* texture = m_HorseTail->QueryTexture();
-		m_HorseTail->SetTextureSlot(8);
-		texture->Bind(8);
+		texture->Bind(JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT);
 	}
 	// render using m_JxVertices
 }
 void JxAnimationCombo::SubmitChanges()
 {
+	m_Helm->SetState(m_CurrentState);
+	m_Cloth->SetState(m_CurrentState);
+	m_HandL->SetState(m_CurrentState);
+	m_HandR->SetState(m_CurrentState);
+	if(m_WeaponLight)
+	{
+		m_WeaponLight->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+	}
+	if(m_WeaponHeavy)
+	{
+		m_WeaponHeavy->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+	}
+	if(m_WeaponDualL)
+	{
+		m_WeaponDualL->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+	}
+	if(m_WeaponDualL)
+	{
+		m_WeaponDualR->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+	}
+	if(m_HorseHead)
+	{
+		m_HorseHead->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+	}
+	if(m_HorseBack)
+	{
+		m_HorseBack->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+	}
+	if(m_HorseTail)
+	{
+		m_HorseTail->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+	}
 	static JxAnimation* render_array[11];
 	// build render order here
 	// and here
