@@ -22,6 +22,7 @@ GAME ENGINE TASK LIST
     * optimization
   * re-generate data [OK]
   * memory management [OK]
+  * memory optimization [OK]
 * develop rts engine
   * fog of war calculation
     * base theory [OK]
