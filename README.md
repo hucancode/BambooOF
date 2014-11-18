@@ -20,7 +20,7 @@ GAME ENGINE TASK LIST
     * state operation [OK]
     * render [WIP]
     * optimization
-  * redesign data [OK]
+  * re-generate data [OK]
   * memory management [OK]
 * develop rts engine
   * fog of war calculation
