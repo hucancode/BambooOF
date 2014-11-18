@@ -30,9 +30,11 @@ GAME ENGINE TASK LIST
   * multi-agent pathfinding
     * base theory [WIP]
     * base library [OK]
+    * intergrate
   * dynamic object/obstacle placing
     * base theory [OK]
     * base library [OK]
+    * intergrate [OK]
   * combat engine
     * Actor
     * Fighter:Actor
