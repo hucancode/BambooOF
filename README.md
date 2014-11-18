@@ -14,9 +14,9 @@ GAME ENGINE TASK LIST
   * particle rendering [WIP]
   * render character using sprite renderer [WIP]
     * animation loader [OK]
-    * state operation [WIP]
-    * render
-    * intergrate into ofxSpriteRenderer
+    * state operation [OK]
+    * render [WIP]
+    * intergrate into ofxSpriteRenderer [WIP]
     * optimization
   * redesign data [OK]
   * memory management [OK]
