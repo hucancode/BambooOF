@@ -12,18 +12,27 @@ GAME ENGINE TASK LIST
   * terrain rendering [OK]
   * text rendering [OK]
   * particle rendering [WIP]
+    * 2D [OK]
+    * 3D [WIP]
+    * optimization
   * render character using sprite renderer [WIP]
     * animation loader [OK]
     * state operation [OK]
     * render [WIP]
-    * intergrate into ofxSpriteRenderer [WIP]
     * optimization
   * redesign data [OK]
   * memory management [OK]
 * develop rts engine
   * fog of war calculation
+    * base theory [OK]
+    * base library [WIP]
+    * intergrate
   * multi-agent pathfinding
+    * base theory [WIP]
+    * base library [OK]
   * dynamic object/obstacle placing
+    * base theory [OK]
+    * base library [OK]
   * combat engine
     * Actor
     * Fighter:Actor
