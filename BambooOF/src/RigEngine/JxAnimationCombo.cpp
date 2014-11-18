@@ -80,7 +80,6 @@ void JxAnimationCombo::SetHorse(const JX_HORSE_STATE horse_state)
 	// TODO: not delete these object so fast, but cache them to avoid load/reload
 	if(horse_state != JX_HORSE_STATE_ENABLE)
 	{
-		
 		if(m_HorseHead)
 		{
 			delete m_HorseHead;
@@ -326,6 +325,7 @@ void JxAnimationCombo::SubmitChanges()
 	// build render order here
 	// and here
 	// here
+
 	m_JxVertices.clear();
 	for(int i=0;i<11;i++)
 	{

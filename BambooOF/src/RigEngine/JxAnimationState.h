@@ -281,3 +281,48 @@ const unsigned char JX_ANIMATION_FEMALE_FRAME[75] = {
 	6,//JX_ANIMATION_STATE_RIDE_HURT_FREE
 	14,//JX_ANIMATION_STATE_RIDE_FALL_FREE
 };
+
+enum JX_ANIMATION_ORDER_SET
+{
+	// horse-weapon-direction-idle_or_not, 0-00-00-0
+	JX_ANIMATION_ORDER_SET_FREE_DOWN			= 0 | 0 << 1 | 0 << 3 | 0 << 5,
+	JX_ANIMATION_ORDER_SET_FREE_DOWN_IDLE		= 1 | 0 << 1 | 0 << 3 | 0 << 5,
+	JX_ANIMATION_ORDER_SET_FREE_LEFT			= 0 | 0 << 1 | 1 << 3 | 0 << 5,
+	JX_ANIMATION_ORDER_SET_FREE_LEFT_IDLE		= 1 | 0 << 1 | 1 << 3 | 0 << 5,
+};
+const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[64][9] = 
+{
+	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
+	{0, 1, 2, 3, 4, 4, 4, 4, 4},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+};
