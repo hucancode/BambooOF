@@ -69,3 +69,4 @@ public:
 	virtual void		SubmitChanges			();
 	virtual void		Render					();
 };
+#define DEFAULT_JXANIMATION_SHADER "jx_animation"
