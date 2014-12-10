@@ -12,6 +12,8 @@ class JxAnimationCombo
 	:public ofxBaseSprite, public ofxBaseCommand
 {
 private:
+	GLuint				m_VBOId;
+private:
 	JxAnimation*		m_Helm;
 	JxAnimation*		m_Cloth;
 	JxAnimation*		m_HandL;

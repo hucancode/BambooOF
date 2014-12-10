@@ -228,7 +228,6 @@ void JxAnimationCombo::Update(const float delta_time)
 		{
 			m_HorseTail->SetFrame(m_CurrentFrame);
 		}
-		
 	}
 }
 void JxAnimationCombo::Render()
@@ -285,7 +284,15 @@ void JxAnimationCombo::Render()
 		ofxTexture* texture = m_HorseTail->QueryTexture();
 		texture->Bind(JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT);
 	}
-	// render using m_JxVertices
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*ofxBaseCommand::m_VerticesSize, &m_JxVertices[0], GL_DYNAMIC_DRAW);
+	m_Shader->Bind();
+
+	glDrawArrays(GL_QUADS, 0, ofxBaseCommand::m_VerticesSize);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	m_Shader->Unbind();
 }
 void JxAnimationCombo::SubmitChanges()
 {
@@ -305,7 +312,7 @@ void JxAnimationCombo::SubmitChanges()
 	{
 		m_WeaponDualL->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
 	}
-	if(m_WeaponDualL)
+	if(m_WeaponDualR)
 	{
 		m_WeaponDualR->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
 	}
@@ -322,10 +329,23 @@ void JxAnimationCombo::SubmitChanges()
 		m_HorseTail->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
 	}
 	static JxAnimation* render_array[11];
-	// build render order here
+	// TODO: build render order here
 	// and here
 	// here
-
+	// below are just a demo
+	{
+		render_array[0] = m_Helm;
+		render_array[1] = m_Cloth;
+		render_array[2] = m_HandL;
+		render_array[3] = m_HandR;
+		render_array[4] = m_WeaponLight;
+		render_array[5] = m_WeaponHeavy;
+		render_array[6] = m_WeaponDualL;
+		render_array[7] = m_WeaponDualR;
+		render_array[8] = m_HorseHead;
+		render_array[9] = m_HorseBack;
+		render_array[10] = m_HorseTail;
+	}
 	m_JxVertices.clear();
 	for(int i=0;i<11;i++)
 	{
@@ -362,4 +382,5 @@ void JxAnimationCombo::SubmitChanges()
 		m_JxVertices.push_back(c);
 		m_JxVertices.push_back(d);
 	}
+	ofxBaseCommand::m_VerticesSize = m_JxVertices.size();
 }

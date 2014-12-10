@@ -469,10 +469,13 @@
     <ClCompile Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.cpp">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="src\RigEngine\JxAnimation.cpp">
+    <ClCompile Include="src\JxAnimationEngine\JxAnimation.cpp">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\RigEngine\JxAnimationCombo.cpp">
+    <ClCompile Include="src\JxAnimationEngine\JxAnimationCombo.cpp">
+      <Filter>Game\JxAnimationEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JxAnimationEngine\JxShaderProgram.cpp">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1232,13 +1235,16 @@
     <ClInclude Include="..\addons\ofxSpriteRenderer\ofxBaseSprite.h">
       <Filter>addons\ofxSpriteRenderer\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="src\RigEngine\JxAnimation.h">
+    <ClInclude Include="src\JxAnimationEngine\JxAnimation.h">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\RigEngine\JxAnimationCombo.h">
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationCombo.h">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\RigEngine\JxAnimationState.h">
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationState.h">
+      <Filter>Game\JxAnimationEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxAnimationEngine\JxShaderProgram.h">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClInclude>
   </ItemGroup>

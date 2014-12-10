@@ -293,7 +293,7 @@ enum JX_ANIMATION_ORDER_SET
 const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[64][9] = 
 {
 	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
-	{0, 1, 2, 3, 4, 4, 4, 4, 4},
+	{0, 1, 2, 3, 4, 4, 4, 4, 4},//JX_ANIMATION_STATE_ZEN
 	{},
 	{},
 	{},

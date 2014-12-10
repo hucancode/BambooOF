@@ -17,7 +17,6 @@ private:
 	ofxShaderProgram*		m_Shader;
 	ofxVertex*				m_Vertices;
 	GLuint					m_VBOId;
-	GLsizei					m_VerticesSize;
 public:
 	ofxSpriteCommand();
 	virtual ~ofxSpriteCommand();

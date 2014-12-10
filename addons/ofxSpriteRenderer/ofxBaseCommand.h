@@ -13,7 +13,7 @@ if you gonna render something complicated, and sprite isn't enough good to do it
 class ofxBaseCommand
 {
 protected:
-	unsigned int m_RenderedVertices;
+	unsigned int m_VerticesSize;
 public:
 	ofxBaseCommand();
 	virtual ~ofxBaseCommand();

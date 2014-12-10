@@ -246,10 +246,11 @@
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp" />
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
     <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
+    <ClCompile Include="src\JxAnimationEngine\JxShaderProgram.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
-    <ClCompile Include="src\RigEngine\JxAnimationCombo.cpp" />
-    <ClCompile Include="src\RigEngine\JxAnimation.cpp" />
+    <ClCompile Include="src\JxAnimationEngine\JxAnimationCombo.cpp" />
+    <ClCompile Include="src\JxAnimationEngine\JxAnimation.cpp" />
     <ClCompile Include="src\TestCases.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -461,10 +462,11 @@
     <ClInclude Include="..\addons\ofxUI\src\ofxUIWrapper.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
+    <ClInclude Include="src\JxAnimationEngine\JxShaderProgram.h" />
     <ClInclude Include="src\ofApp.h" />
-    <ClInclude Include="src\RigEngine\JxAnimationState.h" />
-    <ClInclude Include="src\RigEngine\JxAnimationCombo.h" />
-    <ClInclude Include="src\RigEngine\JxAnimation.h" />
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationState.h" />
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationCombo.h" />
+    <ClInclude Include="src\JxAnimationEngine\JxAnimation.h" />
     <ClInclude Include="src\TestCases.h" />
   </ItemGroup>
   <ItemGroup>
