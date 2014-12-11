@@ -29,9 +29,9 @@ GAME ENGINE TASK LIST
     * base library [WIP]
     * intergrate
   * multi-agent pathfinding
-    * base theory [WIP]
+    * base theory [OK]
     * base library [OK]
-    * intergrate
+    * intergrate [OK]
   * dynamic object/obstacle placing
     * base theory [OK]
     * base library [OK]
