@@ -58,29 +58,23 @@ void JxAnimation::Load(string xml_file)
 				float uw = m_Textures[texture_id]->GetUnitWidth();
 				float uh = m_Textures[texture_id]->GetUnitHeight();
 
+				frame.u_min = x*uw;
+				frame.v_min = y*uh;
+				frame.u_max = frame.u_min + w*uw;
+				frame.v_max = frame.v_min + h*uh;
+				frame.x_min = ox;
+				frame.y_min = oy;
 				if(rotated)
 				{
-					frame.u_min = x*uw;
-					frame.v_min = y*uh + h*uh;
-					frame.u_max = frame.u_min + w*uw;
-					frame.v_max = frame.v_min - h*uh;
-
-					frame.x_min = ox;
-					frame.y_min = oy;
-					frame.x_max = frame.x_min + w;
-					frame.y_max = frame.y_min + h;
+					frame.x_max = frame.x_min + h;
+					frame.y_max = frame.y_min + w;
 				}
 				else
 				{
-					frame.u_min = x*uw;
-					frame.v_min = y*uh;
-					frame.u_max = frame.u_min + w*uw;
-					frame.v_max = frame.v_min + h*uh;
-					frame.x_min = ox;
-					frame.y_min = oy;
 					frame.x_max = frame.x_min + w;
 					frame.y_max = frame.y_min + h;
 				}
+				frame.rotated = rotated;
 				frame.texture = texture_id;
 				frame_node = frame_node.next_sibling();
 			}

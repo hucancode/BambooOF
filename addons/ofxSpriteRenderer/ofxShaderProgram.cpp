@@ -101,6 +101,7 @@ void ofxShaderProgram::BindReferenceMap()
 }
 void ofxShaderProgram::Unbind()
 {
+	s_LastProgramId = 0;
 	glUseProgram(0);
 }
 void ofxShaderProgram::IncreaseReference()

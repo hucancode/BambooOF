@@ -403,26 +403,47 @@ void JxAnimationCombo::SubmitChanges()
 		if(!m_RenderList[i]) continue;
 		JxFrameInfo info = m_RenderList[i]->QueryFrame();
 		JxVertex a, b, c, d;
+		a.z = m_Position.z;
+		b.z = m_Position.z;
+		c.z = m_Position.z;
+		d.z = m_Position.z;
 		a.x = info.x_min;
 		a.y = info.y_min;
-		a.z = m_Position.z;
-		a.u = info.u_min;
-		a.v = info.v_min;
 		b.x = info.x_max;
 		b.y = info.y_min;
-		b.z = m_Position.z;
-		b.u = info.u_max;
-		b.v = info.v_min;
 		c.x = info.x_max;
 		c.y = info.y_max;
-		c.z = m_Position.z;
-		c.u = info.u_max;
-		c.v = info.v_max;
 		d.x = info.x_min;
 		d.y = info.y_max;
-		d.z = m_Position.z;
-		d.u = info.u_min;
-		d.v = info.v_max;
+
+		if(info.rotated)
+		{
+			a.u = info.u_min;
+			a.v = info.v_max;
+
+			b.u = info.u_min;
+			b.v = info.v_min;
+
+			c.u = info.u_max;
+			c.v = info.v_min;
+
+			d.u = info.u_max;
+			d.v = info.v_max;
+		}
+		else
+		{
+			a.u = info.u_min;
+			a.v = info.v_min;
+
+			b.u = info.u_max;
+			b.v = info.v_min;
+
+			c.u = info.u_max;
+			c.v = info.v_max;
+
+			d.u = info.u_min;
+			d.v = info.v_max;
+		}
 		m_JxVertices.push_back(a);
 		m_JxVertices.push_back(b);
 		m_JxVertices.push_back(c);

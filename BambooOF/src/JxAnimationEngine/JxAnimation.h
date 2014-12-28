@@ -14,6 +14,7 @@ struct JxFrameInfo
 	float u_min, v_min;
 	float u_max, v_max;
 	unsigned char texture;
+	bool rotated;
 };
 typedef vector<JxFrameInfo> JxFrameInfoArray;
 typedef vector<JxFrameInfoArray> JxFrameInfoTable;

@@ -9,9 +9,10 @@ class ofxShaderProgram
 protected:
 	ofxShader*			m_VertexShader;
 	ofxShader*			m_FragmentShader;
+public:
+	static GLuint		s_LastProgramId;
 protected:
 	GLuint				m_ProgramId;
-	static GLuint		s_LastProgramId;
 	map<string, GLint>	m_AttributeMap;
 	map<string, GLint>	m_UniformMap;
 public:
