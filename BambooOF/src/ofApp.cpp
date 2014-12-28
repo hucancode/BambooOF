@@ -55,10 +55,10 @@ void ofApp::draw() {
 	current_test->Render();
 	cam->end();
 #ifdef _DEBUG
-	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
+	/*ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
 		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber())+
 		" - Draw call: "+ofToString(ofxRENDERER->GetDrawCall())+
-		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));
+		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));*/
 #endif
 }
 
@@ -121,7 +121,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 extern ofxBaseSprite* spriteObstacle;
 void ofApp::mousePressed(int x, int y, int button){
-	//return;
+	return;
 	if(button != 0 && button != 2) return;
 	ofVec3f ray[2];
 	// Define ray in screen space

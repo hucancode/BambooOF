@@ -36,6 +36,23 @@ enum JX_GENDER
 	JX_GENDER_MALE = 1,
 	JX_GENDER_FEMALE = 0,
 };
+enum JX_DIRECTION
+{
+	JX_DIRECTION_RIGHT			= 0,
+	JX_DIRECTION_UPPER_RIGHT	= 1,
+	JX_DIRECTION_UP				= 2,
+	JX_DIRECTION_UPPER_LEFT		= 3,
+	JX_DIRECTION_LEFT			= 4,
+	JX_DIRECTION_LOWER_LEFT		= 5,
+	JX_DIRECTION_DOWN			= 6,
+	JX_DIRECTION_LOWER_RIGHT	= 7,
+};
+/*
+-------------------------------------------------------------------------------------------------------------------------
+	WARNING:	below are bit operation, it's hard to understand.
+				if you wanna hack them, bring pen and paper, write down the value in bit to find out the rule of notation.
+-------------------------------------------------------------------------------------------------------------------------
+*/
 #define JX_HORSE_BIT_OFFSET 6
 #define JX_VOID_HORSE_FLAG 0x3F// 00111111
 enum JX_HORSE_STATE
@@ -123,8 +140,13 @@ enum JX_ANIMATION_STATE
 	JX_ANIMATION_STATE_RIDE_HURT		= 9 | (0 << JX_WEAPON_BIT_OFFSET) | (1 << JX_HORSE_BIT_OFFSET),
 	JX_ANIMATION_STATE_RIDE_FALL		= 10| (0 << JX_WEAPON_BIT_OFFSET) | (1 << JX_HORSE_BIT_OFFSET),
 };
-
-const unsigned char JX_ANIMATION_MALE_FRAME[75] = {
+#define JX_ANIMATION_STATE_MAX 75
+/*
+-------------------------------------------------------------------------------------------------------------------------
+	WARNING:	bit operation ended
+-------------------------------------------------------------------------------------------------------------------------
+*/
+const unsigned char JX_ANIMATION_MALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 	9,//JX_ANIMATION_STATE_ZEN
 
 	15,//JX_ANIMATION_STATE_IDLE_FREE
@@ -203,7 +225,7 @@ const unsigned char JX_ANIMATION_MALE_FRAME[75] = {
 	6,//JX_ANIMATION_STATE_RIDE_HURT_FREE
 	14,//JX_ANIMATION_STATE_RIDE_FALL_FREE
 };
-const unsigned char JX_ANIMATION_FEMALE_FRAME[75] = {
+const unsigned char JX_ANIMATION_FEMALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 	12,//JX_ANIMATION_STATE_ZEN
 	10,//JX_ANIMATION_STATE_IDLE_FREE
 	8,//JX_ANIMATION_STATE_READY_FREE
@@ -293,36 +315,37 @@ enum JX_ANIMATION_ORDER_SET
 const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[64][9] = 
 {
 	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
-	{0, 1, 2, 3, 4, 4, 4, 4, 4},//JX_ANIMATION_STATE_ZEN
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
-	{},
+	// render order 9 = force no render
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
 };

@@ -46,7 +46,10 @@ void ofxSpriteRenderer::Render()
 	for(ofxBaseCommands::iterator it = m_Commands.begin();it != m_Commands.end();it++)
 	{
 		ofxBaseCommand* item = *it;
-		delete item;
+		if(item->IsBatchedCommand())
+		{// this is auto generated, so we delete it after use
+			delete item;
+		}
 	}
 	m_Commands.clear();
 	
@@ -67,9 +70,9 @@ void ofxSpriteRenderer::Render()
 		{
 			continue;
 		}
-		if(sprite->IsCustomRendered())
+		if(sprite->IsRenderable())
 		{
-			ofxBaseCommand* command = (ofxBaseCommand*)sprite;
+			ofxBaseCommand* command = static_cast<ofxBaseCommand*>(sprite);
 			m_Commands.push_back(command);
 			is_custom_command = true;
 			continue;

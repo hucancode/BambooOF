@@ -3,17 +3,19 @@
 #include "ofxBaseSprite.h"
 #include "ofxBaseCommand.h"
 #include "JxAnimationState.h"
+#include "JxShaderProgram.h"
 
 /* ----------------------------
 // WIP
 ---------------------------- */
 
 class JxAnimationCombo
-	:public ofxBaseSprite, public ofxBaseCommand
+	:public ofxBaseSprite
 {
 private:
 	GLuint				m_VBOId;
 private:
+	JxAnimation*		m_RenderList[9];
 	JxAnimation*		m_Helm;
 	JxAnimation*		m_Cloth;
 	JxAnimation*		m_HandL;
@@ -32,6 +34,7 @@ private:
 	float				m_Opacity;
 	JX_ANIMATION_STATE	m_CurrentState;
 	JX_GENDER			m_Gender;
+	JX_DIRECTION		m_Direction;
 	ofxTextures			m_Textures;
 	JxVertices			m_JxVertices;
 	float				m_FrameTimer;
@@ -65,8 +68,10 @@ public:
 private:
 	void				LoadAnimation			(JxAnimation* animation, string path, const string name);
 public:
-	virtual void		Update					(const float delta_time);
 	virtual void		SubmitChanges			();
+	virtual void		LoadShader				(string shader_path);
+	virtual void		Update					(const float delta_time);
 	virtual void		Render					();
+	
 };
 #define DEFAULT_JXANIMATION_SHADER "jx_animation"

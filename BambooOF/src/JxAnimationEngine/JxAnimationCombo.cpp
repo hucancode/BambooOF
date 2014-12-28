@@ -1,15 +1,30 @@
 #include "JxAnimationCombo.h"
+#include "ofxSpriteRenderer.h"
+#include "ofxShaderProgramCache.h"
 
-JxAnimationCombo::JxAnimationCombo()
+JxAnimationCombo::JxAnimationCombo():
+	ofxBaseSprite()
 {
+	glGenBuffers(1, &m_VBOId);
+	m_Renderable = true;
+	m_FrameTimer = 0;
+	m_FrameTime = 0;
+	m_CurrentFrame = 0;
+	m_FrameMin = 0;
+	m_FrameMax = 0;
+	m_Direction = JX_DIRECTION_RIGHT;
 	m_CurrentState = JX_ANIMATION_STATE_ZEN;
 	m_Helm = new JxAnimation();
+	SetHelmAnimation("basic1");
 	m_Helm->SetTextureSlot(JX_ANIMATION_HELM_TEXTURE_SLOT);
 	m_Cloth = new JxAnimation();
+	SetClothAnimation("basic1");
 	m_Cloth->SetTextureSlot(JX_ANIMATION_CLOTH_TEXTURE_SLOT);
 	m_HandL = new JxAnimation();
+	SetHandLAnimation("basic1");
 	m_HandL->SetTextureSlot(JX_ANIMATION_HANDL_TEXTURE_SLOT);
 	m_HandR = new JxAnimation();
+	SetHandRAnimation("basic1");
 	m_HandR->SetTextureSlot(JX_ANIMATION_HANDR_TEXTURE_SLOT);
 	m_WeaponLight = 0;
 	m_WeaponHeavy = 0;
@@ -18,10 +33,13 @@ JxAnimationCombo::JxAnimationCombo()
 	m_HorseHead = 0;
 	m_HorseBack = 0;
 	m_HorseTail = 0;
+	LoadShader(DEFAULT_JXANIMATION_SHADER);
+	ofxRENDERER->PushSprite(this);
 }
 JxAnimationCombo::~JxAnimationCombo()
 {
 }
+
 void JxAnimationCombo::SetColor(const ofFloatColor color)
 {
 }
@@ -38,6 +56,12 @@ void JxAnimationCombo::SetGender(const JX_GENDER gender)
 void JxAnimationCombo::SetAction(const JX_ACTION_STATE action_state)
 {
 	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_ACTION_FLAG | action_state<<JX_ACTION_BIT_OFFSET);
+	m_FrameTimer = 0.0;
+	m_FrameTime = 1.0/30.0;// 30FPS
+	int len = JX_ANIMATION_MALE_FRAME[m_CurrentState];
+	m_FrameMin = len*(int)m_Direction;
+	m_FrameMax = m_FrameMin + len;
+	m_CurrentFrame = m_FrameMin;
 }
 void JxAnimationCombo::SetWeapon(const JX_WEAPON_STATE weapon_state)
 {
@@ -185,6 +209,24 @@ void JxAnimationCombo::LoadAnimation(JxAnimation* animation, string path, const 
 	path += ".xml";
 	animation->Load(path);
 }
+void JxAnimationCombo::LoadShader(string shader_path)
+{
+	if(m_Shader)
+	{
+		m_Shader->DecreaseReference();
+	}
+	if(ofxSHADERPROGRAMCACHE->ResourceLoaded(DEFAULT_JXANIMATION_SHADER))
+	{
+		m_Shader = ofxSHADERPROGRAMCACHE->GetResource(shader_path);
+	}
+	else
+	{
+		m_Shader = new JxShaderProgram();
+		m_Shader->Load(shader_path);
+		ofxSHADERPROGRAMCACHE->PushResource(m_Shader, shader_path);
+	}
+	m_Shader->IncreaseReference();
+}
 void JxAnimationCombo::Update(const float delta_time)
 {
 	m_FrameTimer += delta_time;
@@ -232,7 +274,7 @@ void JxAnimationCombo::Update(const float delta_time)
 }
 void JxAnimationCombo::Render()
 {
-	SubmitChanges();
+	//SubmitChanges();
 	{
 		ofxTexture* texture = m_Helm->QueryTexture();
 		texture->Bind(JX_ANIMATION_HELM_TEXTURE_SLOT);
@@ -287,12 +329,24 @@ void JxAnimationCombo::Render()
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(ofxVertex)*ofxBaseCommand::m_VerticesSize, &m_JxVertices[0], GL_DYNAMIC_DRAW);
-	m_Shader->Bind();
-
-	glDrawArrays(GL_QUADS, 0, ofxBaseCommand::m_VerticesSize);
+	JxShaderProgram* shader = (JxShaderProgram*)m_Shader;
+	shader->Bind();
+	int vertex_index = 0;
+	for (int i = 0; i < 11; i++)
+	{
+		if(!m_RenderList[i]) continue;
+		// "array overflow" proof
+		/*if(vertex_index >= ofxBaseCommand::m_VerticesSize - 4)
+		{
+			break;
+		}*/
+		shader->SetTextureSlot(m_RenderList[i]->GetTextureSlot());
+		glDrawArrays(GL_QUADS, vertex_index, 4);
+		vertex_index += 4;
+	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	m_Shader->Unbind();
+	shader->Unbind();
 }
 void JxAnimationCombo::SubmitChanges()
 {
@@ -328,55 +382,47 @@ void JxAnimationCombo::SubmitChanges()
 	{
 		m_HorseTail->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
 	}
-	static JxAnimation* render_array[11];
 	// TODO: build render order here
 	// and here
 	// here
 	// below are just a demo
 	{
-		render_array[0] = m_Helm;
-		render_array[1] = m_Cloth;
-		render_array[2] = m_HandL;
-		render_array[3] = m_HandR;
-		render_array[4] = m_WeaponLight;
-		render_array[5] = m_WeaponHeavy;
-		render_array[6] = m_WeaponDualL;
-		render_array[7] = m_WeaponDualR;
-		render_array[8] = m_HorseHead;
-		render_array[9] = m_HorseBack;
-		render_array[10] = m_HorseTail;
+		m_RenderList[0] = m_Helm;
+		m_RenderList[1] = m_Cloth;
+		m_RenderList[2] = m_HandL;
+		m_RenderList[3] = m_HandR;
+		m_RenderList[4] = m_WeaponDualL;
+		m_RenderList[5] = m_WeaponDualR;
+		m_RenderList[6] = m_HorseHead;
+		m_RenderList[7] = m_HorseBack;
+		m_RenderList[8] = m_HorseTail;
 	}
 	m_JxVertices.clear();
 	for(int i=0;i<11;i++)
 	{
-		if(!render_array[i]) continue;
-		JxFrameInfo info = render_array[i]->QueryFrame();
-		unsigned char texture_slot = render_array[i]->GetTextureSlot();
+		if(!m_RenderList[i]) continue;
+		JxFrameInfo info = m_RenderList[i]->QueryFrame();
 		JxVertex a, b, c, d;
 		a.x = info.x_min;
 		a.y = info.y_min;
 		a.z = m_Position.z;
 		a.u = info.u_min;
 		a.v = info.v_min;
-		a.texture = texture_slot;
 		b.x = info.x_max;
 		b.y = info.y_min;
 		b.z = m_Position.z;
 		b.u = info.u_max;
 		b.v = info.v_min;
-		b.texture = texture_slot;
 		c.x = info.x_max;
 		c.y = info.y_max;
 		c.z = m_Position.z;
 		c.u = info.u_max;
 		c.v = info.v_max;
-		c.texture = texture_slot;
 		d.x = info.x_min;
 		d.y = info.y_max;
 		d.z = m_Position.z;
 		d.u = info.u_min;
 		d.v = info.v_max;
-		d.texture = texture_slot;
 		m_JxVertices.push_back(a);
 		m_JxVertices.push_back(b);
 		m_JxVertices.push_back(c);

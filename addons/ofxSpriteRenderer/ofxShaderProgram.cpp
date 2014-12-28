@@ -2,6 +2,8 @@
 #include "ofxShaderCache.h"
 #include "ofxSpriteRenderer.h"
 
+GLuint ofxShaderProgram::s_LastProgramId = 0;
+
 ofxShaderProgram::ofxShaderProgram()
 {
 	m_ProgramId = glCreateProgram();
@@ -49,6 +51,7 @@ void ofxShaderProgram::Bind()
 {
 	glUseProgram(m_ProgramId);
 	BindReferenceMap();
+	s_LastProgramId = m_ProgramId;
 }
 void ofxShaderProgram::BuildReferenceMap()
 {
@@ -83,14 +86,18 @@ void ofxShaderProgram::BindReferenceMap()
 		stride, (GLvoid*) offsetof(ofxVertex, opacity));
 	// --------------
 	glUniform1i					(m_UniformMap["u_texture"],				0);
-	glUniformMatrix4fv			(m_UniformMap["u_modelview_matrix"],	1, GL_FALSE, 
-		ofxRENDERER->GetModelViewMatrix().getPtr());
-	glUniformMatrix4fv			(m_UniformMap["u_projection_matrix"],	1, GL_FALSE, 
-		ofxRENDERER->GetProjectionMatrix().getPtr());
-	glUniformMatrix4fv			(m_UniformMap["u_transform_matrix"],	1, GL_FALSE, 
-		ofxRENDERER->GetTransformation().getPtr());
-	glUniformMatrix4fv			(m_UniformMap["u_cam_inverse_matrix"],	1, GL_FALSE, 
-		ofxRENDERER->GetInverseModelViewMatrix().getPtr());
+	// if this is a rebind, no need to repush constant value
+	if(s_LastProgramId != m_ProgramId)
+	{
+		glUniformMatrix4fv			(m_UniformMap["u_modelview_matrix"],	1, GL_FALSE, 
+			ofxRENDERER->GetModelViewMatrix().getPtr());
+		glUniformMatrix4fv			(m_UniformMap["u_projection_matrix"],	1, GL_FALSE, 
+			ofxRENDERER->GetProjectionMatrix().getPtr());
+		glUniformMatrix4fv			(m_UniformMap["u_transform_matrix"],	1, GL_FALSE, 
+			ofxRENDERER->GetTransformation().getPtr());
+		glUniformMatrix4fv			(m_UniformMap["u_cam_inverse_matrix"],	1, GL_FALSE, 
+			ofxRENDERER->GetInverseModelViewMatrix().getPtr());
+	}
 }
 void ofxShaderProgram::Unbind()
 {

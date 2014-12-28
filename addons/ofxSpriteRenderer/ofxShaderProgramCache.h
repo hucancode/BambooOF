@@ -16,6 +16,8 @@ public:
 	ofxShaderProgramCache();
 	~ofxShaderProgramCache();
 	ofxShaderProgram*				GetResource(string resource_file);
+	bool							PushResource(ofxShaderProgram* resource, string resource_name);
+	bool							ResourceLoaded(string resource_name);
 	void							Clean();
 };
 #define ofxSHADERPROGRAMCACHE ofxShaderProgramCache::GetInstance()

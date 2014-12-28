@@ -54,6 +54,10 @@ bool ofxTextureCache::PushResource(ofxTexture* resource, string resource_name)
 	}
 	return false;
 }
+bool ofxTextureCache::ResourceLoaded(string resource_name)
+{
+	return m_ResourceMap[resource_name] != 0;
+}
 void ofxTextureCache::Clean()
 {
 	map<string, ofxTexture*>::iterator it = m_ResourceMap.begin();

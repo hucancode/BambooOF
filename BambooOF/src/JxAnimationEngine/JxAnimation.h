@@ -5,7 +5,6 @@ struct JxVertex
 {
 	float x, y, z;
 	float u, v;
-	unsigned char texture;
 };
 typedef vector<JxVertex> JxVertices;
 struct JxFrameInfo

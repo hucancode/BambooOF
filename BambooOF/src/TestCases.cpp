@@ -1,4 +1,5 @@
 #include "TestCases.h"
+#include "JxEngineTest.h"
 #include "ofxTextureCache.h"
 #include "ofxShaderCache.h"
 #include "ofxShaderProgramCache.h"
@@ -6,7 +7,7 @@
 #include "ofxParticleEffect2D.h"
 #include "IL/il.h"
 
-Test* current_test = new TextureBenchmarkTest();
+Test* current_test = new JxAnimationTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {

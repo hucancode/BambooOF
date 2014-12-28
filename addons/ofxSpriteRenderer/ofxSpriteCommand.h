@@ -14,7 +14,6 @@ class ofxSpriteCommand
 {
 private:
 	ofxTexture*				m_Texture;
-	ofxShaderProgram*		m_Shader;
 	ofxVertex*				m_Vertices;
 	GLuint					m_VBOId;
 public:

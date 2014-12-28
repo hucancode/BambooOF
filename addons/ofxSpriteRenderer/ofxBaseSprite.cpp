@@ -11,7 +11,8 @@ ofxBaseSprite::ofxBaseSprite()
 	m_Texture = 0;
 	m_PositionChange = true;
 	m_DimensionChange = true;
-	m_CustomRendered = false;
+	m_Renderable = false;
+	m_Batched = false;
 }
 ofxBaseSprite::~ofxBaseSprite()
 {
@@ -112,9 +113,9 @@ ofxTexture* ofxBaseSprite::GetTexture()
 {
 	return m_Texture;
 }
-bool ofxBaseSprite::IsCustomRendered()
+bool ofxBaseSprite::IsRenderable()
 {
-	return m_CustomRendered;
+	return m_Renderable;
 }
 void ofxBaseSprite::SetID(int id)
 {

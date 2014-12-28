@@ -1,8 +1,7 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxShaderProgram.h"
 #include "ofxTexture.h"
-
+#include "ofxBaseCommand.h"
 struct ofxVertex
 {
 	float x,y,z;			// position
@@ -19,7 +18,8 @@ enum SPRITE_OCCLUSION
 	SPRITE_OCCLUSION_UNKNOWN,		// need to update occlusion, now
 };
 
-class ofxBaseSprite
+class ofxBaseSprite:
+	public ofxBaseCommand
 {
 	friend class ofxSpriteRenderer;
 	friend class ofxSpriteCommand;
@@ -31,11 +31,9 @@ protected:
 	bool				m_PositionChange;
 	bool				m_DimensionChange;
 	ofxTexture*			m_Texture;
-	ofxShaderProgram*	m_Shader;
 	ofxVertex*			m_Vertices;
-	GLsizei				m_VerticesSize;
 	int					m_ID;
-	bool				m_CustomRendered;
+	bool				m_Renderable;
 public:
 	ofxBaseSprite();
 	~ofxBaseSprite();
@@ -52,7 +50,7 @@ public:
 	virtual void		LoadShader(string shader_path);
 	virtual void		SetTexture(string texture_path);
 	ofxTexture*			GetTexture();
-	bool				IsCustomRendered();
+	bool				IsRenderable();
 private:
 	void				SetID(int id);
 	int					GetID();

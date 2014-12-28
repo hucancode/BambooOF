@@ -42,15 +42,28 @@ ofxShaderProgram* ofxShaderProgramCache::GetResource(string resource_file)
 	}
 	return m_ResourceMap[resource_file];
 }
+bool ofxShaderProgramCache::PushResource(ofxShaderProgram* resource, string resource_name)
+{
+	if(!ResourceLoaded(resource_name))
+	{
+		m_ResourceMap[resource_name] = resource;
+		return true;
+	}
+	return false;
+}
+bool ofxShaderProgramCache::ResourceLoaded(string resource_name)
+{
+	return m_ResourceMap[resource_name] != 0;
+}
 void ofxShaderProgramCache::Clean()
 {
 	map<string, ofxShaderProgram*>::iterator it = m_ResourceMap.begin();
 	while(it != m_ResourceMap.end())
 	{
-		ofxShaderProgram* material = (*it).second;
-		if(material->IsUnused())
+		ofxShaderProgram* shader = (*it).second;
+		if(shader->IsUnused())
 		{
-			delete material;
+			delete shader;
 			it = m_ResourceMap.erase(it);
 		}
 		else

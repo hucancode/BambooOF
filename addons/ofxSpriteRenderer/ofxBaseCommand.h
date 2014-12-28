@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "ofxShaderProgram.h"
 /*
 note: 
 if you gonna render something complicated, and sprite isn't enough good to do it, then:
@@ -13,11 +14,14 @@ if you gonna render something complicated, and sprite isn't enough good to do it
 class ofxBaseCommand
 {
 protected:
-	unsigned int m_VerticesSize;
+	bool				m_Batched;
+	ofxShaderProgram*	m_Shader;
+	GLsizei				m_VerticesSize;
 public:
 	ofxBaseCommand();
 	virtual ~ofxBaseCommand();
-	virtual void Render();
-	unsigned int GetRenderedVertices();
+	virtual void		Render();
+	unsigned int		GetRenderedVertices();
+	bool				IsBatchedCommand();
 };
 typedef vector<ofxBaseCommand*> ofxBaseCommands;
