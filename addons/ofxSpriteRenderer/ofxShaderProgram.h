@@ -25,5 +25,5 @@ public:
 	virtual void		DecreaseReference();
 	bool				Load(string vs_file, string fs_file);
 	void				Bind();
-	void				Unbind();
+	static void			Unbind();
 };

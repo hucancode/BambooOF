@@ -346,7 +346,7 @@ void JxAnimationCombo::Render()
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	shader->Unbind();
+	//shader->Unbind();
 }
 void JxAnimationCombo::SubmitChanges()
 {

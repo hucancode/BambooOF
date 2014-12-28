@@ -132,6 +132,7 @@ void ofxSpriteRenderer::Render()
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
+	ofxShaderProgram::Unbind();
 	//m_Camera->end();
 #ifdef _DEBUG
 	unsigned long long time_finish_render = ofGetSystemTime();

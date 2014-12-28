@@ -21,7 +21,7 @@ void ofxSpriteCommand::Render()
 	m_Texture->Bind();
 	glDrawArrays(GL_QUADS, 0, m_VerticesSize);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	m_Shader->Unbind();
+	//m_Shader->Unbind();
 	m_Texture->Unbind();
 }
 bool ofxSpriteCommand::PushSprite(ofxBaseSprite* sprite)
