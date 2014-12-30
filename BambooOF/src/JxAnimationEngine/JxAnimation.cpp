@@ -6,7 +6,7 @@
 
 JxAnimation::JxAnimation()
 {
-	m_CurrentState = 0;
+	m_CurrentState = JX_ANIMATION_STATE_ZEN;
 	m_CurrentFrame = 0;
 }
 JxAnimation::~JxAnimation()
@@ -90,7 +90,7 @@ unsigned char JxAnimation::GetTextureSlot()
 {
 	return m_TextureSlot;
 }
-void JxAnimation::SetState(unsigned char state)
+void JxAnimation::SetState(JX_ANIMATION_STATE state)
 {
 	m_CurrentState = state;
 }
@@ -100,9 +100,9 @@ void JxAnimation::SetFrame(unsigned char frame)
 }
 JxFrameInfo JxAnimation::QueryFrame()
 {
-	return m_FrameTable[m_CurrentState][m_CurrentFrame];
+	return m_FrameTable[(int)m_CurrentState][m_CurrentFrame];
 }
 ofxTexture* JxAnimation::QueryTexture()
 {
-	return m_Textures[m_FrameTable[m_CurrentState][m_CurrentFrame].texture];
+	return m_Textures[m_FrameTable[(int)m_CurrentState][m_CurrentFrame].texture];
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxTexture.h"
+#include "JxAnimationState.h"
 struct JxVertex
 {
 	float x, y, z;
@@ -21,7 +22,7 @@ typedef vector<JxFrameInfoArray> JxFrameInfoTable;
 class JxAnimation
 {
 private:
-	unsigned char			m_CurrentState;
+	JX_ANIMATION_STATE		m_CurrentState;
 	unsigned char			m_CurrentFrame;
 	ofxTextures				m_Textures;
 	JxFrameInfoTable		m_FrameTable;
@@ -31,7 +32,7 @@ public:
 	~JxAnimation();
 	void					Load(string xml_file);
 	void					SetTextureSlot(unsigned char slot);
-	void					SetState(unsigned char state);
+	void					SetState(JX_ANIMATION_STATE state);
 	void					SetFrame(unsigned char frame);
 	unsigned char			GetTextureSlot();
 	JxFrameInfo				QueryFrame();
