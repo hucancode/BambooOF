@@ -38,14 +38,15 @@ enum JX_GENDER
 };
 enum JX_DIRECTION
 {
-	JX_DIRECTION_RIGHT			= 0,
-	JX_DIRECTION_UPPER_RIGHT	= 1,
-	JX_DIRECTION_UP				= 2,
-	JX_DIRECTION_UPPER_LEFT		= 3,
-	JX_DIRECTION_LEFT			= 4,
-	JX_DIRECTION_LOWER_LEFT		= 5,
-	JX_DIRECTION_DOWN			= 6,
-	JX_DIRECTION_LOWER_RIGHT	= 7,
+	JX_DIRECTION_DOWN			= 0,
+	JX_DIRECTION_LOWER_RIGHT	= 1,
+	JX_DIRECTION_RIGHT			= 2,
+	JX_DIRECTION_UPPER_RIGHT	= 3,
+	JX_DIRECTION_UP				= 4,
+	JX_DIRECTION_UPPER_LEFT		= 5,
+	JX_DIRECTION_LEFT			= 6,
+	JX_DIRECTION_LOWER_LEFT		= 7,
+	
 };
 /*
 -------------------------------------------------------------------------------------------------------------------------
