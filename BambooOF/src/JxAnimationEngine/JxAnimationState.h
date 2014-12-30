@@ -46,16 +46,17 @@ enum JX_DIRECTION
 	JX_DIRECTION_UPPER_LEFT		= 5,
 	JX_DIRECTION_LEFT			= 6,
 	JX_DIRECTION_LOWER_LEFT		= 7,
-	
+
 };
 /*
 -------------------------------------------------------------------------------------------------------------------------
-	WARNING:	below are bit operation, it's hard to understand.
-				if you wanna hack them, bring pen and paper, write down the value in bit to find out the rule of notation.
+WARNING:	below are bit operation, it's hard to understand.
+if you wanna hack them, bring pen and paper, write down the value in bit to find out the rule of notation.
 -------------------------------------------------------------------------------------------------------------------------
 */
 #define JX_HORSE_BIT_OFFSET 6
 #define JX_VOID_HORSE_FLAG 0x3F// 00111111
+#define JX_KEEP_HORSE_FLAG 0xC0// 11000000
 enum JX_HORSE_STATE
 {
 	JX_HORSE_STATE_ENABLE				= 1,
@@ -63,6 +64,7 @@ enum JX_HORSE_STATE
 };
 #define JX_WEAPON_BIT_OFFSET 4
 #define JX_VOID_WEAPON_FLAG 0xCF// 11001111
+#define JX_KEEP_WEAPON_FLAG 0x30// 00110000
 enum JX_WEAPON_STATE
 {
 	JX_WEAPON_STATE_FREE				= 0,
@@ -71,7 +73,8 @@ enum JX_WEAPON_STATE
 	JX_WEAPON_STATE_DUAL				= 3,
 };
 #define JX_ACTION_BIT_OFFSET 0
-#define JX_VOID_ACTION_FLAG 0xF0//11110000
+#define JX_VOID_ACTION_FLAG 0xF0// 11110000
+#define JX_KEEP_ACTION_FLAG 0x0F// 00001111
 enum JX_ACTION_STATE
 {
 	JX_ACTION_STATE_ZEN					= 0,
@@ -130,7 +133,7 @@ enum JX_ANIMATION_STATE
 	JX_ANIMATION_STATE_CAST_DUAL		= 8 | (3 << JX_WEAPON_BIT_OFFSET) | (0 << JX_HORSE_BIT_OFFSET),
 	JX_ANIMATION_STATE_HURT_DUAL		= 9 | (3 << JX_WEAPON_BIT_OFFSET) | (0 << JX_HORSE_BIT_OFFSET),
 	JX_ANIMATION_STATE_FALL_DUAL		= 10| (3 << JX_WEAPON_BIT_OFFSET) | (0 << JX_HORSE_BIT_OFFSET),
-	
+
 	// RIDE
 	JX_ANIMATION_STATE_RIDE_IDLE		= 1 | (0 << JX_WEAPON_BIT_OFFSET) | (1 << JX_HORSE_BIT_OFFSET),
 	JX_ANIMATION_STATE_RIDE_WALK		= 3 | (0 << JX_WEAPON_BIT_OFFSET) | (1 << JX_HORSE_BIT_OFFSET),
@@ -144,7 +147,7 @@ enum JX_ANIMATION_STATE
 #define JX_ANIMATION_STATE_MAX 75
 /*
 -------------------------------------------------------------------------------------------------------------------------
-	WARNING:	bit operation ended
+WARNING:	bit operation ended
 -------------------------------------------------------------------------------------------------------------------------
 */
 const unsigned char JX_ANIMATION_MALE_FRAME[JX_ANIMATION_STATE_MAX] = {
@@ -220,8 +223,8 @@ const unsigned char JX_ANIMATION_MALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 	12,//JX_ANIMATION_STATE_RIDE_WALK_FREE
 	10,//JX_ANIMATION_STATE_RIDE_RUN_FREE
 	0,
-	12,//JX_ANIMATION_STATE_RIDE_ATKCRIT_FREE
-	14,//JX_ANIMATION_STATE_RIDE_ATK_FREE
+	14,//JX_ANIMATION_STATE_RIDE_ATKCRIT_FREE
+	12,//JX_ANIMATION_STATE_RIDE_ATK_FREE
 	12,//JX_ANIMATION_STATE_RIDE_CAST_FREE
 	6,//JX_ANIMATION_STATE_RIDE_HURT_FREE
 	14,//JX_ANIMATION_STATE_RIDE_FALL_FREE
@@ -298,26 +301,19 @@ const unsigned char JX_ANIMATION_FEMALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 	12,//JX_ANIMATION_STATE_RIDE_WALK_FREE
 	10,//JX_ANIMATION_STATE_RIDE_RUN_FREE
 	0,
-	12,//JX_ANIMATION_STATE_RIDE_ATK_FREEC
-	14,//JX_ANIMATION_STATE_RIDE_ATK_FREE
+	14,//JX_ANIMATION_STATE_RIDE_ATK_FREEC
+	12,//JX_ANIMATION_STATE_RIDE_ATK_FREE
 	12,//JX_ANIMATION_STATE_RIDE_CAST_FREE
 	6,//JX_ANIMATION_STATE_RIDE_HURT_FREE
 	14,//JX_ANIMATION_STATE_RIDE_FALL_FREE
 };
 
-enum JX_ANIMATION_ORDER_SET
-{
-	// horse-weapon-direction-idle_or_not, 0-00-00-0
-	JX_ANIMATION_ORDER_SET_FREE_DOWN			= 0 | 0 << 1 | 0 << 3 | 0 << 5,
-	JX_ANIMATION_ORDER_SET_FREE_DOWN_IDLE		= 1 | 0 << 1 | 0 << 3 | 0 << 5,
-	JX_ANIMATION_ORDER_SET_FREE_LEFT			= 0 | 0 << 1 | 1 << 3 | 0 << 5,
-	JX_ANIMATION_ORDER_SET_FREE_LEFT_IDLE		= 1 | 0 << 1 | 1 << 3 | 0 << 5,
-};
-const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[JX_ANIMATION_STATE_MAX][8][9] = 
+const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[4][8][9] = 
 {
 	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
 	// render order 9 = force disable render
-	{// JX_ANIMATION_STATE_ZEN
+
+	{// FREE WEAPON
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
@@ -327,7 +323,7 @@ const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[JX_ANIMATION_STATE_MAX][8][9
 		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
 		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
 	},
-	{// JX_ANIMATION_STATE_IDLE_FREE
+	{// LIGHT WEAPON
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
 		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
@@ -337,28 +333,24 @@ const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[JX_ANIMATION_STATE_MAX][8][9
 		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
 		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
 	},
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	{// HEAVY WEAPON
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
+	},
+	{// DUAL WEAPON
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
+	},
 };
