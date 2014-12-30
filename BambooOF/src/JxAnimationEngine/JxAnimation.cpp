@@ -62,17 +62,17 @@ void JxAnimation::Load(string xml_file)
 				frame.v_min = y*uh;
 				frame.u_max = frame.u_min + w*uw;
 				frame.v_max = frame.v_min + h*uh;
-				frame.x_min = ox;
-				frame.y_min = oy;
+				frame.x_min = 256-ox;
+				frame.y_min = 256-oy;
 				if(rotated)
 				{
-					frame.x_max = frame.x_min + h;
-					frame.y_max = frame.y_min + w;
+					frame.x_max = frame.x_min - h;
+					frame.y_max = frame.y_min - w;
 				}
 				else
 				{
-					frame.x_max = frame.x_min + w;
-					frame.y_max = frame.y_min + h;
+					frame.x_max = frame.x_min - w;
+					frame.y_max = frame.y_min - h;
 				}
 				frame.rotated = rotated;
 				frame.texture = texture_id;

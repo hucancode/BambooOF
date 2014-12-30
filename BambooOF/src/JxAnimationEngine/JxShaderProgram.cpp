@@ -30,7 +30,7 @@ void JxShaderProgram::BindReferenceMap()
 	glVertexAttribPointer		(m_AttributeMap["a_uv"],				2, GL_FLOAT, GL_FALSE, 
 		stride, (GLvoid*) offsetof(JxVertex, u));
 	// --------------
-	glUniform1i					(m_UniformMap["u_texture"],				0);
+	glUniform1i						(m_UniformMap["u_texture"],				0);
 	if(s_LastProgramId != m_ProgramId)
 	{
 		glUniformMatrix4fv			(m_UniformMap["u_modelview_matrix"],	1, GL_FALSE, 
