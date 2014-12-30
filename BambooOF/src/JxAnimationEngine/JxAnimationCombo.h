@@ -32,6 +32,9 @@ private:
 	ofFloatColor		m_Color;
 	float				m_ColorIntensity;
 	float				m_Opacity;
+	JX_HORSE_STATE		m_HorseState;
+	JX_WEAPON_STATE		m_WeaponState;
+	JX_ACTION_STATE		m_ActionState;
 	JX_ANIMATION_STATE	m_CurrentState;
 	JX_GENDER			m_Gender;
 	JX_DIRECTION		m_Direction;
@@ -49,6 +52,8 @@ public:
 	void				SetAction				(const JX_ACTION_STATE action_state);
 	void				SetWeapon				(const JX_WEAPON_STATE weapon_state);
 	void				SetHorse				(const JX_HORSE_STATE horse_state);
+private:
+	void				RefreshFrameInfo		();
 public:
 	void				SetColor				(const ofFloatColor color);
 	void				SetColorIntensity		(const float color_intensity);

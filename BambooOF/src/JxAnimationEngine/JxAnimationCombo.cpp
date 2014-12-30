@@ -52,20 +52,20 @@ void JxAnimationCombo::SetOpacity(const float opacity)
 void JxAnimationCombo::SetGender(const JX_GENDER gender)
 {
 	m_Gender = gender;
+	RefreshFrameInfo();
 }
 void JxAnimationCombo::SetAction(const JX_ACTION_STATE action_state)
 {
-	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_ACTION_FLAG | action_state<<JX_ACTION_BIT_OFFSET);
-	m_FrameTimer = 0.0;
-	m_FrameTime = 1.0/10.0;// 30FPS
-	int len = JX_ANIMATION_MALE_FRAME[m_CurrentState];
-	m_FrameMin = len*(int)m_Direction;
-	m_FrameMax = m_FrameMin + len;
-	m_CurrentFrame = m_FrameMin;
+	m_ActionState = action_state;
+	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & 
+		JX_VOID_ACTION_FLAG | action_state<<JX_ACTION_BIT_OFFSET);
+	RefreshFrameInfo();
 }
 void JxAnimationCombo::SetWeapon(const JX_WEAPON_STATE weapon_state)
 {
-	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_WEAPON_FLAG | weapon_state<<JX_WEAPON_BIT_OFFSET);
+	m_WeaponState = weapon_state;
+	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_WEAPON_FLAG | 
+		weapon_state<<JX_WEAPON_BIT_OFFSET);
 
 	// TODO: not delete these object so fast, but cache them to avoid load/reload
 	if(weapon_state != JX_WEAPON_STATE_LIGHT && m_WeaponLight)
@@ -96,10 +96,23 @@ void JxAnimationCombo::SetWeapon(const JX_WEAPON_STATE weapon_state)
 		delete m_WeaponDualR;
 		m_WeaponDualR = 0;
 	}
+	RefreshFrameInfo();
 }
 void JxAnimationCombo::SetHorse(const JX_HORSE_STATE horse_state)
 {
-	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_HORSE_FLAG | horse_state<<JX_HORSE_BIT_OFFSET);
+	m_HorseState = horse_state;
+	if(m_HorseState == JX_HORSE_STATE_ENABLE)
+	{
+		m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & 
+			JX_VOID_HORSE_FLAG & JX_VOID_WEAPON_FLAG | 
+			horse_state<<JX_HORSE_BIT_OFFSET);
+	}
+	else
+	{
+		m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & 
+			JX_VOID_HORSE_FLAG & JX_VOID_WEAPON_FLAG | 
+			m_WeaponState<<JX_WEAPON_BIT_OFFSET | horse_state<<JX_HORSE_BIT_OFFSET);
+	}
 
 	// TODO: not delete these object so fast, but cache them to avoid load/reload
 	if(horse_state != JX_HORSE_STATE_ENABLE)
@@ -120,6 +133,24 @@ void JxAnimationCombo::SetHorse(const JX_HORSE_STATE horse_state)
 			m_HorseTail = 0;
 		}
 	}
+	RefreshFrameInfo();
+}
+void JxAnimationCombo::RefreshFrameInfo()
+{
+	m_FrameTimer = 0.0;
+	m_FrameTime = 1.0/10.0;// 30FPS
+	int len;
+	if(m_Gender == JX_GENDER_MALE)
+	{
+		len = JX_ANIMATION_MALE_FRAME[m_CurrentState];
+	}
+	else
+	{
+		len = JX_ANIMATION_FEMALE_FRAME[m_CurrentState];
+	}
+	m_FrameMin = len*(int)m_Direction;
+	m_FrameMax = m_FrameMin + len;
+	m_CurrentFrame = m_FrameMin;
 }
 void JxAnimationCombo::SetHelmAnimation(string name)
 {
@@ -350,37 +381,39 @@ void JxAnimationCombo::Render()
 }
 void JxAnimationCombo::SubmitChanges()
 {
+	JX_ANIMATION_STATE ignore_weapon = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_WEAPON_FLAG);
+	JX_ANIMATION_STATE ignore_weapon_horse = (JX_ANIMATION_STATE)(ignore_weapon & JX_VOID_HORSE_FLAG);
 	m_Helm->SetState(m_CurrentState);
 	m_Cloth->SetState(m_CurrentState);
 	m_HandL->SetState(m_CurrentState);
 	m_HandR->SetState(m_CurrentState);
 	if(m_WeaponLight)
 	{
-		m_WeaponLight->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+		m_WeaponLight->SetState(ignore_weapon);
 	}
 	if(m_WeaponHeavy)
 	{
-		m_WeaponHeavy->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+		m_WeaponHeavy->SetState(ignore_weapon);
 	}
 	if(m_WeaponDualL)
 	{
-		m_WeaponDualL->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+		m_WeaponDualL->SetState(ignore_weapon);
 	}
 	if(m_WeaponDualR)
 	{
-		m_WeaponDualR->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG);
+		m_WeaponDualR->SetState(ignore_weapon);
 	}
 	if(m_HorseHead)
 	{
-		m_HorseHead->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+		m_HorseHead->SetState(ignore_weapon_horse);
 	}
 	if(m_HorseBack)
 	{
-		m_HorseBack->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+		m_HorseBack->SetState(ignore_weapon_horse);
 	}
 	if(m_HorseTail)
 	{
-		m_HorseTail->SetState(m_CurrentState & JX_VOID_WEAPON_FLAG & JX_VOID_HORSE_FLAG);
+		m_HorseTail->SetState(ignore_weapon_horse);
 	}
 	// TODO: build render order here
 	// and here
@@ -389,10 +422,10 @@ void JxAnimationCombo::SubmitChanges()
 	{
 		m_RenderList[0] = m_Cloth;
 		m_RenderList[1] = m_HandL;
-		m_RenderList[2] = m_HandR;
-		m_RenderList[3] = m_Helm;
-		m_RenderList[4] = m_WeaponDualL;
-		m_RenderList[5] = m_WeaponDualR;
+		m_RenderList[2] = m_WeaponDualL;
+		m_RenderList[3] = m_HandR;
+		m_RenderList[4] = m_WeaponDualR;
+		m_RenderList[5] = m_Helm;
 		m_RenderList[6] = m_HorseHead;
 		m_RenderList[7] = m_HorseBack;
 		m_RenderList[8] = m_HorseTail;
