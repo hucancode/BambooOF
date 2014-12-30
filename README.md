@@ -18,12 +18,16 @@ GAME ENGINE TASK LIST
   * render character using sprite renderer [WIP]
     * animation loader [OK]
     * state operation [OK]
-    * render [WIP]
-    * optimization
+    * render [OK]
+    * optimization [WIP]
   * re-generate data [OK]
   * memory management [OK]
   * memory optimization [OK]
 * develop rts engine
+  * structure render
+    * 3d blocks generating algorithm [OK]
+	* implement [WIP]
+	* optimization
   * fog of war calculation
     * base theory [OK]
     * base library [WIP]
