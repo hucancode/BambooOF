@@ -415,20 +415,29 @@ void JxAnimationCombo::SubmitChanges()
 	{
 		m_HorseTail->SetState(ignore_weapon_horse);
 	}
-	// TODO: build render order here
-	// and here
-	// here
-	// below are just a demo
 	{
-		m_RenderList[0] = m_Cloth;
-		m_RenderList[1] = m_HandL;
-		m_RenderList[2] = m_WeaponDualL;
-		m_RenderList[3] = m_HandR;
-		m_RenderList[4] = m_WeaponDualR;
-		m_RenderList[5] = m_Helm;
-		m_RenderList[6] = m_HorseHead;
-		m_RenderList[7] = m_HorseBack;
-		m_RenderList[8] = m_HorseTail;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][0]] = m_Helm;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][1]] = m_Cloth;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][2]] = m_HandL;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][3]] = m_HandR;
+		if(m_WeaponState == JX_WEAPON_STATE_DUAL)
+		{
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][4]] = m_WeaponDualL;
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][5]] = m_WeaponDualR;
+		}
+		else if(m_WeaponState == JX_WEAPON_STATE_HEAVY)
+		{
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][4]] = m_WeaponHeavy;
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][5]] = 0;
+		}
+		else
+		{
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][4]] = m_WeaponLight;
+			m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][5]] = 0;
+		}
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][6]] = m_HorseHead;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][7]] = m_HorseBack;
+		m_RenderList[JX_ANIMATION_COMBO_RENDER_ORDER[(int)m_Direction][8]] = m_HorseTail;
 	}
 	m_JxVertices.clear();
 	for(int i=0;i<9;i++)

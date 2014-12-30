@@ -308,49 +308,16 @@ const unsigned char JX_ANIMATION_FEMALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 	14,//JX_ANIMATION_STATE_RIDE_FALL_FREE
 };
 
-const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[4][8][9] = 
+const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[8][9] = 
 {
-	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
+	// helm, cloth, handl, handr, weapon_primary(left), weapon_secondary(right), horse_head, horse_back, horse_tail
 	// render order 9 = force disable render
-
-	{// FREE WEAPON
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
-	},
-	{// LIGHT WEAPON
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
-	},
-	{// HEAVY WEAPON
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
-	},
-	{// DUAL WEAPON
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
-		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
-		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
-	},
+	{7, 2, 5, 3, 6, 4, 8, 1, 0},// DOWN
+	{5, 4, 3, 7, 2, 8, 6, 1, 0},// LOWER RIGHT
+	{5, 4, 3, 7, 2, 8, 6, 1, 0},// RIGHT
+	{5, 4, 3, 7, 2, 8, 6, 1, 0},// UPPER RIGHT
+	{2, 3, 5, 8, 6, 7, 0, 1, 4},// UP
+	{6, 5, 7, 3, 8, 2, 4, 1, 0},// UPPER LEFT
+	{6, 5, 7, 3, 8, 2, 4, 1, 0},// LEFT
+	{6, 5, 7, 3, 8, 2, 4, 1, 0},// LOWER LEFT
 };
