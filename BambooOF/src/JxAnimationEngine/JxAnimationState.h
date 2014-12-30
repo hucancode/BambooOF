@@ -313,18 +313,30 @@ enum JX_ANIMATION_ORDER_SET
 	JX_ANIMATION_ORDER_SET_FREE_LEFT			= 0 | 0 << 1 | 1 << 3 | 0 << 5,
 	JX_ANIMATION_ORDER_SET_FREE_LEFT_IDLE		= 1 | 0 << 1 | 1 << 3 | 0 << 5,
 };
-const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[64][9] = 
+const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[JX_ANIMATION_STATE_MAX][8][9] = 
 {
 	// helm, cloth, handl, handr, weapon_primary, weapon_secondary, horse_head, horse_back, horse_tail
-	// render order 9 = force no render
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
-	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
+	// render order 9 = force disable render
+	{// JX_ANIMATION_STATE_ZEN
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
+	},
+	{// JX_ANIMATION_STATE_IDLE_FREE
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// DOWN
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// LOWER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UPPER RIGHT
+		{3, 1, 2, 0, 9, 9, 9, 9, 9},// UP
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// UPPER LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LEFT
+		{3, 1, 0, 2, 9, 9, 9, 9, 9},// LOWER LEFT
+	},
 	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
 	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
 	{0, 1, 2, 3, 9, 9, 9, 9, 9},//JX_ANIMATION_STATE_ZEN
