@@ -12,19 +12,19 @@ JxAnimationCombo::JxAnimationCombo():
 	m_CurrentFrame = 0;
 	m_FrameMin = 0;
 	m_FrameMax = 0;
-	m_Direction = JX_DIRECTION_RIGHT;
+	m_Direction = JX_DIRECTION_DOWN;
 	m_CurrentState = JX_ANIMATION_STATE_ZEN;
 	m_Helm = new JxAnimation();
-	SetHelmAnimation("basic1");
+	SetHelmAnimation("tianwang3");
 	m_Helm->SetTextureSlot(JX_ANIMATION_HELM_TEXTURE_SLOT);
 	m_Cloth = new JxAnimation();
-	SetClothAnimation("basic1");
+	SetClothAnimation("tianwang3");
 	m_Cloth->SetTextureSlot(JX_ANIMATION_CLOTH_TEXTURE_SLOT);
 	m_HandL = new JxAnimation();
-	SetHandLAnimation("basic1");
+	SetHandLAnimation("tianwang3");
 	m_HandL->SetTextureSlot(JX_ANIMATION_HANDL_TEXTURE_SLOT);
 	m_HandR = new JxAnimation();
-	SetHandRAnimation("basic1");
+	SetHandRAnimation("tianwang3");
 	m_HandR->SetTextureSlot(JX_ANIMATION_HANDR_TEXTURE_SLOT);
 	m_WeaponLight = 0;
 	m_WeaponHeavy = 0;
@@ -57,7 +57,7 @@ void JxAnimationCombo::SetAction(const JX_ACTION_STATE action_state)
 {
 	m_CurrentState = (JX_ANIMATION_STATE)(m_CurrentState & JX_VOID_ACTION_FLAG | action_state<<JX_ACTION_BIT_OFFSET);
 	m_FrameTimer = 0.0;
-	m_FrameTime = 1.0/30.0;// 30FPS
+	m_FrameTime = 1.0/10.0;// 30FPS
 	int len = JX_ANIMATION_MALE_FRAME[m_CurrentState];
 	m_FrameMin = len*(int)m_Direction;
 	m_FrameMax = m_FrameMin + len;
@@ -233,7 +233,7 @@ void JxAnimationCombo::Update(const float delta_time)
 	if(m_FrameTimer >= m_FrameTime)
 	{
 		m_CurrentFrame++;
-		if(m_CurrentFrame > m_FrameMax)
+		if(m_CurrentFrame >= m_FrameMax)
 		{
 			m_CurrentFrame = m_FrameMin;
 		}
@@ -332,7 +332,7 @@ void JxAnimationCombo::Render()
 	JxShaderProgram* shader = (JxShaderProgram*)m_Shader;
 	shader->Bind();
 	int vertex_index = 0;
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		if(!m_RenderList[i]) continue;
 		// "array overflow" proof
@@ -387,10 +387,10 @@ void JxAnimationCombo::SubmitChanges()
 	// here
 	// below are just a demo
 	{
-		m_RenderList[0] = m_Helm;
-		m_RenderList[1] = m_Cloth;
-		m_RenderList[2] = m_HandL;
-		m_RenderList[3] = m_HandR;
+		m_RenderList[0] = m_Cloth;
+		m_RenderList[1] = m_HandL;
+		m_RenderList[2] = m_HandR;
+		m_RenderList[3] = m_Helm;
 		m_RenderList[4] = m_WeaponDualL;
 		m_RenderList[5] = m_WeaponDualR;
 		m_RenderList[6] = m_HorseHead;
@@ -398,7 +398,7 @@ void JxAnimationCombo::SubmitChanges()
 		m_RenderList[8] = m_HorseTail;
 	}
 	m_JxVertices.clear();
-	for(int i=0;i<11;i++)
+	for(int i=0;i<9;i++)
 	{
 		if(!m_RenderList[i]) continue;
 		JxFrameInfo info = m_RenderList[i]->QueryFrame();
