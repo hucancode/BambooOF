@@ -50,15 +50,15 @@ void ofApp::draw() {
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	cam->begin();
 	ofEnableDepthTest();
-	render->Render();
+	//render->Render();
 	ofDisableDepthTest();
 	current_test->Render();
 	cam->end();
 #ifdef _DEBUG
-	/*ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
+	ofSetWindowTitle("FPS: "+ofToString(ofGetFrameRate(), 2)+
 		" - Sprite: "+ofToString(ofxRENDERER->GetSpriteNumber())+
 		" - Draw call: "+ofToString(ofxRENDERER->GetDrawCall())+
-		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));*/
+		" - Vertices: "+ofToString(ofxRENDERER->GetDrawVertices()));
 #endif
 }
 
@@ -66,6 +66,7 @@ void ofApp::draw() {
 #define ZOOM_SPEED 15.0f
 #define MOVE_SPEED 15.0f
 void ofApp::keyPressed(int key){
+	current_test->KeyPressed(key);
 	if(key == OF_KEY_PAGE_UP) 
 	{
 		cam->SetScale(cam->GetScale() - ZOOM_SPEED);

@@ -9,6 +9,7 @@ public:
 	virtual void Setup();
 	virtual void Update();
 	virtual void Render();
+	virtual void KeyPressed(int key);
 };
 //-----------------------------------------------------------
 // POSIBILITY TEST

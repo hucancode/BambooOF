@@ -52,6 +52,7 @@ public:
 	void				SetAction				(const JX_ACTION_STATE action_state);
 	void				SetWeapon				(const JX_WEAPON_STATE weapon_state);
 	void				SetHorse				(const JX_HORSE_STATE horse_state);
+	void				SetDirection			(const JX_DIRECTION direction);
 private:
 	void				RefreshFrameInfo		();
 public:

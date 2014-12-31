@@ -54,6 +54,11 @@ void JxAnimationCombo::SetGender(const JX_GENDER gender)
 	m_Gender = gender;
 	RefreshFrameInfo();
 }
+void JxAnimationCombo::SetDirection(const JX_DIRECTION direction)
+{
+	m_Direction = direction;
+	RefreshFrameInfo();
+}
 void JxAnimationCombo::SetAction(const JX_ACTION_STATE action_state)
 {
 	m_ActionState = action_state;

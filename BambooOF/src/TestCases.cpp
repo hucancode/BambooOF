@@ -7,7 +7,7 @@
 #include "ofxParticleEffect2D.h"
 #include "IL/il.h"
 
-Test* current_test = new JxAnimationTest();
+Test* current_test = new JxSortingTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {
@@ -18,6 +18,10 @@ void Test::Update()
 }
 void Test::Render()
 {
+}
+void Test::KeyPressed(int key)
+{
+
 }
 void SpriteTest::Setup()
 {
