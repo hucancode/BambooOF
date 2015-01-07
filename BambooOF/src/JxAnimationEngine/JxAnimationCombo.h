@@ -5,10 +5,6 @@
 #include "JxAnimationState.h"
 #include "JxShaderProgram.h"
 
-/* ----------------------------
-// WIP
----------------------------- */
-
 class JxAnimationCombo
 	:public ofxBaseSprite
 {
@@ -36,8 +32,6 @@ private:
 	JX_WEAPON_STATE		m_WeaponState;
 	JX_ACTION_STATE		m_ActionState;
 	JX_ANIMATION_STATE	m_CurrentState;
-	JX_ANIMATION_STATE	m_CurrentStateIgnoreWeapon;
-	JX_ANIMATION_STATE	m_CurrentStateIgnoreWeaponHorse;
 	JX_GENDER			m_Gender;
 	JX_DIRECTION		m_Direction;
 	ofxTextures			m_Textures;
