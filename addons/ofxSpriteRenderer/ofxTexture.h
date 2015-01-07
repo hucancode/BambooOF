@@ -20,6 +20,9 @@ private:
 	ILubyte				m_BytePerPixel; 
 	bool				m_Locked;
 	bool				m_Compressed;
+	static bool			m_CompressedByDefault;
+public:
+	static void			SetComressedByDefault(bool value);
 public:
 	ofxTexture();
 	virtual ~ofxTexture();

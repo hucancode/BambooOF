@@ -2,7 +2,11 @@
 #include "ofxBitmapFont.h"
 #include "IL/il.h"
 #include "IL/ilu.h"
-
+bool ofxTexture::m_CompressedByDefault = false;
+void ofxTexture::SetComressedByDefault(bool value)
+{
+	m_CompressedByDefault = value;
+}
 ofxTexture::ofxTexture()
 	:ofxResource()
 {
@@ -11,7 +15,7 @@ ofxTexture::ofxTexture()
 	m_Width = 0;
 	m_Height = 0;
 	m_BytePerPixel = 0;
-	m_Compressed = false;
+	m_Compressed = m_CompressedByDefault;
 	m_Locked = false;
 }
 ofxTexture::~ofxTexture()
@@ -63,16 +67,18 @@ void ofxTexture::SubmitChanges()
 		{
 			ILuint compressed_size;
 			ILubyte* compressed_data;
-			compressed_data = ilCompressDXT(pixel_data, m_Width, m_Height, 1, IL_DXT3, &compressed_size);
+			compressed_size = ilGetDXTCData(NULL, 0, IL_DXT3);
+			compressed_data = new ILubyte[compressed_size];
+			ilGetDXTCData(compressed_data, compressed_size, IL_DXT3);
 			glCompressedTexImage2DARB(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_S3TC_DXT3_EXT, 
 				m_Width, m_Height, 0, compressed_size, compressed_data);
+			delete[] compressed_data;
 #ifdef _DEBUG
 			ILuint uncompressed_size = m_Width*m_Height*m_BytePerPixel;
 			float ratio = (float)compressed_size/uncompressed_size*100;
 			ofLogNotice() <<"compressed texture, m_TextureId = "<<m_TextureId
 				<<endl<<"before "<<uncompressed_size/1024.0<<" Kbytes, after "<<compressed_size/1024.0<<" Kbytes, ratio = "<<ratio<<"%";
 #endif
-			//delete[] compressed_data;
 		}
 		else
 		{
