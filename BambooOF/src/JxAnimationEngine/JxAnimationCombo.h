@@ -58,8 +58,8 @@ public:
 public:
 	void				SetHelmAnimation		(const string name);
 	void				SetClothAnimation		(const string name);
-	void				SetHandLAnimation		(const string name);
-	void				SetHandRAnimation		(const string name);
+	void				SetArmLAnimation		(const string name);
+	void				SetArmRAnimation		(const string name);
 	void				SetWeaponLightAnimation	(const string name);
 	void				SetWeaponHeavyAnimation	(const string name);
 	void				SetWeaponDualLAnimation	(const string name);

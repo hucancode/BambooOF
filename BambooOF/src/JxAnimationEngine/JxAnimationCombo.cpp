@@ -15,14 +15,14 @@ JxAnimationCombo::JxAnimationCombo():
 	m_FrameMax = 0;
 	m_Direction = JX_DIRECTION_DOWN;
 	m_CurrentState = JX_ANIMATION_STATE_ZEN;
-	m_Helm = new JxAnimation();
+	m_Helm = 0;
 	SetHelmAnimation("tianwang3");
-	m_Cloth = new JxAnimation();
+	m_Cloth = 0;
 	SetClothAnimation("tianwang3");
-	m_ArmL = new JxAnimation();
-	SetHandLAnimation("tianwang3");
-	m_ArmR = new JxAnimation();
-	SetHandRAnimation("tianwang3");
+	m_ArmL = 0;
+	SetArmLAnimation("tianwang3");
+	m_ArmR = 0;
+	SetArmRAnimation("tianwang3");
 	m_WeaponLight = 0;
 	m_WeaponHeavy = 0;
 	m_WeaponDualL = 0;
@@ -164,12 +164,12 @@ void JxAnimationCombo::SetClothAnimation(string name)
 	m_Cloth = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_CLOTH_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_CLOTH_F"/"+name+"/"+name+".xml");
 }
-void JxAnimationCombo::SetHandLAnimation(string name)
+void JxAnimationCombo::SetArmLAnimation(string name)
 {
 	m_ArmL = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_ARML_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_ARML_F"/"+name+"/"+name+".xml");
 }
-void JxAnimationCombo::SetHandRAnimation(string name)
+void JxAnimationCombo::SetArmRAnimation(string name)
 {
 	m_ArmR = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_ARMR_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_ARMR_F"/"+name+"/"+name+".xml");
