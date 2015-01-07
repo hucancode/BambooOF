@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<animation>
+<animation category="horse_head">
 	<textures count="8">
 		<texture path="horse3_0.png" id="0" />
 		<texture path="horse3_1.png" id="1" />

@@ -1,6 +1,8 @@
 #include "JxEngineTest.h"
+#include "JxAnimationEngine/JxAnimationCache.h"
 void JxAnimationTest::Setup()
 {
+	new JxAnimationCache;
 	sprite = new JxAnimationCombo();
 	sprite->MoveTo(-128,0,0);
 	sprite->SetWeaponDualLAnimation("blade2");
@@ -44,12 +46,13 @@ void JxAnimationTest::KeyPressed(int key)
 }
 void JxSortingTest::Setup()
 {
+	new JxAnimationCache;
 	for(int i=0;i<10;i++)
 	{
 		for(int j=0;j<10;j++)
 		{
 			sprite[i][j] = new JxAnimationCombo();
-			sprite[i][j]->MoveTo((i)*256,0,(j)*256);
+			sprite[i][j]->MoveTo(i*256,0,j*256);
 			sprite[i][j]->SetWeaponDualLAnimation("blade2");
 			sprite[i][j]->SetWeaponDualRAnimation("blade2");
 			sprite[i][j]->SetWeapon(JX_WEAPON_STATE_DUAL);
@@ -80,7 +83,13 @@ void JxSortingTest::KeyPressed(int key)
 		{
 			direction = 0;
 		}
-		//sprite->SetDirection((JX_DIRECTION)direction);
+		for(int i=0;i<10;i++)
+		{
+			for(int j=0;j<10;j++)
+			{
+				sprite[i][j]->SetDirection((JX_DIRECTION)direction);
+			}
+		}
 	}
 	if(key == 'q') 
 	{
@@ -89,6 +98,12 @@ void JxSortingTest::KeyPressed(int key)
 		{
 			direction = 7;
 		}
-		//sprite->SetDirection((JX_DIRECTION)direction);
+		for(int i=0;i<10;i++)
+		{
+			for(int j=0;j<10;j++)
+			{
+				sprite[i][j]->SetDirection((JX_DIRECTION)direction);
+			}
+		}
 	}
 }

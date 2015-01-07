@@ -481,6 +481,9 @@
     <ClCompile Include="src\JxEngineTest.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\JxAnimationEngine\JxAnimationCache.cpp">
+      <Filter>Game\JxAnimationEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -1252,6 +1255,9 @@
     </ClInclude>
     <ClInclude Include="src\JxEngineTest.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationCache.h">
+      <Filter>Game\JxAnimationEngine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

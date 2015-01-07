@@ -18,8 +18,8 @@ private:
 	JxAnimation*		m_RenderList[9];
 	JxAnimation*		m_Helm;
 	JxAnimation*		m_Cloth;
-	JxAnimation*		m_HandL;
-	JxAnimation*		m_HandR;
+	JxAnimation*		m_ArmL;
+	JxAnimation*		m_ArmR;
 	JxAnimation*		m_WeaponLight;
 	JxAnimation*		m_WeaponHeavy;
 	JxAnimation*		m_WeaponDualL;
@@ -36,6 +36,8 @@ private:
 	JX_WEAPON_STATE		m_WeaponState;
 	JX_ACTION_STATE		m_ActionState;
 	JX_ANIMATION_STATE	m_CurrentState;
+	JX_ANIMATION_STATE	m_CurrentStateIgnoreWeapon;
+	JX_ANIMATION_STATE	m_CurrentStateIgnoreWeaponHorse;
 	JX_GENDER			m_Gender;
 	JX_DIRECTION		m_Direction;
 	ofxTextures			m_Textures;
@@ -71,8 +73,6 @@ public:
 	void				SetHorseHeadAnimation	(const string name);
 	void				SetHorseBackAnimation	(const string name);
 	void				SetHorseTailAnimation	(const string name);
-private:
-	void				LoadAnimation			(JxAnimation* animation, string path, const string name);
 public:
 	virtual void		SubmitChanges			();
 	virtual void		LoadShader				(string shader_path);

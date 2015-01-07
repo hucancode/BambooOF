@@ -21,7 +21,7 @@ ofxBitmapFontCache::ofxBitmapFontCache()
 ofxBitmapFontCache::~ofxBitmapFontCache()
 {
 	map<string, ofxBitmapFont*>::iterator it = m_ResourceMap.begin();
-	for(;it != m_ResourceMap.end();)
+	for(;it != m_ResourceMap.end();it++)
 	{
 		ofxBitmapFont* material = (*it).second;
 		delete material;

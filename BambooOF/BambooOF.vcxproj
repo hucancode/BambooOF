@@ -246,6 +246,7 @@
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp" />
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
     <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
+    <ClCompile Include="src\JxAnimationEngine\JxAnimationCache.cpp" />
     <ClCompile Include="src\JxAnimationEngine\JxShaderProgram.cpp" />
     <ClCompile Include="src\JxEngineTest.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -463,6 +464,7 @@
     <ClInclude Include="..\addons\ofxUI\src\ofxUIWrapper.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
+    <ClInclude Include="src\JxAnimationEngine\JxAnimationCache.h" />
     <ClInclude Include="src\JxAnimationEngine\JxShaderProgram.h" />
     <ClInclude Include="src\JxEngineTest.h" />
     <ClInclude Include="src\ofApp.h" />

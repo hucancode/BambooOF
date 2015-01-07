@@ -21,7 +21,7 @@ ofxTextureCache::ofxTextureCache()
 ofxTextureCache::~ofxTextureCache()
 {
 	map<string, ofxTexture*>::iterator it = m_ResourceMap.begin();
-	for(;it != m_ResourceMap.end();)
+	for(;it != m_ResourceMap.end();it++)
 	{
 		ofxTexture* material = (*it).second;
 		delete material;

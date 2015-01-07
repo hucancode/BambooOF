@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "ofxTexture.h"
 #include "JxAnimationState.h"
+
 struct JxVertex
 {
 	float x, y, z;
@@ -19,23 +20,18 @@ struct JxFrameInfo
 };
 typedef vector<JxFrameInfo> JxFrameInfoArray;
 typedef vector<JxFrameInfoArray> JxFrameInfoTable;
-class JxAnimation
+class JxAnimation : public ofxResource
 {
 private:
-	JX_ANIMATION_STATE		m_CurrentState;
-	unsigned char			m_CurrentFrame;
 	ofxTextures				m_Textures;
 	JxFrameInfoTable		m_FrameTable;
-	unsigned char			m_TextureSlot;
+	JX_ANIMATION_CATEGORY	m_Category;
 public:
 	JxAnimation();
 	~JxAnimation();
-	void					Load(string xml_file);
-	void					SetTextureSlot(unsigned char slot);
-	void					SetState(JX_ANIMATION_STATE state);
-	void					SetFrame(unsigned char frame);
-	unsigned char			GetTextureSlot();
-	JxFrameInfo				QueryFrame();
-	ofxTexture*				QueryTexture();
+	virtual bool			Load(string xml_file);
+	JX_ANIMATION_CATEGORY	GetCategory();
+	JxFrameInfo				QueryFrame(JX_ANIMATION_STATE state, unsigned char frame);
+	ofxTexture*				QueryTexture(JX_ANIMATION_STATE state, unsigned char frame);
 };
 typedef vector<JxAnimation*> JxAnimations;

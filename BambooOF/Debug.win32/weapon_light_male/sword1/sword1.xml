@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<animation>
+<animation category="weapon_light">
 	<textures count="7">
 		<texture path="sword1_0.png" id="0" />
 		<texture path="sword1_1.png" id="1" />

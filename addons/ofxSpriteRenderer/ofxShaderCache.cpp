@@ -19,7 +19,7 @@ ofxShaderCache::ofxShaderCache()
 ofxShaderCache::~ofxShaderCache()
 {
 	map<string, ofxShader*>::iterator it = m_ResourceMap.begin();
-	for(;it != m_ResourceMap.end();)
+	for(;it != m_ResourceMap.end();it++)
 	{
 		ofxShader* material = (*it).second;
 		delete material;

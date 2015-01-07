@@ -1,22 +1,25 @@
 #pragma once
-#define JX_ANIMATION_HELM_TEXTURE_SLOT 0
-#define JX_ANIMATION_CLOTH_TEXTURE_SLOT 1
-#define JX_ANIMATION_HANDL_TEXTURE_SLOT 2
-#define JX_ANIMATION_HANDR_TEXTURE_SLOT 3
-#define JX_ANIMATION_WEAPON_PRIMARY_TEXTURE_SLOT 4
-#define JX_ANIMATION_WEAPON_SECONDARY_TEXTURE_SLOT 5
-#define JX_ANIMATION_HORSE_HEAD_TEXTURE_SLOT 6
-#define JX_ANIMATION_HORSE_BACK_TEXTURE_SLOT 7
-#define JX_ANIMATION_HORSE_TAIL_TEXTURE_SLOT 8
+enum JX_ANIMATION_CATEGORY
+{
+	JX_ANIMATION_CATEGORY_HELM = 0,
+	JX_ANIMATION_CATEGORY_CLOTH = 1,
+	JX_ANIMATION_CATEGORY_ARML = 2,
+	JX_ANIMATION_CATEGORY_ARMR = 3,
+	JX_ANIMATION_CATEGORY_WEAPON_PRIMARY = 4,
+	JX_ANIMATION_CATEGORY_WEAPON_SECONDARY = 5,
+	JX_ANIMATION_CATEGORY_HORSE_HEAD = 6,
+	JX_ANIMATION_CATEGORY_HORSE_BACK = 7,
+	JX_ANIMATION_CATEGORY_HORSE_TAIL = 8,
+};
 
 #define JX_ANIMATION_PATH_CHARACTER_CLOTH_M		"character_cloth_male"
 #define JX_ANIMATION_PATH_CHARACTER_CLOTH_F		"character_cloth_female"
-#define JX_ANIMATION_PATH_CHARACTER_HANDL_M		"character_handl_male"
-#define JX_ANIMATION_PATH_CHARACTER_HANDL_F		"character_handl_female"
-#define JX_ANIMATION_PATH_CHARACTER_HANDR_M		"character_handr_male"
-#define JX_ANIMATION_PATH_CHARACTER_HANDR_F		"character_handr_female"
-#define JX_ANIMATION_PATH_CHARACTER_HEAD_M		"character_head_male"
-#define JX_ANIMATION_PATH_CHARACTER_HEAD_F		"character_head_female"
+#define JX_ANIMATION_PATH_CHARACTER_ARML_M		"character_arml_male"
+#define JX_ANIMATION_PATH_CHARACTER_ARML_F		"character_arml_female"
+#define JX_ANIMATION_PATH_CHARACTER_ARMR_M		"character_armr_male"
+#define JX_ANIMATION_PATH_CHARACTER_ARMR_F		"character_armr_female"
+#define JX_ANIMATION_PATH_CHARACTER_HELM_M		"character_helm_male"
+#define JX_ANIMATION_PATH_CHARACTER_HELM_F		"character_helm_female"
 #define JX_ANIMATION_PATH_CHARACTER_CAPE_M		"character_cape_male"
 #define JX_ANIMATION_PATH_CHARACTER_CAPE_F		"character_cape_female"
 #define JX_ANIMATION_PATH_WEAPON_LIGHT_M		"weapon_light_male"
@@ -310,8 +313,7 @@ const unsigned char JX_ANIMATION_FEMALE_FRAME[JX_ANIMATION_STATE_MAX] = {
 
 const unsigned char JX_ANIMATION_COMBO_RENDER_ORDER[8][9] = 
 {
-	// helm, cloth, handl, handr, weapon_primary(left), weapon_secondary(right), horse_head, horse_back, horse_tail
-	// render order 9 = force disable render
+	// helm, cloth, arml, armr, weapon_primary(left), weapon_secondary(right), horse_head, horse_back, horse_tail
 	{7, 2, 5, 3, 6, 4, 8, 1, 0},// DOWN
 	{5, 4, 3, 7, 2, 8, 6, 1, 0},// LOWER RIGHT
 	{5, 4, 3, 7, 2, 8, 6, 1, 0},// RIGHT
