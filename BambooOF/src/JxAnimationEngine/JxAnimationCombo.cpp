@@ -294,7 +294,6 @@ void JxAnimationCombo::Update(const float delta_time)
 }
 void JxAnimationCombo::Render()
 {
-	//SubmitChanges();
 	for (int i = 0; i < 9; i++)
 	{
 		if(!m_RenderList[i]) continue;

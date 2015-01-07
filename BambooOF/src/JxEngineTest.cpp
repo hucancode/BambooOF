@@ -50,6 +50,13 @@ void JxAnimationTest::KeyPressed(int key)
 }
 void JxSortingTest::Setup()
 {
+	/*
+	texture load time test result:
+	- 21.52sec = compressed
+	- 4.22sec = uncompressed
+	- 19.55sec, 20.56sec = only compress big textures
+	=> if we avoid compress texture at runtime, load time will significantly improve
+	*/
 	new JxAnimationCache;
 	for(int i=0;i<10;i++)
 	{

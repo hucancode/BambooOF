@@ -81,10 +81,14 @@ bool JxAnimation::Load(string xml_file)
 		{
 			const char* path = texture_node.attribute("path").as_string();
 			int id = texture_node.attribute("id").as_int();
+#ifndef _DEBUG
 			ofxTexture::SetComressedByDefault(true);
+#endif
 			m_Textures[id] = ofxTEXTURECACHE->GetResource(animation_folder+"/"+path);
 			m_Textures[id]->Lock();
+#ifndef _DEBUG
 			ofxTexture::SetComressedByDefault(false);
+#endif
 		}
 	}
 	{// load sequences information
