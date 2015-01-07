@@ -16,13 +16,13 @@ JxAnimationCombo::JxAnimationCombo():
 	m_Direction = JX_DIRECTION_DOWN;
 	m_CurrentState = JX_ANIMATION_STATE_ZEN;
 	m_Helm = 0;
-	SetHelmAnimation("tianwang3");
+	SetHelmAnimation("basic1");
 	m_Cloth = 0;
-	SetClothAnimation("tianwang3");
+	SetClothAnimation("basic1");
 	m_ArmL = 0;
-	SetArmLAnimation("tianwang3");
+	SetArmLAnimation("basic1");
 	m_ArmR = 0;
-	SetArmRAnimation("tianwang3");
+	SetArmRAnimation("basic1");
 	m_WeaponLight = 0;
 	m_WeaponHeavy = 0;
 	m_WeaponDualL = 0;
@@ -156,55 +156,110 @@ void JxAnimationCombo::RefreshFrameInfo()
 }
 void JxAnimationCombo::SetHelmAnimation(string name)
 {
+	if(m_Helm)
+	{
+		m_Helm->DecreaseReference();
+	}
 	m_Helm = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_HELM_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_HELM_F"/"+name+"/"+name+".xml");
+	m_Helm->IncreaseReference();
 }
 void JxAnimationCombo::SetClothAnimation(string name)
 {
+	if(m_Cloth)
+	{
+		m_Cloth->DecreaseReference();
+	}
 	m_Cloth = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_CLOTH_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_CLOTH_F"/"+name+"/"+name+".xml");
+	m_Cloth->IncreaseReference();
 }
 void JxAnimationCombo::SetArmLAnimation(string name)
 {
+	if(m_ArmL)
+	{
+		m_ArmL->DecreaseReference();
+	}
 	m_ArmL = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_ARML_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_ARML_F"/"+name+"/"+name+".xml");
+	m_ArmL->IncreaseReference();
 }
 void JxAnimationCombo::SetArmRAnimation(string name)
 {
+	if(m_ArmR)
+	{
+		m_ArmR->DecreaseReference();
+	}
 	m_ArmR = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_CHARACTER_ARMR_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_CHARACTER_ARMR_F"/"+name+"/"+name+".xml");
+	m_ArmR->IncreaseReference();
 }
 void JxAnimationCombo::SetWeaponLightAnimation(string name)
 {
+	if(m_WeaponLight)
+	{
+		m_WeaponLight->DecreaseReference();
+	}
 	m_WeaponLight = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_WEAPON_LIGHT_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_WEAPON_LIGHT_F"/"+name+"/"+name+".xml");
+	m_WeaponLight->IncreaseReference();
 }
 void JxAnimationCombo::SetWeaponHeavyAnimation(string name)
 {
+	if(m_WeaponHeavy)
+	{
+		m_WeaponHeavy->DecreaseReference();
+	}
 	m_WeaponHeavy = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_WEAPON_HEAVY_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_WEAPON_HEAVY_F"/"+name+"/"+name+".xml");
+	m_WeaponHeavy->IncreaseReference();
 }
 void JxAnimationCombo::SetWeaponDualLAnimation(string name)
 {
+	if(m_WeaponDualL)
+	{
+		m_WeaponDualL->DecreaseReference();
+	}
 	m_WeaponDualL = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALL_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_WEAPON_DUALL_F"/"+name+"/"+name+".xml");
+	m_WeaponDualL->IncreaseReference();
 }
 void JxAnimationCombo::SetWeaponDualRAnimation(string name)
 {
+	if(m_WeaponDualR)
+	{
+		m_WeaponDualR->DecreaseReference();
+	}
 	m_WeaponDualR = JXANIMATIONCACHE->GetResource(m_Gender?JX_ANIMATION_PATH_WEAPON_DUALR_M"/"+name+"/"+name+".xml":
 		JX_ANIMATION_PATH_WEAPON_DUALR_F"/"+name+"/"+name+".xml");
+	m_WeaponDualR->IncreaseReference();
 }
 void JxAnimationCombo::SetHorseHeadAnimation(string name)
 {
+	if(m_HorseHead)
+	{
+		m_HorseHead->DecreaseReference();
+	}
 	m_HorseHead = JXANIMATIONCACHE->GetResource(JX_ANIMATION_PATH_RIDE_HEAD"/"+name+"/"+name+".xml");
+	m_HorseHead->IncreaseReference();
 }
 void JxAnimationCombo::SetHorseBackAnimation(const string name)
 {
+	if(m_HorseBack)
+	{
+		m_HorseBack->DecreaseReference();
+	}
 	m_HorseBack = JXANIMATIONCACHE->GetResource(JX_ANIMATION_PATH_RIDE_BACK"/"+name+"/"+name+".xml");
+	m_HorseBack->IncreaseReference();
 }
 void JxAnimationCombo::SetHorseTailAnimation(const string name)
 {
+	if(m_HorseTail)
+	{
+		m_HorseTail->DecreaseReference();
+	}
 	m_HorseTail = JXANIMATIONCACHE->GetResource(JX_ANIMATION_PATH_RIDE_TAIL"/"+name+"/"+name+".xml");
+	m_HorseTail->IncreaseReference();
 }
 void JxAnimationCombo::LoadShader(string shader_path)
 {

@@ -5,6 +5,10 @@ void JxAnimationTest::Setup()
 	new JxAnimationCache;
 	sprite = new JxAnimationCombo();
 	sprite->MoveTo(-128,0,0);
+	sprite->SetHelmAnimation("tianwang3");
+	sprite->SetClothAnimation("tianwang3");
+	sprite->SetArmLAnimation("tianwang3");
+	sprite->SetArmRAnimation("tianwang3");
 	sprite->SetWeaponDualLAnimation("blade2");
 	sprite->SetWeaponDualRAnimation("blade2");
 	sprite->SetWeapon(JX_WEAPON_STATE_DUAL);
@@ -53,6 +57,10 @@ void JxSortingTest::Setup()
 		{
 			sprite[i][j] = new JxAnimationCombo();
 			sprite[i][j]->MoveTo(i*256,0,j*256);
+			sprite[i][j]->SetHelmAnimation("tianwang3");
+			sprite[i][j]->SetClothAnimation("tianwang3");
+			sprite[i][j]->SetArmLAnimation("tianwang3");
+			sprite[i][j]->SetArmRAnimation("tianwang3");
 			sprite[i][j]->SetWeaponDualLAnimation("blade2");
 			sprite[i][j]->SetWeaponDualRAnimation("blade2");
 			sprite[i][j]->SetWeapon(JX_WEAPON_STATE_DUAL);
