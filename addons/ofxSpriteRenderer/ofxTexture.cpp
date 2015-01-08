@@ -91,7 +91,7 @@ void ofxTexture::SubmitChanges()
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,param);
 	}
 	{
-		GLint param = GL_LINEAR;
+		GLint param = GL_NEAREST;
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
 		if(param == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST)

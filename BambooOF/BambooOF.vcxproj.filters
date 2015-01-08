@@ -484,6 +484,18 @@
     <ClCompile Include="src\JxAnimationEngine\JxAnimationCache.cpp">
       <Filter>Game\JxAnimationEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\JxEnvironmentEngine\JxStructure.cpp">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JxEnvironmentEngine\JxTerrain.cpp">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JxEnvironmentEngine\JxActor.cpp">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JxEnvironmentEngine\JxMap.cpp">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -603,11 +615,11 @@
     <Filter Include="addons\ofxSpriteRenderer\pugixml">
       <UniqueIdentifier>{4e574e24-6f29-46bd-9331-4ef8274c0630}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\CrowdEngine">
-      <UniqueIdentifier>{95a3741b-2549-4918-b72a-b55da8eb5d9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\JxAnimationEngine">
       <UniqueIdentifier>{b2bcfe21-d60b-40a9-a7ff-8e2a4fb2951b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\EnvironmentEngine">
+      <UniqueIdentifier>{95a3741b-2549-4918-b72a-b55da8eb5d9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1258,6 +1270,18 @@
     </ClInclude>
     <ClInclude Include="src\JxAnimationEngine\JxAnimationCache.h">
       <Filter>Game\JxAnimationEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxEnvironmentEngine\JxStructure.h">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxEnvironmentEngine\JxTerrain.h">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxEnvironmentEngine\JxActor.h">
+      <Filter>Game\EnvironmentEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JxEnvironmentEngine\JxMap.h">
+      <Filter>Game\EnvironmentEngine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -249,6 +249,10 @@
     <ClCompile Include="src\JxAnimationEngine\JxAnimationCache.cpp" />
     <ClCompile Include="src\JxAnimationEngine\JxShaderProgram.cpp" />
     <ClCompile Include="src\JxEngineTest.cpp" />
+    <ClCompile Include="src\JxEnvironmentEngine\JxActor.cpp" />
+    <ClCompile Include="src\JxEnvironmentEngine\JxMap.cpp" />
+    <ClCompile Include="src\JxEnvironmentEngine\JxStructure.cpp" />
+    <ClCompile Include="src\JxEnvironmentEngine\JxTerrain.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\JxAnimationEngine\JxAnimationCombo.cpp" />
@@ -467,6 +471,10 @@
     <ClInclude Include="src\JxAnimationEngine\JxAnimationCache.h" />
     <ClInclude Include="src\JxAnimationEngine\JxShaderProgram.h" />
     <ClInclude Include="src\JxEngineTest.h" />
+    <ClInclude Include="src\JxEnvironmentEngine\JxActor.h" />
+    <ClInclude Include="src\JxEnvironmentEngine\JxMap.h" />
+    <ClInclude Include="src\JxEnvironmentEngine\JxStructure.h" />
+    <ClInclude Include="src\JxEnvironmentEngine\JxTerrain.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\JxAnimationEngine\JxAnimationState.h" />
     <ClInclude Include="src\JxAnimationEngine\JxAnimationCombo.h" />

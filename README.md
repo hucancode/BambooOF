@@ -19,7 +19,7 @@ GAME ENGINE TASK LIST
     * animation loader [OK]
     * state operation [OK]
     * render [OK]
-    * optimization [WIP]
+    * optimization [OK]
   * re-generate data [OK]
   * memory management [OK]
   * memory optimization [OK]
