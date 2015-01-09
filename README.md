@@ -8,30 +8,30 @@ GAME ENGINE TASK LIST
   * develop wrapper [OK]
   * render using of [OK]
 * port bamboo from cc to of [WIP]
-  * develop 2d sprite renderer/3d plane renderer [OK]
+  * develop 2d sprite renderer/3d plane renderer [OK] [HARD]
   * terrain rendering [OK]
   * text rendering [OK]
   * particle rendering [WIP]
     * 2D [OK]
     * 3D [WIP]
     * optimization
-  * render character using sprite renderer [WIP]
+  * render character using sprite renderer [OK]
     * animation loader [OK]
     * state operation [OK]
-    * render [OK]
+    * render [OK] [VERY HARD]
     * optimization [OK]
-  * re-generate data [OK]
+  * re-generate data [OK] [HARD]
   * memory management [OK]
-  * memory optimization [OK]
+  * memory optimization [OK] [VERY HARD]
 * develop rts engine
   * structure render
-    * 3d blocks generating algorithm [OK]
+    * 3d blocks generating algorithm [OK] [HARD]
 	* implement [WIP]
 	* optimization
   * fog of war calculation
     * base theory [OK]
-    * base library [WIP]
-    * intergrate
+    * implement [WIP]
+	* optimization
   * multi-agent pathfinding
     * base theory [OK]
     * base library [OK]
@@ -40,7 +40,7 @@ GAME ENGINE TASK LIST
     * base theory [OK]
     * base library [OK]
     * intergrate [OK]
-  * combat engine
+  * combat engine, easiest
     * Actor
     * Fighter:Actor
     * Mob:Actor
