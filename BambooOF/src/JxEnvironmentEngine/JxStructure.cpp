@@ -1,4 +1,5 @@
 #include "JxStructure.h"
+#include <assert.h>
 JxStructure::JxStructure()
 {
 }
@@ -10,28 +11,75 @@ bool JxStructure::Load(string xml_file)
 }
 void JxStructure::BuildModel()
 {
+	//assert((m_BasePolygon.size() >= 3);
+	m_ModelVertices.reserve((m_BasePolygon.size()*2 - 3)*2);
+	int begin = 0;
+	int mid;
+	int end;
 	{// projecting
-		vector<ofVec2f>::iterator it = m_BasePolygon.begin();
+		vector<ofxBasicVertex>::iterator it = m_BasePolygon.begin();
 		for (; it != m_BasePolygon.end(); it++)
 		{
-			ofVec2f point = *it;
-			ofVec3f projection;
+			ofxBasicVertex point = *it;
+			ofxBasicVertex projection;
 			projection.x = point.x;
 			projection.y = 0;
 			projection.z = point.y / cos(PI*0.125);
-			m_Model.push_back(projection);
+			m_ModelVertices.push_back(projection);
+		}
+		mid = m_ModelVertices.size();
+		for (; it != m_BasePolygon.end(); it++)
+		{
+			ofxBasicVertex point = *it;
+			ofxBasicVertex projection;
+			projection.x = point.x;
+			projection.y = m_Height;
+			projection.z = point.y / cos(PI*0.125);
+			m_ModelVertices.push_back(projection);
+		}
+		end = m_ModelVertices.size();
+	}
+	{// bottom
+		int size = mid;
+		int a = begin;
+		int b = a+1;
+		int c = b+1;
+		for (; c < size;c++)
+		{
+			m_ModelIndices.push_back(a);
+			m_ModelIndices.push_back(b);
+			m_ModelIndices.push_back(c);
+			b = c;
 		}
 	}
-	{// extending
-		vector<ofVec3f>::iterator it = m_Model.begin();
-		for (; it != m_Model.end(); it++)
+	{// top
+		int size = end;
+		int a = mid;
+		int b = a+1;
+		int c = b+1;
+		for (; c < size;c++)
 		{
-			ofVec3f point = *it;
-			ofVec3f extend;
-			extend.x = point.x;
-			extend.y = m_Height;
-			extend.z = point.z;
-			m_Model.push_back(extend);
+			m_ModelIndices.push_back(a);
+			m_ModelIndices.push_back(b);
+			m_ModelIndices.push_back(c);
+			b = c;
+		}
+	}
+	{// sides
+		int size = mid;
+		int a = begin;
+		int b = a+1;
+		for (; b < size;b++)
+		{
+			int c = b + mid;
+			int d = a + mid;
+			m_ModelIndices.push_back(a);
+			m_ModelIndices.push_back(b);
+			m_ModelIndices.push_back(c);
+			m_ModelIndices.push_back(a);
+			m_ModelIndices.push_back(c);
+			m_ModelIndices.push_back(d);
+			a = b;
 		}
 	}
 }

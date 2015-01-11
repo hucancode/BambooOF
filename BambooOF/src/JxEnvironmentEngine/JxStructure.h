@@ -5,8 +5,9 @@
 class JxStructure : public ofxSpriteQuad, public ofxResource
 {
 private:
-	vector<ofVec2f> m_BasePolygon;
-	vector<ofVec3f> m_Model;
+	vector<ofxBasicVertex> m_BasePolygon;
+	vector<ofxBasicVertex> m_ModelVertices;
+	vector<int> m_ModelIndices;
 	float m_Height;
 public:
 	JxStructure();

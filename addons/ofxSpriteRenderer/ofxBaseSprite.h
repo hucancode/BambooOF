@@ -2,6 +2,10 @@
 #include "ofMain.h"
 #include "ofxTexture.h"
 #include "ofxBaseCommand.h"
+struct ofxBasicVertex
+{
+	float x, y, z;
+};
 struct ofxVertex
 {
 	float x,y,z;			// position
