@@ -8,6 +8,7 @@ JxStructure::~JxStructure()
 }
 bool JxStructure::Load(string xml_file)
 {
+	return true;
 }
 void JxStructure::BuildModel()
 {
@@ -82,4 +83,6 @@ void JxStructure::BuildModel()
 			a = b;
 		}
 	}
+	//rcMeshLoaderObj::addVertex(float x, float y, float z, int& cap)
+	//rcMeshLoaderObj::addTriangle(int a, int b, int c, int& cap)d
 }

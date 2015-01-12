@@ -178,72 +178,6 @@
     <ClCompile Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.cpp">
       <Filter>addons\ofxPostProcessing\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\src\ofxOpenSteerPlugin.cpp">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\src\ofxOpenSteerVehicle.cpp">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Camera.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Clock.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Color.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Draw.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\lq.c">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Obstacle.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\OldPathway.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\OpenSteerDemo.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Path.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Pathway.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PlugIn.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPath.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPathwaySegmentRadii.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\PolylineSegmentedPathwaySingleRadius.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SegmentedPath.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SegmentedPathway.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\SimpleVehicle.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\TerrainRayTest.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Vec3.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxOpenSteer\libs\opensteer\src\Vec3Utilities.cpp">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxNetwork\src\ofxTCPClient.cpp">
       <Filter>addons\ofxNetwork\src</Filter>
     </ClCompile>
@@ -391,18 +325,6 @@
     <ClCompile Include="..\addons\ofxUI\src\ofxUIWidgetWithLabel.cpp">
       <Filter>addons\ofxUI\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp">
-      <Filter>addons\ofxXmlSettings\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxml.cpp">
-      <Filter>addons\ofxXmlSettings\libs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp">
-      <Filter>addons\ofxXmlSettings\libs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
-      <Filter>addons\ofxXmlSettings\libs</Filter>
-    </ClCompile>
     <ClCompile Include="src\TestCases.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -485,16 +407,28 @@
       <Filter>Game\JxAnimationEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\JxEnvironmentEngine\JxStructure.cpp">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\JxEnvironmentEngine\JxTerrain.cpp">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\JxEnvironmentEngine\JxActor.cpp">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\JxEnvironmentEngine\JxMap.cpp">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.cpp">
+      <Filter>addons\ofxXmlSettings\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxml.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,15 +443,6 @@
     </Filter>
     <Filter Include="addons\ofxNetwork\src">
       <UniqueIdentifier>{3D1C10C7-8F35-E796-9C70-F5F3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxXmlSettings">
-      <UniqueIdentifier>{877F005D-13E6-0592-1D97-F2E3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxXmlSettings\src">
-      <UniqueIdentifier>{CCB2AC63-49D2-977C-CFE8-AEAD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxXmlSettings\libs">
-      <UniqueIdentifier>{687714A8-1662-FA1C-261F-50F0}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxFX">
       <UniqueIdentifier>{54067F17-D691-C8D5-A60C-8B15}</UniqueIdentifier>
@@ -536,27 +461,6 @@
     </Filter>
     <Filter Include="addons\ofxFX\src\operations">
       <UniqueIdentifier>{98E7BD88-03E0-D5B4-C028-9281}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer">
-      <UniqueIdentifier>{E1FD5286-5FB8-27EF-B92F-B8D4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\src">
-      <UniqueIdentifier>{3C024918-01BA-3A6B-6501-21B9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\libs">
-      <UniqueIdentifier>{7A40A33E-9801-51E3-C4A3-4793}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\libs\opensteer">
-      <UniqueIdentifier>{437264C5-1925-9F04-55CA-63C2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\libs\opensteer\include">
-      <UniqueIdentifier>{808141CE-746A-3D12-A05F-01DE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\libs\opensteer\include\OpenSteer">
-      <UniqueIdentifier>{14FAF9B9-ADCB-A61A-9E5B-968A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxOpenSteer\libs\opensteer\src">
-      <UniqueIdentifier>{2486BB91-96F2-877A-C336-EBA3}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxPostProcessing">
       <UniqueIdentifier>{AB514210-24FF-87A6-AE4B-9AE5}</UniqueIdentifier>
@@ -618,8 +522,17 @@
     <Filter Include="Game\JxAnimationEngine">
       <UniqueIdentifier>{b2bcfe21-d60b-40a9-a7ff-8e2a4fb2951b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\EnvironmentEngine">
+    <Filter Include="Game\JxEnvironmentEngine">
       <UniqueIdentifier>{95a3741b-2549-4918-b72a-b55da8eb5d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings">
+      <UniqueIdentifier>{c68f20ea-aab8-400d-a8b1-7b23e9366b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings\src">
+      <UniqueIdentifier>{88c8cd6e-f404-4c2e-a659-aa7024bbfa96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxXmlSettings\libs">
+      <UniqueIdentifier>{2e8e0c4a-808c-4525-a90e-b1135fbecd46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -787,123 +700,6 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.h">
       <Filter>addons\ofxPostProcessing\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteer.h">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerPlugin.h">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerTypes.h">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerUtils.h">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\src\ofxOpenSteerVehicle.h">
-      <Filter>addons\ofxOpenSteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\src\TerrainRayTest.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\AbstractVehicle.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Annotation.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Camera.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Clock.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Color.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Draw.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\LocalSpace.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\lq.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Obstacle.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\OldPathway.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\OpenSteerDemo.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Path.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Pathway.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PlugIn.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPath.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPathwaySegmentRadii.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\PolylineSegmentedPathwaySingleRadius.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Proximity.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlike.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeBaseDataExtractionPolicies.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeMappings.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\QueryPathAlikeUtilities.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPath.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPathAlikeUtilities.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SegmentedPathway.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SharedPointer.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SimpleVehicle.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\StandardTypes.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\SteerLibrary.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\UnusedParameter.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Utilities.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Vec3.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxOpenSteer\libs\opensteer\include\OpenSteer\Vec3Utilities.h">
-      <Filter>addons\ofxOpenSteer\libs\opensteer\include\OpenSteer</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxNetwork\src\ofxNetwork.h">
       <Filter>addons\ofxNetwork\src</Filter>
@@ -1178,12 +974,6 @@
     <ClInclude Include="..\addons\ofxUI\src\ofxUIWrapper.h">
       <Filter>addons\ofxUI\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h">
-      <Filter>addons\ofxXmlSettings\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
-      <Filter>addons\ofxXmlSettings\libs</Filter>
-    </ClInclude>
     <ClInclude Include="src\TestCases.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1272,16 +1062,22 @@
       <Filter>Game\JxAnimationEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\JxEnvironmentEngine\JxStructure.h">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\JxEnvironmentEngine\JxTerrain.h">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\JxEnvironmentEngine\JxActor.h">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\JxEnvironmentEngine\JxMap.h">
-      <Filter>Game\EnvironmentEngine</Filter>
+      <Filter>Game\JxEnvironmentEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxXmlSettings\src\ofxXmlSettings.h">
+      <Filter>addons\ofxXmlSettings\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
+      <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
