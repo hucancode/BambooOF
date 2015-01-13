@@ -28,11 +28,11 @@ void ofApp::setup() {
 	//ofSetFrameRate(60);
 	ofSetWindowTitle("Bamboo OF");
 	//------------------
-	mesh = new NavMesh;
-	mesh->LoadMesh("nav_test.obj");
-	mesh->BuildMesh();
-	mesh->InitCrowd();
-	render = new NavMeshRender(mesh);
+	map = new RecastMap;
+	map->LoadMesh("nav_test.obj");
+	map->BuildMesh();
+	map->InitCrowd();
+	mapRenderer = new RecastMapRenderer(map);
 	cam = ofxRENDERER->GetCamera();
 	//cam->disableMouseMiddleButton();
 	ofEnableAlphaBlending();
@@ -41,7 +41,7 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update() {
 	current_test->Update();
-	mesh->UpdateCrowd(0.0030f);
+	map->UpdateCrowd(0.0030f);
 }
 
 //--------------------------------------------------------------
@@ -50,7 +50,7 @@ void ofApp::draw() {
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	cam->begin();
 	ofEnableDepthTest();
-	//render->Render();
+	//mapRenderer->Render();
 	ofDisableDepthTest();
 	current_test->Render();
 	cam->end();
@@ -100,7 +100,7 @@ void ofApp::keyPressed(int key){
 		ofxRENDERER->Make2DCamera();
 	}
 	if(key == OF_KEY_F4) 
-		render->SwitchDrawMesh();
+		mapRenderer->SwitchDrawMesh();
 }
 
 
@@ -141,7 +141,7 @@ void ofApp::mousePressed(int x, int y, int button){
 	raye[2] = ray[1].z;
 	float* hit_pos = new float[3];
 	float hit_ratio;
-	bool hit = mesh->m_geom->raycastMesh(rays, raye, hit_ratio);
+	bool hit = map->GetGeometry()->raycastMesh(rays, raye, hit_ratio);
 	if (hit)
 	{
 		hit_pos[0] = rays[0] + (raye[0] - rays[0])*hit_ratio;
@@ -149,14 +149,14 @@ void ofApp::mousePressed(int x, int y, int button){
 		hit_pos[2] = rays[2] + (raye[2] - rays[2])*hit_ratio;
 		if(button == 0)
 		{
-			int ret = mesh->AddObstacle(hit_pos);
-			mesh->UpdateMesh(0.0f);
+			int ret = map->AddObstacle(hit_pos);
+			map->UpdateMesh(0.0f);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
 			spriteObstacle->MoveTo(ofVec3f(hit_pos[0],hit_pos[1],hit_pos[2]));
 		}
 		else
 		{
-			int ret = mesh->AddAgent(hit_pos);
+			int ret = map->AddAgent(hit_pos);
 			//mesh->UpdateMesh(0.0f);
 			printf("ret = %d, hit pos= %f %f %f\n",ret, hit_pos[0], hit_pos[1], hit_pos[2]);
 		}

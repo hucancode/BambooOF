@@ -124,8 +124,8 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
     </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\RecastMap.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\RecastMapRenderer.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DetourDebugDraw.cpp" />
@@ -306,8 +306,8 @@
     <ClInclude Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.h" />
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h" />
     <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />
-    <ClInclude Include="..\addons\ofxRecast\NavMesh.h" />
-    <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h" />
+    <ClInclude Include="..\addons\ofxRecast\RecastMap.h" />
+    <ClInclude Include="..\addons\ofxRecast\RecastMapRenderer.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DetourDebugDraw.h" />

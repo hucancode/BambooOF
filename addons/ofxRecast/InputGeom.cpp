@@ -742,11 +742,11 @@ bool InputGeom::save(const char* filepath)
 	return true;
 }
 
-static bool isectSegAABB(const float* sp, const float* sq,
+bool isectSegAABB(const float* sp, const float* sq,
 						 const float* amin, const float* amax,
 						 float& tmin, float& tmax)
 {
-	static const float EPS = 1e-6f;
+	const float EPS = 1e-6f;
 	
 	float d[3];
 	d[0] = sq[0] - sp[0];

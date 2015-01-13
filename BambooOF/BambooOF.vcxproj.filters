@@ -10,12 +10,6 @@
     <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxRecast\NavMesh.cpp">
-      <Filter>addons\ofxRecast</Filter>
-    </ClCompile>
-    <ClCompile Include="..\addons\ofxRecast\NavMeshRender.cpp">
-      <Filter>addons\ofxRecast</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
@@ -430,6 +424,12 @@
     <ClCompile Include="..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\RecastMap.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\RecastMapRenderer.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -543,12 +543,6 @@
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h">
-      <Filter>addons\ofxRecast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxRecast\NavMesh.h">
-      <Filter>addons\ofxRecast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxRecast\NavMeshRender.h">
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h">
@@ -1078,6 +1072,12 @@
     </ClInclude>
     <ClInclude Include="..\addons\ofxXmlSettings\libs\tinyxml.h">
       <Filter>addons\ofxXmlSettings\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\RecastMap.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\RecastMapRenderer.h">
+      <Filter>addons\ofxRecast</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 RasterizationContext::RasterizationContext() :
 	solid(0),triareas(0),lset(0),chf(0),ntiles(0)
 {
-	memset(tiles, 0, sizeof(TileCacheData)*MAX_LAYERS);
+	memset(tiles, 0, sizeof(TileCacheData)*RECAST_MAX_LAYERS);
 }
 
 RasterizationContext::~RasterizationContext()
@@ -13,7 +13,7 @@ RasterizationContext::~RasterizationContext()
 	delete [] triareas;
 	rcFreeHeightfieldLayerSet(lset);
 	rcFreeCompactHeightfield(chf);
-	for (int i = 0; i < MAX_LAYERS; ++i)
+	for (int i = 0; i < RECAST_MAX_LAYERS; ++i)
 	{
 		dtFree(tiles[i].data);
 		tiles[i].data = 0;
@@ -88,24 +88,14 @@ void MeshProcess::process(struct dtNavMeshCreateParams* params,
 	// Update poly flags from areas.
 	for (int i = 0; i < params->polyCount; ++i)
 	{
-		/*if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
-		polyAreas[i] = SAMPLE_POLYAREA_GROUND;
-
-		if (polyAreas[i] == SAMPLE_POLYAREA_GROUND ||
-		polyAreas[i] == SAMPLE_POLYAREA_GRASS ||
-		polyAreas[i] == SAMPLE_POLYAREA_ROAD)
+		if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
 		{
-		polyFlags[i] = SAMPLE_POLYFLAGS_WALK;
+			polyAreas[i] = SAMPLE_POLYFLAGS_WALK;
 		}
-		else if (polyAreas[i] == SAMPLE_POLYAREA_WATER)
+		else
 		{
-		polyFlags[i] = SAMPLE_POLYFLAGS_SWIM;
+			polyAreas[i] = SAMPLE_POLYFLAGS_DISABLED;
 		}
-		else if (polyAreas[i] == SAMPLE_POLYAREA_DOOR)
-		{
-		polyFlags[i] = SAMPLE_POLYFLAGS_WALK | SAMPLE_POLYFLAGS_DOOR;
-		}*/
-		polyFlags[i] = SAMPLE_POLYFLAGS_WALK;
 	}
 
 	// Pass in off-mesh connections.
@@ -121,59 +111,52 @@ void MeshProcess::process(struct dtNavMeshCreateParams* params,
 	}
 }
 
-GLCheckerTexture::GLCheckerTexture() : m_texId(0)
-{
-}
-
-GLCheckerTexture::~GLCheckerTexture()
-{
-	if (m_texId != 0)
-		glDeleteTextures(1, &m_texId);
-}
-void GLCheckerTexture::bind()
-{
-	if (m_texId == 0)
-	{
-		// Create checker pattern.
-		const unsigned int col0 = duRGBA(215,215,215,255);
-		const unsigned int col1 = duRGBA(255,255,255,255);
-		static const int TSIZE = 64;
-		unsigned int data[TSIZE*TSIZE];
-
-		glGenTextures(1, &m_texId);
-		glBindTexture(GL_TEXTURE_2D, m_texId);
-
-		int level = 0;
-		int size = TSIZE;
-		while (size > 0)
-		{
-			for (int y = 0; y < size; ++y)
-				for (int x = 0; x < size; ++x)
-					data[x+y*size] = (x==0 || y==0) ? col0 : col1;
-			glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, size,size, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			size /= 2;
-			level++;
-		}
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else
-	{
-		glBindTexture(GL_TEXTURE_2D, m_texId);
-	}
-}
 void DebugDrawGL::depthMask(bool state)
 {
 	glDepthMask(state ? GL_TRUE : GL_FALSE);
 }
-GLCheckerTexture g_tex;
 void DebugDrawGL::texture(bool state)
 {
+	struct GLCheckerTexture
+	{
+		GLuint texture_id;
+		GLCheckerTexture()
+		{
+			// Create checker pattern.
+			const unsigned int col0 = duRGBA(215,215,215,255);
+			const unsigned int col1 = duRGBA(255,255,255,255);
+			static const int TSIZE = 64;
+			unsigned int data[TSIZE*TSIZE];
+
+			glGenTextures(1, &texture_id);
+			glBindTexture(GL_TEXTURE_2D, texture_id);
+
+			int level = 0;
+			int size = TSIZE;
+			while (size > 0)
+			{
+				for (int y = 0; y < size; ++y)
+					for (int x = 0; x < size; ++x)
+						data[x+y*size] = (x==0 || y==0) ? col0 : col1;
+				glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, size,size, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				size /= 2;
+				level++;
+			}
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
+		~GLCheckerTexture()
+		{
+			if (texture_id != 0)
+				glDeleteTextures(1, &texture_id);
+		}
+	};
+	static GLCheckerTexture checker_texture;
 	if (state)
 	{
 		glEnable(GL_TEXTURE_2D);
-		g_tex.bind();
+		glBindTexture(GL_TEXTURE_2D, checker_texture.texture_id);
 	}
 	else
 	{
@@ -233,212 +216,4 @@ void DebugDrawGL::end()
 	glEnd();
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
-}
-
-bool isectSegAABB(const float* sp, const float* sq,
-				  const float* amin, const float* amax,
-				  float& tmin, float& tmax)
-{
-	static const float EPS = 1e-6f;
-
-	float d[3];
-	dtVsub(d, sq, sp);
-	tmin = 0;  // set to -FLT_MAX to get first hit on line
-	tmax = FLT_MAX;		// set to max distance ray can travel (for segment)
-
-	// For all three slabs
-	for (int i = 0; i < 3; i++)
-	{
-		if (fabsf(d[i]) < EPS)
-		{
-			// Ray is parallel to slab. No hit if origin not within slab
-			if (sp[i] < amin[i] || sp[i] > amax[i])
-				return false;
-		}
-		else
-		{
-			// Compute intersection t value of ray with near and far plane of slab
-			const float ood = 1.0f / d[i];
-			float t1 = (amin[i] - sp[i]) * ood;
-			float t2 = (amax[i] - sp[i]) * ood;
-			// Make t1 be intersection with near plane, t2 with far plane
-			if (t1 > t2) dtSwap(t1, t2);
-			// Compute the intersection of slab intersections intervals
-			if (t1 > tmin) tmin = t1;
-			if (t2 < tmax) tmax = t2;
-			// Exit with no collision as soon as slab intersection becomes empty
-			if (tmin > tmax) return false;
-		}
-	}
-
-	return true;
-}
-
-int rasterizeTileLayers(InputGeom* geom,
-						const int tx, const int ty,
-						const rcConfig& cfg,
-						TileCacheData* tiles,
-						const int maxTiles)
-{
-	if (!geom || !geom->getMesh() || !geom->getChunkyMesh())
-	{
-		return 0;
-	}
-
-	FastLZCompressor comp;
-	RasterizationContext rc;
-
-	const float* verts = geom->getMesh()->getVerts();
-	const int nverts = geom->getMesh()->getVertCount();
-	const rcChunkyTriMesh* chunkyMesh = geom->getChunkyMesh();
-
-	// Tile bounds.
-	const float tcs = cfg.tileSize * cfg.cs;
-
-	rcConfig tcfg;
-	memcpy(&tcfg, &cfg, sizeof(tcfg));
-
-	tcfg.bmin[0] = cfg.bmin[0] + tx*tcs;
-	tcfg.bmin[1] = cfg.bmin[1];
-	tcfg.bmin[2] = cfg.bmin[2] + ty*tcs;
-	tcfg.bmax[0] = cfg.bmin[0] + (tx+1)*tcs;
-	tcfg.bmax[1] = cfg.bmax[1];
-	tcfg.bmax[2] = cfg.bmin[2] + (ty+1)*tcs;
-	tcfg.bmin[0] -= tcfg.borderSize*tcfg.cs;
-	tcfg.bmin[2] -= tcfg.borderSize*tcfg.cs;
-	tcfg.bmax[0] += tcfg.borderSize*tcfg.cs;
-	tcfg.bmax[2] += tcfg.borderSize*tcfg.cs;
-
-	// Allocate voxel heightfield where we rasterize our input data to.
-	rc.solid = rcAllocHeightfield();
-	if (!rc.solid)
-	{
-		return 0;
-	}
-	if (!rcCreateHeightfield(*rc.solid, tcfg.width, tcfg.height, tcfg.bmin, tcfg.bmax, tcfg.cs, tcfg.ch))
-	{
-		return 0;
-	}
-
-	// Allocate array that can hold triangle flags.
-	// If you have multiple meshes you need to process, allocate
-	// and array which can hold the max number of triangles you need to process.
-	rc.triareas = new unsigned char[chunkyMesh->maxTrisPerChunk];
-	if (!rc.triareas)
-	{
-		return 0;
-	}
-
-	float tbmin[2], tbmax[2];
-	tbmin[0] = tcfg.bmin[0];
-	tbmin[1] = tcfg.bmin[2];
-	tbmax[0] = tcfg.bmax[0];
-	tbmax[1] = tcfg.bmax[2];
-	int cid[512];// TODO: Make grow when returning too many items.
-	const int ncid = rcGetChunksOverlappingRect(chunkyMesh, tbmin, tbmax, cid, 512);
-	if (!ncid)
-	{
-		return 0; // empty
-	}
-
-	for (int i = 0; i < ncid; ++i)
-	{
-		const rcChunkyTriMeshNode& node = chunkyMesh->nodes[cid[i]];
-		const int* tris = &chunkyMesh->tris[node.i*3];
-		const int ntris = node.n;
-
-		memset(rc.triareas, 0, ntris*sizeof(unsigned char));
-		rcMarkWalkableTriangles(tcfg.walkableSlopeAngle,
-			verts, nverts, tris, ntris, rc.triareas);
-
-		rcRasterizeTriangles(verts, nverts, tris, rc.triareas, ntris, *rc.solid, tcfg.walkableClimb);
-	}
-
-	// Once all geometry is rasterized, we do initial pass of filtering to
-	// remove unwanted overhangs caused by the conservative rasterization
-	// as well as filter spans where the character cannot possibly stand.
-	rcFilterLowHangingWalkableObstacles(tcfg.walkableClimb, *rc.solid);
-	rcFilterLedgeSpans(tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid);
-	rcFilterWalkableLowHeightSpans(tcfg.walkableHeight, *rc.solid);
-	rc.chf = rcAllocCompactHeightfield();
-	if (!rc.chf)
-	{
-		return 0;
-	}
-	if (!rcBuildCompactHeightfield(tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid, *rc.chf))
-	{
-		return 0;
-	}
-
-	// Erode the walkable area by agent radius.
-	if (!rcErodeWalkableArea(tcfg.walkableRadius, *rc.chf))
-	{
-		return 0;
-	}
-
-	// (Optional) Mark areas.
-	const ConvexVolume* vols = geom->getConvexVolumes();
-	for (int i  = 0; i < geom->getConvexVolumeCount(); ++i)
-	{
-		rcMarkConvexPolyArea(vols[i].verts, vols[i].nverts,
-			vols[i].hmin, vols[i].hmax,
-			(unsigned char)vols[i].area, *rc.chf);
-	}
-
-	rc.lset = rcAllocHeightfieldLayerSet();
-	if (!rc.lset)
-	{
-		return 0;
-	}
-	if (!rcBuildHeightfieldLayers(*rc.chf, tcfg.borderSize, tcfg.walkableHeight, *rc.lset))
-	{
-		return 0;
-	}
-
-	rc.ntiles = 0;
-	for (int i = 0; i < rcMin(rc.lset->nlayers, MAX_LAYERS); ++i)
-	{
-		TileCacheData* tile = &rc.tiles[rc.ntiles++];
-		const rcHeightfieldLayer* layer = &rc.lset->layers[i];
-
-		// Store header
-		dtTileCacheLayerHeader header;
-		header.magic = DT_TILECACHE_MAGIC;
-		header.version = DT_TILECACHE_VERSION;
-
-		// Tile layer location in the navmesh.
-		header.tx = tx;
-		header.ty = ty;
-		header.tlayer = i;
-		dtVcopy(header.bmin, layer->bmin);
-		dtVcopy(header.bmax, layer->bmax);
-
-		// Tile info.
-		header.width = (unsigned char)layer->width;
-		header.height = (unsigned char)layer->height;
-		header.minx = (unsigned char)layer->minx;
-		header.maxx = (unsigned char)layer->maxx;
-		header.miny = (unsigned char)layer->miny;
-		header.maxy = (unsigned char)layer->maxy;
-		header.hmin = (unsigned short)layer->hmin;
-		header.hmax = (unsigned short)layer->hmax;
-
-		dtStatus status = dtBuildTileCacheLayer(&comp, &header, layer->heights, layer->areas, layer->cons,
-			&tile->data, &tile->dataSize);
-		if (dtStatusFailed(status))
-		{
-			return 0;
-		}
-	}
-
-	// Transfer ownsership of tile data from build context to the caller.
-	int n = 0;
-	for (int i = 0; i < rcMin(rc.ntiles, maxTiles); ++i)
-	{
-		tiles[n++] = rc.tiles[i];
-		rc.tiles[i].data = 0;
-		rc.tiles[i].dataSize = 0;
-	}
-
-	return n;
 }

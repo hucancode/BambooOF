@@ -154,4 +154,7 @@ public:
 	///@}
 };
 
+bool isectSegAABB(const float* sp, const float* sq,
+						 const float* amin, const float* amax,
+						 float& tmin, float& tmax);
 #endif // INPUTGEOM_H

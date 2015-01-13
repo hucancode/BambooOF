@@ -19,9 +19,8 @@
 #include "GL/glew.h"
 #include "DebugDraw.h"
 
-static const int MAX_LAYERS = 32;
-static const int EXPECTED_LAYERS_PER_TILE = 4;
-static const int MAX_AGENTS = 128;
+#define RECAST_MAX_LAYERS 32
+#define RECAST_EXPECTED_LAYERS_PER_TILE 4
 
 enum SamplePolyAreas
 {
@@ -93,22 +92,13 @@ struct RasterizationContext
 	unsigned char* triareas;
 	rcHeightfieldLayerSet* lset;
 	rcCompactHeightfield* chf;
-	TileCacheData tiles[MAX_LAYERS];
+	TileCacheData tiles[RECAST_MAX_LAYERS];
 	int ntiles;
 
 	RasterizationContext();
 	~RasterizationContext();
 };
 
-class GLCheckerTexture
-{
-private:
-	unsigned int m_texId;
-public:
-	GLCheckerTexture();
-	~GLCheckerTexture();
-	void bind();
-};
 class DebugDrawGL : public duDebugDraw
 {
 public:
@@ -121,13 +111,3 @@ public:
 	virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
 	virtual void end();
 };
-
-bool isectSegAABB(const float* sp, const float* sq,
-				  const float* amin, const float* amax,
-				  float& tmin, float& tmax);
-
-int rasterizeTileLayers(InputGeom* geom,
-						const int tx, const int ty,
-						const rcConfig& cfg,
-						TileCacheData* tiles,
-						const int maxTiles);

@@ -3,22 +3,21 @@
 #include "DebugDraw.h"
 #include "DetourDebugDraw.h"
 #include "RecastDebugDraw.h"
-#include "NavMesh.h"
+#include "RecastMap.h"
 /*------------------------------
 This renderer has no transform matrix included.
 That's mean you need to use your framework to setup the camera.
 Just call function Render() after you bind your camera.
 ------------------------------*/
-class NavMeshRender
+class RecastMapRenderer
 {
 private:
-	NavMesh* m_NavMesh;
+	RecastMap* m_RecastMap;
 	bool draw_mesh;
 public:
-	
 	void SwitchDrawMesh(){draw_mesh = !draw_mesh;}
-	NavMeshRender(NavMesh* mesh);
-	~NavMeshRender();
+	RecastMapRenderer(RecastMap* mesh);
+	~RecastMapRenderer();
 	void Render();
 private:
 	void DrawTiles(duDebugDraw* dd, dtTileCache* tc);

@@ -1,14 +1,14 @@
-#include "NavMeshRender.h"
-NavMeshRender::NavMeshRender(NavMesh* mesh)
+#include "RecastMapRenderer.h"
+RecastMapRenderer::RecastMapRenderer(RecastMap* mesh)
 {
-	m_NavMesh = mesh;
+	m_RecastMap = mesh;
 }
-NavMeshRender::~NavMeshRender()
+RecastMapRenderer::~RecastMapRenderer()
 {
 }
-void NavMeshRender::Render()
+void RecastMapRenderer::Render()
 {
-	if (!m_NavMesh->m_geom || !m_NavMesh->m_geom->getMesh())
+	if (!m_RecastMap->GetGeometry() || !m_RecastMap->GetGeometry()->getMesh())
 		return;
 	// ========================================== setup
 	glDepthFunc(GL_LESS);
@@ -16,48 +16,48 @@ void NavMeshRender::Render()
 	DebugDrawGL dd;
 	if(draw_mesh)
 	{
-	const float texScale = 1.0f / (m_NavMesh->m_cellSize * 10.0f);
-	duDebugDrawTriMeshSlope(&dd, 
-		m_NavMesh->m_geom->getMesh()->getVerts(), 
-		m_NavMesh->m_geom->getMesh()->getVertCount(),
-		m_NavMesh->m_geom->getMesh()->getTris(), 
-		m_NavMesh->m_geom->getMesh()->getNormals(), 
-		m_NavMesh->m_geom->getMesh()->getTriCount(),
-		m_NavMesh->m_agentMaxSlope, 
-		texScale);
-	m_NavMesh->m_geom->drawOffMeshConnections(&dd);
+		const float texScale = 1.0f / (RECAST_CELL_SIZE * 10.0f);
+		duDebugDrawTriMeshSlope(&dd, 
+			m_RecastMap->GetGeometry()->getMesh()->getVerts(), 
+			m_RecastMap->GetGeometry()->getMesh()->getVertCount(),
+			m_RecastMap->GetGeometry()->getMesh()->getTris(), 
+			m_RecastMap->GetGeometry()->getMesh()->getNormals(), 
+			m_RecastMap->GetGeometry()->getMesh()->getTriCount(),
+			RECAST_AGENT_MAX_SLOPE, 
+			texScale);
+		m_RecastMap->GetGeometry()->drawOffMeshConnections(&dd);
 	}
 	
 	DrawAgents(&dd);
 	
 	glDepthMask(GL_FALSE);
 	// Draw bounds
-	const float* bmin = m_NavMesh->m_geom->getMeshBoundsMin();
-	const float* bmax = m_NavMesh->m_geom->getMeshBoundsMax();
+	const float* bmin = m_RecastMap->GetGeometry()->getMeshBoundsMin();
+	const float* bmax = m_RecastMap->GetGeometry()->getMeshBoundsMax();
 	duDebugDrawBoxWire(&dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duRGBA(255,255,255,128), 1.0f);
 	
 	// Tiling grid.
 	int gw = 0, gh = 0;
-	rcCalcGridSize(bmin, bmax, m_NavMesh->m_cellSize, &gw, &gh);
-	const int tw = (gw + (int)m_NavMesh->m_tileSize-1) / (int)m_NavMesh->m_tileSize;
-	const int th = (gh + (int)m_NavMesh->m_tileSize-1) / (int)m_NavMesh->m_tileSize;
-	const float s = m_NavMesh->m_tileSize*m_NavMesh->m_cellSize;
+	rcCalcGridSize(bmin, bmax, RECAST_CELL_SIZE, &gw, &gh);
+	const int tw = (gw + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
+	const int th = (gh + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
+	const float s = RECAST_TILE_SIZE*RECAST_CELL_SIZE;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
 
-	if(m_NavMesh->m_navMesh && m_NavMesh->m_navQuery && draw_mesh)
+	if(m_RecastMap->GetMesh() && m_RecastMap->GetQuery() && draw_mesh)
 	{
-		duDebugDrawNavMesh(&dd, *(m_NavMesh->m_navMesh), 
+		duDebugDrawNavMesh(&dd, *(m_RecastMap->GetMesh()), 
 			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);
-		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_NavMesh->m_navMesh), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
+		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_RecastMap->GetMesh()), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
 	}
-	if (m_NavMesh->m_tileCache)
-		//DrawTiles(&dd, m_NavMesh->m_tileCache);
+	if (m_RecastMap->GetTileCache())
+		//DrawTiles(&dd, m_RecastMap->GetTileCache());
 	
-	if (m_NavMesh->m_tileCache)
-		DrawObstacles(&dd, m_NavMesh->m_tileCache);
+	if (m_RecastMap->GetTileCache())
+		DrawObstacles(&dd, m_RecastMap->GetTileCache());
 	
 }
-void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
+void RecastMapRenderer::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 {
 	unsigned int fcol[6];
 	float bmin[3], bmax[3];
@@ -92,18 +92,18 @@ void NavMeshRender::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 return obstacle that hit by mouse's ray
 sp, sq = 2 points form the ray, calculated by framework
 ------------------------------------------*/
-dtObstacleRef NavMeshRender::HitTestObstacle(const float* sp, const float* sq)
+dtObstacleRef RecastMapRenderer::HitTestObstacle(const float* sp, const float* sq)
 {
 	float tmin = FLT_MAX;
 	const dtTileCacheObstacle* obmin = 0;
-	for (int i = 0; i < m_NavMesh->m_tileCache->getObstacleCount(); ++i)
+	for (int i = 0; i < m_RecastMap->GetTileCache()->getObstacleCount(); ++i)
 	{
-		const dtTileCacheObstacle* ob = m_NavMesh->m_tileCache->getObstacle(i);
+		const dtTileCacheObstacle* ob = m_RecastMap->GetTileCache()->getObstacle(i);
 		if (ob->state == DT_OBSTACLE_EMPTY)
 			continue;
 		
 		float bmin[3], bmax[3], t0,t1;
-		m_NavMesh->m_tileCache->getObstacleBounds(ob, bmin,bmax);
+		m_RecastMap->GetTileCache()->getObstacleBounds(ob, bmin,bmax);
 		
 		if (isectSegAABB(sp,sq, bmin,bmax, t0,t1))
 		{
@@ -114,10 +114,10 @@ dtObstacleRef NavMeshRender::HitTestObstacle(const float* sp, const float* sq)
 			}
 		}
 	}
-	return m_NavMesh->m_tileCache->getObstacleRef(obmin);
+	return m_RecastMap->GetTileCache()->getObstacleRef(obmin);
 }
 	
-void NavMeshRender::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
+void RecastMapRenderer::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
 	for (int i = 0; i < tc->getObstacleCount(); ++i)
 	{
@@ -138,11 +138,11 @@ void NavMeshRender::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		duDebugDrawCylinderWire(dd, bmin[0],bmin[1],bmin[2], bmax[0],bmax[1],bmax[2], duDarkenCol(col), 2);
 	}
 }
-void NavMeshRender::DrawAgents(duDebugDraw* dd)
+void RecastMapRenderer::DrawAgents(duDebugDraw* dd)
 {
-	for (int i = 0; i < m_NavMesh->m_crowd->getAgentCount(); ++i)
+	for (int i = 0; i < m_RecastMap->GetCrowd()->getAgentCount(); ++i)
 	{
-		const dtCrowdAgent* ag = m_NavMesh->m_crowd->getAgent(i);
+		const dtCrowdAgent* ag = m_RecastMap->GetCrowd()->getAgent(i);
 		if (!ag->active) continue;
 		
 		const float height = ag->params.height;

@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofVbo.h"
 #include "ofxOrthoCamera.h"
-#include "NavMeshRender.h"
+#include "RecastMapRenderer.h"
 
 #define NUM_BILLBOARDS 5000
 
@@ -24,8 +24,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	private:
-		NavMesh* mesh;
-		NavMeshRender* render;
+		RecastMap* map;
+		RecastMapRenderer* mapRenderer;
 		ofxOrthoCamera* cam;
 		ofVboMesh* spriteMesh;
 };
