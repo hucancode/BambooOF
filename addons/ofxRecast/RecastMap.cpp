@@ -1,4 +1,76 @@
 #include "RecastMap.h"
+#include "fastlz.h"
+
+int RecastMap::FastLZCompressor::maxCompressedSize(const int bufferSize)
+{
+	return (int)(bufferSize* 1.05f);
+}
+dtStatus RecastMap::FastLZCompressor::compress(const unsigned char* buffer, const int bufferSize,
+									unsigned char* compressed, const int maxCompressedSize, int* compressedSize)
+{
+	*compressedSize = fastlz_compress((const void *const)buffer, bufferSize, compressed);
+	return DT_SUCCESS;
+}
+dtStatus RecastMap::FastLZCompressor::decompress(const unsigned char* compressed, const int compressedSize,
+									  unsigned char* buffer, const int maxBufferSize, int* bufferSize)
+{
+	*bufferSize = fastlz_decompress(compressed, compressedSize, buffer, maxBufferSize);
+	return *bufferSize < 0 ? DT_FAILURE : DT_SUCCESS;
+}
+
+RecastMap::LinearAllocator::LinearAllocator(const int cap) : buffer(0), capacity(0), top(0), high(0)
+{
+	resize(cap);
+}
+
+RecastMap::LinearAllocator::~LinearAllocator()
+{
+	dtFree(buffer);
+}
+void RecastMap::LinearAllocator::resize(const int cap)
+{
+	if (buffer) dtFree(buffer);
+	buffer = (unsigned char*)dtAlloc(cap, DT_ALLOC_PERM);
+	capacity = cap;
+}
+void RecastMap::LinearAllocator::reset()
+{
+	high = dtMax(high, top);
+	top = 0;
+}
+void* RecastMap::LinearAllocator::alloc(const int size)
+{
+	if (!buffer)
+		return 0;
+	if (top+size > capacity)
+		return 0;
+	unsigned char* mem = &buffer[top];
+	top += size;
+	return mem;
+}
+void RecastMap::LinearAllocator::free(void* /*ptr*/)
+{
+	// Empty
+}
+
+void RecastMap::MeshProcess::process(struct dtNavMeshCreateParams* params,
+						  unsigned char* polyAreas, unsigned short* polyFlags)
+{
+	// hu: Honestly i don't know what this mesh process do
+	return;
+	// Update poly flags from areas.
+	for (int i = 0; i < params->polyCount; ++i)
+	{
+		if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
+		{
+			polyAreas[i] = SAMPLE_POLYFLAGS_WALK;
+		}
+		else
+		{
+			polyAreas[i] = SAMPLE_POLYFLAGS_DISABLED;
+		}
+	}
+}
 
 RecastMap::RecastMap()
 {
@@ -67,8 +139,32 @@ int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int 
 	{
 		return 0;
 	}
+	struct RasterizationContext
+	{
+		rcHeightfield* solid;
+		unsigned char* triareas;
+		rcHeightfieldLayerSet* lset;
+		rcCompactHeightfield* chf;
+		TileCacheData tiles[RECAST_MAX_LAYERS];
+		int ntiles;
 
-	FastLZCompressor comp;
+		RasterizationContext()
+		{
+			memset(tiles, 0, sizeof(TileCacheData)*RECAST_MAX_LAYERS);
+		}
+		~RasterizationContext()
+		{
+			rcFreeHeightField(solid);
+			delete [] triareas;
+			rcFreeHeightfieldLayerSet(lset);
+			rcFreeCompactHeightfield(chf);
+			for (int i = 0; i < RECAST_MAX_LAYERS; ++i)
+			{
+				dtFree(tiles[i].data);
+				tiles[i].data = 0;
+			}
+		}
+	};
 	RasterizationContext rc;
 
 	const float* verts = geom->getMesh()->getVerts();
@@ -206,7 +302,7 @@ int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int 
 		header.hmin = (unsigned short)layer->hmin;
 		header.hmax = (unsigned short)layer->hmax;
 
-		dtStatus status = dtBuildTileCacheLayer(&comp, &header, layer->heights, layer->areas, layer->cons,
+		dtStatus status = dtBuildTileCacheLayer(m_tcomp, &header, layer->heights, layer->areas, layer->cons,
 			&tile->data, &tile->dataSize);
 		if (dtStatusFailed(status))
 		{

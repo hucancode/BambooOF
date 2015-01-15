@@ -126,7 +126,7 @@
     <ClCompile Include="..\addons\ofxRecast\InputGeometry.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastMap.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastMapRenderer.cpp" />
-    <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\DebugDrawGL.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastChunkyTriMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DetourDebugDraw.cpp" />
@@ -309,7 +309,7 @@
     <ClInclude Include="..\addons\ofxRecast\InputGeometry.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastMap.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastMapRenderer.h" />
-    <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
+    <ClInclude Include="..\addons\ofxRecast\DebugDrawGL.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastChunkyTriMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DetourDebugDraw.h" />
