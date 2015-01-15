@@ -9,6 +9,7 @@
 #include "DetourTileCacheBuilder.h"
 #include "DetourTileCache.h"
 #include "DebugDrawGL.h"
+#include "InputGeometry.h"
 
 #define RECAST_TILE_SIZE 48
 #define RECAST_CELL_SIZE 0.3f

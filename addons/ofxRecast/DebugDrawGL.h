@@ -4,7 +4,6 @@
 #include <float.h>
 #include <math.h>
 #include <string.h>
-#include "InputGeometry.h"
 #include "GL/glew.h"
 #include "DebugDraw.h"
 
