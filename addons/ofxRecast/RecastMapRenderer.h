@@ -20,6 +20,7 @@ public:
 	~RecastMapRenderer();
 	void Render();
 private:
+	void DrawConvexVolumes(struct duDebugDraw* dd, InputGeometry* geometry);
 	void DrawTiles(duDebugDraw* dd, dtTileCache* tc);
 	void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc);
 	void DrawAgents(duDebugDraw* dd);

@@ -7,7 +7,7 @@
 #include "ofxParticleEffect2D.h"
 #include "IL/il.h"
 
-Test* current_test = new JxSortingTest();
+Test* current_test = new SpriteTest();
 ofxBaseSprite* spriteObstacle;
 void Test::Setup()
 {

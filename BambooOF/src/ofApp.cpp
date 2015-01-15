@@ -50,7 +50,7 @@ void ofApp::draw() {
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	cam->begin();
 	ofEnableDepthTest();
-	//mapRenderer->Render();
+	mapRenderer->Render();
 	ofDisableDepthTest();
 	current_test->Render();
 	cam->end();
@@ -122,7 +122,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 extern ofxBaseSprite* spriteObstacle;
 void ofApp::mousePressed(int x, int y, int button){
-	return;
+	//return;
 	if(button != 0 && button != 2) return;
 	ofVec3f ray[2];
 	// Define ray in screen space

@@ -7,9 +7,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp">
-      <Filter>addons\ofxRecast</Filter>
-    </ClCompile>
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
@@ -430,6 +427,12 @@
     <ClCompile Include="..\addons\ofxRecast\RecastMapRenderer.cpp">
       <Filter>addons\ofxRecast</Filter>
     </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\RecastChunkyTriMesh.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\addons\ofxRecast\InputGeometry.cpp">
+      <Filter>addons\ofxRecast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -538,9 +541,6 @@
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\addons\ofxRecast\InputGeom.h">
-      <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h">
       <Filter>addons\ofxRecast</Filter>
@@ -1077,6 +1077,12 @@
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
     <ClInclude Include="..\addons\ofxRecast\RecastMapRenderer.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\RecastChunkyTriMesh.h">
+      <Filter>addons\ofxRecast</Filter>
+    </ClInclude>
+    <ClInclude Include="..\addons\ofxRecast\InputGeometry.h">
       <Filter>addons\ofxRecast</Filter>
     </ClInclude>
   </ItemGroup>

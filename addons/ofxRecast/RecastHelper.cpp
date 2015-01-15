@@ -74,17 +74,11 @@ void LinearAllocator::free(void* /*ptr*/)
 	// Empty
 }
 
-
-MeshProcess::MeshProcess() : m_geom(0)
-{
-}
-void MeshProcess::init(InputGeom* geom)
-{
-	m_geom = geom;
-}
 void MeshProcess::process(struct dtNavMeshCreateParams* params,
 						  unsigned char* polyAreas, unsigned short* polyFlags)
 {
+	// hu: Honestly i don't know what this mesh process do
+	return;
 	// Update poly flags from areas.
 	for (int i = 0; i < params->polyCount; ++i)
 	{
@@ -96,18 +90,6 @@ void MeshProcess::process(struct dtNavMeshCreateParams* params,
 		{
 			polyAreas[i] = SAMPLE_POLYFLAGS_DISABLED;
 		}
-	}
-
-	// Pass in off-mesh connections.
-	if (m_geom)
-	{
-		params->offMeshConVerts = m_geom->getOffMeshConnectionVerts();
-		params->offMeshConRad = m_geom->getOffMeshConnectionRads();
-		params->offMeshConDir = m_geom->getOffMeshConnectionDirs();
-		params->offMeshConAreas = m_geom->getOffMeshConnectionAreas();
-		params->offMeshConFlags = m_geom->getOffMeshConnectionFlags();
-		params->offMeshConUserID = m_geom->getOffMeshConnectionId();
-		params->offMeshConCount = m_geom->getOffMeshConnectionCount();	
 	}
 }
 

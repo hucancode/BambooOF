@@ -25,7 +25,6 @@ void RecastMapRenderer::Render()
 			m_RecastMap->GetGeometry()->getMesh()->getTriCount(),
 			RECAST_AGENT_MAX_SLOPE, 
 			texScale);
-		m_RecastMap->GetGeometry()->drawOffMeshConnections(&dd);
 	}
 	
 	DrawAgents(&dd);
@@ -39,8 +38,8 @@ void RecastMapRenderer::Render()
 	// Tiling grid.
 	int gw = 0, gh = 0;
 	rcCalcGridSize(bmin, bmax, RECAST_CELL_SIZE, &gw, &gh);
-	const int tw = (gw + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
-	const int th = (gh + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
+	const int tw = (gw + RECAST_TILE_SIZE - 1) / RECAST_TILE_SIZE;
+	const int th = (gh + RECAST_TILE_SIZE - 1) / RECAST_TILE_SIZE;
 	const float s = RECAST_TILE_SIZE*RECAST_CELL_SIZE;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
 
@@ -55,8 +54,11 @@ void RecastMapRenderer::Render()
 	
 	if (m_RecastMap->GetTileCache())
 		DrawObstacles(&dd, m_RecastMap->GetTileCache());
-	
+
+	if (m_RecastMap->GetGeometry())
+		DrawConvexVolumes(&dd, m_RecastMap->GetGeometry());
 }
+
 void RecastMapRenderer::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 {
 	unsigned int fcol[6];
@@ -88,6 +90,74 @@ void RecastMapRenderer::DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 	}
 
 }
+void RecastMapRenderer::DrawConvexVolumes(struct duDebugDraw* dd, InputGeometry* geometry)
+{
+	dd->depthMask(false);
+
+	dd->begin(DU_DRAW_TRIS);
+	
+	for (int i = 0; i < geometry->getConvexVolumeCount(); ++i)
+	{
+		const ConvexVolume* vol = &geometry->getConvexVolumes()[i];
+		unsigned int col = duIntToCol(vol->area, 32);
+		for (int j = 0, k = vol->nverts-1; j < vol->nverts; k = j++)
+		{
+			const float* va = &vol->verts[k*3];
+			const float* vb = &vol->verts[j*3];
+
+			dd->vertex(vol->verts[0],vol->hmax,vol->verts[2], col);
+			dd->vertex(vb[0],vol->hmax,vb[2], col);
+			dd->vertex(va[0],vol->hmax,va[2], col);
+			
+			dd->vertex(va[0],vol->hmin,va[2], duDarkenCol(col));
+			dd->vertex(va[0],vol->hmax,va[2], col);
+			dd->vertex(vb[0],vol->hmax,vb[2], col);
+
+			dd->vertex(va[0],vol->hmin,va[2], duDarkenCol(col));
+			dd->vertex(vb[0],vol->hmax,vb[2], col);
+			dd->vertex(vb[0],vol->hmin,vb[2], duDarkenCol(col));
+		}
+	}
+	
+	dd->end();
+
+	dd->begin(DU_DRAW_LINES, 2.0f);
+	for (int i = 0; i < geometry->getConvexVolumeCount(); ++i)
+	{
+		const ConvexVolume* vol = &geometry->getConvexVolumes()[i];
+		unsigned int col = duIntToCol(vol->area, 220);
+		for (int j = 0, k = vol->nverts-1; j < vol->nverts; k = j++)
+		{
+			const float* va = &vol->verts[k*3];
+			const float* vb = &vol->verts[j*3];
+			dd->vertex(va[0],vol->hmin,va[2], duDarkenCol(col));
+			dd->vertex(vb[0],vol->hmin,vb[2], duDarkenCol(col));
+			dd->vertex(va[0],vol->hmax,va[2], col);
+			dd->vertex(vb[0],vol->hmax,vb[2], col);
+			dd->vertex(va[0],vol->hmin,va[2], duDarkenCol(col));
+			dd->vertex(va[0],vol->hmax,va[2], col);
+		}
+	}
+	dd->end();
+
+	dd->begin(DU_DRAW_POINTS, 3.0f);
+	for (int i = 0; i < geometry->getConvexVolumeCount(); ++i)
+	{
+		const ConvexVolume* vol = &geometry->getConvexVolumes()[i];
+		unsigned int col = duDarkenCol(duIntToCol(vol->area, 255));
+		for (int j = 0; j < vol->nverts; ++j)
+		{
+			dd->vertex(vol->verts[j*3+0],vol->verts[j*3+1]+0.1f,vol->verts[j*3+2], col);
+			dd->vertex(vol->verts[j*3+0],vol->hmin,vol->verts[j*3+2], col);
+			dd->vertex(vol->verts[j*3+0],vol->hmax,vol->verts[j*3+2], col);
+		}
+	}
+	dd->end();
+	
+	
+	dd->depthMask(true);
+}
+
 /*----------------------------------------
 return obstacle that hit by mouse's ray
 sp, sq = 2 points form the ray, calculated by framework
@@ -116,7 +186,7 @@ dtObstacleRef RecastMapRenderer::HitTestObstacle(const float* sp, const float* s
 	}
 	return m_RecastMap->GetTileCache()->getObstacleRef(obmin);
 }
-	
+
 void RecastMapRenderer::DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
 	for (int i = 0; i < tc->getObstacleCount(); ++i)

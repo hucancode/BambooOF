@@ -123,10 +123,11 @@
     <ClCompile Include="..\addons\ofxRecast\fastlz\fastlz.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="..\addons\ofxRecast\InputGeom.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\InputGeometry.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastMap.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastMapRenderer.cpp" />
     <ClCompile Include="..\addons\ofxRecast\RecastHelper.cpp" />
+    <ClCompile Include="..\addons\ofxRecast\RecastChunkyTriMesh.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DebugDraw.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\DetourDebugDraw.cpp" />
     <ClCompile Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Source\RecastDebugDraw.cpp" />
@@ -305,10 +306,11 @@
     <ClInclude Include="..\addons\ofxPostProcessing\src\VerticalTiltShifPass.h" />
     <ClInclude Include="..\addons\ofxPostProcessing\src\ZoomBlurPass.h" />
     <ClInclude Include="..\addons\ofxRecast\fastlz\fastlz.h" />
-    <ClInclude Include="..\addons\ofxRecast\InputGeom.h" />
+    <ClInclude Include="..\addons\ofxRecast\InputGeometry.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastMap.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastMapRenderer.h" />
     <ClInclude Include="..\addons\ofxRecast\RecastHelper.h" />
+    <ClInclude Include="..\addons\ofxRecast\RecastChunkyTriMesh.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DebugDraw.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\DetourDebugDraw.h" />
     <ClInclude Include="..\addons\ofxRecast\recastnavigation\DebugUtils\Include\RecastDebugDraw.h" />

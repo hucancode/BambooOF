@@ -14,7 +14,7 @@
 #include "DetourCrowd.h"
 #include "DetourCommon.h"
 
-#include "InputGeom.h"
+#include "InputGeometry.h"
 
 #include "GL/glew.h"
 #include "DebugDraw.h"
@@ -70,12 +70,6 @@ struct LinearAllocator : public dtTileCacheAlloc
 
 struct MeshProcess : public dtTileCacheMeshProcess
 {
-	InputGeom* m_geom;
-
-	MeshProcess();
-
-	void init(InputGeom* geom);
-
 	virtual void process(struct dtNavMeshCreateParams* params,
 		unsigned char* polyAreas, unsigned short* polyFlags);
 };

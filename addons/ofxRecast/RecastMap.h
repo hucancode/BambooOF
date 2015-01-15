@@ -23,7 +23,7 @@ class RecastMap
 {
 	friend class RecastMapRender;
 private:
-	InputGeom*			m_geom;
+	InputGeometry*		m_geom;
 	dtNavMesh*			m_navMesh;
 	dtNavMeshQuery*		m_navQuery;
 	dtCrowd*			m_crowd;
@@ -35,7 +35,7 @@ private:
 	int					m_maxTiles;
 	int					m_maxPolysPerTile;
 public:
-	InputGeom*			GetGeometry() { return m_geom;}
+	InputGeometry*		GetGeometry() { return m_geom;}
 	dtCrowd*			GetCrowd(){ return m_crowd;}
 	dtNavMesh*			GetMesh(){ return m_navMesh;}
 	dtNavMeshQuery*		GetQuery(){ return m_navQuery;}
@@ -45,7 +45,7 @@ public:
 	~RecastMap();
 	// navigation mesh
 private:
-	int					RasterizeTileLayers(InputGeom* geom, const int tx, const int ty, 
+	int					RasterizeTileLayers(InputGeometry* geom, const int tx, const int ty, 
 							const rcConfig& cfg, TileCacheData* tiles, const int maxTiles);
 public:
 	void				InitMesh();

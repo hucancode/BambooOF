@@ -26,7 +26,7 @@ void RecastMap::InitMesh()
 }
 void RecastMap::LoadMesh(const char* filepath)
 {
-	InputGeom* geom = new InputGeom();
+	InputGeometry* geom = new InputGeometry();
 	geom->loadMesh(filepath);
 	m_geom = geom;
 	dtFreeTileCache(m_tileCache);
@@ -42,9 +42,8 @@ void RecastMap::LoadMesh(const char* filepath)
 		const float* bmax = m_geom->getMeshBoundsMax();
 		int gw = 0, gh = 0;
 		rcCalcGridSize(bmin, bmax, RECAST_CELL_SIZE, &gw, &gh);
-		const int ts = RECAST_TILE_SIZE;
-		const int tw = (gw + ts-1) / ts;
-		const int th = (gh + ts-1) / ts;
+		const int tw = (gw + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
+		const int th = (gh + RECAST_TILE_SIZE-1) / RECAST_TILE_SIZE;
 
 		// Max tiles and max polys affect how the tile IDs are caculated.
 		// There are 22 bits available for identifying a tile and a polygon.
@@ -61,7 +60,7 @@ void RecastMap::LoadMesh(const char* filepath)
 		m_maxPolysPerTile = 0;
 	}
 }
-int RecastMap::RasterizeTileLayers(InputGeom* geom, const int tx, const int ty, 
+int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int ty, 
 							const rcConfig& cfg, TileCacheData* tiles, const int maxTiles)
 {
 	if (!geom || !geom->getMesh() || !geom->getChunkyMesh())
@@ -230,7 +229,6 @@ bool RecastMap::BuildMesh()
 {
 	dtStatus status;
 	if (!m_geom || !m_geom->getMesh()) return false;
-	m_tmproc->init(m_geom);
 	// Init cache
 	const float* bmin = m_geom->getMeshBoundsMin();
 	const float* bmax = m_geom->getMeshBoundsMax();
