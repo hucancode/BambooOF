@@ -99,8 +99,6 @@ void ofApp::keyPressed(int key){
 	{
 		ofxRENDERER->Make2DCamera();
 	}
-	if(key == OF_KEY_F4) 
-		mapRenderer->SwitchDrawMesh();
 }
 
 

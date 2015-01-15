@@ -14,18 +14,15 @@ void RecastMapRenderer::Render()
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	DebugDrawGL dd;
-	if(draw_mesh)
-	{
-		const float texScale = 1.0f / (RECAST_CELL_SIZE * 10.0f);
-		duDebugDrawTriMeshSlope(&dd, 
-			m_RecastMap->GetGeometry()->getMesh()->getVerts(), 
-			m_RecastMap->GetGeometry()->getMesh()->getVertCount(),
-			m_RecastMap->GetGeometry()->getMesh()->getTris(), 
-			m_RecastMap->GetGeometry()->getMesh()->getNormals(), 
-			m_RecastMap->GetGeometry()->getMesh()->getTriCount(),
-			RECAST_AGENT_MAX_SLOPE, 
-			texScale);
-	}
+	const float texScale = 1.0f / (RECAST_CELL_SIZE * 10.0f);
+	duDebugDrawTriMeshSlope(&dd, 
+		m_RecastMap->GetGeometry()->getMesh()->getVerts(), 
+		m_RecastMap->GetGeometry()->getMesh()->getVertCount(),
+		m_RecastMap->GetGeometry()->getMesh()->getTris(), 
+		m_RecastMap->GetGeometry()->getMesh()->getNormals(), 
+		m_RecastMap->GetGeometry()->getMesh()->getTriCount(),
+		RECAST_AGENT_MAX_SLOPE, 
+		texScale);
 	
 	DrawAgents(&dd);
 	
@@ -43,7 +40,7 @@ void RecastMapRenderer::Render()
 	const float s = RECAST_TILE_SIZE*RECAST_CELL_SIZE;
 	duDebugDrawGridXZ(&dd, bmin[0],bmin[1],bmin[2], tw,th, s, duRGBA(0,0,0,64), 1.0f);
 
-	if(m_RecastMap->GetMesh() && m_RecastMap->GetQuery() && draw_mesh)
+	if(m_RecastMap->GetMesh() && m_RecastMap->GetQuery())
 	{
 		duDebugDrawNavMesh(&dd, *(m_RecastMap->GetMesh()), 
 			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);

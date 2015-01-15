@@ -13,9 +13,7 @@ class RecastMapRenderer
 {
 private:
 	RecastMap* m_RecastMap;
-	bool draw_mesh;
 public:
-	void SwitchDrawMesh(){draw_mesh = !draw_mesh;}
 	RecastMapRenderer(RecastMap* mesh);
 	~RecastMapRenderer();
 	void Render();
