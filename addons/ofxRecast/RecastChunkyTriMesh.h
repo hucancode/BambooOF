@@ -45,11 +45,9 @@ public:
 	inline int getTriCount() const { return m_triCount; }
 	inline const char* getFileName() const { return m_filename; }
 
-private:
-	
 	void addVertex(float x, float y, float z, int& cap);
 	void addTriangle(int a, int b, int c, int& cap);
-	
+private:
 	char m_filename[260];
 	float m_scale;	
 	float* m_verts;

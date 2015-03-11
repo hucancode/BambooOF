@@ -53,7 +53,7 @@ public:
 	bool save(const char* filepath);
 	
 	/// Method to return static mesh data.
-	inline const rcMeshLoaderObj* getMesh() const { return m_mesh; }
+	inline rcMeshLoaderObj* getMesh() const { return m_mesh; }
 	inline const float* getMeshBoundsMin() const { return m_meshBMin; }
 	inline const float* getMeshBoundsMax() const { return m_meshBMax; }
 	inline const rcChunkyTriMesh* getChunkyMesh() const { return m_chunkyMesh; }

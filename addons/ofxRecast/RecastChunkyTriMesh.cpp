@@ -307,6 +307,7 @@ rcMeshLoaderObj::rcMeshLoaderObj() :
 	m_vertCount(0),
 	m_triCount(0)
 {
+	m_filename[0] = 0;
 }
 
 rcMeshLoaderObj::~rcMeshLoaderObj()

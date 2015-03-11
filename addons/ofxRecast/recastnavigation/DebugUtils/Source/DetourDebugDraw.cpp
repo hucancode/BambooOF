@@ -562,7 +562,7 @@ void duDebugDrawTileCacheLayerAreas(struct duDebugDraw* dd, const dtTileCacheLay
 			const unsigned char area = layer.areas[lidx];
 			
 			unsigned int col;
-			if (area == 63)
+			if (area == DT_TILECACHE_WALKABLE_AREA)
 				col = duLerpCol(color, duRGBA(0,192,255,64), 32);
 			else if (area == 0)
 				col = duLerpCol(color, duRGBA(0,0,0,64), 32);

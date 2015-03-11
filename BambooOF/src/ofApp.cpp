@@ -50,7 +50,7 @@ void ofApp::draw() {
 	ofBackground(ofColor(0.0f,128.0f,255.0f,255.0f));
 	cam->begin();
 	ofEnableDepthTest();
-	mapRenderer->Render();
+	//mapRenderer->Render();
 	ofDisableDepthTest();
 	current_test->Render();
 	cam->end();

@@ -56,18 +56,24 @@ void RecastMap::LinearAllocator::free(void* /*ptr*/)
 void RecastMap::MeshProcess::process(struct dtNavMeshCreateParams* params,
 						  unsigned char* polyAreas, unsigned short* polyFlags)
 {
-	// hu: Honestly i don't know what this mesh process do
-	return;
 	// Update poly flags from areas.
 	for (int i = 0; i < params->polyCount; ++i)
 	{
 		if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
 		{
-			polyAreas[i] = SAMPLE_POLYFLAGS_WALK;
+			polyAreas[i] = POLY_AREA_GROUND;
+		}
+		if (polyAreas[i] == POLY_AREA_GROUND)
+		{
+			polyFlags[i] = POLY_ABILITY_WALK;
+		}
+		else if(polyAreas[i] == POLY_AREA_WATER)
+		{
+			polyAreas[i] = POLY_ABILITY_SWIM;
 		}
 		else
 		{
-			polyAreas[i] = SAMPLE_POLYFLAGS_DISABLED;
+			polyAreas[i] = POLY_ABILITY_ALL;
 		}
 	}
 }
@@ -99,6 +105,7 @@ void RecastMap::InitMesh()
 void RecastMap::LoadMesh(const char* filepath)
 {
 	InputGeometry* geom = new InputGeometry();
+	
 	geom->loadMesh(filepath);
 	m_geom = geom;
 	dtFreeTileCache(m_tileCache);
@@ -132,10 +139,9 @@ void RecastMap::LoadMesh(const char* filepath)
 		m_maxPolysPerTile = 0;
 	}
 }
-int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int ty, 
-							const rcConfig& cfg, TileCacheData* tiles, const int maxTiles)
+int RecastMap::RasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, TileCacheData* tiles, const int maxTiles)
 {
-	if (!geom || !geom->getMesh() || !geom->getChunkyMesh())
+	if (!m_geom || !m_geom->getMesh() || !m_geom->getChunkyMesh())
 	{
 		return 0;
 	}
@@ -167,9 +173,9 @@ int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int 
 	};
 	RasterizationContext rc;
 
-	const float* verts = geom->getMesh()->getVerts();
-	const int nverts = geom->getMesh()->getVertCount();
-	const rcChunkyTriMesh* chunkyMesh = geom->getChunkyMesh();
+	const float* verts = m_geom->getMesh()->getVerts();
+	const int nverts = m_geom->getMesh()->getVertCount();
+	const rcChunkyTriMesh* chunkyMesh = m_geom->getChunkyMesh();
 
 	// Tile bounds.
 	const float tcs = cfg.tileSize * cfg.cs;
@@ -256,8 +262,8 @@ int RecastMap::RasterizeTileLayers(InputGeometry* geom, const int tx, const int 
 	}
 
 	// (Optional) Mark areas.
-	const ConvexVolume* vols = geom->getConvexVolumes();
-	for (int i  = 0; i < geom->getConvexVolumeCount(); ++i)
+	const ConvexVolume* vols = m_geom->getConvexVolumes();
+	for (int i  = 0; i < m_geom->getConvexVolumeCount(); ++i)
 	{
 		rcMarkConvexPolyArea(vols[i].verts, vols[i].nverts,
 			vols[i].hmin, vols[i].hmax,
@@ -330,7 +336,7 @@ bool RecastMap::BuildMesh()
 	const float* bmax = m_geom->getMeshBoundsMax();
 	int gw = 0, gh = 0;
 	rcCalcGridSize(bmin, bmax, RECAST_CELL_SIZE, &gw, &gh);
-	const int ts = (int)RECAST_TILE_SIZE;
+	const int ts = RECAST_TILE_SIZE;
 	const int tw = (gw + ts-1) / ts;
 	const int th = (gh + ts-1) / ts;
 	// Generation params.
@@ -368,7 +374,7 @@ bool RecastMap::BuildMesh()
 	tcparams.walkableClimb = RECAST_AGENT_MAX_CLIMB;
 	tcparams.maxSimplificationError = RECAST_EDGE_MAX_ERROR;
 	tcparams.maxTiles = tw*th*RECAST_EXPECTED_LAYERS_PER_TILE;
-	tcparams.maxObstacles = 128;
+	tcparams.maxObstacles = RECAST_MAX_OBSTACLE;
 
 	dtFreeTileCache(m_tileCache);
 
@@ -402,15 +408,14 @@ bool RecastMap::BuildMesh()
 		{
 			TileCacheData tiles[RECAST_MAX_LAYERS];
 			memset(tiles, 0, sizeof(tiles));
-			int n = RasterizeTileLayers(m_geom, x, y, cfg, tiles, RECAST_MAX_LAYERS);
+			int n = RasterizeTileLayers(x, y, cfg, tiles, RECAST_MAX_LAYERS);
 			for (int i = 0; i < n; ++i)
 			{
-				TileCacheData* tile = &tiles[i];
-				status = m_tileCache->addTile(tile->data, tile->dataSize, DT_COMPRESSEDTILE_FREE_DATA, 0);
+				status = m_tileCache->addTile(tiles[i].data, tiles[i].dataSize, DT_COMPRESSEDTILE_FREE_DATA, 0);
 				if (dtStatusFailed(status))
 				{
-					dtFree(tile->data);
-					tile->data = 0;
+					dtFree(tiles[i].data);
+					tiles[i].data = 0;
 					continue;
 				}
 			}
@@ -495,7 +500,7 @@ void RecastMap::InitCrowd()
 		m_crowd->init(RECAST_MAX_AGENTS, RECAST_AGENT_MAX_RADIUS, m_navMesh);
 
 		// Make polygons with 'disabled' flag invalid.
-		m_crowd->getEditableFilter()->setExcludeFlags(SAMPLE_POLYFLAGS_DISABLED);
+		m_crowd->getEditableFilter()->setExcludeFlags(POLY_ABILITY_DISABLED);
 
 		// Setup local avoidance params to different qualities.
 		dtObstacleAvoidanceParams params;

@@ -44,7 +44,7 @@ void RecastMapRenderer::Render()
 	{
 		duDebugDrawNavMesh(&dd, *(m_RecastMap->GetMesh()), 
 			DU_DRAWNAVMESH_COLOR_TILES|DU_DRAWNAVMESH_CLOSEDLIST|DU_DRAWNAVMESH_OFFMESHCONS);
-		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_RecastMap->GetMesh()), SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
+		duDebugDrawNavMeshPolysWithFlags(&dd, *(m_RecastMap->GetMesh()), POLY_ABILITY_DISABLED, duRGBA(0,0,0,128));
 	}
 	if (m_RecastMap->GetTileCache())
 		//DrawTiles(&dd, m_RecastMap->GetTileCache());

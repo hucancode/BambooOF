@@ -131,9 +131,43 @@ bool InputGeometry::loadMesh(const char* filepath)
 	{
 		return false;
 	}
-	if (!m_mesh->load(filepath))
+	if(false)
 	{
-		return false;
+		if (!m_mesh->load(filepath))
+		{
+			return false;
+		}
+	}
+	else
+	{
+		int vcap = 0;
+		int tcap = 0;
+		this->getMesh()->addVertex(0.0f, 0.0f, 0.0f, vcap);
+		this->getMesh()->addVertex(0.0f, 200.0f, 0.0f, vcap);
+		this->getMesh()->addVertex(200.0f, 200.0f, 0.0f, vcap);
+		this->getMesh()->addVertex(200.0f, 0.0f, 0.0f, vcap);
+		this->getMesh()->addVertex(0.0f, 0.0f, 200.0f, vcap);
+		this->getMesh()->addVertex(0.0f, 200.0f, 200.0f, vcap);
+		this->getMesh()->addVertex(200.0f, 200.0f, 200.0f, vcap);
+		this->getMesh()->addVertex(200.0f, 0.0f, 200.0f, vcap);
+		// 0123
+		this->getMesh()->addTriangle(0,1,2, tcap);
+		this->getMesh()->addTriangle(0,2,3, tcap);
+		// 4567
+		this->getMesh()->addTriangle(4,5,6, tcap);
+		this->getMesh()->addTriangle(4,6,7, tcap);
+		// 0154
+		this->getMesh()->addTriangle(0,1,5, tcap);
+		this->getMesh()->addTriangle(0,5,4, tcap);
+		// 1265
+		this->getMesh()->addTriangle(1,2,6, tcap);
+		this->getMesh()->addTriangle(1,6,5, tcap);
+		// 2376
+		this->getMesh()->addTriangle(2,3,7, tcap);
+		this->getMesh()->addTriangle(2,7,6, tcap);
+		// 0473
+		this->getMesh()->addTriangle(0,4,7, tcap);
+		this->getMesh()->addTriangle(0,7,3, tcap);
 	}
 
 	rcCalcBounds(m_mesh->getVerts(), m_mesh->getVertCount(), m_meshBMin, m_meshBMax);

@@ -11,7 +11,7 @@
 #include "DebugDrawGL.h"
 #include "InputGeometry.h"
 
-#define RECAST_TILE_SIZE 48
+#define RECAST_TILE_SIZE 80
 #define RECAST_CELL_SIZE 0.3f
 #define RECAST_CELL_HEIGHT 0.2f
 #define RECAST_AGENT_MAX_RADIUS 0.6f
@@ -26,27 +26,23 @@
 #define RECAST_VERTEX_PER_POLY 6
 #define RECAST_DETAIL_SAMPLE_DISTANCE 6.0f
 #define RECAST_DETAIL_SAMPLE_MAX_ERROR 1.0f
+#define RECAST_MAX_OBSTACLE 128
 #define RECAST_MAX_AGENTS 128
 #define RECAST_MAX_LAYERS 32
 #define RECAST_EXPECTED_LAYERS_PER_TILE 4
 
-enum SamplePolyAreas
+enum POLY_AREA
 {
-	SAMPLE_POLYAREA_GROUND,
-	SAMPLE_POLYAREA_WATER,
-	SAMPLE_POLYAREA_ROAD,
-	SAMPLE_POLYAREA_DOOR,
-	SAMPLE_POLYAREA_GRASS,
-	SAMPLE_POLYAREA_JUMP,
+	POLY_AREA_GROUND,
+	POLY_AREA_WATER,
+	// ANY TERRAIN
 };
-enum SamplePolyFlags
+enum POLY_ABILITY
 {
-	SAMPLE_POLYFLAGS_WALK		= 0x01,		// Ability to walk (ground, grass, road)
-	SAMPLE_POLYFLAGS_SWIM		= 0x02,		// Ability to swim (water).
-	SAMPLE_POLYFLAGS_DOOR		= 0x04,		// Ability to move through doors.
-	SAMPLE_POLYFLAGS_JUMP		= 0x08,		// Ability to jump.
-	SAMPLE_POLYFLAGS_DISABLED	= 0x10,		// Disabled polygon
-	SAMPLE_POLYFLAGS_ALL		= 0xffff	// All abilities.
+	POLY_ABILITY_WALK		= 0x01,		// Ability to walk (ground)
+	POLY_ABILITY_SWIM		= 0x02,		// Ability to swim (water).
+	POLY_ABILITY_DISABLED	= 0x10,		// No abilities allowed
+	POLY_ABILITY_ALL		= 0xff,		// All abilities.
 };
 
 class RecastMap
@@ -111,8 +107,7 @@ public:
 	~RecastMap();
 	// navigation mesh
 private:
-	int					RasterizeTileLayers(InputGeometry* geom, const int tx, const int ty, 
-							const rcConfig& cfg, TileCacheData* tiles, const int maxTiles);
+	int					RasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, TileCacheData* tiles, const int maxTiles);
 public:
 	void				InitMesh();
 	void				LoadMesh(const char* filepath);
