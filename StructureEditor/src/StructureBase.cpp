@@ -39,54 +39,64 @@ void StructureBase::draw()
 		pivotLeft->draw();
 	}
 	// anchors
+	if (!(pivotLeft->isDragged() || pivotRight->isDragged() || pivotBottom->isDragged()))
 	{
-		ofFill();
-		ofSetHexColor(0xCC00FF);
-		vector<ofVec2f>::iterator it = anchors.begin();
-		for(;it != anchors.end();it++)
 		{
-			ofVec2f item = *it;
-			ofCircle(item.x, item.y, PIVOT_RADIUS/2);
+			ofFill();
+			ofSetHexColor(0xCC00FF);
+			vector<ofVec2f>::iterator it = anchors.begin();
+			for (; it != anchors.end(); it++)
+			{
+				ofVec2f item = *it;
+				ofCircle(item.x, item.y, PIVOT_RADIUS / 2);
+			}
 		}
-	}
-	// anchor slices
-	{
-		const int min_x = 0;
-		const int min_y = 0;
-		const int max_x = ofGetWindowWidth();
-		const int max_y = ofGetWindowHeight();
+		// anchor slices
+		{
+			const int min_x = 0;
+			const int min_y = 0;
+			const int max_x = ofGetWindowWidth();
+			const int max_y = ofGetWindowHeight();
 
-		int px = min_x;
-		int x = min_x;
-		int y = min_y;
-		for(int i=0;i< anchors.size();i++)
-		{
-			x = anchors[i].x;
-			y = anchors[i].y;
-			ofSetHexColor(0x0000FF);
-			ofLine(x, y, px, y);
-			ofSetHexColor(0x00FF00);
-			ofLine(x, min_y, x, max_y);
-			px = x;
-		}
-		if(anchors.size() > 0)
-		{
-			ofSetHexColor(0x0000FF);
-			ofLine(px, pivotRight->y, max_x, pivotRight->y);
+			int px = min_x;
+			int x = min_x;
+			int y = min_y;
+			for (int i = 0; i < anchors.size(); i++)
+			{
+				x = anchors[i].x;
+				y = anchors[i].y;
+				ofSetHexColor(0x0000FF);
+				ofLine(x, y, px, y);
+				ofSetHexColor(0x00FF00);
+				ofLine(x, min_y, x, max_y);
+				px = x;
+			}
+			if (anchors.size() > 0)
+			{
+				ofSetHexColor(0x0000FF);
+				ofLine(px, pivotRight->y, max_x, pivotRight->y);
+			}
 		}
 	}
 	ofSetHexColor(0xFFFFFF);
 }
 bool StructureBase::mouseDown(int x, int y)
 {
-	//pivotTop->mouseDown(x, y);
-	//if(pivotTop->isDragged()) return;
+	
 	pivotRight->mouseDown(x, y);
 	if(pivotRight->isDragged()) return true;
 	pivotBottom->mouseDown(x, y);
 	if(pivotBottom->isDragged()) return true;
 	pivotLeft->mouseDown(x, y);
 	if(pivotLeft->isDragged()) return true;
+	pivotTop->mouseDown(x, y);
+	if (pivotTop->isDragged())
+	{
+		pivotRight->forceDrag(x, y);
+		pivotBottom->forceDrag(x, y);
+		pivotLeft->forceDrag(x, y);
+		return true;
+	}
 	return false;
 }
 void StructureBase::mouseDrag(int x, int y)
@@ -108,6 +118,7 @@ void StructureBase::mouseUp()
 	{
 		return;
 	}
+	pivotTop->mouseUp();
 	pivotLeft->mouseUp();
 	pivotRight->mouseUp();
 	pivotBottom->mouseUp();

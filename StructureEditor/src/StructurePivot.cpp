@@ -57,6 +57,12 @@ void StructurePivot::mouseDown(int mx, int my)
 		oy = my - y;
 	}
 }
+void StructurePivot::forceDrag(int mx, int my)
+{
+	dragged = true;
+	ox = mx - x;
+	oy = my - y;
+}
 void StructurePivot::mouseUp()
 {
 	dragged = false;

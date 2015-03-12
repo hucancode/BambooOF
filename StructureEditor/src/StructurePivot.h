@@ -18,6 +18,7 @@ public:
 	~StructurePivot();
 	bool isDragged();
 	void draw();
+	void forceDrag(int mx, int my);
 	void mouseDown(int mx, int my);
 	void mouseUp();
 	void mouseDrag(int mx, int my);
