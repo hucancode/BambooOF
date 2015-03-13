@@ -11,12 +11,10 @@ void ofApp::setup(){
 	ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT);
 	base = new StructureBase();
 	image = new StructureImage();
-	image->addChilren("data/746-1.png");
-	image->addChilren("data/746-2.png");
-	image->addChilren("data/746-3.png");
-	image->addChilren("data/746-4.png");
-	image->addChilren("data/746-5.png");
-	image->addChilren("data/746-6.png");
+	for (int i = 1; i <= 13; i++)
+	{
+		image->addChilren("data/2547-"+ofToString(i)+".png");
+	}
 	ofEnableAlphaBlending();
 }
 

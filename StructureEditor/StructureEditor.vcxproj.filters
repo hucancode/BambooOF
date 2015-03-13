@@ -46,6 +46,24 @@
     <ClCompile Include="src\StructurePivot.cpp">
       <Filter>src\Structure</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImageEditTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PivotEditTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StructureExportTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImageImportTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StructureImportTool.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -112,6 +130,24 @@
     </ClInclude>
     <ClInclude Include="src\StructurePivot.h">
       <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImageEditTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PivotEditTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StructureExportTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImageImportTool.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StructureImportTool.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

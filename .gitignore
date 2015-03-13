@@ -86,10 +86,10 @@ ipch/
 *.cachefile
 
 # Debug output files
-*.exe
+*/Debug.*/*.exe
 *.exp
 *.ilk
-*.lib
+*/Debug.*/*.lib
 *.pdb
 *.idb
 *.bsc

@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>bin\</OutDir>
+    <OutDir>$(Configuration).$(Platform)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_debug</TargetName>
     <LinkIncremental>true</LinkIncremental>
@@ -90,6 +90,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ImageEditTool.cpp" />
+    <ClCompile Include="src\ImageImportTool.cpp" />
+    <ClCompile Include="src\PivotEditTool.cpp" />
     <ClCompile Include="src\Structure.cpp" />
     <ClCompile Include="src\StructureBase.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -102,11 +105,17 @@
     <ClCompile Include="..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\StructureExportTool.cpp" />
     <ClCompile Include="src\StructureImage.cpp" />
+    <ClCompile Include="src\StructureImportTool.cpp" />
     <ClCompile Include="src\StructurePiece.cpp" />
     <ClCompile Include="src\StructurePivot.cpp" />
+    <ClCompile Include="src\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ImageEditTool.h" />
+    <ClInclude Include="src\ImageImportTool.h" />
+    <ClInclude Include="src\PivotEditTool.h" />
     <ClInclude Include="src\Structure.h" />
     <ClInclude Include="src\StructureBase.h" />
     <ClInclude Include="src\ofApp.h" />
@@ -119,9 +128,12 @@
     <ClInclude Include="..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\StructureExportTool.h" />
     <ClInclude Include="src\StructureImage.h" />
+    <ClInclude Include="src\StructureImportTool.h" />
     <ClInclude Include="src\StructurePiece.h" />
     <ClInclude Include="src\StructurePivot.h" />
+    <ClInclude Include="src\Tool.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
