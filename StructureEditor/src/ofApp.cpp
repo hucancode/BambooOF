@@ -19,7 +19,10 @@ void ofApp::setup(){
 	ofEnableAlphaBlending();
 
 	tools.push_back(new ImageEditTool());
+	toolIcons.push_back(ofImage("image_icon.png"));
 	tools.push_back(new PivotEditTool());
+	toolIcons.push_back(ofImage("pivot_icon.png"));
+
 	for (int i = 0; i < tools.size(); i++)
 	{
 		tools[i]->setParent(this);
@@ -36,12 +39,15 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackgroundGradient(ofColor::gray, ofColor::black);
-	ofDrawBitmapString("current tool: "+ofToString(toolIndex), 0, 0);
+	
 	tools[toolIndex]->draw();
 	image->draw();
-	if (!image->isOpening())
+	base->draw();
+	ofFill();
+	ofRect(toolIndex * (ICON_WIDTH + ICON_MARGIN * 2), 0, ICON_WIDTH + ICON_MARGIN * 2, ICON_HEIGHT + ICON_MARGIN * 2);
+	for (int i = 0; i<toolIcons.size(); i++)
 	{
-		base->draw();
+		toolIcons[i].draw(i * (ICON_WIDTH + ICON_MARGIN * 2) + ICON_MARGIN, ICON_MARGIN);
 	}
 }
 

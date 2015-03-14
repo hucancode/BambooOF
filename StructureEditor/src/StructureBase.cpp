@@ -1,6 +1,7 @@
 #include "StructureBase.h"
 StructureBase::StructureBase()
 {
+	opening = true;
 	pivotTop = new StructurePivot();
 	pivotRight = new StructurePivot();
 	pivotBottom = new StructurePivot();
@@ -24,17 +25,11 @@ StructureBase::~StructureBase()
 }
 void StructureBase::open()
 {
-	pivotTop->open();
-	pivotRight->open();
-	pivotBottom->open();
-	pivotLeft->open();
+	opening = true;
 }
 void StructureBase::close()
 {
-	pivotTop->close();
-	pivotRight->close();
-	pivotBottom->close();
-	pivotLeft->close();
+	opening = false;
 }
 void StructureBase::draw()
 {
@@ -46,6 +41,7 @@ void StructureBase::draw()
 		ofLine(pivotLeft->x, pivotLeft->y, pivotTop->x, pivotTop->y);
 	}
 	// pivot
+	if(opening)
 	{
 		pivotTop->draw();
 		pivotRight->draw();

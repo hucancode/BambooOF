@@ -9,7 +9,6 @@ public:
 	int x, y;
 	std::string name;
 	bool disabled;
-	bool opening;
 private:
 	int ox, oy;
 	bool dragged;
@@ -18,8 +17,6 @@ public:
 	StructurePivot();
 	~StructurePivot();
 	bool isDragged();
-	void open();
-	void close();
 	void draw();
 	void forceDrag(int mx, int my);
 	void mouseDown(int mx, int my);

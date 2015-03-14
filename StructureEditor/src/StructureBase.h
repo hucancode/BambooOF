@@ -8,6 +8,7 @@ private:
 	StructurePivot* pivotBottom;
 	StructurePivot* pivotLeft;
 	vector<ofVec2f> anchors;
+	bool opening;
 public:
 	StructureBase();
 	~StructureBase();

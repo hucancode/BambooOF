@@ -4,6 +4,9 @@
 #include "StructureBase.h"
 #include "StructureImage.h"
 #include "Tool.h"
+#define ICON_WIDTH 100
+#define ICON_HEIGHT 100
+#define ICON_MARGIN 20
 class ofApp : public ofBaseApp{
 
 	public:
@@ -23,5 +26,6 @@ class ofApp : public ofBaseApp{
 		StructureBase* base;
 		StructureImage* image;
 		vector<Tool*> tools;
+		vector<ofImage> toolIcons;
 		int toolIndex;
 };
