@@ -1,7 +1,8 @@
 #include "ofApp.h"
 #include "IL/il.h"
 #include "IL/ilu.h"
-
+#include "ImageEditTool.h"
+#include "PivotEditTool.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetWindowTitle("Structure Editor");
@@ -16,6 +17,15 @@ void ofApp::setup(){
 		image->addChilren("data/2547-"+ofToString(i)+".png");
 	}
 	ofEnableAlphaBlending();
+
+	tools.push_back(new ImageEditTool());
+	tools.push_back(new PivotEditTool());
+	for (int i = 0; i < tools.size(); i++)
+	{
+		tools[i]->setParent(this);
+	}
+	toolIndex = 0;
+	tools[toolIndex]->enter();
 }
 
 //--------------------------------------------------------------
@@ -26,6 +36,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackgroundGradient(ofColor::gray, ofColor::black);
+	ofDrawBitmapString("current tool: "+ofToString(toolIndex), 0, 0);
+	tools[toolIndex]->draw();
 	image->draw();
 	if (!image->isOpening())
 	{
@@ -38,14 +50,13 @@ void ofApp::keyPressed(int key){
 	switch (key)
 	{
 	case ' ':
-		if (image->isOpening())
+		tools[toolIndex]->leave();
+		toolIndex++;
+		if (toolIndex == tools.size())
 		{
-			image->close();
+			toolIndex = 0;
 		}
-		else
-		{
-			image->open();
-		}
+		tools[toolIndex]->enter();
 	}
 }
 
@@ -61,13 +72,13 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	base->mouseDrag(x, y);
-	image->mouseDrag(x, y);
+	tools[toolIndex]->mouseDrag(x, y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	bool swallow;
+	tools[toolIndex]->mouseDown(x, y);
+	/*bool swallow;
 	if (!image->isOpening())
 	{
 		swallow = base->mouseDown(x, y);
@@ -80,13 +91,12 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (swallow)
 	{
 		return;
-	}
+	}*/
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	base->mouseUp();
-	image->mouseUp();
+	tools[toolIndex]->mouseUp(x, y);
 }
 
 //--------------------------------------------------------------

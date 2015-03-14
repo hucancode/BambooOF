@@ -4,7 +4,7 @@ class ofApp;
 
 class Tool
 {
-private:
+protected:
 	ofApp* parent;
 public:
 	Tool();

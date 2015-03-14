@@ -34,9 +34,9 @@ public:
 	~StructureImage();
 	void addChilren(string image_file);
 	void open();
-	bool mouseDown(int x, int y);
-	void mouseDrag(int x, int y);
-	void mouseUp();
+	bool pick(int x, int y);
+	void drag(int x, int y);
+	void release();
 	void close();
 	void draw();
 	bool isOpening();

@@ -22,6 +22,20 @@ StructureBase::StructureBase()
 StructureBase::~StructureBase()
 {
 }
+void StructureBase::open()
+{
+	pivotTop->open();
+	pivotRight->open();
+	pivotBottom->open();
+	pivotLeft->open();
+}
+void StructureBase::close()
+{
+	pivotTop->close();
+	pivotRight->close();
+	pivotBottom->close();
+	pivotLeft->close();
+}
 void StructureBase::draw()
 {
 	// base line
@@ -80,7 +94,7 @@ void StructureBase::draw()
 	}
 	ofSetHexColor(0xFFFFFF);
 }
-bool StructureBase::mouseDown(int x, int y)
+bool StructureBase::pick(int x, int y)
 {
 	
 	pivotRight->mouseDown(x, y);
@@ -99,7 +113,7 @@ bool StructureBase::mouseDown(int x, int y)
 	}
 	return false;
 }
-void StructureBase::mouseDrag(int x, int y)
+void StructureBase::drag(int x, int y)
 {
 	pivotLeft->mouseDrag(x, y);
 	pivotRight->mouseDrag(x, y);
@@ -112,7 +126,7 @@ void StructureBase::mouseDrag(int x, int y)
 		pivotTop->y = cd.y;
 	}
 }
-void StructureBase::mouseUp()
+void StructureBase::release()
 {
 	if(!(pivotLeft->isDragged() || pivotRight->isDragged() || pivotBottom->isDragged()))
 	{

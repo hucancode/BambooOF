@@ -14,9 +14,11 @@ public:
 	void indentify();
 	void clearChilren();
 	void slice();
+	void open();
+	void close();
 public:
 	void draw();
-	bool mouseDown(int x, int y);
-	void mouseDrag(int x, int y);
-	void mouseUp();
+	bool pick(int x, int y);
+	void drag(int x, int y);
+	void release();
 };

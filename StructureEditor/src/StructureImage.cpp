@@ -59,7 +59,7 @@ void StructureImage::open()
 {
 	opening = true;
 }
-bool StructureImage::mouseDown(int x, int y)
+bool StructureImage::pick(int x, int y)
 {
 	if (opening)
 	{
@@ -98,7 +98,7 @@ bool StructureImage::mouseDown(int x, int y)
 		return true;
 	}
 }
-void StructureImage::mouseDrag(int x, int y)
+void StructureImage::drag(int x, int y)
 {
 	if (draggedChild == -1)
 	{
@@ -184,7 +184,7 @@ void StructureImage::mouseDrag(int x, int y)
 		position.y = y + dragOffsetY;
 	}
 }
-void StructureImage::mouseUp()
+void StructureImage::release()
 {
 	draggedChild = -1;
 	width = 0;

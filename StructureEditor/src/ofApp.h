@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "StructureBase.h"
 #include "StructureImage.h"
+#include "Tool.h"
 class ofApp : public ofBaseApp{
 
 	public:
@@ -20,6 +21,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		StructureBase* base;
-		//ofImage image;
 		StructureImage* image;
+		vector<Tool*> tools;
+		int toolIndex;
 };

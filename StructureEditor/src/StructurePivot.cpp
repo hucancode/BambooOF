@@ -2,6 +2,7 @@
 ofTrueTypeFont StructurePivot::font;
 StructurePivot::StructurePivot()
 {
+	opening = false;
 	dragged = false;
 	disabled = false;
 	x = 0;
@@ -18,21 +19,31 @@ StructurePivot::StructurePivot()
 StructurePivot::~StructurePivot()
 {
 }
+void StructurePivot::open()
+{
+	opening = true;
+}
+void StructurePivot::close()
+{
+	opening = false;
+}
 void StructurePivot::draw()
 {
 	ofFill();
-	ofSetHexColor(0x000000);
-	ofCircle(x, y, PIVOT_RADIUS+2);
-	if(disabled)
+	if (opening)
 	{
-		ofSetHexColor(0x777777);
+		ofSetHexColor(0x000000);
+		ofCircle(x, y, PIVOT_RADIUS + 2);
+		if (disabled)
+		{
+			ofSetHexColor(0x777777);
+		}
+		else
+		{
+			ofSetHexColor(0x00CCFF);
+		}
+		ofCircle(x, y, PIVOT_RADIUS);
 	}
-	else
-	{
-		ofSetHexColor(0x00CCFF);
-	}
-	ofCircle(x, y, PIVOT_RADIUS);
-	
 	ofSetHexColor(0x000000);
 	if(font.isLoaded())
 	{
