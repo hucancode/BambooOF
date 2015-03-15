@@ -1,12 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include "StructureBase.h"
-#include "StructureImage.h"
+#include "ofxGui.h"
+#include "Structure.h"
 #include "Tool.h"
-#define ICON_WIDTH 100
-#define ICON_HEIGHT 100
-#define ICON_MARGIN 20
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -23,9 +21,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		StructureBase* base;
-		StructureImage* image;
+		Structure* structure;
 		vector<Tool*> tools;
-		vector<ofImage> toolIcons;
 		int toolIndex;
 };

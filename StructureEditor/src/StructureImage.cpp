@@ -19,7 +19,7 @@ StructureImage::~StructureImage()
 }
 void StructureImage::addChilren(string image_file)
 {
-	StructureBasicImage child;
+	StructurePiece child;
 	{
 		child.id = ilGenImage();
 		ilBindImage(child.id);
@@ -241,10 +241,10 @@ void StructureImage::draw()
 	ofTranslate(position);
 	if (opening)
 	{
-		vector<StructureBasicImage>::reverse_iterator it = children.rbegin();
+		vector<StructurePiece>::reverse_iterator it = children.rbegin();
 		for (; it != children.rend(); it++)
 		{
-			StructureBasicImage item = *it;
+			StructurePiece item = *it;
 			item.image.draw(item.position);
 		}
 		ofSetHexColor(0x0077FF);

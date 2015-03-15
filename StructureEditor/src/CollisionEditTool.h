@@ -1,6 +1,6 @@
 #pragma once
 #include "Tool.h"
-class PivotEditTool : public Tool
+class CollisionEditTool : public Tool
 {
 private:
 public:

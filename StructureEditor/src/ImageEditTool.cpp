@@ -2,11 +2,11 @@
 #include "ofApp.h"
 void ImageEditTool::enter()
 {
-	parent->image->open();
+	parent->structure->image->open();
 }
 void ImageEditTool::leave()
 {
-	parent->image->close();
+	parent->structure->image->close();
 }
 void ImageEditTool::draw()
 {
@@ -14,11 +14,11 @@ void ImageEditTool::draw()
 }
 void ImageEditTool::mouseDown(int x, int y)
 {
-	parent->image->pick(x, y);
+	parent->structure->image->pick(x, y);
 }
 void ImageEditTool::mouseDrag(int x, int y)
 {
-	parent->image->drag(x, y);
+	parent->structure->image->drag(x, y);
 }
 void ImageEditTool::mouseMove(int x, int y)
 {
@@ -26,5 +26,5 @@ void ImageEditTool::mouseMove(int x, int y)
 }
 void ImageEditTool::mouseUp(int x, int y)
 {
-	parent->image->release();
+	parent->structure->image->release();
 }

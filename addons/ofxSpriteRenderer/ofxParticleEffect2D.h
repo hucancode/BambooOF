@@ -2,7 +2,10 @@
 #include "ofxBaseSprite.h"
 
 /*
-note: this effect has all of it's particle stick to a plane
+note: 
+- this effect has all of it's particle stick to a plane
+- particle movement are calculated in CPU, so (very) low performance
+- TODO: if i have time, i'll do a GPU based particle system.
 */
 
 // TODO: if i have time, i would like to implement some affector, such as gravity, wind, magnet ....

@@ -1,17 +1,18 @@
 #pragma once
 #include "StructurePivot.h"
-class StructureBase
+class StructureCollision
 {
+	friend class Structure;
 private:
 	StructurePivot* pivotTop;
 	StructurePivot* pivotRight;
 	StructurePivot* pivotBottom;
 	StructurePivot* pivotLeft;
-	vector<ofVec2f> anchors;
 	bool opening;
+	vector<ofVec2f> anchors;
 public:
-	StructureBase();
-	~StructureBase();
+	StructureCollision();
+	~StructureCollision();
 	void indentify();
 	void clearChilren();
 	void slice();

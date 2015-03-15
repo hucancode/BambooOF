@@ -2,7 +2,7 @@
 #include "IL/il.h"
 #include "IL/ilu.h"
 #include "ImageEditTool.h"
-#include "PivotEditTool.h"
+#include "CollisionEditTool.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetWindowTitle("Structure Editor");
@@ -10,18 +10,12 @@ void ofApp::setup(){
 	iluInit();
 	ilEnable(IL_ORIGIN_SET);
 	ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT);
-	base = new StructureBase();
-	image = new StructureImage();
-	for (int i = 1; i <= 13; i++)
-	{
-		image->addChilren("data/2547-"+ofToString(i)+".png");
-	}
+	structure = new Structure();
+	
 	ofEnableAlphaBlending();
 
 	tools.push_back(new ImageEditTool());
-	toolIcons.push_back(ofImage("image_icon.png"));
-	tools.push_back(new PivotEditTool());
-	toolIcons.push_back(ofImage("pivot_icon.png"));
+	tools.push_back(new CollisionEditTool());
 
 	for (int i = 0; i < tools.size(); i++)
 	{
@@ -41,14 +35,7 @@ void ofApp::draw(){
 	ofBackgroundGradient(ofColor::gray, ofColor::black);
 	
 	tools[toolIndex]->draw();
-	image->draw();
-	base->draw();
-	ofFill();
-	ofRect(toolIndex * (ICON_WIDTH + ICON_MARGIN * 2), 0, ICON_WIDTH + ICON_MARGIN * 2, ICON_HEIGHT + ICON_MARGIN * 2);
-	for (int i = 0; i<toolIcons.size(); i++)
-	{
-		toolIcons[i].draw(i * (ICON_WIDTH + ICON_MARGIN * 2) + ICON_MARGIN, ICON_MARGIN);
-	}
+	structure->draw();
 }
 
 //--------------------------------------------------------------
@@ -63,6 +50,8 @@ void ofApp::keyPressed(int key){
 			toolIndex = 0;
 		}
 		tools[toolIndex]->enter();
+	case 'e':
+		structure->export("hehe");
 	}
 }
 
@@ -84,20 +73,6 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 	tools[toolIndex]->mouseDown(x, y);
-	/*bool swallow;
-	if (!image->isOpening())
-	{
-		swallow = base->mouseDown(x, y);
-		if (swallow)
-		{
-			return;
-		}
-	}
-	swallow = image->mouseDown(x, y);
-	if (swallow)
-	{
-		return;
-	}*/
 }
 
 //--------------------------------------------------------------

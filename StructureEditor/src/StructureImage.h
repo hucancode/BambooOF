@@ -4,7 +4,7 @@
 #include "IL/ilu.h"
 #define STRUCTURE_MIN_WIDTH 100
 #define STRUCTURE_MIN_HEIGHT 100
-struct StructureBasicImage
+struct StructurePiece
 {
 	ILuint id;
 	ofImage image;
@@ -12,6 +12,7 @@ struct StructureBasicImage
 };
 class StructureImage
 {
+	friend class Structure;
 public:
 	static int magnetPower;
 	static bool magnetEnabled;
@@ -19,7 +20,7 @@ private:
 	ILuint id;
 	ofImage image;
 	ofVec2f position;
-	vector<StructureBasicImage> children;
+	vector<StructurePiece> children;
 	vector<int> verticalMagnets;
 	vector<int> horizontalMagnets;
 	int width;

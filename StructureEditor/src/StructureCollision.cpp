@@ -1,5 +1,5 @@
-#include "StructureBase.h"
-StructureBase::StructureBase()
+#include "StructureCollision.h"
+StructureCollision::StructureCollision()
 {
 	opening = true;
 	pivotTop = new StructurePivot();
@@ -20,18 +20,18 @@ StructureBase::StructureBase()
 	pivotLeft->x = 600;
 	pivotLeft->y = 300;
 }
-StructureBase::~StructureBase()
+StructureCollision::~StructureCollision()
 {
 }
-void StructureBase::open()
+void StructureCollision::open()
 {
 	opening = true;
 }
-void StructureBase::close()
+void StructureCollision::close()
 {
 	opening = false;
 }
-void StructureBase::draw()
+void StructureCollision::draw()
 {
 	// base line
 	{
@@ -90,7 +90,7 @@ void StructureBase::draw()
 	}
 	ofSetHexColor(0xFFFFFF);
 }
-bool StructureBase::pick(int x, int y)
+bool StructureCollision::pick(int x, int y)
 {
 	
 	pivotRight->mouseDown(x, y);
@@ -109,7 +109,7 @@ bool StructureBase::pick(int x, int y)
 	}
 	return false;
 }
-void StructureBase::drag(int x, int y)
+void StructureCollision::drag(int x, int y)
 {
 	pivotLeft->mouseDrag(x, y);
 	pivotRight->mouseDrag(x, y);
@@ -122,7 +122,7 @@ void StructureBase::drag(int x, int y)
 		pivotTop->y = cd.y;
 	}
 }
-void StructureBase::release()
+void StructureCollision::release()
 {
 	if(!(pivotLeft->isDragged() || pivotRight->isDragged() || pivotBottom->isDragged()))
 	{
@@ -136,7 +136,7 @@ void StructureBase::release()
 	anchors.clear();
 	slice();
 }
-void StructureBase::indentify()
+void StructureCollision::indentify()
 {
 	//
 	if(pivotLeft->x > pivotRight->x)
@@ -174,7 +174,7 @@ void StructureBase::indentify()
 	pivotRight->disabled = false;
 	pivotRight->name = "R";
 }
-void StructureBase::slice()
+void StructureCollision::slice()
 {
 	ofVec2f tracer;
 	ofVec2f origin;
