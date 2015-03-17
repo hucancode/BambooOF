@@ -4,7 +4,7 @@
 #include "ofxGui.h"
 #include "Structure.h"
 #include "Tool.h"
-
+#define ALERT_TIME 5.0f
 class ofApp : public ofBaseApp{
 
 	public:
@@ -24,4 +24,13 @@ class ofApp : public ofBaseApp{
 		Structure* structure;
 		vector<Tool*> tools;
 		int toolIndex;
+		ofxPanel panel;
+		ofxButton buttonEditImage;
+		ofxButton buttonEditCollision;
+		ofxLabel labelAlertMessage;
+		float alertTimer;
+	public:
+		void alertMessage(string message);
+		void invokeEditImageTool();
+		void invokeEditCollisionTool();
 };

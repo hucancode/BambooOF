@@ -23,11 +23,39 @@ void ofApp::setup(){
 	}
 	toolIndex = 0;
 	tools[toolIndex]->enter();
+
+	panel.setup("Tools");
+	{
+		buttonEditImage.addListener(this, &ofApp::invokeEditImageTool);
+		panel.add(buttonEditImage.setup("Edit Image"));
+		buttonEditCollision.addListener(this, &ofApp::invokeEditCollisionTool);
+		panel.add(buttonEditCollision.setup("Edit Collision"));
+	}
+	labelAlertMessage.setup("Message", "Hello, this is hu, and you are using JX STRUCTURE EDITOR!\n Have fun !!!");
+	labelAlertMessage.setPosition(10, 10);
+	
+	alertTimer = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	float delta_time = 0.0f;
+	if (ofGetFrameRate() > 1)
+		delta_time = 1.0 / ofGetFrameRate();
 
+	if (alertTimer < ALERT_TIME)
+	{
+		alertTimer += delta_time;
+		if (alertTimer >= ALERT_TIME)
+		{
+			labelAlertMessage.getParameter().setName("hey wtf");
+		}
+	}
+}
+void ofApp::alertMessage(string message)
+{
+	labelAlertMessage.setName(message);
+	alertTimer = 0;
 }
 
 //--------------------------------------------------------------
@@ -36,6 +64,8 @@ void ofApp::draw(){
 	
 	tools[toolIndex]->draw();
 	structure->draw();
+	panel.draw();
+	labelAlertMessage.draw();
 }
 
 //--------------------------------------------------------------
@@ -43,6 +73,7 @@ void ofApp::keyPressed(int key){
 	switch (key)
 	{
 	case ' ':
+		break;
 		tools[toolIndex]->leave();
 		toolIndex++;
 		if (toolIndex == tools.size())
@@ -50,11 +81,24 @@ void ofApp::keyPressed(int key){
 			toolIndex = 0;
 		}
 		tools[toolIndex]->enter();
+		break;
 	case 'e':
 		structure->export("hehe");
+		break;
 	}
 }
-
+void ofApp::invokeEditImageTool()
+{
+	tools[toolIndex]->leave();
+	toolIndex = 0;
+	tools[toolIndex]->enter();
+}
+void ofApp::invokeEditCollisionTool()
+{
+	tools[toolIndex]->leave();
+	toolIndex = 1;
+	tools[toolIndex]->enter();
+}
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
 
