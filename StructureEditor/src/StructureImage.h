@@ -16,6 +16,7 @@ class StructureImage
 public:
 	static int magnetPower;
 	static bool magnetEnabled;
+	static bool magnetVisible;
 private:
 	ILuint id;
 	ofImage image;

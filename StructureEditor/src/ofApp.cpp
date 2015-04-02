@@ -24,12 +24,28 @@ void ofApp::setup(){
 	toolIndex = 0;
 	tools[toolIndex]->enter();
 
-	panel.setup("Tools");
+	toolPanel.setup("Tools");
 	{
 		buttonEditImage.addListener(this, &ofApp::invokeEditImageTool);
-		panel.add(buttonEditImage.setup("Edit Image"));
+		toolPanel.add(buttonEditImage.setup("Edit Image"));
 		buttonEditCollision.addListener(this, &ofApp::invokeEditCollisionTool);
-		panel.add(buttonEditCollision.setup("Edit Collision"));
+		toolPanel.add(buttonEditCollision.setup("Edit Collision"));
+	}
+	editImagePanel.setup("Edit Image");
+	{
+		toggleEnableMagnet.addListener(this, &ofApp::invokeEnableMagnet);
+		editImagePanel.add(toggleEnableMagnet.setup("Enable/Disable Magnet", true));
+		toggleDrawMagnet.addListener(this, &ofApp::invokeDrawMagnet);
+		editImagePanel.add(toggleDrawMagnet.setup("Draw/Hide Magnet", true));
+	}
+	editCollisionPanel.setup("Edit Collision");
+	{
+		buttonParallegram.addListener(this, &ofApp::invokeParallelgram);
+		editCollisionPanel.add(buttonParallegram.setup("Parallegram"));
+		buttonTriangle.addListener(this, &ofApp::invokeTriangle);
+		editCollisionPanel.add(buttonTriangle.setup("Triangle"));
+		buttonCircle.addListener(this, &ofApp::invokeCircle);
+		editCollisionPanel.add(buttonCircle.setup("Circle"));
 	}
 	labelAlertMessage.setup("Message", "Hello, this is hu, and you are using JX STRUCTURE EDITOR!\n Have fun !!!");
 	labelAlertMessage.setPosition(10, 10);
@@ -48,7 +64,7 @@ void ofApp::update(){
 		alertTimer += delta_time;
 		if (alertTimer >= ALERT_TIME)
 		{
-			labelAlertMessage.getParameter().setName("hey wtf");
+			labelAlertMessage.setup("Message", "");
 		}
 	}
 }
@@ -64,7 +80,9 @@ void ofApp::draw(){
 	
 	tools[toolIndex]->draw();
 	structure->draw();
-	panel.draw();
+	toolPanel.draw();
+	editImagePanel.draw();
+	editCollisionPanel.draw();
 	labelAlertMessage.draw();
 }
 
@@ -98,6 +116,30 @@ void ofApp::invokeEditCollisionTool()
 	tools[toolIndex]->leave();
 	toolIndex = 1;
 	tools[toolIndex]->enter();
+}
+void ofApp::invokeEnableMagnet(bool &enable)
+{
+	StructureImage::magnetEnabled = enable;
+	if (!enable)
+	{
+		toggleDrawMagnet = false;
+	}
+}
+void ofApp::invokeDrawMagnet(bool &enable)
+{
+	StructureImage::magnetVisible = enable;
+}
+void ofApp::invokeParallelgram()
+{
+	
+}
+void ofApp::invokeTriangle()
+{
+
+}
+void ofApp::invokeCircle()
+{
+
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){

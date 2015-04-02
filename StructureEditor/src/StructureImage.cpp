@@ -1,6 +1,7 @@
 #include "StructureImage.h"
 int StructureImage::magnetPower = 10;
-bool StructureImage::magnetEnabled = 10;
+bool StructureImage::magnetEnabled = true;
+bool StructureImage::magnetVisible = true;
 StructureImage::StructureImage()
 {
 	opening = true;
@@ -247,36 +248,39 @@ void StructureImage::draw()
 			StructurePiece item = *it;
 			item.image.draw(item.position);
 		}
-		ofSetHexColor(0x0077FF);
-		for (int i = 0; i < verticalMagnets.size(); i++)
+		if (magnetVisible)
 		{
-			if (i / 2 == draggedChild)
+			ofSetHexColor(0x0077FF);
+			for (int i = 0; i < verticalMagnets.size(); i++)
 			{
-				continue;
-			}
-			if (i > 0)
-			{
-				if (verticalMagnets[i - 1] == verticalMagnets[i])
+				if (i / 2 == draggedChild)
 				{
 					continue;
 				}
+				if (i > 0)
+				{
+					if (verticalMagnets[i - 1] == verticalMagnets[i])
+					{
+						continue;
+					}
+				}
+				ofLine(verticalMagnets[i], 0, verticalMagnets[i], height);
 			}
-			ofLine(verticalMagnets[i], 0, verticalMagnets[i], height);
-		}
-		for (int i = 0; i < horizontalMagnets.size(); i++)
-		{
-			if (i / 2 == draggedChild)
+			for (int i = 0; i < horizontalMagnets.size(); i++)
 			{
-				continue;
-			}
-			if (i > 0)
-			{
-				if (horizontalMagnets[i - 1] == horizontalMagnets[i])
+				if (i / 2 == draggedChild)
 				{
 					continue;
 				}
+				if (i > 0)
+				{
+					if (horizontalMagnets[i - 1] == horizontalMagnets[i])
+					{
+						continue;
+					}
+				}
+				ofLine(0, horizontalMagnets[i], width, horizontalMagnets[i]);
 			}
-			ofLine(0, horizontalMagnets[i], width, horizontalMagnets[i]);
 		}
 		ofSetHexColor(0xFFFF77);
 		if (draggedChild != -1)
