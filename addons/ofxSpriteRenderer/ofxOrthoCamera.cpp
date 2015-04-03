@@ -107,6 +107,7 @@ ofVec3f ofxOrthoCamera::OrthoScreenToWorld(ofVec3f ScreenXYZ, ofRectangle viewpo
 {
 	//convert from screen to camera
 	ofVec3f CameraXYZ;
+	// 1.0 & 2.0 is hard coded value. TODO: make it dynamic.
 	CameraXYZ.x = 2.0f * (ScreenXYZ.x - viewport.x) / viewport.width - 1.0f;
 	CameraXYZ.y = 1.0f - 2.0f *(ScreenXYZ.y - viewport.y) / viewport.height;
 	CameraXYZ.z = ScreenXYZ.z;

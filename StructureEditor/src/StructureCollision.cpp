@@ -1,4 +1,5 @@
 #include "StructureCollision.h"
+#include "OrthoCamera.h"
 StructureCollision::StructureCollision()
 {
 	opening = true;
@@ -33,12 +34,31 @@ void StructureCollision::close()
 }
 void StructureCollision::draw()
 {
+	bool dragging = pivotLeft->isDragged() || pivotRight->isDragged() || pivotBottom->isDragged();
 	// base line
 	{
 		ofLine(pivotTop->x, pivotTop->y, pivotRight->x, pivotRight->y);
 		ofLine(pivotRight->x, pivotRight->y, pivotBottom->x, pivotBottom->y);
 		ofLine(pivotBottom->x, pivotBottom->y, pivotLeft->x, pivotLeft->y);
 		ofLine(pivotLeft->x, pivotLeft->y, pivotTop->x, pivotTop->y);
+	}
+	// 3d collision preview
+	if (!dragging && opening)
+	{
+		orthoCamera cam;
+		{
+			ofVec3f origin(0, 0);
+			cam.setGlobalPosition(origin + ofVec3f(0.0f, -1.0f, 1.0f));
+			cam.lookAt(origin);
+		}
+		cam.begin();
+		{
+			ofSetColor(255, 255, 255, 30);
+			mesh.drawFaces();
+			ofSetHexColor(0x000000);
+			mesh.drawWireframe();
+		}
+		cam.end();
 	}
 	// pivot
 	if(opening)
@@ -49,7 +69,7 @@ void StructureCollision::draw()
 		pivotLeft->draw();
 	}
 	// anchors
-	if (!(pivotLeft->isDragged() || pivotRight->isDragged() || pivotBottom->isDragged()))
+	if (!dragging)
 	{
 		{
 			ofFill();
@@ -88,6 +108,7 @@ void StructureCollision::draw()
 			}
 		}
 	}
+	
 	ofSetHexColor(0xFFFFFF);
 }
 bool StructureCollision::pick(int x, int y)
@@ -135,6 +156,7 @@ void StructureCollision::release()
 	indentify();
 	anchors.clear();
 	slice();
+	buildMesh();
 }
 void StructureCollision::indentify()
 {
@@ -233,5 +255,66 @@ void StructureCollision::slice()
 	if(anchors.size() > 0)
 	{
 		anchors.pop_back();
+	}
+}
+
+void StructureCollision::buildMesh()
+{
+	static float ratio = 1.0 / cos(VIEW_ANGLE);
+	mesh.clear();
+	vector<ofVec2f> pivots;
+	{// parallelgram(whatever, i dont remember the word)
+		ofVec2f a = ofVec2f(pivotBottom->x, pivotBottom->y); 
+		ofVec2f b = ofVec2f(pivotRight->x, pivotRight->y); 
+		ofVec2f c = ofVec2f(pivotTop->x, pivotTop->y);
+		ofVec2f d = ofVec2f(pivotLeft->x, pivotLeft->y);
+		a.y *= ratio;
+		b.y *= ratio;
+		c.y *= ratio;
+		d.y *= ratio;
+		pivots.push_back(a);
+		pivots.push_back(b);
+		pivots.push_back(c);
+		pivots.push_back(d);
+	}
+	{// other shapes go here
+
+	}
+	// bottom
+	for (int i = 0; i < pivots.size(); i++)
+	{
+		mesh.addVertex(ofVec3f(pivots[i]));
+		if (i > 1)
+		{
+			mesh.addTriangle(0, i - 1, i);
+		}
+	}
+	// top
+	for (int i = 0; i < pivots.size(); i++)
+	{
+		mesh.addVertex(ofVec3f(pivots[i].x, pivots[i].y, -100.0f));
+		if (i > 1)
+		{
+			mesh.addTriangle(0, i - 1, i);
+		}
+	}
+	// side
+	for (int i = 0; i < pivots.size(); i++)
+	{
+		int j = i + pivots.size();
+		int pi;
+		int pj;
+		if (i > 0)
+		{
+			pi = i - 1;
+			pj = j - 1;
+		}
+		else
+		{
+			pi = pivots.size() - 1;
+			pj = pi + pivots.size();
+		}
+		mesh.addTriangle(pi, pj, j);
+		mesh.addTriangle(pi, j, i);
 	}
 }

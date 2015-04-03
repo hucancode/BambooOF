@@ -64,6 +64,9 @@
     <ClCompile Include="src\pugixml.cpp">
       <Filter>src\pugixml</Filter>
     </ClCompile>
+    <ClCompile Include="src\OrthoCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\pugixml.hpp">
       <Filter>src\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrthoCamera.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
