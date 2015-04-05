@@ -7,6 +7,7 @@
 #define ALERT_TIME 5.0f
 #define IMAGE_EDIT_TOOL 0
 #define COLLISION_EDIT_TOOL 1
+#define STRUCTURE_EXPORT_TOOL 2
 class ofApp : public ofBaseApp{
 
 	public:
@@ -26,14 +27,15 @@ class ofApp : public ofBaseApp{
 		Structure* structure;
 		vector<Tool*> tools;
 		int toolIndex;
-		ofxPanel toolPanel;
+		ofxPanel panelTool;
 		ofxButton buttonEditImage;
 		ofxButton buttonEditCollision;
+		ofxButton buttonExportStructure;
 		ofxLabel labelAlertMessage;
-		ofxPanel editImagePanel;
+		ofxGuiGroup groupEditImage;
 		ofxToggle toggleEnableMagnet;
 		ofxToggle toggleDrawMagnet;
-		ofxPanel editCollisionPanel;
+		ofxGuiGroup groupEditCollision;
 		ofxButton buttonParallegram;
 		ofxButton buttonTriangle;
 		ofxButton buttonCircle;
@@ -42,6 +44,7 @@ class ofApp : public ofBaseApp{
 		void alertMessage(string message);
 		void invokeEditImageTool();
 		void invokeEditCollisionTool();
+		void invokeExportStructureTool();
 		void invokeEnableMagnet(bool &enable);
 		void invokeDrawMagnet(bool &enable);
 		void invokeParallelgram();

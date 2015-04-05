@@ -3,54 +3,64 @@
 #include "IL/ilu.h"
 #include "ImageEditTool.h"
 #include "CollisionEditTool.h"
+#include "StructureExportTool.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetWindowTitle("Structure Editor");
-	ilInit();
-	iluInit();
-	ilEnable(IL_ORIGIN_SET);
-	ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT);
-	structure = new Structure();
-	
 	ofEnableAlphaBlending();
-
-	tools.push_back(new ImageEditTool());
-	tools.push_back(new CollisionEditTool());
-
-	for (int i = 0; i < tools.size(); i++)
 	{
-		tools[i]->setParent(this);
+		ilInit();
+		iluInit();
+		ilEnable(IL_ORIGIN_SET);
+		ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT);
 	}
-	toolIndex = 0;
-	tools[toolIndex]->enter();
-
-	toolPanel.setup("Tools");
+	structure = new Structure();
+	{
+		tools.resize(3);
+		tools[IMAGE_EDIT_TOOL] = new ImageEditTool();
+		tools[COLLISION_EDIT_TOOL] = new CollisionEditTool();
+		tools[STRUCTURE_EXPORT_TOOL] = new StructureExportTool();
+		for (int i = 0; i < tools.size(); i++)
+		{
+			tools[i]->setParent(this);
+		}
+		toolIndex = 0;
+		tools[toolIndex]->enter();
+	}
+	panelTool.setup("Tools");
 	{
 		buttonEditImage.addListener(this, &ofApp::invokeEditImageTool);
-		toolPanel.add(buttonEditImage.setup("Edit Image"));
 		buttonEditCollision.addListener(this, &ofApp::invokeEditCollisionTool);
-		toolPanel.add(buttonEditCollision.setup("Edit Collision"));
+		buttonExportStructure.addListener(this, &ofApp::invokeExportStructureTool);
+		panelTool.add(buttonEditImage.setup("Edit Image")); 
+		panelTool.add(buttonEditCollision.setup("Edit Collision"));
+		panelTool.add(buttonExportStructure.setup("Export Structure"));
 	}
-	editImagePanel.setup("Edit Image");
+	groupEditImage.setup("Edit Image");
 	{
 		toggleEnableMagnet.addListener(this, &ofApp::invokeEnableMagnet);
-		editImagePanel.add(toggleEnableMagnet.setup("Enable/Disable Magnet", true));
 		toggleDrawMagnet.addListener(this, &ofApp::invokeDrawMagnet);
-		editImagePanel.add(toggleDrawMagnet.setup("Draw/Hide Magnet", true));
+		groupEditImage.add(toggleEnableMagnet.setup("Enable/Disable Magnet", true));
+		groupEditImage.add(toggleDrawMagnet.setup("Draw/Hide Magnet", true));
 	}
-	editCollisionPanel.setup("Edit Collision");
+	groupEditCollision.setup("Edit Collision");
 	{
 		buttonParallegram.addListener(this, &ofApp::invokeParallelgram);
-		editCollisionPanel.add(buttonParallegram.setup("Parallegram"));
 		buttonTriangle.addListener(this, &ofApp::invokeTriangle);
-		editCollisionPanel.add(buttonTriangle.setup("Triangle"));
 		buttonCircle.addListener(this, &ofApp::invokeCircle);
-		editCollisionPanel.add(buttonCircle.setup("Circle"));
+		groupEditCollision.add(buttonParallegram.setup("Parallegram"));
+		groupEditCollision.add(buttonTriangle.setup("Triangle"));
+		groupEditCollision.add(buttonCircle.setup("Circle"));
 	}
-	labelAlertMessage.setup("Message", "Hello, this is hu, and you are using JX STRUCTURE EDITOR!\n Have fun !!!");
-	labelAlertMessage.setPosition(10, 10);
-	
-	alertTimer = 0;
+	{
+		panelTool.add(&groupEditImage);
+		panelTool.add(&groupEditCollision);
+	}
+	{
+		labelAlertMessage.setup("Message", "Hello, this is hu, and you are using JX STRUCTURE EDITOR!\n Have fun !!!");
+		labelAlertMessage.setPosition(10, 10);
+		alertTimer = 0;
+	}
 }
 
 //--------------------------------------------------------------
@@ -80,41 +90,32 @@ void ofApp::draw(){
 	
 	tools[toolIndex]->draw();
 	structure->draw();
-	toolPanel.draw();
-	editImagePanel.draw();
-	editCollisionPanel.draw();
+	panelTool.draw();
+	/*groupEditImage.draw();
+	groupEditCollision.draw();*/
 	labelAlertMessage.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	switch (key)
-	{
-	case ' ':
-		break;
-		tools[toolIndex]->leave();
-		toolIndex++;
-		if (toolIndex == tools.size())
-		{
-			toolIndex = 0;
-		}
-		tools[toolIndex]->enter();
-		break;
-	case 'e':
-		structure->export("hehe");
-		break;
-	}
+
 }
 void ofApp::invokeEditImageTool()
 {
 	tools[toolIndex]->leave();
-	toolIndex = 0;
+	toolIndex = IMAGE_EDIT_TOOL;
 	tools[toolIndex]->enter();
 }
 void ofApp::invokeEditCollisionTool()
 {
 	tools[toolIndex]->leave();
-	toolIndex = 1;
+	toolIndex = COLLISION_EDIT_TOOL;
+	tools[toolIndex]->enter();
+}
+void ofApp::invokeExportStructureTool()
+{
+	tools[toolIndex]->leave();
+	toolIndex = STRUCTURE_EXPORT_TOOL;
 	tools[toolIndex]->enter();
 }
 void ofApp::invokeEnableMagnet(bool &enable)

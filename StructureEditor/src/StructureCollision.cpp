@@ -69,7 +69,7 @@ void StructureCollision::draw()
 		pivotLeft->draw();
 	}
 	// anchors
-	if (!dragging)
+	if (!dragging && !opening)
 	{
 		{
 			ofFill();
