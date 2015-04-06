@@ -4,7 +4,7 @@ Structure::Structure()
 {
 	collision = new StructureCollision();
 	image = new StructureImage();
-	for (int i = 1; i <= 13; i++)
+	for (int i = 1; i <= 12; i++)
 	{
 		image->addChilren("data/2547-" + ofToString(i) + ".png");
 	}
@@ -150,7 +150,7 @@ void Structure::export(string file_name)
 	{
 		pugi::xml_node piece_node = pieces_node.append_child("piece");
 		piece_node.append_attribute("image") = (file_name + ofToString(collision->anchors.size()) + ".png").c_str();
-		piece_node.append_attribute("anchor") = ofToString(collision->pivotRight->y).c_str();
+		piece_node.append_attribute("anchor") = ofToString(collision->pivotRight->y - image->position.y).c_str();
 	}
 	{// many properties come here
 
