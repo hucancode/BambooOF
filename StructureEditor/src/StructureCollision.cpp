@@ -47,8 +47,9 @@ void StructureCollision::draw()
 	{
 		orthoCamera cam;
 		{
-			ofVec3f origin(0, 0);
-			cam.setGlobalPosition(origin + ofVec3f(0.0f, -1.0f, 1.0f));
+			static float ratio = 1.0 / cos(VIEW_ANGLE);
+			ofVec3f origin(-pivotBottom->x, -pivotBottom->y*ratio);
+			cam.setGlobalPosition(origin + ofVec3f(0.0f, 1.0f, 1.0f));
 			cam.lookAt(origin);
 		}
 		cam.begin();
@@ -264,10 +265,10 @@ void StructureCollision::buildMesh()
 	mesh.clear();
 	vector<ofVec2f> pivots;
 	{// parallelgram(whatever, i dont remember the word)
-		ofVec2f a = ofVec2f(pivotBottom->x, pivotBottom->y); 
-		ofVec2f b = ofVec2f(pivotRight->x, pivotRight->y); 
-		ofVec2f c = ofVec2f(pivotTop->x, pivotTop->y);
-		ofVec2f d = ofVec2f(pivotLeft->x, pivotLeft->y);
+		ofVec2f a = ofVec2f(0, 0); 
+		ofVec2f b = ofVec2f(pivotRight->x - pivotBottom->x, pivotRight->y - pivotBottom->y);
+		ofVec2f c = ofVec2f(pivotTop->x - pivotBottom->x, pivotTop->y - pivotBottom->y);
+		ofVec2f d = ofVec2f(pivotLeft->x - pivotBottom->x, pivotLeft->y - pivotBottom->y);
 		a.y *= ratio;
 		b.y *= ratio;
 		c.y *= ratio;
@@ -292,7 +293,7 @@ void StructureCollision::buildMesh()
 	// top
 	for (int i = 0; i < pivots.size(); i++)
 	{
-		mesh.addVertex(ofVec3f(pivots[i].x, pivots[i].y, -100.0f));
+		mesh.addVertex(ofVec3f(pivots[i].x, pivots[i].y, 100.0f));
 		if (i > 1)
 		{
 			mesh.addTriangle(0, i - 1, i);

@@ -74,13 +74,15 @@ void Structure::export(string file_name)
 			return;
 		}
 	}
+	int origin_x = collision->pivotBottom->x;
+	int origin_y = collision->pivotBottom->y;
 	int x = 0;
 	for (int i = 0; i < collision->anchors.size(); i++)
 	{
 		string piece_image = file_name + ofToString(i) + ".png";
-		int ax = collision->anchors[i].x - image->position.x;
+		int ax = collision->anchors[i].x - origin_x;
 		ax = max(0, min(ax, image->width));
-		int ay = collision->anchors[i].y - image->position.y;
+		int ay = collision->anchors[i].y - origin_y;
 		int lwidth;
 		int lheight;
 		{// build & save left image
@@ -150,10 +152,43 @@ void Structure::export(string file_name)
 	{
 		pugi::xml_node piece_node = pieces_node.append_child("piece");
 		piece_node.append_attribute("image") = (file_name + ofToString(collision->anchors.size()) + ".png").c_str();
-		piece_node.append_attribute("anchor") = ofToString(collision->pivotRight->y - image->position.y).c_str();
+		piece_node.append_attribute("anchor") = ofToString(collision->pivotRight->y - origin_y).c_str();
 	}
-	{// many properties come here
-
+	{// 2d pivot
+		pugi::xml_node pivots_2d_node = structure_node.append_child("pivots_2d");
+		pivots_2d_node.append_attribute("count") = "4";
+		{// bottom
+			pugi::xml_node pivot_2d_node = pivots_2d_node.append_child("pivot_2d");
+			pivot_2d_node.append_attribute("x") = "0";
+			pivot_2d_node.append_attribute("y") = "0";
+		}
+		{// left
+			pugi::xml_node pivot_2d_node = pivots_2d_node.append_child("pivot_2d");
+			pivot_2d_node.append_attribute("x") = ofToString(collision->pivotLeft->x - origin_x).c_str();
+			pivot_2d_node.append_attribute("y") = ofToString(collision->pivotLeft->y - origin_y).c_str();
+		}
+		{// top
+			pugi::xml_node pivot_2d_node = pivots_2d_node.append_child("pivot_2d");
+			pivot_2d_node.append_attribute("x") = ofToString(collision->pivotTop->x - origin_x).c_str();
+			pivot_2d_node.append_attribute("y") = ofToString(collision->pivotTop->y - origin_y).c_str();
+		}
+		{// right
+			pugi::xml_node pivot_2d_node = pivots_2d_node.append_child("pivot_2d");
+			pivot_2d_node.append_attribute("x") = ofToString(collision->pivotRight->x - origin_x).c_str();
+			pivot_2d_node.append_attribute("y") = ofToString(collision->pivotRight->y - origin_y).c_str();
+		}
+	}
+	{// 3d pivot
+		vector<ofVec3f> vertices = collision->mesh.getVertices();
+		pugi::xml_node pivots_3d_node = structure_node.append_child("pivots_3d");
+		pivots_3d_node.append_attribute("count") = vertices.size() / 2;
+		for (int i = vertices.size() / 2; i < vertices.size(); i++)
+		{// bottom
+			pugi::xml_node pivot_3d_node = pivots_3d_node.append_child("pivot_3d");
+			pivot_3d_node.append_attribute("x") = vertices[i].x;
+			pivot_3d_node.append_attribute("y") = vertices[i].y;
+			pivot_3d_node.append_attribute("z") = vertices[i].z;
+		}
 	}
 	{// finish saving xml
 		doc.save_file((file_name + ".xml").c_str());
