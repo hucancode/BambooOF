@@ -55,6 +55,7 @@ void ofApp::setup(){
 	{
 		panelTool.add(&groupEditImage);
 		panelTool.add(&groupEditCollision);
+		panelTool.setPosition(ofGetWindowWidth() - panelTool.getWidth(), 0);
 	}
 	{
 		labelAlertMessage.setup("Message", "Hello, this is hu, and you are using JX STRUCTURE EDITOR!\n Have fun !!!");
@@ -169,7 +170,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+	panelTool.setPosition(ofGetWindowWidth() - panelTool.getWidth(), 0);
 }
 
 //--------------------------------------------------------------

@@ -80,7 +80,7 @@ void Structure::export(string file_name)
 	for (int i = 0; i < collision->anchors.size(); i++)
 	{
 		string piece_image = file_name + ofToString(i) + ".png";
-		int ax = collision->anchors[i].x - origin_x;
+		int ax = collision->anchors[i].x - image->position.x;
 		ax = max(0, min(ax, image->width));
 		int ay = collision->anchors[i].y - origin_y;
 		int lwidth;
